@@ -3,85 +3,90 @@
 \input{setup/macros.tex}% my new macros
 
 \begin{document}
-%%% Prereport %%%
-\setlength\cftaftertoctitleskip{2pt}
-\setlength\cftafterloftitleskip{6pt}
-\setlength\cftafterlottitleskip{6pt}
-\selectlanguage{english}
-\title{Cubli}
-
-%%% Frontmatter Settings %%%
-\pagestyle{empty} %disable headers and footers
-\pagenumbering{roman} %use roman page numbering in the frontmatter I II...
-\fancyfoot[RE,LO]{17gr832} %page number on all pages
-\fancyfoot[LE,RO]{\thepage}
-\fancyhead[LE,LO,RE,RO]{}
-
-%%% Introductory Formalities %%%
-%\includepdf[pages={1}]{formalities/frontpage.pdf}
-%\include{chapters/frontpage}
-\pagestyle{fancy}
-\include{formalities/kolofon}
-\input{formalities/titleSheet.tex}
-%%% Preface %%%
-%\cleardoublepage
-\input{formalities/preface.tex}
-
-\pdfbookmark[0]{Table of Contents}{label: tableOfCentents}
-\tableofcontents
-\cleardoublepage
-
-
-%%% Mainmatter Settings %%%
-\pagenumbering{arabic} %use arabic page numbering in the mainmatter
-\fancyfoot[RO,LE]{\thepage \text{ of} \pageref{LastPage}}
-\fancyfoot[RE,LO]{17gr832}
-\fancyhead[RE,LO]{}
-\fancyhead[RE,LO]{\color{aaublue}\small\nouppercase\leftmark} %even page - chapter title
-\pagestyle{fancy}
-
-%%% PART 1 %%%
-\part{Preanalysis}
-
-%---------- Chapter 1 ---------------------------------------- Introduction
-\input{chapters/chapter1/aChapters1.tex}
-
-%---------- Chapter 2 ---------------------------------------- System Description
-\input{chapters/chapter2/aChapters2.tex}
-\input{chapters/chapter2/Actuators.tex}
-\input{chapters/chapter2/Sensors.tex}
-\input{chapters/chapter2/ControlComputation.tex}
-
-%%% PART 2 %%%
-\part{Design \& Implementation}
-
-
-%%% PART 3 %%%
-\part{Test \& Conclusion}
-
-
-%%% Setup for Appendix and Bibliography %%%
-\bookmarksetup{startatroot}
-\addtocontents{toc}{\bigskip}
-\newpage
-\fancyhead[RO]{\color{aaublue}\small Appendix \nouppercase\rightmark} %even page - chapter title
-\fancyhead[LE]{\color{aaublue}\small Appendix \nouppercase\rightmark} %uneven page - section title
-\fancyhead[RE,LO]{}
-\titleformat{\section}[hang]{\Large\bfseries}{\thesection\hsp\textcolor{aaublue}{|}\hsp}{0pt}{\Large\bfseries}
-\renewcommand{\thesection}{\Alph{section}}
-\setcounter{section}{0}
-
-%%% APPENDIX %%%
-\part*{Appendix}
-
-\addcontentsline{toc}{chapter}{Appendix}
-
-%---------- Appendix A ---------------------------------------- Test Title
-
-%%% BIBLIOGRAPHY %%%
-\printbibliography
-
-%%% LIST OF CORRECTIONS %%%
-\listoffixmes
+    %%% Prereport %%%
+    \setlength\cftaftertoctitleskip{2pt}
+    \setlength\cftafterloftitleskip{6pt}
+    \setlength\cftafterlottitleskip{6pt}
+    \selectlanguage{english}
+    \title{Vessel}
+    
+    %%% Frontmatter Settings %%%
+    \pagestyle{empty} %disable headers and footers
+    \pagenumbering{roman} %use roman page numbering in the frontmatter I II...
+    \fancyfoot[RE,LO]{17gr832} %page number on all pages
+    \fancyfoot[LE,RO]{\thepage}
+    \fancyhead[LE,LO,RE,RO]{}
+    
+    %%% Introductory Formalities %%%
+    %\includepdf[pages={1}]{formalities/frontpage.pdf}
+    \include{chapters/frontpage}
+    \pagestyle{fancy}
+    \include{formalities/kolofon}
+    \input{formalities/titleSheet.tex}
+    %%% Preface %%%
+    %\cleardoublepage
+    \input{formalities/preface.tex}
+    
+    \pdfbookmark[0]{Table of Contents}{label: tableOfCentents}
+    \tableofcontents
+    \cleardoublepage
+    
+    
+    %%% Mainmatter Settings %%%
+    \pagenumbering{arabic} %use arabic page numbering in the mainmatter
+    \fancyfoot[RO,LE]{\thepage \text{ of} \pageref{LastPage}}
+    \fancyfoot[RE,LO]{17gr832}
+    \fancyhead[RE,LO]{}
+    \fancyhead[RE,LO]{\color{aaublue}\small\nouppercase\leftmark} %even page - chapter title
+    \pagestyle{fancy}
+    
+    %%% PART 1 %%%
+    \part{Preanalysis}
+    
+    %---------- Chapter 1 ---------------------------------------- Introduction
+    \input{chapters/chapter1/aChapters1.tex}
+    
+    %---------- Chapter 2 ---------------------------------------- System Description
+    \input{chapters/chapter2/aChapters2.tex}
+    \input{chapters/chapter2/Actuators.tex}
+    \input{chapters/chapter2/Sensors.tex}
+    \input{chapters/chapter2/ControlComputation.tex}
+    
+    %---------- Chapter 3 ---------------------------------------- Modeling
+    \input{chapters/chapter3/aChapters3.tex}
+    \input{chapters/chapter3/background.tex}
+    \input{chapters/chapter3/equations.tex}
+    
+    %%% PART 2 %%%
+    \part{Design \& Implementation}
+    
+    
+    %%% PART 3 %%%
+    \part{Test \& Conclusion}
+    
+    
+    %%% Setup for Appendix and Bibliography %%%
+    \bookmarksetup{startatroot}
+    \addtocontents{toc}{\bigskip}
+    \newpage
+    \fancyhead[RO]{\color{aaublue}\small Appendix \nouppercase\rightmark} %even page - chapter title
+    \fancyhead[LE]{\color{aaublue}\small Appendix \nouppercase\rightmark} %uneven page - section title
+    \fancyhead[RE,LO]{}
+    \titleformat{\section}[hang]{\Large\bfseries}{\thesection\hsp\textcolor{aaublue}{|}\hsp}{0pt}{\Large\bfseries}
+    \renewcommand{\thesection}{\Alph{section}}
+    \setcounter{section}{0}
+    
+    %%% APPENDIX %%%
+    \part*{Appendix}
+    
+    \addcontentsline{toc}{chapter}{Appendix}
+    
+    %---------- Appendix A ---------------------------------------- Test Title
+    
+    %%% BIBLIOGRAPHY %%%
+    \printbibliography
+    
+    %%% LIST OF CORRECTIONS %%%
+    \listoffixmes
 
 \end{document}
