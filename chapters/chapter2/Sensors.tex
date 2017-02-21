@@ -1,10 +1,11 @@
 \section{Sensors}
 
-The control system designed in the vessel requires the presence of sensor data that provide information about the vessel's motion. These are an inertial measurement unit (IMU) and a Global Positioning System (GPS).
+The control system designed in the vessel requires the presence of sensor data that provide information about the vessel's motion. These are an Inertial Measurement Unit (IMU) and a Global Positioning System (GPS).
 
 \subsection{IMU}
 
-The Inertial Measurement Unit installed in the vessel is formed by a triaxial gyroscope, triaxial accelerometer and a triaxial magnetometer. With these sensors, it is possible to obtain the angular velocity and position and the linear acceleration of the vessel \cite{IMUDatasheet}. 
+The Inertial Measurement Unit installed in the vessel is formed by a triaxial gyroscope (with digital range scaling
+±75°/sec, ±150°/sec, ±300°/sec), triaxial accelerometer (±18 g) and a triaxial magnetometer ±\num{2.5} gauss. It also contains SPI-compatible serial interface to be able to obtain the data. \cite{IMUDatasheet}
 %
 \begin{figure}[H]
 	\includegraphics[width=0.3\textwidth]{figures/IMU}
@@ -12,8 +13,7 @@ The Inertial Measurement Unit installed in the vessel is formed by a triaxial gy
 	\label{fig:IMU}
 \end{figure}
 %
-The data provided by the IMU is used to estimate both the position and the attitude of the vessel and is extrated in the Low Level Interface though SPI serial communication.
-
+The data provided by the IMU is used to estimate both the position and the attitude of the vessel and is extracted in the Low Level Interface though SPI serial communication.
 
 %Triaxial, digital gyroscope with digital range scaling
 %±75°/sec, ±150°/sec, ±300°/sec settings
@@ -25,7 +25,7 @@ The data provided by the IMU is used to estimate both the position and the attit
 %Single-supply operation: 4.75 V to 5.25 V
 
 \subsection{GPS}
-
+\cite{GPS}
 The GPS bla bla we need more information
 
 

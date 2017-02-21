@@ -31,7 +31,6 @@
     \tableofcontents
     \cleardoublepage
     
-    
     %%% Mainmatter Settings %%%
     \pagenumbering{arabic} %use arabic page numbering in the mainmatter
     \fancyfoot[RO,LE]{\thepage \text{ of} \pageref{LastPage}}
@@ -39,6 +38,7 @@
     \fancyhead[RE,LO]{}
     \fancyhead[RE,LO]{\color{aaublue}\small\nouppercase\leftmark} %even page - chapter title
     \pagestyle{fancy}
+    
     
     %%% PART 1 %%%
     \part{Preanalysis}
@@ -64,8 +64,9 @@
     %%% PART 3 %%%
     \part{Test \& Conclusion}
     
-
-    %%% Setup for Appendix and Bibliography %%%
+    
+    %%% APPENDIX %%%
+    % Setup for Appendix and Bibliography
     \bookmarksetup{startatroot}
     \addtocontents{toc}{\bigskip}
     \newpage
@@ -76,23 +77,21 @@
     \renewcommand{\thesection}{\Alph{section}}
     \setcounter{section}{0}
 
-        
-    %%% APPENDIX %%%
     \part*{Appendix}
     
     \addcontentsline{toc}{chapter}{Appendix}
     
     %---------- Appendix A ---------------------------------------- Test Title
-    
-    
+
+
     %%% BIBLIOGRAPHY %%%
     % Remove header so it does not say Appendix Bibliography
-    \fancyhead[RE,LO,LE,]{}
-    \fancyhead[RO]{\color{aaublue}\small Bibliography \nouppercase\rightmark} %even page - chapter title
-    \fancyhead[LE]{\color{aaublue}\small Bibliography \nouppercase\rightmark} %uneven page - section title
     \printbibliography
+    \fancyhead[LE,RO]{}
+          
                 
     %%% LIST OF CORRECTIONS %%%
-    \listoffixmes    
+    \listoffixmes 
+       
 
 \end{document}
