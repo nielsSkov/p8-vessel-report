@@ -4,17 +4,17 @@ The model of the surface vessel is based in the hydrodynamic modeling presented 
 In this section, the different contributions are summarized and related to the vessel at hand.
 
 \subsection{Reference Frames}
-To describe the orientation and position of the surface vessel two coordinate frames are used, the body frame and an inertial frame. For operations in a local area, with longitude and latitude approximately constants (flat navigation) a NED system (North-East-Down) can be assume as an inertial frame where Newton's physics still apply.
+To describe the orientation and position of the surface vessel two coordinate frames are used, the body frame and an inertial frame. For operations in a local area, with longitude and latitude approximately constants (flat navigation) a NED system (North-East-Down) can be assume as an inertial frame where Newton's physics still apply \cite[p. 17]{TFossen}.
 
 The notation for the body coordinate frame include a subindex "$_\mathrm{b}$", and the one for the inertial frame a subindex "$_\mathrm{n}$".
 
 The transformation from the body frame to the inertial can be done through a rotation matrix, \eqref{eq:RotMatrix}, which describes a total rotation in terms of three consecutive rotations.
 
-In this case the rotation matrix is composed with a 1-2-3 convention, that is, first a rotation around $x_{\mathrm{b}}$, then around $y_{\mathrm{b}}$ and finally around $z_{\mathrm{b}}$.
+In this case the rotation matrix is composed with a 1-2-3 convention, that is, first a rotation around $x_{\mathrm{b}}$, then around $y_{\mathrm{b}}$ and finally around $z_{\mathrm{b}}$ \cite[p. 22]{TFossen}.
 
 \begin{minipage}{0.32\linewidth}
     \begin{flalign}
-    \si{R_X} &=
+    \vec{R}_\mathrm{X} &=
     \begin{bmatrix}
     1 & 0        & 0         \\ 
     0 & c\phi  & -s\phi  \\ 
@@ -24,7 +24,7 @@ In this case the rotation matrix is composed with a 1-2-3 convention, that is, f
 \end{minipage}\hfill
 \begin{minipage}{0.32\linewidth}
     \begin{flalign}
-    \si{R_Y} &=
+    \vec{R}_\mathrm{Y} &=
     \begin{bmatrix}
     c\theta  & 0  & s\theta  \\ 
     0          & 1  & 0          \\ 
@@ -34,7 +34,7 @@ In this case the rotation matrix is composed with a 1-2-3 convention, that is, f
 \end{minipage}\hfill
 \begin{minipage}{0.32\linewidth}
     \begin{flalign}
-    \si{R_Z} &=
+    \vec{R}_\mathrm{Z} &=
     \begin{bmatrix}
     c\psi & -s\psi  & 0  \\ 
     s\psi & c\psi   & 0  \\ 
@@ -44,20 +44,20 @@ In this case the rotation matrix is composed with a 1-2-3 convention, that is, f
 \end{minipage}\hfill
 \small
 \begin{flalign}
-R = R_Z R_Y R_X =
+\vec{R}^\mathrm{n}_\mathrm{b} = \vec{R}_Z \vec{R}_Y \vec{R}_X =
 \begin{bmatrix}
 c\theta c\psi  & s\phi s\theta c\psi -c\phi s\psi  & c\phi s\theta c\psi + s\phi s\psi  \\ 
-s\phi c\theta  & s\phi s\theta s\psi + c\phi c\psi & c\phi s\theta s\psi - s\phi c\psi  \\ 
+c\theta s\psi  & s\phi s\theta s\psi + c\phi c\psi & c\phi s\theta s\psi - s\phi c\psi  \\ 
 -s\theta         & s\phi c\theta                           & c\phi c\theta
 \end{bmatrix} 	\label{eq:RotMatrix}
 \end{flalign}
 \normalsize
 %
 \begin{where}
-    \va{R_X}{is the matrix describing a rotation around the $x_\mathrm{b}$ axis}{}
-    \va{R_Y}{is the matrix describing a rotation around the $y_\mathrm{b}$ axis}{}
-    \va{R_Z}{is the matrix describing a rotation around the $z_\mathrm{b}$ axis}{}
-    \va{R}{is the total rotation matrix}{}
+    \va{\vec{R}_\mathrm{X}}{is the matrix describing a rotation around the $x_\mathrm{b}$ axis}{}
+    \va{\vec{R}_\mathrm{Y}}{is the matrix describing a rotation around the $y_\mathrm{b}$ axis}{}
+    \va{\vec{R}_\mathrm{Z}}{is the matrix describing a rotation around the $z_\mathrm{b}$ axis}{}
+    \va{\vec{R}^\mathrm{n}_\mathrm{b}}{is the total rotation matrix}{}
 \end{where}
 
 Note that due to the size of the matrix sine and cosine are denoted $s$ and $c$ respectively.
@@ -65,14 +65,14 @@ Note that due to the size of the matrix sine and cosine are denoted $s$ and $c$ 
 To describe a vector in the inertial frame given its description in the body frame, a matrix-vector multiplication can be done as follows:
 %
 \begin{flalign}
-v_{\mathrm{n}}=Rv_\mathrm{b} 
+v_{\mathrm{n}}=\vec{R}^\mathrm{n}_\mathrm{b}v_\mathrm{b} 
 \end{flalign}
 \begin{where}
     \va{v_{\mathrm{n}}}{is a column vector that contains the description with respect to the inertial frame}{}
     \va{v_{\mathrm{b}}}{is a column vector that contains the description with respect to the body frame}{}
 \end{where}
 
-If the inverse computation is needed, it can be done following the same procedure using $\vec{R}^\mathrm{T}$ as the rotation matrix.    
+If the inverse computation is needed, it can be done following the same procedure using $\vec{R}^\mathrm{n\ T}_\mathrm{b}$ as the rotation matrix.    
 
 To be able to model the surface vessel, a description of its position and orientation is needed. In \autoref{fig:refFrame}, a diagram of the surface vessel with the notation used can be seen.
 
@@ -140,17 +140,17 @@ The contribution along the body frame directions is calculated as a function of 
 %
 \begin{flalign}
 F_{x_\mathrm{b}} &= -\rho g A_\mathrm{wp}z_\mathrm{n} (-\sin \theta)  \\
-F_{y_\mathrm{b}} &= -\rho g A_\mathrm{wp}z_\mathrm{n} (\sin \theta \sin \phi)  \\
-F_{z_\mathrm{b}} &= -\rho g A_\mathrm{wp}z_\mathrm{n} (\sin \theta \cos \phi) 
+F_{y_\mathrm{b}} &= -\rho g A_\mathrm{wp}z_\mathrm{n} (\cos \theta \sin \phi)  \\
+F_{z_\mathrm{b}} &= -\rho g A_\mathrm{wp}z_\mathrm{n} (\cos \theta \cos \phi) 
 \end{flalign}
 
-If the variations of $\phi$ and $\theta$ can be considered small, the contribution of the buoyancy force in the $x_\mathrm{b}$ and $y_\mathrm{b}$ directions can be neglected and not included in the final model of the vessel. \cite{TFossenRestoring}
+If the variations of $\phi$ and $\theta$ can be considered small, the contribution of the buoyancy force in the $x_\mathrm{b}$ and $y_\mathrm{b}$ directions can be neglected and not included in the final model of the vessel. \cite[pp. 62-67]{TFossen}
 
-The buoyancy force contributes also with some moments around the different axes in the body coordinate frame. This occurs as the center of buoyancy is, in general, not aligned with the center of gravity, generating some restoring torques on the vessel. These depend on the gravity and the buoyancy force. As the contribution of the term $\rho g \Delta V$ is small compared to that of $\rho g V$, only the latter is considered in the calculation. The torque applied around the $z_\mathrm{b}$ axis can also be neglected when $\phi$ and $\theta$ angles are small. \cite{TFossenRestoring}
+The buoyancy force contributes also with some moments around the different axes in the body coordinate frame. This occurs as the center of buoyancy is, in general, not aligned with the center of gravity, generating some restoring torques on the vessel. These depend on the gravity and the buoyancy force. As the contribution of the term $\rho g \Delta V$ is small compared to that of $\rho g V$, only the latter is considered in the calculation. The torque applied around the $z_\mathrm{b}$ axis can also be neglected when $\phi$ and $\theta$ angles are small. \cite[pp. 62-67]{TFossen}
 %
 \begin{flalign}
-T_{\phi} &= -\rho g V \overline{GM}_{\mathrm{T}} \sin \phi (\cos \theta \cos \theta)   \\
-T_{\theta} &= -\rho g V \overline{GM}_{\mathrm{L}} \sin \theta (\cos \phi \sin \theta) 
+T_{\phi} &= -\rho g V \overline{GM}_{\mathrm{T}} \sin \phi (\cos \theta \cos \phi)   \\
+T_{\theta} &= -\rho g V \overline{GM}_{\mathrm{L}} \sin \theta (\cos \theta \cos \phi) 
 \end{flalign}
 \begin{where}
     \va{T_{\phi}}{is the restoring torque due to the buoyancy force in the $\phi$ direction}{Nm}
@@ -167,7 +167,7 @@ The hydrodynamic forces induced in the surface vessel are mainly caused by two t
 
 The added mass induces forces that originate from the vessel imposing some energy in the surrounding fluid when it moves through it. The force generated is dependent on the acceleration of the vessel. \fxnote{what to do here??}
 
-The viscous damping is a combination of several factors, namely, skin friction, wave drift damping and vortex shedding \cite{TFossenDamping}. This type of damping appears in the equations as coefficients that multiply, with negative sign, the different translational and angular velocities that define the movement of the vessel. For each degree of freedom it is expressed as
+The viscous damping is a combination of several factors, namely, skin friction, wave drift damping and vortex shedding \cite[p. 122]{TFossen}. This type of damping appears in the equations as coefficients that multiply, with negative sign, the different translational and angular velocities that define the movement of the vessel. For each degree of freedom it is expressed as
 %
 \begin{flalign}
 D_{\dot{x}_\mathrm{b}} &= - d_{\dot{x}_\mathrm{b}}  \dot{x}_\mathrm{b} \\
@@ -182,4 +182,4 @@ D_{\dot{\psi}} &= - d_{\dot{\psi}}                  \dot{\psi}  \\
     \va{d_{i}}{is the viscous damping coefficient.}{}
 \end{where}
 
-This equation consider that the viscous friction is linear, this assumption can be done for vessel speeds lower than 2 m/s \cite{TFossenDLinear}. 
+This equation consider that the viscous friction is linear, this assumption can be done for vessel speeds lower than 2 m/s \cite[p. 138]{TFossen}. 
