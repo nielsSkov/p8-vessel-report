@@ -1,0 +1,95 @@
+\section{State Space Model}
+
+The linearized model derived in \fxnote{ref to linearized model}, consisting of \fxnote{refer to equations of linearized model} needs to be represented in state space form in order to design a state space controller. In order to do that, the 3 degree of freedom model used for the control of the vessel is represented as
+\begin{flalign}
+	\vec{\dot{x}}(t)=\vec{A} \cdot \vec{x}(t) + \vec{B} \cdot \vec{u}(t)
+	\label{xDotLinear} 
+\end{flalign}
+\begin{flalign}
+	\vec{y}(t)=\vec{C} \cdot \vec{x}(t) + \vec{D} \cdot \vec{u}(t)
+	\label{yLinear} 
+\end{flalign}
+\begin{where}
+	\va{\vec{x}}{is the state vector}{-}
+	\va{\vec{u}}{is the input vector}{-}
+	\va{\vec{y}}{is the output vector}{-}
+	\va{\vec{A}}{is the state matrix}{-}
+	\va{\vec{B}}{is the input matrix}{-}
+	\va{\vec{C}}{is the output matrix}{-}
+	\va{\vec{D}}{is the feed-forward matrix}{-}
+\end{where}
+%
+The state vector is constituted by the translational positions and velocities in the body coordinate frame and the angular position and velocity in the yaw angle direction. It is important to notice that the position of the vessel in the body reference frame represents the  integration of the velocity along the body frame directions. This can also be seen as the position of the vessel with respect to a frame whose origin coincides with that of the NED frame and whose orientation coincides with that of the body frame \cite[p. 173]{TFossen}. 
+
+\begin{minipage}{0.32\linewidth}
+	\begin{flalign}
+		\vec{x(t)} = 
+		\begin{bmatrix}
+			x_{vp} \\
+			y_{vp} \\ 
+			\psi \\
+			\dot{x}_{vp} \\
+			\dot{y}_{vp} \\
+			\dot{\psi} \\
+		\end{bmatrix}	\nonumber
+		\label{xVector}
+	\end{flalign}  
+\end{minipage}\hfill
+%\hspace{0.03\linewidth}
+\begin{minipage}{0.32\linewidth}
+	\begin{flalign}
+		\vec{y(t)} = 
+		\begin{bmatrix}
+			\phi \\
+			\theta \\ 
+			\psi \\
+		\end{bmatrix}	\nonumber
+		\label{yVector}
+	\end{flalign}
+\end{minipage}\hfill
+%\hspace{0.03\linewidth}
+\begin{minipage}{0.32\linewidth}
+	\begin{flalign}
+		\vec{u(t)}= 
+		\begin{bmatrix}
+			F_1 \\
+			F_2 
+		\end{bmatrix}
+		\label{uVector}
+	\end{flalign} \nonumber
+\end{minipage}\hfill
+\fxnote{Is the output vector correct??}
+
+The resulting $\vec{A}$, $\vec{B}$, $\vec{C}$ and $\vec{D}$ matrices are
+\begin{flalign}   \label{xDotSS}
+	\vec{A} &=
+	\begin{bmatrix}
+		\ 0 & 0 & 0 & 1 & 0 & 0                    \ \ \ \\ 
+		\ 0 & 0 & 0 & 0 & 1 & 0                    \ \ \ \\ 
+		\ 0 & 0 & 0 & 0 & 0 & 1                    \ \ \ \\
+		\ 0 & 0 & 0 & -\frac{d_x}{m_x} & 0 & 0     \ \ \ \\ 
+		\ 0 & 0 & 0 & 0 & -\frac{d_x}{m_x} & 0     \ \ \ \\ 
+		\ 0 & 0 & 0 & 0 & 0 & -\frac{d_x}{m_x}     \ \ \ 		
+	\end{bmatrix}
+	\ \ \vec{B} = 
+	\begin{bmatrix}
+		\ 0 & 0    \ \ \ \\ 
+		\ 0 & 0    \ \ \ \\ 
+		\ 0 & 0     \ \ \ \\
+		\ \frac{1}{m_x} & \frac{1}{m_x}     \ \ \ \\
+		\ 0 & 0     \ \ \ \\
+		\ \frac{l_1}{I_z} & -\frac{l_2}{I_z}    \ \ \ 		
+	\end{bmatrix}
+\end{flalign}
+\begin{flalign} \label{ySS}
+	\vec{C} &=	 
+	\begin{bmatrix}
+		\ 1 & 0 & 0 & 0 & 0 & 0     \ \ \ \\ 
+		\ 0 & 1 & 0 & 0 & 0 & 0     \ \ \ \\ 
+		\ 0 & 0 & 1 & 0 & 0 & 0     \ \ \ 		
+	\end{bmatrix}
+\end{flalign}
+\fxnote{Is the C matrix correct??}
+The $\vec{D}$ matrix is zero.
+
+
