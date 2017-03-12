@@ -4,9 +4,9 @@ The model of the surface vessel is based in the hydrodynamic modeling presented 
 In this section, the different contributions are summarized and related to the vessel at hand.
 
 \subsection{Reference Frames}
-To describe the orientation and position of the surface vessel two coordinate frames are used, the body frame and an inertial frame. For operations in a local area, with longitude and latitude approximately constants (flat navigation) a NED system (North-East-Down) can be assume as an inertial frame where Newton's physics still apply \cite[p. 17]{TFossen}.
+To describe the orientation and position of the surface vessel two coordinate frames are used, the body frame and an inertial frame. For operations in a local area, with longitude and latitude approximately constants (flat navigation) a NED system (North-East-Down) can be assumed as an inertial frame where Newton's physics will apply \cite[p. 17]{TFossen}.
 
-The notation for the body coordinate frame include a subindex "$_\mathrm{b}$", and the one for the inertial frame a subindex "$_\mathrm{n}$".
+To distinguish between the two frames, the body frame is denoted by a subindex "$_\mathrm{b}$", and the inertial frame with subindex "$_\mathrm{n}$".
 
 The transformation from the body frame to the inertial can be done through a rotation matrix, \eqref{eq:RotMatrix}, which describes a total rotation in terms of three consecutive rotations.
 
@@ -87,7 +87,7 @@ To be able to model the surface vessel, a description of its position and orient
 
 The first step to model the motion of the surface vessel is to look at its rigid body dynamics. They are described assuming that the center of gravity of the boat coincides with the origin of the body coordinate frame.
 
-The translational movement can be analyzed using Newton's second law, where the acceleration of the vessel is related to the applied forces.
+The transnational movement can be analyzed using Newton's second law, where the acceleration of the vessel is related to the applied forces.
 %
 \begin{flalign}
 \sum F=m \ddot{x}
@@ -99,11 +99,14 @@ In the case of the rotational movement, the motion is describe using the Newton'
 \sum \tau=I \ddot{\theta}
 \end{flalign}
 %
-The movement can be influence by the Coriolis effect, due to the fact that the body coordinate frame rotates with respect to the inertial frame. This effect, however, can be neglected in the case of a small vehicle that moves slow such as the vessel at hand \fxnote{find source}.
+%The movement can be influence by the Coriolis effect, due to the fact that the body coordinate frame rotates with respect to the inertial frame. This effect, however, can be neglected in the case of a small vehicle that moves slow such as the vessel at hand \finite{find source}.
+This movement is subject to the Coriolis effect, which appear if the vessel is not rotating around the axis with least- or highest- inertial axis.
+The potency of this force is small if the vessel rotates at low speeds, hence it have been neglected in the model.
 
-\subsection{Hydrostatics}
 
-The hydrostatics describe what forces and torques are applied on the surface vessel by the volume of fluid displaced when standing on water. The force induced in the vessel is called buoyancy force and it is applied in its center of buoyancy.  
+\subsection{Hydro statics}
+
+The hydro statics describe what forces and torques are applied on the surface vessel by the volume of fluid displaced when floating on water. The force induced upon the vessel is called buoyancy force and it is applied to the center of buoyancy.  
 
 The buoyancy force acts in the negative $z_\mathrm{n}$ direction as seen in
 %
@@ -114,10 +117,12 @@ B = \rho g (V + \Delta V(z))
     \va{\rho}{is the density of the fluid in which the vessel floats}{kg m^{-3}}
     \va{g}{is the gravitational acceleration}{m s^{-2}}
     \va{V}{is the volume of fluid displaced by the surface vessel}{m^3}
+    \va{\Delta V}{is the change in volume of fluid displaced by the surface vessel}{m^3}
     \va{B}{is the buoyancy force}{N}
 \end{where}
 
-The contribution of this force is balanced by gravity. Gravity cancels out the $ \rho g V $ term  of the buoyancy force, making the contribution of the buoyancy force along $x_\mathrm{b}$, $y_\mathrm{b}$ and $z_\mathrm{b}$ directions dependent on the variation with respect to the equilibrium flotation point. This is seen in 
+When the vessel floats, gravity cancels out $ \rho g V $ of the buoyancy force, making the contribution of the buoyancy force along $x_\mathrm{b}$, $y_\mathrm{b}$ and $z_\mathrm{b}$ directions dependent on the variation with respect to the equilibrium flotation point.
+This is seen in 
 %
 \begin{flalign}
 F_{z_\mathrm{n}} = mg - \rho g V -\rho g  \Delta V(z) = -\rho g  \Delta V(z) 
@@ -126,7 +131,7 @@ F_{z_\mathrm{n}} = mg - \rho g V -\rho g  \Delta V(z) = -\rho g  \Delta V(z)
     \va{F_{z_\mathrm{n}}}{is the summation of forces along the $z_\mathrm{n}$ direction}{N}
 \end{where}
 
-The change in volume can be expressed as in \autoref{eq:deltaV}. The water plane area of the vessel is not consider to vary significantly with the change in vertical position of the vessel and thus the approximation seen in the equation is applied.
+The change in volume can be expressed as in \autoref{eq:deltaV}. The water plane of the vessel is not considered to vary significantly with change in vertical position, thus the approximation seen in the equation is applied.
 %
 \begin{flalign}
 \Delta V(z) = \int_{0}^{z_\mathrm{N}}A_\mathrm{wp}(\zeta)d\zeta \approx A_\mathrm{wp}z_\mathrm{n}
@@ -142,15 +147,18 @@ The contribution along the body frame directions is calculated as a function of 
 F_{x_\mathrm{b}} &= -\rho g A_\mathrm{wp}z_\mathrm{n} (-\sin \theta)  \\
 F_{y_\mathrm{b}} &= -\rho g A_\mathrm{wp}z_\mathrm{n} (\cos \theta \sin \phi)  \\
 F_{z_\mathrm{b}} &= -\rho g A_\mathrm{wp}z_\mathrm{n} (\cos \theta \cos \phi) 
+\label{eq:forcez}
 \end{flalign}
 
 If the variations of $\phi$ and $\theta$ can be considered small, the contribution of the buoyancy force in the $x_\mathrm{b}$ and $y_\mathrm{b}$ directions can be neglected and not included in the final model of the vessel. \cite[pp. 62-67]{TFossen}
 
-The buoyancy force contributes also with some moments around the different axes in the body coordinate frame. This occurs as the center of buoyancy is, in general, not aligned with the center of gravity, generating some restoring torques on the vessel. These depend on the gravity and the buoyancy force. As the contribution of the term $\rho g \Delta V$ is small compared to that of $\rho g V$, only the latter is considered in the calculation. The torque applied around the $z_\mathrm{b}$ axis can also be neglected when $\phi$ and $\theta$ angles are small. \cite[pp. 62-67]{TFossen}
+The buoyancy force also contributes with some moments around the different axis in the body coordinate frame. This occurs as the center of buoyancy in general is not aligned with the center of gravity, generating some restoring torques on the vessel. These forces are dependent on the gravity and the buoyancy force. As the contribution of the term $\rho g \Delta V$ is small compared to that of $\rho g V$, only the latter is considered in the model. The torque applied around the $z_\mathrm{b}$ axis can also be neglected when $\phi$ and $\theta$ angles are small. \cite[pp. 62-67]{TFossen}
 %
 \begin{flalign}
 T_{\phi} &= -\rho g V \overline{GM}_{\mathrm{T}} \sin \phi (\cos \theta \cos \phi)   \\
+\label{eq:torqphi}
 T_{\theta} &= -\rho g V \overline{GM}_{\mathrm{L}} \sin \theta (\cos \theta \cos \phi) 
+\label{eq:torqtheta}
 \end{flalign}
 \begin{where}
     \va{T_{\phi}}{is the restoring torque due to the buoyancy force in the $\phi$ direction}{Nm}
@@ -159,7 +167,7 @@ T_{\theta} &= -\rho g V \overline{GM}_{\mathrm{L}} \sin \theta (\cos \theta \cos
     \va{\overline{GM}_\mathrm{L}}{is the longitudinal metacentric height}{m}
 \end{where}
 
-The metacentric heights are the distances between the center of gravity and the metacenter of the vessel. The metacenter position is related with the position of the center of gravity and that of the center of buoyancy. \fxnote{Source Handbook of bla bla bla}
+The metacentric heights are the distances between the center of gravity and the metacenter of the vessel. The metacenter position is related with the position of the center of gravity and that of the center of buoyancy.\cite[p. ??]{TFossen}\fxnote{Find exact page number}
 %equations in the book page 78
 
 \subsection{Hydrodynamics}
