@@ -1,0 +1,39 @@
+\section{Linearization of Model equations}
+To simplify the model, the nonlinear terms have been linearized. 
+\eqref{eq:forcez} is the only translatoric force with unlinear terms. 
+Using the first order taylor approximation around 0 which leads to:
+\begin{flalign}
+	F_{zb} = -\rho g A_{wg} \tilde{z_{n}}
+\label{eq:forcezlinear}
+\end{flalign}
+
+The angular terms described in \eqref{eq:torqphi} and \eqref{eq:torqtheta} both have nonlinear terms with needs to be linearized. 
+Similar to their translatoric counterparts, the equations have been linearaized using a first order Taylor approximation
+\begin{flalign}
+	T_{\phi} = -\rho g V \overline{GM_{L}}\cdot \tilde{\phi}
+\label{eq:torquephilinar}
+\end{flalign}
+\begin{flalign}
+	T_{\theta} = -\rho g V \overline{GM_{L}}\cdot \tilde{\theta}
+\label{eq:torquethetalinar}
+\end{flalign}
+The first order Taylor approximation is only applicable in areas close to the operating point, however as the vessel should not deviate much from this during operation. 
+The only value with potential to deviate a lot is $\theta$,which always is used relative to the boat frame, such that the dynamics prevents the orientation of the boat to deviate much between samples.
+
+
+
+%\begin{flalign}
+%    m_\mathrm{x} \ddot{x}_\mathrm{b} &=  F_\mathrm{1} + F_\mathrm{2}  - d_\mathrm{x} \dot{x}_\mathrm{b} + m_\mathrm{y} \dot{y_\mathrm{b}} \dot{\psi} - m_\mathrm{z} \dot{z}_\mathrm{b} \dot{\theta} - F_\mathrm{x}
+%    \label{eq:x_pos_model} \\
+%    m_\mathrm{y} \ddot{y_\mathrm{b}} &=  -d_\mathrm{y}\dot{y_\mathrm{b}}-m_\mathrm{x}\dot{x_\mathrm{b}}\dot{\psi}+m_\mathrm{z}\dot{z_\mathrm{b}}\dot{\phi}-F_\mathrm{y}
+%    \label{eq:y_pos_model} \\
+%    m_\mathrm{z} \ddot{z_\mathrm{b}} &=  -d_\mathrm{z}\dot{z_\mathrm{b}}+ m_\mathrm{b}\dot{x_\mathrm{b}}\dot{\theta}-m_\mathrm{y}\dot{y_\mathrm{b}} \dot{\phi}-F_\mathrm{z} \label{eq:z_pos_model}
+%\end{flalign}
+%
+%\begin{flalign}
+%    I_\mathrm{x}\ddot{\phi} &= -d_\mathrm{\phi} \dot{\phi}-(m_\mathrm{z}-m_\mathrm{y}) \dot{z}_\mathrm{b} \dot{y}_\mathrm{b}-(I_\mathrm{z}-I_\mathrm{y}) \dot{\theta } \dot{\psi}+T_\mathrm{\phi}  
+%    \label{eq:x_inert_model} \\
+%    I_\mathrm{y}\ddot{\theta} &= -d_\mathrm{\theta} \dot{\theta}-(m_\mathrm{z}-m_\mathrm{x}) \dot{x}_\mathrm{b} \dot{y}_\mathrm{b}-(I_\mathrm{x}-I_\mathrm{z}) \dot{\phi} \dot{\psi}+T_\mathrm{\theta}  
+%    \label{eq:y_inert_model} \\
+%    I_\mathrm{z}\ddot{\psi} &= -d_\mathrm{\psi} \dot{\psi}-(m_\mathrm{y}-m_\mathrm{x}) \dot{x}_\mathrm{b}\dot{y}_\mathrm{b}-(I_\mathrm{z}-I_\mathrm{y})\dot{\psi}\dot{\theta}+F_\mathrm{1}l_\mathrm{1}+F_\mathrm{2}l_\mathrm{2}+T_\mathrm{\psi} \label{eq:z_inert_model}
+%\end{flalign}

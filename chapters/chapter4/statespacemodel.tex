@@ -10,13 +10,13 @@ The linearized model derived in \fxnote{ref to linearized model}, consisting of 
 	\label{yLinear} 
 \end{flalign}
 \begin{where}
-	\va{\vec{x}}{is the state vector}{-}
-	\va{\vec{u}}{is the input vector}{-}
-	\va{\vec{y}}{is the output vector}{-}
-	\va{\vec{A}}{is the state matrix}{-}
-	\va{\vec{B}}{is the input matrix}{-}
-	\va{\vec{C}}{is the output matrix}{-}
-	\va{\vec{D}}{is the feed-forward matrix}{-}
+	\va{\vec{x}}{is the state vector}{}
+	\va{\vec{u}}{is the input vector}{}
+	\va{\vec{y}}{is the output vector}{}
+	\va{\vec{A}}{is the state matrix}{}
+	\va{\vec{B}}{is the input matrix}{}
+	\va{\vec{C}}{is the output matrix}{}
+	\va{\vec{D}}{is the feed-forward matrix}{}
 \end{where}
 %
 The state vector is constituted by the translational positions and velocities in the body coordinate frame and the angular position and velocity in the yaw angle direction. It is important to notice that the position of the vessel in the body reference frame represents the  integration of the velocity along the body frame directions. This can also be seen as the position of the vessel with respect to a frame whose origin coincides with that of the NED frame and whose orientation coincides with that of the body frame \cite[p. 173]{TFossen}. 
@@ -41,8 +41,7 @@ The state vector is constituted by the translational positions and velocities in
 		\vec{y(t)} = 
 		\begin{bmatrix}
 			\phi \\
-			\theta \\ 
-			\psi \\
+			\theta \\
 		\end{bmatrix}	\nonumber
 		\label{yVector}
 	\end{flalign}
@@ -91,5 +90,3 @@ The resulting $\vec{A}$, $\vec{B}$, $\vec{C}$ and $\vec{D}$ matrices are
 \end{flalign}
 \fxnote{Is the C matrix correct??}
 The $\vec{D}$ matrix is zero.
-
-
