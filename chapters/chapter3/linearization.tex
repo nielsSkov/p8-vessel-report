@@ -1,24 +1,50 @@
-\section{Linearization of Model equations}
-To simplify the model, the nonlinear terms have been linearized. 
-\eqref{eq:forcez} is the only translatoric force with unlinear terms. 
-Using the first order taylor approximation around 0 which leads to:
+\section{Linearization of Model Equations}
+The model equations need to be linearized to be able to design a controller using linear techniques. This is done using the first order Taylor approximation around an equilibrium as seen in 
 \begin{flalign}
-	F_{zb} = -\rho g A_{wg} \tilde{z_{n}}
-\label{eq:forcezlinear}
+    f(x) &\approx f(\overline{x}) + f'(\overline{x}) (x-\overline{x})  \rightarrow\ \tilde{f}(x) \approx f'(\overline{x}) \tilde{x}
+    \label{taylor}
+\end{flalign}
+In this equation, $\overline{x}$ represents the equilibrium point and $\tilde{x}$ the equilibrium point.
+
+The equilibrium point must fulfill that all the derivatives of the states are zero, in this case the velocities and accelerations. This also result in the restoring forces and torques, as well as the motor forces equal to zero. 
+
+To apply the approximation, the function must be differentiated with respect to each of the present variables, and once linearized, the function is expressed in terms of variations from the equilibrium point.
+%
+\begin{flalign}
+    f &= f(x_1,x_2,...,x_\mathrm{n}) \nonumber \\
+    \tilde{f}&=\frac{\partial f}{\partial x_1}\bigg|_{\overline{x}_1,\overline{x}_2,...,\overline{x}_n}\ \tilde{x}_1 + \frac{\partial f}{\partial x_2}\bigg|_{\overline{x}_1,\overline{x}_2,...,\overline{x}_n}\ 
+    \tilde{x}_2+...+ \frac{\partial f}{\partial x_n}\bigg|_{\overline{x}_1,\overline{x}_2,...,\overline{x_n}}\ \tilde{x}_\mathrm{n} \nonumber
+    \label{eq:dummytaylor}
 \end{flalign}
 
-The angular terms described in \eqref{eq:torqphi} and \eqref{eq:torqtheta} both have nonlinear terms with needs to be linearized. 
-Similar to their translatoric counterparts, the equations have been linearaized using a first order Taylor approximation
+In the case of the boat, the only non-linear terms are the restoring forces and torques. They can be linearized and give the result seen in 
+%
 \begin{flalign}
-	T_{\phi} = -\rho g V \overline{GM_{L}}\cdot \tilde{\phi}
-\label{eq:torquephilinar}
+    \tilde{F}_{x_\mathrm{b}} &= 0  \label{eq:forcexlin}\\
+    \tilde{F}_{y_\mathrm{b}} &= 0  \label{eq:forceylin}\\
+    \tilde{F}_{z_\mathrm{b}} &= -\rho g A_\mathrm{wp} \tilde{z}_\mathrm{n} \label{eq:forcezlin} \\
+ 	\tilde{T}_{\phi} &= -\rho g V \overline{GM_{L}}\cdot \tilde{\phi} \label{eq:torquephilinar} \\
+    \tilde{T}_{\theta} &= -\rho g V \overline{GM_{L}}\cdot \tilde{\theta}\label{eq:torquethetalinar}   
 \end{flalign}
-\begin{flalign}
-	T_{\theta} = -\rho g V \overline{GM_{L}}\cdot \tilde{\theta}
-\label{eq:torquethetalinar}
-\end{flalign}
+
 The first order Taylor approximation is only applicable in areas close to the operating point, however as the vessel should not deviate much from this during operation. 
-The only value with potential to deviate a lot is $\theta$,which always is used relative to the boat frame, such that the dynamics prevents the orientation of the boat to deviate much between samples.
+
+From now on, the linearized variables are represented without the symbol $\Delta$, to avoid excessive notation, even though they refer to changes with respect to the the equilibrium point.
+
+The model equations including these linearized terms end up being
+%
+\begin{flalign}
+ 	m_\mathrm{x} \ddot{x}_\mathrm{b} &=  F_\mathrm{1} + F_\mathrm{2}  - d_{\dot{x}_\mathrm{b}} \dot{x}_\mathrm{b}
+     \label{eq:x_pos_model_lin} \\
+    m_\mathrm{y} \ddot{y}_\mathrm{b} &=  -d_{\dot{y}_\mathrm{b}} \dot{y_\mathrm{b}}
+     \label{eq:y_pos_model_lin} \\
+    m_\mathrm{z} \ddot{z}_\mathrm{b} &=  -d_{\dot{z}_\mathrm{b}}\dot{z_\mathrm{b}} -\rho g A_\mathrm{wp} \tilde{z}_\mathrm{n} \label{eq:z_pos_model_lin}   \\
+    I_\mathrm{x}\ddot{\phi} &= -d_{\dot{\phi}} \dot{\phi} - \rho g V \overline{GM_{L}}\cdot \tilde{\phi} 
+    \label{eq:phi_model_limn} \\
+    I_\mathrm{y}\ddot{\theta} &= -d_{\dot{\theta}} \dot{\theta} - \rho g V \overline{GM_{L}}\cdot \tilde{\theta} 
+    \label{eq:theta_model_lin} \\
+    I_\mathrm{z}\ddot{\psi} &= F_\mathrm{1}l_\mathrm{1} - F_\mathrm{2} l_\mathrm{2} - d_{\dot{\psi}} \dot{\psi} \label{eq:psi_model_lin}
+\end{flalign}
 
 
 
