@@ -1,4 +1,6 @@
 \section{Initial Control Design}
+\fxnote{Make Matrix Appendix with numbers}
+\fxnote{Refference to matrix appendix where appropriate in this section.}
 %
 It is desired to design a state feedback using a linear quadratic regulator (LQR). As the controller eventually must be implemented the design is carried out in the discrete domain. To do so, it is necessary to discretize the system. A discrete state space model can be expressed as,
 %
@@ -16,8 +18,6 @@ where the z subindexes indicate the matrices being in the discrete domain and k 
   \caption{Block diagram of the discrete system without feed forward.}
   \label{fig:discreteSSBlock}
 \end{figure}
-%
-\fxnote{talk about controllability here.}
 %
 In order to track a reference and handle input disturbances, it is chosen to also include an integral controller in the design. The final control structure is seen in \autoref{fig:blockConrolDesignLQR}.
 %
@@ -95,35 +95,55 @@ A discrete time infinite horizon LQR is used in the design of the feedback, $\ve
   J = \sum_{k=0}^\infty \vec{x}_k^\mathrm{T}\vec{Q}\vec{x}_k + \vec{u}_k^\mathrm{T}\vec{R}\vec{u}_k \ dt \ \ .
 \end{flalign}
 \begin{where}
-	\va{\vec{Q}}{is the state cost matrix}{}
-  \va{\vec{R}}{is the input cost matrix}{}
+	\va{\vec{Q}}{is the symmetric positive semidefinite state cost matrix}{}
+  \va{\vec{R}}{is the symmetric positive definite input cost matrix}{}
 \end{where}
 
-The Q matrix contains the penalties for the state, such that a higher cost is generated for more critical states, thus driving these states faster to zero. The R matrix contains the penalties for the input. This helps to ensure that the actuators never enters saturation.
-Bryson's rule is used to determine sensible values for the state and input penalties in the Q and R matrices.
+The Q matrix contains the penalties for the state, such that a higher cost is generated for more critical states, thus driving these states faster to zero. The R matrix contains the penalties for the input. This helps to ensure that the actuators never enters saturation.\\
+It is necessary for all states to be stable and controllable. Otherwise the the performance index, $J$, will become infinite \cite[p. 125]{DSNaidu}.\\
+The controllability is determined by
+%
+\begin{flalign}
+  \vec{{\mathcal C}}
+  = 
+  \begin{bmatrix}
+    \vec{B}_\mathrm{e} & \vec{A}_\mathrm{e}\vec{B}_\mathrm{e} & \vec{A}_\mathrm{e}^\textbf{2} \vec{B}_\mathrm{e} & \vec{A}^\textbf{3}_\mathrm{e} \vec{B}_\mathrm{e} & \vec{A}^\textbf{4}_\mathrm{e} \vec{B}_\mathrm{e}
+  \end{bmatrix}  \ \ ,
+  \label{eq:integralControllability}
+\end{flalign}
+%
+of which the rank is 5, that is, the controllability matrix, $\vec{{\mathcal C}}$, has full rank, thus the system is controllable \cite[p. 169]{CTChen}.\\
+The eigenvalues of $\vec{A}_\mathrm{e}$ are all on or within the unit-circle in the z-plane, thus, no states are unstable and the LQR design is feasible.
+
+Bryson's rule is used as an initial design method to determine sensible values for the state and input penalties in the Q and R matrices.
 %
 \begin{flalign} 
-Q_{ii} &= \frac{1}{[x_{i_\mathrm{max}}]^2} \ \ \ \ R_{ii} = \frac{1}{[u_{i_\mathrm{max}}]^2}
-\label{eq:QRBryson}
+  Q_{ii} &= \frac{1}{x_{i_\mathrm{max}}\text{}^2} \rule{30px}{0px} R_{ii} = \frac{1}{u_{i_\mathrm{max}} \text{}^2}
+  \label{eq:QRBryson}
 \end{flalign}
 \begin{where}
   \va{x_{i_\mathrm{max}}}{are the maximum acceptable state values}{}
   \va{u_{i_\mathrm{max}}}{are the maximum acceptable input values}{}
 \end{where}
 
-From this the state feedback is calculated by,
+The requirements stated in \autoref{sec:requirements} must be taken into account when determining the values of $x_{i_\mathrm{max}}$ and $u_{i_\mathrm{max}}$.
+\fxnote{Include arguments and numbers for final choice of Q and R.}
+
+From this the state feedback is calculated by \cite[p. 42]{JLNy},
 %
-\begin{flalign} 
-  \vec{F}_\mathrm{e} &= (\vec{R} \vec{B}_\mathrm{e}^\mathrm{T} \vec{P}\vec{B}_\mathrm{e})^{-1}  \vec{B}_\mathrm{e}^\mathrm{T} \vec{P}\vec{B}_\mathrm{e}
+\begin{flalign}
+  \vec{F}_\mathrm{e} &= -(\vec{B}_\mathrm{e}^\mathrm{T} \vec{P}\vec{B}_\mathrm{e} + \vec{R})^{-1}  \vec{B}_\mathrm{e}^\mathrm{T} \vec{P}\vec{A}_\mathrm{e} \ \ ,
   \label{eq:QRFeedback}
 \end{flalign}
-\begin{where}
-  \va{\vec{P}}{is the state transfer matrix.}{}
-\end{where}
-
-$\vec{P}$ provides a feedback matrix which minimizes the cost function, and can be found by use of the Riccatti equation.
-%$\vec{F}_\mathrm{e}$ can be seperated to make F and F_I as the first 6 columns are state feedback and the last three are the integral control. These feedback matricees can can be implemented as shown in \autoref{fig:blockConrolDesignLQR}.
-
+%
+where $\vec{P}$ can be found as the solution of the infinite horizon algebraic discrete-time Riccati equation \cite[p. 42]{JLNy},
+%
+\begin{flalign}
+\vec{P} &= \vec{A}_\mathrm{e}^\mathrm{T} \vec{P} \vec{A}_\mathrm{e} + \vec{Q} - \vec{A}_\mathrm{e}^\mathrm{T} \vec{P} \vec{B}_\mathrm{e} (\vec{B}_\mathrm{e}^\mathrm{T} \vec{P} \vec{B}_\mathrm{e} + \vec{R})^{-1} \vec{B}_\mathrm{e}^\mathrm{T} \vec{P} \vec{A}_\mathrm{e} \ \ .
+\label{eq:discreteInfRiccati}
+\end{flalign}
+%
+Once $\vec{F}_\mathrm{e}$ is obtained, it is split into the two feedback matrices, $\vec{F}_\mathrm{e} = [\ \vec{F} \ \ \vec{F}_\mathrm{I}\ ]$, and implemented, following the control structure provided in \autoref{fig:blockConrolDesignLQR}.
 
 
 
