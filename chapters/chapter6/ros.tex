@@ -1,0 +1,19 @@
+\section{ROS}
+ROS is designed to be a communication infrastructure for a project, which allows multiple programs to communicate between each other. 
+Each program runs in individual threads, called nodes, such that their timing is independent from each other, except for hardware limitations.  
+This allows each node to run in parallel in multiple threads while still being able to share data between them.\\
+The data sharing is done through topics, onto which the nodes can publish and subscribe to. 
+The topic contains the data stored in a prespecified data structure, specified as a message, such that each node publishes data of the same type. 
+\subsection{System overview}
+The system consistes of two subsystems, a Low-Level-Interface (LLI) and a High-Level-Interface (HLI). 
+The LLI is a Harware interface, responsible for reading all the sensors and sending control signals to the motors.
+The HLI contains the sensor fusion, and the controllers, as well as a interface to the operator. 
+
+
+\subsection{Route following node}
+The route following uses waypoints together with position data to generate a reference for the low level controller. 
+The method described in section\fxnote{Ref to section describing Route following node} describes the line between two waypoints as an affine linear line.  
+This description have the issue of having singularity when describing vertical lines, making the slope infinite.  
+To circumvent this, the implementation uses a different approach. 
+While the general concept remains the same, the method for describing a line is different. 
+
