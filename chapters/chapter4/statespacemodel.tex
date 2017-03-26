@@ -1,6 +1,6 @@
 \section{State Space Model}\label{chap:control}
 
-The linearized model derived in \fxnote{ref to linearized model}, consisting of \fxnote{refer to equations of linearized model} needs to be represented in state space form in order to design a state space controller. In order to do that, the 3 degree of freedom model used for the control of the vessel is represented as
+The linearized model derived in \autoref{sec:linearizationModel}, consisting of \autoref{eq:x_pos_model_lin} to \ref{eq:psi_model_lin} needs to be represented in state space form in order to design a state space controller. In order to do that, the 3 degree of freedom model used for the control of the vessel is represented as
 \begin{flalign}
   \vec{\dot{x}}(t) &= \vec{A} \vec{x}(t) + \vec{B} \vec{u}(t)
   \label{xDotLinear} \\
@@ -54,28 +54,26 @@ The state vector is constituted by the angle and velocity in yaw as well as the 
     \label{uVector}
   \end{flalign} \nonumber
 \end{minipage}\hfill
-\fxnote{Is the output vector correct??}
 
 The resulting $\vec{A}$, $\vec{B}$, $\vec{C}$ and $\vec{D}$ matrices are
-\begin{flalign}   \label{xDotSS}
+\begin{flalign}
   \vec{A} &=
   \begin{bmatrix}
     \ 0 & 1                   & 0                \ \ \ \\ 
     \ 0 & -\frac{d_\psi}{I_z} & 0                \ \ \ \\ 
     \ 0 & 0                   & -\frac{d_x}{m_x} \ \ \     
-  \end{bmatrix}
-  \ \ \vec{B} = 
+  \end{bmatrix}\rule{30px}{0px}
+    \vec{B} = 
   \begin{bmatrix}
     \ 0               & 0                \ \ \ \\
     \ \frac{l_1}{I_z} & -\frac{l_2}{I_z} \ \ \ \\   
     \ \frac{1}{m_x}   & \frac{1}{m_x}    \ \ \
-  \end{bmatrix}
-\end{flalign}
-\begin{flalign} \label{ySS}
-  \vec{C} &=   
+  \end{bmatrix}\rule{30px}{0px}
+  \vec{C} =   
   \begin{bmatrix}
     \ 1 & 0 & 0  \ \ \ \\ 
     \ 0 & 0 & 1  \ \ \    
   \end{bmatrix}
+   \label{eqStateSpaceABC}
 \end{flalign}
-The $\vec{D}$ matrix is zero.
+and the $\vec{D}$ matrix is zero.
