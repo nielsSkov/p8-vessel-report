@@ -1,19 +1,43 @@
 \chapter{Problem Analysis}
-This chapter analyses the scope of the project as well as the requirements that need to be fulfilled.
+This chapter analyses the scope of the project as well as the requirements that needs to be fulfilled. 
 
 \section{Scope of the Project}
-The goal of this project is to develop a control strategy that can make the autonomous surface vessel be suitable for survey tasks in the water. More specifically, it should be able to perform bathymetric measurements.
+The goal of this project is to develop a control strategy that can make the autonomous surface vessel be suitable for survey tasks in the water. More specifically, it should be able to perform bathymetric measurements in the port of Aalborg. This constitutes the basis for the required capabilities of the ASV.
 
 The controller design must be able to track references provided by the trajectory planer as well as rejecting disturbances such as possible wind or the effect of the waves. This requires to include a model of the disturbances in the controller design as well as a robust controller capable of handling model uncertainties.
 
-The trajectory planer needs to be able to design a route in the form of waypoints, to send to the controller, to reach all the position needed to perform the different measurements required for the survey. 
+The trajectory planer must be able to design a route, in the form of waypoints, to reach all the position needed to perform the different measurements required for the survey. 
 
-One important aspect to be taken into account is the precision of the route tracking, that should be below 10 cm. This requires a positioning system able of providing position data with more precision that the GPS module mounted on the vessel. A test that shows the distribution of the sample from this GPS can be seen in \fxnote{Refer to test with GPS to show it is not enough} For that reason, an RTK GPS is more suitable to enhance the precision of position data.
+One important aspect to be taken into account is the precision of the route tracking. %This requires a positioning system able of providing position data with more precision that the GPS module mounted on the vessel.
+%A test that shows the distribution of the sample from this GPS can be seen in \fxnote{Refer to test with GPS to show it is not enough} For that reason, an RTK GPS is more suitable to enhance the precision of position data.
 
+In figure \fxnote{figref} is an example of a bathymetric map of Limfjorden. It is seen that the depth precision is around \fxnote{precision here}. This map is used for guidance of surface vessels and is confirmed sufficient in precision by \fxnote{someone}.
+In order to achieve \fxnote{precision here} in precision it is necessary to consider the accuracy of both the bathymetric and the position measurements \fxnote{make use we use accuracy and precision correctly}. The quality of these measurements will determine the necessary precision of the control design.
+The functional requirements \fxnote{ref to functional requirement section} includes the overall accepted accuracy of the system. This will be used again in the technical requirements \fxnote{ref to technical requirement section} along with the conclusions of the analysis and tests of the provided measurement equipment described in system description\fxnote{ref to system description}
 
 \section{Requirements} \label{sec:requirements}
 To be able to design a working product some functional requirements need to be set and verified at the end of the project once all the design has been carried out.
 
-- tracking of reference position with a precision below 10 cm
+- It should be possible to track a reference position with a precision below \fxnote{insert precision here}.\\
+- It should be possible to store the recorded data locally for extraction at the end of the survey \fxnote{or it should be possible to receive the measurements as the boat goes?}.\\
+- It should be possible to give the ASV a command to stop or call it back to land.
 
-- 
+\section{Technical Requirements}
+\fxnote{this section should be placed after analysis of sensors}
+Track position reference:\\
+- Summary of results of sensor capabilities\\
+- precision requirements for the control design\\
+- The bathymetry measurements are reliant on how much the boat tips, as it is single beam and measures shortest distance in the beam, some analysis must be done in this regard. Maybe it is necessary to stabilize the boat with floats on its sides. It would still be sensitive to waves, maybe the problem can be solved by measuring the tilt of the boat and mapping the measurements to the correct point in the inertial system having used beam and tilt angle to calculate vertical distance. This approach will put the measurements in a band around the path of the boat rather than in a straight line, question is if this is a good or a bad thing?
+
+Is it necessary to consider the water level on the day/time of the measurement? This is information which could be pulled from the Internet I think, either manually or, if the vessel has a connection, automatically.
+
+Record and store data:\\
+- Summary of results of data recordings (how much space is needed)\\
+- Space requirement for storing data\\
+- If chosen to send data back: requirement for communication\\
+
+Simple stop and call back commands:\\
+- communication requirement
+
+
+
