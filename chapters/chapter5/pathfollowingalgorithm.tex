@@ -45,12 +45,13 @@ In order to follow all the path, a way to change the which two waypoints define 
 	\caption{The distance considered when defining the criterion to change to new waypoints.}
 	\label{fig:changewaypoints}
 \end{figure}
-With this approach, the vessel will always try to move forward in the path although a waypoint position has not being precisely attained. This avoids situations like the one shown in \autoref{fig:goingbackapproach} where the vessel turns around in order to hit the waypoint precisely. This could be caused by a sudden disturbance experienced by the vessel and, in general, it is desired to keep following the path rather than turning around to hit the waypoint. In most cases, the vessel is going to be itself close to the waypoint when the change occurs. This can be seen in the simulation plots presented below. 
+With this approach, the vessel will always try to move forward in the path although a waypoint position has not being precisely attained. % This avoids situations like the one shown in \autoref{fig:goingbackapproach} where the vessel turns around in order to hit the waypoint precisely.
+This could be caused by a sudden disturbance experienced by the vessel and, in general, it is desired to keep following the path rather than turning around to hit the waypoint. In most cases, the vessel is going to be itself close to the waypoint when the change occurs. This can be seen in the simulation plots presented below. 
 
 \subsection{Path Following Algorithm Simulation}
 
-\fxnote{Do not include many graphs now because we will probably redo them. Just some dummy ones.} \fxnote{Maybe we could include the result also with different low level controllers}
-
+\fxnote{Do not include many graphs now because we will probably redo them. Just some dummy ones.} 
+\fxnote{Maybe we could include the result also with different low level controllers}
 The path following algorithm has been tested in the same path and considering different settings for the algorithm. In all cases, the radious of the circle defined around the vessel is 5 m and the distance in which the active waypoints are changed is 3 m. 
 
 In \autoref{fig:simpleLOSalgorithm} and \ref{fig:simpleLOSalgorithmdisturbance} the result of the algorithm are presented when considering the simpler case in which $\psi_\mathrm{ref} = \chi$, that is, assuming the velocity of the vessel is pointing along the $x_\mathrm{b}$ direction. In the first graph the path is followed precisely as the assumption regarding the velocity vector holds,  whereas in the second, the constant disturbance imposes and offset in the position of the vessel.
