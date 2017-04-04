@@ -91,12 +91,14 @@
     \renewcommand{\thesection}{\Alph{section}}
     \setcounter{section}{0}
 
+    \appendix
     \part*{Appendix}
     
     \addcontentsline{toc}{chapter}{Appendix}
+    \cleardoublepage\makeatletter\@openrightfalse\makeatother
     
     %---------- Appendix A ---------------------------------------- Test Title
-
+    \input{chapters/appendix/aBathymetricMapPortOfAalborg.tex}
 
     %%% BIBLIOGRAPHY %%%
     % Remove header so it does not say Appendix Bibliography

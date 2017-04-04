@@ -1,43 +1,64 @@
 \chapter{Problem Analysis}
-This chapter analyses the scope of the project as well as the requirements that needs to be fulfilled. 
+%
+The goal of this project is to develop a control strategy that can make an autonomous surface vessel suitable for survey tasks in water. More specifically, it should be able to perform bathymetric measurements.
 
-\section{Scope of the Project}
-The goal of this project is to develop a control strategy that can make the autonomous surface vessel be suitable for survey tasks in the water. More specifically, it should be able to perform bathymetric measurements in the port of Aalborg. This constitutes the basis for the required capabilities of the ASV.
+In order to set up the requirements for the control system it is helpful to study a more concrete case in which bathymetric measurements are already in use and where improvements in measurement techniques are decried.\\
+The Port of Aalborg provides such a case along with previously used bathymetric measurements, see \autoref{fig:bathymetricMapPortOfAalborg}. These measurements are used by the Port of Aalborg to guide ships safely through the port without hitting the bottom.
 
-The controller design must be able to track references provided by the trajectory planer as well as rejecting disturbances such as possible wind or the effect of the waves. This requires to include a model of the disturbances in the controller design as well as a robust controller capable of handling model uncertainties.
+\begin{figure}[H]
+  \includegraphics[width=0.5\textwidth]{figures/smallDebthMapAalborg}
+  \caption{A cut from the full Bathymetric map found in \autoref{app:bathymetricMapPortOfAalborg} provided by the Port of Aalborg cite}
+  \label{fig:bathymetricMapPortOfAalborg}
+\end{figure}
 
-The trajectory planer must be able to design a route, in the form of waypoints, to reach all the position needed to perform the different measurements required for the survey. 
+The depths of the port is in constant change due to shifting sands on the bottom. So while the bathymetric measurements helps in guiding the ships by the safest route they are not currently provided frequently enough that this can be done in the most optimal manner. If two ships are headed towards each other, one of them will be forced to wait in places where there is sure to be enough space for both in order to allow them to pass each other. This however is sometimes an unnecessary precaution, had there been more recent knowledge of the depths in the port.\fxnote{who do we source for this?}\\
+The measurements are currently performed from a manned vessel on which a multi beam echo sounder is installed. Contrary to single beam echo sounders, the multi beam can sweep a wider area. It is still however a time consuming task.\fxnote{more specifically how often, one or more boats, what exact kind of multi beam echo sounder is used?}\\
+It is therefore desired to automate the process, preferably with a smaller unmanned vessel. This will allow for more frequent bathymetric measurements and the efficiency of guiding ships through the Port of Aalborg can be improved.
 
-One important aspect to be taken into account is the precision of the route tracking. %This requires a positioning system able of providing position data with more precision that the GPS module mounted on the vessel.
-%A test that shows the distribution of the sample from this GPS can be seen in \fxnote{Refer to test with GPS to show it is not enough} For that reason, an RTK GPS is more suitable to enhance the precision of position data.
+The controller design must be able to track references provided by a path planer as well as rejecting disturbances such as possible wind or the effect of the waves. This requires a model of the disturbances to be included in the controller design along with a robust controller capable of handling model uncertainties.
 
-In figure \fxnote{figref} is an example of a bathymetric map of Limfjorden. It is seen that the depth precision is around \fxnote{precision here}. This map is used for guidance of surface vessels and is confirmed sufficient in precision by \fxnote{someone}.
-In order to achieve \fxnote{precision here} in precision it is necessary to consider the accuracy of both the bathymetric and the position measurements \fxnote{make use we use accuracy and precision correctly}. The quality of these measurements will determine the necessary precision of the control design.
-The functional requirements \fxnote{ref to functional requirement section} includes the overall accepted accuracy of the system. This will be used again in the technical requirements \fxnote{ref to technical requirement section} along with the conclusions of the analysis and tests of the provided measurement equipment described in system description\fxnote{ref to system description}
+The path planer must be able to design a route, in the form of waypoints, to reach all the position needed to perform the different measurements required for the survey.
 
-\section{Requirements} \label{sec:requirements}
-To be able to design a working product some functional requirements need to be set and verified at the end of the project once all the design has been carried out.
+The accuracy and precision with which the route can be tracked has a significant impact on the efficiency of the system. The less closely the path is tracked, the more overlap of the echo sounder beam is required from each sweep in order to cover the entirety of the bottom.
 
-- It should be possible to track a reference position with a precision below \fxnote{insert precision here}.\\
-- It should be possible to store the recorded data locally for extraction at the end of the survey \fxnote{or it should be possible to receive the measurements as the boat goes?}.\\
-- It should be possible to give the ASV a command to stop or call it back to land.
+The quality of the bathymetric measurements will also play part in determining the required overlap.\\
+Additionally other applications for the ASV would have requirements for the precision and accuracy provided by the control design.\\
+For these reasons and in order not to constrain the design to only one potential use, it is decided to set up some rather tight requirements for the system.
 
-\section{Technical Requirements}
-\fxnote{this section should be placed after analysis of sensors}
-Track position reference:\\
-- Summary of results of sensor capabilities\\
-- precision requirements for the control design\\
-- The bathymetry measurements are reliant on how much the boat tips, as it is single beam and measures shortest distance in the beam, some analysis must be done in this regard. Maybe it is necessary to stabilize the boat with floats on its sides. It would still be sensitive to waves, maybe the problem can be solved by measuring the tilt of the boat and mapping the measurements to the correct point in the inertial system having used beam and tilt angle to calculate vertical distance. This approach will put the measurements in a band around the path of the boat rather than in a straight line, question is if this is a good or a bad thing?
+\section{Functional Requirements} \label{sec:requirements}
+To be able to design a working prototype some functional requirements must be set and verified at the end of the project once all the design has been carried out.
+%
+\begin{enumerate}
+  \item It should be possible to select the area in which the bathymetric measurements are to be performed.
+  \item A path planning algorithm should be able to plan a path within the selected area such that the bathymetric measurements can be performed.
+  \item It should be possible to track the path laid out by the path planning algorithm.
+  \item It should be possible to store the recorded data locally for extraction at the end of the survey.
+  \item It should be possible to give the ASV a command to stop ot call it back to land.
+\end{enumerate}
+%
+The remainder of the problem analysis will go into how the functional requirements can be achieved. This will result in a set of technical requirements, which sets the perimeters of the design.
 
-Is it necessary to consider the water level on the day/time of the measurement? This is information which could be pulled from the Internet I think, either manually or, if the vessel has a connection, automatically.
+\section{Bathymetric Measurements}
 
-Record and store data:\\
-- Summary of results of data recordings (how much space is needed)\\
-- Space requirement for storing data\\
-- If chosen to send data back: requirement for communication\\
 
-Simple stop and call back commands:\\
-- communication requirement
+
+
+%\section{Technical Requirements}
+%\fxnote{this section should be placed after analysis of sensors}
+%Track position reference:\\
+%- Summary of results of sensor capabilities\\
+%- precision requirements for the control design\\
+%- The bathymetry measurements are reliant on how much the boat tips, as it is single beam and measures shortest distance in the beam, some analysis must be done in this regard. Maybe it is necessary to stabilize the boat with floats on its sides. It would still be sensitive to waves, maybe the problem can be solved by measuring the tilt of the boat and mapping the measurements to the correct point in the inertial system having used beam and tilt angle to calculate vertical distance. This approach will put the measurements in a band around the path of the boat rather than in a straight line, question is if this is a good or a bad thing?
+%
+%Is it necessary to consider the water level on the day/time of the measurement? This is information which could be pulled from the Internet I think, either manually or, if the vessel has a connection, automatically.
+%
+%Record and store data:\\
+%- Summary of results of data recordings (how much space is needed)\\
+%- Space requirement for storing data\\
+%- If chosen to send data back: requirement for communication\\
+%
+%Simple stop and call back commands:\\
+%- communication requirement
 
 
 
