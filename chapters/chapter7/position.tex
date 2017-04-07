@@ -4,10 +4,13 @@
     \vec{x}_\mathrm{pos}(k+1) &= \vec{A}_\mathrm{pos}(k)\vec{x}_\mathrm{pos}(k) + \vec{B}_\mathrm{pos} \vec{u}(k) + \vec{w}_\mathrm{pos} \\
     \vec{y}_\mathrm{pos}(k) &= \vec{C}_\mathrm{pos} \vec{x}_\mathrm{pos}(k) + \vec{v}_\mathrm{pos}
 \end{flalign}
-
 \begin{where}
-    \va{\vec{w}_\mathrm{pos}}{}{}
-    \va{\vec{v}_\mathrm{pos}}{}{}
+    \va{\vec{x}_\mathrm{pos}}{is the system state vector}{}
+    \va{\vec{w}_\mathrm{pos}}{is the process noise vector}{}
+    \va{\vec{v}_\mathrm{pos}}{is the measurement noise vector}{}
+    \va{\vec{A}_\mathrm{pos}}{is the system matrix for the position Kalman filter model}{}
+    \va{\vec{B}_\mathrm{pos}}{is the input matrix for the position Kalman filter model}{}
+    \va{\vec{C}_\mathrm{pos}}{is the output matrix for the position Kalman filter model}{}    
 \end{where}
 %
 \begin{minipage}{0.32\linewidth}
