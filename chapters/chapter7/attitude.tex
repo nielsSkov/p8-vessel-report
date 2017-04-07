@@ -9,8 +9,8 @@ The measurement model describes how the measurements taken from the IMU relate w
     \vec{y}_\mathrm{att}(k) &= \vec{C}_\mathrm{att} \vec{x}_\mathrm{att}(k) + \vec{v}_\mathrm{att}(k) \label{eq:measurementmodel}\ .
 \end{flalign}
 \begin{where}
-	\va{\vec{x}_\mathrm{att}}{is the system state vector}{}
-	\va{\vec{u}_\mathrm{att}}{is the input vector}{}
+	\va{\vec{x}_\mathrm{att}}{is the system state vector for the attitude Kalman filter}{}
+	\va{\vec{u}}{is the input vector}{}
 	\va{\vec{w}_\mathrm{att}}{is the process noise vector}{}
     \va{\vec{v}_\mathrm{att}}{is the measurement noise vector}{}
     \va{\vec{A}_\mathrm{att}}{is the system matrix for the attitude Kalman filter model}{}
@@ -23,25 +23,26 @@ The states chosen for the Kalman model include all variables to be estimated and
     \vec{x}_\mathrm{att} &= 
     \begin{bmatrix}
        \phi & \theta & \psi & \dot{\phi} & \dot{\theta} & \dot{\psi} & \ddot{\phi} & \ddot{\theta} & \ddot{\psi} \nonumber
-    \end{bmatrix}^T \ .
+    \end{bmatrix}^\mathrm{T} \ .
 \end{flalign}
-Even though the controller 
+Even though the inner state space controller only considers $\psi$ and $\dot{\psi}$, the other Euler angles and angular velocities are included to allow a better overall estimation, specially when using later the rotation matrix elements as described in \autoref{sec:posFusion}. The angular accelerations are normally not part of a state vector in a state space representation. However, in the attitude Kalman filter state vector, the accelerations are included as they are an important part of the dynamics of the vessel as it can be seen in the last tree rows in $A_\mathrm{att}$, \autoref{eq:Aatt}.
 
 \begin{flalign}
     \vec{y}_\mathrm{att} =
     \begin{bmatrix}
            \phi & \theta & \psi & \dot{\phi} & \dot{\theta} & \dot{\psi}\nonumber 
-    \end{bmatrix}^T
+    \end{bmatrix}^\mathrm{T}
 \end{flalign}
 
 \begin{flalign}
     \vec{u} &=
     \begin{bmatrix}
         F_1 & F_2  \nonumber 
-    \end{bmatrix}^T 
+    \end{bmatrix}^\mathrm{T} 
 \end{flalign}
 
 \begin{flalign}
+	\label{eq:Aatt}
     \vec{A}_\mathrm{att} &=
     \begin{bmatrix}
     	1 & 0 & 0 & T_\mathrm{s} & 0 & 0 & 0 & 0 & 0 \\
