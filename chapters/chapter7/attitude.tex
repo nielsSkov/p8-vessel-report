@@ -107,27 +107,29 @@ The matrix $\vec{B}_\mathrm{att}$ is mostly formed by zeros, the only nonzero el
     \end{flalign}
 \end{minipage}\hfill
 
-Once the model is constructed, the Kalman filter equations can be obtained. They are divided in two steps, prediction and update.
+Once the model is constructed, the Kalman filter equations can be obtained. They are divided in two steps, prediction and update. \cite{SHaykin}.
 \subsection*{Prediction Step}
-The prediction step of the Kalman filter uses current data to predict the next values in the state vector and predict the covariance of the estimate as
+The prediction step of the Kalman filter uses current data to predict the next values in the state vector and predict the covariance of the estimate as 
 \begin{flalign}
-	\hat{\vec{x}}_\mathrm{att}(k+1|k) &= \vec{A}_\mathrm{att} \hat{\vec{x}}_\mathrm{att}(k|k) + \vec{B}_\mathrm{att} \vec{u}(k) \\
-	\vec{P}(k+1|k) &= \vec{A}_\mathrm{att} \vec{P}(k|k) \vec{A}_\mathrm{att}^\mathrm{T} + \vec{Q}
+	\hat{\vec{x}}_\mathrm{att}(k+1|k) &= \vec{A}_\mathrm{att} \hat{\vec{x}}_\mathrm{att}(k|k) + \vec{B}_\mathrm{att} \vec{u}(k) \label{eq:predictx} \\
+	\vec{P}(k+1|k) &= \vec{A}_\mathrm{att} \vec{P}(k|k) \vec{A}_\mathrm{att}^\mathrm{T} + \vec{Q} \label{eq:predictP}
 \end{flalign}
 
 \subsection*{Update Step}
-The update step of the Kalman filter 
+The update step of the Kalman filter calculates the updated state estimation and the updated error covariance as 
 \begin{flalign}
-    \vec{K}(k) &= \vec{P}(k|k-1) \vec{C}_\mathrm{att}^\mathrm{T} \left[\vec{C}_\mathrm{att} \vec{P-1}(k|k) \vec{C}_\mathrm{att}^\mathrm{T} + \vec{R} \right]^{-1} \\
-    \hat{\vec{x}}_\mathrm{att}(k|k) &= \hat{\vec{x}}_\mathrm{att}(k|k-1) + \vec{K} \left[ y(k) - \vec{C}_\mathrm{att}  \hat{\vec{x}}_\mathrm{att}(k|k-1) \right] \\
-    \vec{P}(k|k) &= \left[ \vec{I} - \vec{K}(k) \vec{C}_\mathrm{att}^\mathrm{T} \right] \vec{P}(k|k-1)
+    \hat{\vec{x}}_\mathrm{att}(k|k) &= \hat{\vec{x}}_\mathrm{att}(k|k-1) + \vec{K}(K) \left[ y(k) - \vec{C}_\mathrm{att}  \hat{\vec{x}}_\mathrm{att}(k|k-1) \right]\ , \label{eq:updatex}\\
+    \vec{P}(k|k) &= \left[ \vec{I} - \vec{K}(k) \vec{C}_\mathrm{att}^\mathrm{T} \right] \vec{P}(k|k-1)\ . \label{eq:updateP}
+\end{flalign}
+For these calculations to be performed, the Kalman gain $\vec{K}(k)$ needs to be obtained. This is done 
+\begin{flalign}
+	\vec{K}(k) &= \vec{P}(k|k-1) \vec{C}_\mathrm{att}^\mathrm{T} \left[\vec{C}_\mathrm{att} \vec{P-1}(k|k) \vec{C}_\mathrm{att}^\mathrm{T} + \vec{R} \right]^{-1} \label{eq:kalmangain}
 \end{flalign}
 
 \begin{flalign}
     \vec{Q} &= \mathrm{diag}\left( \sigma_\mathrm{\phi}^2,\sigma_\mathrm{\theta}^2,\sigma_\mathrm{\psi}^2,\sigma_\mathrm{\dot{\phi}}^2,\sigma_\mathrm{\dot{\theta}}^2,\sigma_\mathrm{\dot{\psi}}^2,\sigma_\mathrm{\ddot{\phi}}^2,\sigma_\mathrm{\ddot{\theta}}^2,\sigma_\mathrm{\ddot{\psi}}^2 \right)\\
     \vec{R} &= \mathrm{diag} \left( \sigma_{\phi\mathrm{,acc}}^2,\sigma_{\theta\mathrm{,acc}}^2,\sigma_{\psi\mathrm{,mag}}^2,\sigma_{\dot{\phi}\mathrm{,gyro}}^2,\sigma_{\dot{\theta}\mathrm{,gyro}}^2,\sigma_{\dot{\psi}\mathrm{,gyro}}^2 \right)
 \end{flalign}
-
 
 
 
