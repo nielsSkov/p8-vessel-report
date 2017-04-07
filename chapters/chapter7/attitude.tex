@@ -1,53 +1,45 @@
 \section{Attitude Estimation}\label{sec:attFusion}
+The attitude estimation is done using a Kalman filter. The estimate contains attitude, angular velocity and angular acceleration information. For constructing the Kalman filter, a process model and a measurement model need to be created. 
+
+The process model describes the dynamics of the system and how the inputs affect its states. The process model includes also noise, which is assumed to be normally distributed. The process model is represented as in \autoref{eq:processmodel}. 
+The measurement model describes how the measurements taken from the IMU relate with the states of the system represented in the process model. Measurement noise is also included in the model. The process and measurement models are 
+%
+\begin{flalign}
+    \vec{x}_\mathrm{att}(k+1) &= \vec{A}_\mathrm{att}\vec{x}_\mathrm{att}(k) + \vec{B}_\mathrm{att} \vec{u}(k) + \vec{w}_\mathrm{att}(k) \label{eq:processmodel} \\
+    \vec{y}_\mathrm{att}(k) &= \vec{C}_\mathrm{att} \vec{x}_\mathrm{att}(k) + \vec{v}_\mathrm{att}(k) \label{eq:measurementmodel}\ .
+\end{flalign}
+\begin{where}
+	\va{\vec{x}_\mathrm{att}}{is the system state vector}{}
+	\va{\vec{u}_\mathrm{att}}{is the input vector}{}
+	\va{\vec{w}_\mathrm{att}}{is the process noise vector}{}
+    \va{\vec{v}_\mathrm{att}}{is the measurement noise vector}{}
+    \va{\vec{A}_\mathrm{att}}{is the system matrix for the attitude Kalman filter model}{}
+    \va{\vec{B}_\mathrm{att}}{is the input matrix for the attitude Kalman filter model}{}
+    \va{\vec{C}_\mathrm{att}}{is the output matrix for the attitude Kalman filter model}{}    
+\end{where}
+
+The states chosen for the Kalman model include all variables to be estimated and those in which dynamics of the system play a role. These are
+\begin{flalign}
+    \vec{x}_\mathrm{att} &= 
+    \begin{bmatrix}
+       \phi & \theta & \psi & \dot{\phi} & \dot{\theta} & \dot{\psi} & \ddot{\phi} & \ddot{\theta} & \ddot{\psi} \nonumber
+    \end{bmatrix}^T \ .
+\end{flalign}
+Even though the controller 
 
 \begin{flalign}
-    \vec{x}_\mathrm{att}(k+1) &= \vec{A}_\mathrm{att}\vec{x}_\mathrm{att}(k) + \vec{B}_\mathrm{att} \vec{u}(k) + \vec{w}_\mathrm{att} \\
-    \vec{y}_\mathrm{att}(k) &= \vec{C}_\mathrm{att} \vec{x}_\mathrm{att}(k) + \vec{v}_\mathrm{att} 
+    \vec{y}_\mathrm{att} =
+    \begin{bmatrix}
+           \phi & \theta & \psi & \dot{\phi} & \dot{\theta} & \dot{\psi}\nonumber 
+    \end{bmatrix}^T
 \end{flalign}
 
-\begin{where}
-    \va{\vec{w}_\mathrm{att}}{}{}
-    \va{\vec{v}_\mathrm{att}}{}{}
-\end{where}
-%
-\begin{minipage}{0.32\linewidth}
-    \begin{flalign}
-    \vec{x}_\mathrm{att} &=
-    \begin{bmatrix}
-       \phi \\
-       \theta \\
-       \psi \\
-       \dot{\phi} \\
-       \dot{\theta} \\
-       \dot{\psi} \\
-       \ddot{\phi} \\
-       \ddot{\theta} \\
-       \ddot{\psi} \nonumber
-    \end{bmatrix}
-    \end{flalign}
-\end{minipage}\hfill
-\begin{minipage}{0.32\linewidth}
-    \begin{flalign}
-    \vec{y}_\mathrm{att} &=
-    \begin{bmatrix}
-           \phi \\
-           \theta \\
-           \psi \\
-           \dot{\phi} \\
-           \dot{\theta} \\
-           \dot{\psi}\nonumber 
-    \end{bmatrix} 
-    \end{flalign}
-\end{minipage}\hfill
-\begin{minipage}{0.32\linewidth}
-    \begin{flalign}
+\begin{flalign}
     \vec{u} &=
     \begin{bmatrix}
-        F_1 \\
-        F_2  \nonumber 
-    \end{bmatrix} 
-    \end{flalign}
-\end{minipage}\hfill
+        F_1 & F_2  \nonumber 
+    \end{bmatrix}^T 
+\end{flalign}
 
 \begin{flalign}
     \vec{A}_\mathrm{att} &=
