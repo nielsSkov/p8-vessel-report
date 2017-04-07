@@ -47,13 +47,20 @@
 \begin{flalign}
     \vec{A}_\mathrm{pos}(\phi(k),\theta(k),\psi(k)) =
     \begin{bmatrix}
-        1 & 0 & T_\mathrm{s}\vec{R}^\mathrm{n}_\mathrm{b}(1,1) & T_\mathrm{s}\vec{R}^\mathrm{n}_\mathrm{b}(1,2) & 0 & 0 \\
-        0 & 1 & T_\mathrm{s}\vec{R}^\mathrm{n}_\mathrm{b}(2,1) & T_\mathrm{s}\vec{R}^\mathrm{n}_\mathrm{b}(2,2) & 0 & 0 \\
+        1 & 0 & T_\mathrm{s} \ \vec{R}^\mathrm{n}_\mathrm{b}(1,1) & T_\mathrm{s} \ \vec{R}^\mathrm{n}_\mathrm{b}(1,2) & 0 & 0 \\
+        0 & 1 & T_\mathrm{s} \ \vec{R}^\mathrm{n}_\mathrm{b}(2,1) & T_\mathrm{s} \ \vec{R}^\mathrm{n}_\mathrm{b}(2,2) & 0 & 0 \\
         0 & 0 & 1 & 0 & T_\mathrm{s} & 0 \\
         0 & 0 & 0 & 1 & 0 & T_\mathrm{s} \\
         0 & 0 & \frac{-d_\mathrm{x}}{m_\mathrm{x}} & 0 & -T_\mathrm{s}\frac{d_\mathrm{x}}{m_\mathrm{x}} & 0 \\
         0 & 0 & 0 & \frac{-d_\mathrm{y}}{m_\mathrm{y}} & 0 & -T_\mathrm{s}\frac{d_\mathrm{y}}{m_\mathrm{y}}   \nonumber
     \end{bmatrix}
+\end{flalign}
+
+\begin{flalign}
+    \vec{R}^\mathrm{n}_\mathrm{b}(1,1) &= \cos(\theta(k)) \cos(\psi(k)) \nonumber \\
+    \vec{R}^\mathrm{n}_\mathrm{b}(1,2) &= \sin(\phi(k)) \sin(\theta(k)) \cos(\psi(k)) - \cos(\phi(k)) \sin(\psi(k)) \nonumber \\
+    \vec{R}^\mathrm{n}_\mathrm{b}(2,1) &= \cos(\theta(k)) \sin(\psi(k)) \nonumber \\
+    \vec{R}^\mathrm{n}_\mathrm{b}(2,2) &= \sin(\phi(k)) \sin(\theta(k)) \sin(\psi(k)) + \cos(\phi(k)) \cos(\psi(k)) \nonumber
 \end{flalign}
 
 \begin{minipage}{0.3\linewidth}
@@ -90,7 +97,15 @@
 
 \subsection*{Prediction Step}
 \begin{flalign}
-    \vec{A}_\mathrm{pos}\left( \hat{\psi}(k),\hat{\theta}(k),\hat{\psi}(k) \right)\\
+    \vec{A}_\mathrm{pos}\left( \hat{\psi}(k),\hat{\theta}(k),\hat{\psi}(k) \right) &=
+    \begin{bmatrix}
+        1 & 0 & T_\mathrm{s} \ \vec{R}^\mathrm{n}_\mathrm{b}(1,1) & T_\mathrm{s} \ \vec{R}^\mathrm{n}_\mathrm{b}(1,2) & 0 & 0 \\
+        0 & 1 & T_\mathrm{s} \ \vec{R}^\mathrm{n}_\mathrm{b}(2,1) & T_\mathrm{s} \ \vec{R}^\mathrm{n}_\mathrm{b}(2,2) & 0 & 0 \\
+        0 & 0 & 1 & 0 & T_\mathrm{s} & 0 \\
+        0 & 0 & 0 & 1 & 0 & T_\mathrm{s} \\
+        0 & 0 & \frac{-d_\mathrm{x}}{m_\mathrm{x}} & 0 & -T_\mathrm{s}\frac{d_\mathrm{x}}{m_\mathrm{x}} & 0 \\
+        0 & 0 & 0 & \frac{-d_\mathrm{y}}{m_\mathrm{y}} & 0 & -T_\mathrm{s}\frac{d_\mathrm{y}}{m_\mathrm{y}}   \nonumber
+    \end{bmatrix} \\
     \hat{\vec{x}}_\mathrm{pos}(k+1|k) &= \vec{A}_\mathrm{pos}(k) \hat{\vec{x}}_\mathrm{pos}(k|k) + \vec{B}_\mathrm{pos} \vec{u}(k) \\
     \vec{P}(k+1|k) &= \vec{A}_\mathrm{pos} \vec{P}(k|k) \vec{A}_\mathrm{pos}^\mathrm{T} + \vec{Q}
 \end{flalign}
