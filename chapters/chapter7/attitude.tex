@@ -1,0 +1,100 @@
+\section{}\label{sec:attFusion}
+
+\begin{flalign}
+    \vec{x}_\mathrm{att}(k+1) &= \vec{A}_\mathrm{att}\vec{x}_\mathrm{att}(k) + \vec{B}_\mathrm{att} \vec{u}(k) + \vec{w}_\mathrm{att} \\
+    \vec{y}_\mathrm{att}(k) &= \vec{A}_\mathrm{att} \vec{x}_\mathrm{att}(k) + \vec{v}_\mathrm{att} \\
+\end{flalign}
+
+\begin{where}
+    \va{\vec{w}_\mathrm{att}}{}{}
+    \va{\vec{v}_\mathrm{att}}{}{}
+\end{where}
+%
+\begin{minipage}{0.32\linewidth}
+    \begin{flalign}
+    \vec{x}_\mathrm{att} &=
+    \begin{bmatrix}
+       \phi \\
+       \theta \\
+       \psi \\
+       \dot{\phi} \\
+       \dot{\theta} \\
+       \dot{\psi} \\
+       \ddot{\phi} \\
+       \ddot{\theta} \\
+       \ddot{\psi} \nonumber
+    \end{bmatrix}
+    \end{flalign}
+\end{minipage}\hfill
+\begin{minipage}{0.32\linewidth}
+    \begin{flalign}
+    \vec{y}_\mathrm{att} &=
+    \begin{bmatrix}
+           \phi \\
+           \theta \\
+           \psi \\
+           \dot{\phi} \\
+           \dot{\theta} \\
+           \dot{\psi}\nonumber 
+    \end{bmatrix} 
+    \end{flalign}
+\end{minipage}\hfill
+\begin{minipage}{0.32\linewidth}
+    \begin{flalign}
+    \vec{u} &=
+    \begin{bmatrix}
+        F_1 \\
+        F_2  \nonumber 
+    \end{bmatrix} 
+    \end{flalign}
+\end{minipage}\hfill
+%
+\begin{flalign}
+\vec{A}_\mathrm{att} &=
+\begin{bmatrix}
+	1&0&0&Ts&0&0&0&0&0 \\
+    0&1&0&0&Ts&0&0&0&0 \\
+    0&0&1&0&0&Ts&0&0&0 \\
+    0&0&0&1&0&0&Ts&0&0 \\
+    0&0&0&0&1&0&0&Ts&0 \\
+    0&0&0&0&0&1&0&0&Ts \\
+    0&0&0&\frac{-d_\mathrm{\phi}}{I_\mathrm{x}}&0&0&-Ts\frac{-d_\mathrm{\psi}}{I_\mathrm{x}}&0&0 \\
+    0&0&0&0&\frac{-d_\mathrm{\theta}}{I_\mathrm{y}}&0&0&-Ts\frac{d_\mathrm{\theta}}{I_\mathrm{y}}&0 \\
+    0&0&0&0&0&\frac{-d_\mathrm{\psi}}{I_\mathrm{z}}&0&0&-Ts\frac{d_\mathrm{\psi}}{I_\mathrm{z}}          \nonumber
+\end{bmatrix}
+\end{flalign}
+
+\begin{minipage}{0.3\linewidth}
+    \begin{flalign}
+        \vec{B}_\mathrm{att} &=
+        \begin{bmatrix}
+            0 & 0 \\
+            0 & 0 \\
+            0 & 0 \\
+            0 & 0 \\
+            0 & 0 \\
+            0 & 0 \\
+            0 & 0 \\
+            0 & 0 \\
+            \frac{l_1}{I_\mathrm{z}} & \frac{-l_2}{I_\mathrm{z}}\nonumber 
+        \end{bmatrix} 
+    \end{flalign}
+\end{minipage}\hfill
+\begin{minipage}{0.6\linewidth}
+    \begin{flalign}
+        \vec{C} &=
+        \begin{bmatrix}
+            1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+            0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+            0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0  \nonumber 
+        \end{bmatrix} 
+    \end{flalign}
+\end{minipage}\hfill
+
+
+
+
+\subsection*{Pe}
