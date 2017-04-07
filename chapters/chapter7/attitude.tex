@@ -1,8 +1,8 @@
-\section{}\label{sec:attFusion}
+\section{Attitude Estimation}\label{sec:attFusion}
 
 \begin{flalign}
     \vec{x}_\mathrm{att}(k+1) &= \vec{A}_\mathrm{att}\vec{x}_\mathrm{att}(k) + \vec{B}_\mathrm{att} \vec{u}(k) + \vec{w}_\mathrm{att} \\
-    \vec{y}_\mathrm{att}(k) &= \vec{A}_\mathrm{att} \vec{x}_\mathrm{att}(k) + \vec{v}_\mathrm{att} \\
+    \vec{y}_\mathrm{att}(k) &= \vec{C}_\mathrm{att} \vec{x}_\mathrm{att}(k) + \vec{v}_\mathrm{att} 
 \end{flalign}
 
 \begin{where}
@@ -48,20 +48,20 @@
     \end{bmatrix} 
     \end{flalign}
 \end{minipage}\hfill
-%
+
 \begin{flalign}
-\vec{A}_\mathrm{att} &=
-\begin{bmatrix}
-	1&0&0&Ts&0&0&0&0&0 \\
-    0&1&0&0&Ts&0&0&0&0 \\
-    0&0&1&0&0&Ts&0&0&0 \\
-    0&0&0&1&0&0&Ts&0&0 \\
-    0&0&0&0&1&0&0&Ts&0 \\
-    0&0&0&0&0&1&0&0&Ts \\
-    0&0&0&\frac{-d_\mathrm{\phi}}{I_\mathrm{x}}&0&0&-Ts\frac{-d_\mathrm{\psi}}{I_\mathrm{x}}&0&0 \\
-    0&0&0&0&\frac{-d_\mathrm{\theta}}{I_\mathrm{y}}&0&0&-Ts\frac{d_\mathrm{\theta}}{I_\mathrm{y}}&0 \\
-    0&0&0&0&0&\frac{-d_\mathrm{\psi}}{I_\mathrm{z}}&0&0&-Ts\frac{d_\mathrm{\psi}}{I_\mathrm{z}}          \nonumber
-\end{bmatrix}
+    \vec{A}_\mathrm{att} &=
+    \begin{bmatrix}
+    	1 & 0 & 0 & T_\mathrm{s} & 0 & 0 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 & T_\mathrm{s} & 0 & 0 & 0 & 0 \\
+        0 & 0 & 1 & 0 & 0 & T_\mathrm{s} & 0 & 0 & 0 \\
+        0 & 0 & 0 & 1 & 0 & 0 & T_\mathrm{s} & 0 & 0 \\
+        0 & 0 & 0 & 0 & 1 & 0 & 0 & T_\mathrm{s} & 0 \\
+        0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & T_\mathrm{s} \\
+        0 & 0 & 0 & \frac{-d_\mathrm{\phi}}{I_\mathrm{x}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\psi}}{I_\mathrm{x}} & 0 & 0 \\
+        0 & 0 & 0 & 0 & \frac{-d_\mathrm{\theta}}{I_\mathrm{y}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\theta}}{I_\mathrm{y}} & 0 \\
+        0 & 0 & 0 & 0 & 0 & \frac{-d_\mathrm{\psi}}{I_\mathrm{z}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\psi}}{I_\mathrm{z}}          \nonumber
+    \end{bmatrix}
 \end{flalign}
 
 \begin{minipage}{0.3\linewidth}
@@ -94,7 +94,35 @@
     \end{flalign}
 \end{minipage}\hfill
 
+\subsection*{Update Step}
+\begin{flalign}
+    \vec{K}(k) &= \vec{P}(k|k-1) \vec{C}_\mathrm{att}^\mathrm{T} \left[\vec{C}_\mathrm{att} \vec{P-1}(k|k) \vec{C}_\mathrm{att}^\mathrm{T} + \vec{R} \right]^{-1} \\
+    \hat{\vec{x}}_\mathrm{att}(k|k) &= \hat{\vec{x}}_\mathrm{att}(k|k-1) + \vec{K} \left[ y(k) - \vec{C}_\mathrm{att}  \hat{\vec{x}}_\mathrm{att}(k|k-1) \right] \\
+    \vec{P}(k|k) &= \left[ \vec{I} - \vec{K}(k) \vec{C}_\mathrm{att}^\mathrm{T} \right] \vec{P}(k|k-1)
+\end{flalign}
+
+\subsection*{Prediction Step}
+\begin{flalign}
+    \hat{\vec{x}}_\mathrm{att}(k+1|k) &= \vec{A}_\mathrm{att} \hat{\vec{x}}_\mathrm{att}(k|k) + \vec{B}_\mathrm{att} \vec{u}(k) \\
+    \vec{P}(k+1|k) &= \vec{A}_\mathrm{att} \vec{P}(k|k) \vec{A}_\mathrm{att}^\mathrm{T} + \vec{Q}
+\end{flalign}
+
+\begin{flalign}
+    \vec{Q} &= \mathrm{diag}\left( \sigma_\mathrm{\phi}^2,\sigma_\mathrm{\theta}^2,\sigma_\mathrm{\psi}^2,\sigma_\mathrm{\dot{\phi}}^2,\sigma_\mathrm{\dot{\theta}}^2,\sigma_\mathrm{\dot{\psi}}^2,\sigma_\mathrm{\ddot{\phi}}^2,\sigma_\mathrm{\ddot{\theta}}^2,\sigma_\mathrm{\ddot{\psi}}^2 \right)\\
+    \vec{R} &= \mathrm{diag} \left( \sigma_{\phi\mathrm{,acc}}^2,\sigma_{\theta\mathrm{,acc}}^2,\sigma_{\psi\mathrm{,mag}}^2,\sigma_{\dot{\phi}\mathrm{,gyro}}^2,\sigma_{\dot{\theta}\mathrm{,gyro}}^2,\sigma_{\dot{\psi}\mathrm{,gyro}}^2 \right)
+\end{flalign}
+
+\begin{flalign}
+    \phi_\mathrm{acc} &= \arctan \left( \frac{\ddot{y}_\mathrm{b,acc}}{\sqrt{\ddot{x}_\mathrm{b,acc}^2 + \ddot{z}_\mathrm{b,acc}^2}} \right) \\
+    \theta_\mathrm{acc} &= \arctan \left( \frac{\ddot{x}_\mathrm{b,acc}}{\sqrt{\ddot{y}_\mathrm{b,acc}^2 + \ddot{z}_\mathrm{b,acc}^2}} \right) 
+\end{flalign}
+
+\begin{flalign}
+    M_\mathrm{x,h} &= M_\mathrm{x,b} \cos(\theta) + M_\mathrm{y,b} \sin(\phi) \sin(\theta) + M_\mathrm{z,b} \cos(\phi) \sin(\theta) \\
+    M_\mathrm{y,h} &= M_\mathrm{y,b} \cos(\phi) + M_\mathrm{z,b} \sin(\phi) \\
+    \psi_\mathrm{mag} &= \arctan \left( \frac{M_\mathrm{y,h}}{M_\mathrm{x,h}} \right) 
+\end{flalign}
 
 
 
-\subsection*{Pe}
+

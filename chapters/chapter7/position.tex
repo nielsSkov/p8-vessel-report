@@ -1,1 +1,101 @@
-\section{}\label{sec:posFusion}
+\section{Position Estimation}\label{sec:posFusion}
+
+\begin{flalign}
+    \vec{x}_\mathrm{pos}(k+1) &= \vec{A}_\mathrm{pos}(k)\vec{x}_\mathrm{pos}(k) + \vec{B}_\mathrm{pos} \vec{u}(k) + \vec{w}_\mathrm{pos} \\
+    \vec{y}_\mathrm{pos}(k) &= \vec{C}_\mathrm{pos} \vec{x}_\mathrm{pos}(k) + \vec{v}_\mathrm{pos}
+\end{flalign}
+
+\begin{where}
+    \va{\vec{w}_\mathrm{pos}}{}{}
+    \va{\vec{v}_\mathrm{pos}}{}{}
+\end{where}
+%
+\begin{minipage}{0.32\linewidth}
+    \begin{flalign}
+        \vec{x}_\mathrm{pos} &=
+        \begin{bmatrix}
+            x_\mathrm{n} \\
+            y_\mathrm{n} \\
+            \dot{x}_\mathrm{b} \\
+            \dot{y}_\mathrm{b} \\
+            \ddot{x}_\mathrm{b} \\
+            \ddot{y}_\mathrm{b}  \nonumber
+        \end{bmatrix}
+    \end{flalign}
+\end{minipage}\hfill
+\begin{minipage}{0.32\linewidth}
+    \begin{flalign}
+        \vec{y}_\mathrm{pos} &=
+        \begin{bmatrix}
+            x_\mathrm{n} \\
+            y_\mathrm{n} \\
+            \ddot{x}_\mathrm{b} \\
+            \ddot{y}_\mathrm{b} \nonumber 
+        \end{bmatrix} 
+    \end{flalign}
+\end{minipage}\hfill
+\begin{minipage}{0.32\linewidth}
+    \begin{flalign}
+        \vec{u} &=
+        \begin{bmatrix}
+            F_1 \\
+            F_2  \nonumber 
+        \end{bmatrix} 
+    \end{flalign}
+\end{minipage}\hfill
+
+\begin{flalign}
+    \vec{A}_\mathrm{pos}(\phi(k),\theta(k),\psi(k)) =
+    \begin{bmatrix}
+        1 & 0 & T_\mathrm{s}\vec{R}^\mathrm{n}_\mathrm{b}(1,1) & T_\mathrm{s}\vec{R}^\mathrm{n}_\mathrm{b}(1,2) & 0 & 0 \\
+        0 & 1 & T_\mathrm{s}\vec{R}^\mathrm{n}_\mathrm{b}(2,1) & T_\mathrm{s}\vec{R}^\mathrm{n}_\mathrm{b}(2,2) & 0 & 0 \\
+        0 & 0 & 1 & 0 & T_\mathrm{s} & 0 \\
+        0 & 0 & 0 & 1 & 0 & T_\mathrm{s} \\
+        0 & 0 & \frac{-d_\mathrm{x}}{m_\mathrm{x}} & 0 & -T_\mathrm{s}\frac{d_\mathrm{x}}{m_\mathrm{x}} & 0 \\
+        0 & 0 & 0 & \frac{-d_\mathrm{y}}{m_\mathrm{y}} & 0 & -T_\mathrm{s}\frac{d_\mathrm{y}}{m_\mathrm{y}}   \nonumber
+    \end{bmatrix}
+\end{flalign}
+
+\begin{minipage}{0.3\linewidth}
+    \begin{flalign}
+        \vec{B}_\mathrm{pos} &=
+        \begin{bmatrix}
+            0 & 0 \\
+            0 & 0 \\
+            0 & 0 \\
+            0 & 0 \\
+            \frac{1}{m_\mathrm{x}} & \frac{1}{m_\mathrm{x}} \\
+            0 & 0  \nonumber 
+        \end{bmatrix} 
+    \end{flalign}
+\end{minipage}\hfill
+\begin{minipage}{0.6\linewidth}
+    \begin{flalign}
+        \vec{C} &=
+        \begin{bmatrix}
+            1 & 0 & 0 & 0 & 0 & 0 \\
+            0 & 1 & 0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 & 1 & 0 \\
+            0 & 0 & 0 & 0 & 0 & 1  \nonumber 
+        \end{bmatrix} 
+    \end{flalign}
+\end{minipage}\hfill
+
+\subsection*{Update Step}
+\begin{flalign}
+    \vec{K}(k) &= \vec{P}(k|k-1) \vec{C}_\mathrm{pos}^\mathrm{T} \left[ \vec{C}_\mathrm{pos} \vec{P-1}(k|k) \vec{C}_\mathrm{pos}^\mathrm{T} + \vec{R} \right]^{-1} \\
+    \hat{\vec{x}}_\mathrm{pos}(k|k) &= \hat{\vec{x}}_\mathrm{pos}(k|k-1) + \vec{K} \left[ y(k) - \vec{C}_\mathrm{pos}  \hat{\vec{x}}_\mathrm{pos}(k|k-1) \right] \\
+    \vec{P}(k|k) &= \left[\vec{I} - \vec{K}(k) \vec{C}_\mathrm{pos}^\mathrm{T} \right] \vec{P}(k|k-1)
+\end{flalign}
+
+\subsection*{Prediction Step}
+\begin{flalign}
+    \vec{A}_\mathrm{pos}\left( \hat{\psi}(k),\hat{\theta}(k),\hat{\psi}(k) \right)\\
+    \hat{\vec{x}}_\mathrm{pos}(k+1|k) &= \vec{A}_\mathrm{pos}(k) \hat{\vec{x}}_\mathrm{pos}(k|k) + \vec{B}_\mathrm{pos} \vec{u}(k) \\
+    \vec{P}(k+1|k) &= \vec{A}_\mathrm{pos} \vec{P}(k|k) \vec{A}_\mathrm{pos}^\mathrm{T} + \vec{Q}
+\end{flalign}
+
+\begin{flalign}
+    \vec{Q} &= \mathrm{diag} \left( \sigma_\mathrm{x_\mathrm{n}}^2,\sigma_\mathrm{y_\mathrm{n}}^2,\sigma_\mathrm{\dot{x}_\mathrm{b}}^2,\sigma_\mathrm{\dot{y}_\mathrm{b}}^2,\sigma_\mathrm{\ddot{x}_\mathrm{b}}^2,\sigma_\mathrm{\ddot{y}_\mathrm{b}}^2 \right)\\
+    \vec{R} &= \mathrm{diag} \left( \sigma_{x_\mathrm{n}\mathrm{,GPS}}^2,\sigma_{y_\mathrm{n}\mathrm{,GPS}}^2,\sigma_{\ddot{x}_\mathrm{b}\mathrm{,acc}}^2,\sigma_{\ddot{y}_\mathrm{b}\mathrm{,acc}}^2 \right)
+\end{flalign}
