@@ -1,12 +1,12 @@
 \section{Attitude Estimation}\label{sec:attFusion}
 The attitude estimation is done using a Kalman filter. The estimate contains attitude, angular velocity and angular acceleration information. For constructing the Kalman filter, a process model and a measurement model need to be created. 
 
-The process model describes the dynamics of the system and how the inputs affect its states. The process model includes also noise, which is assumed to be normally distributed. The process model is represented as in \autoref{eq:processmodel}. 
+The process model describes the dynamics of the system and how the inputs affect its states. The process model includes also noise, which is assumed to be normally distributed. The process model is represented as in \autoref{eq:processmodelatt}. 
 The measurement model describes how the measurements taken from the IMU relate with the states of the system represented in the process model. Measurement noise is also included in the model. The process and measurement models are 
 %
 \begin{flalign}
-    \vec{x}_\mathrm{att}(k+1) &= \vec{A}_\mathrm{att}\vec{x}_\mathrm{att}(k) + \vec{B}_\mathrm{att} \vec{u}(k) + \vec{w}_\mathrm{att}(k) \label{eq:processmodel} \\
-    \vec{y}_\mathrm{att}(k) &= \vec{C}_\mathrm{att} \vec{x}_\mathrm{att}(k) + \vec{v}_\mathrm{att}(k) \label{eq:measurementmodel}\ .
+    \vec{x}_\mathrm{att}(k+1) &= \vec{A}_\mathrm{att}\vec{x}_\mathrm{att}(k) + \vec{B}_\mathrm{att} \vec{u}(k) + \vec{w}_\mathrm{att}(k) \label{eq:processmodelatt} \\
+    \vec{y}_\mathrm{att}(k) &= \vec{C}_\mathrm{att} \vec{x}_\mathrm{att}(k) + \vec{v}_\mathrm{att}(k) \label{eq:measurementmodelatt}\ .
 \end{flalign}
 \begin{where}
 	\va{\vec{x}_\mathrm{att}}{is the system state vector for the attitude Kalman filter}{}
@@ -17,12 +17,12 @@ The measurement model describes how the measurements taken from the IMU relate w
     \va{\vec{B}_\mathrm{att}}{is the input matrix for the attitude Kalman filter model}{}
     \va{\vec{C}_\mathrm{att}}{is the output matrix for the attitude Kalman filter model}{}    
 \end{where}
-The noise vectors $\vec{w}_\mathrm{att}(k)$ and $\vec{v}_\mathrm{att}(k)$ are independent, and follow a zero mean normal distribution. The covariance matrices of each distribution are $\vec{Q}$ and $\vec{R}$, respectively. These are diagonal matrices calculated as
+The noise vectors $\vec{w}_\mathrm{att}(k)$ and $\vec{v}_\mathrm{att}(k)$ are independent, and follow a zero mean normal distribution. The covariance matrices of each distribution are $\vec{Q}_\mathrm{att}$ and $\vec{R}_\mathrm{att}$, respectively. These are diagonal matrices calculated as
 \begin{flalign}
-	\vec{Q} &= \mathrm{diag}\left( \sigma_\mathrm{\phi}^2,\sigma_\mathrm{\theta}^2,\sigma_\mathrm{\psi}^2,\sigma_\mathrm{\dot{\phi}}^2,\sigma_\mathrm{\dot{\theta}}^2,\sigma_\mathrm{\dot{\psi}}^2,\sigma_\mathrm{\ddot{\phi}}^2,\sigma_\mathrm{\ddot{\theta}}^2,\sigma_\mathrm{\ddot{\psi}}^2 \right)\\
-	\vec{R} &= \mathrm{diag} \left( \sigma_{\phi\mathrm{,acc}}^2,\sigma_{\theta\mathrm{,acc}}^2,\sigma_{\psi\mathrm{,mag}}^2,\sigma_{\dot{\phi}\mathrm{,gyro}}^2,\sigma_{\dot{\theta}\mathrm{,gyro}}^2,\sigma_{\dot{\psi}\mathrm{,gyro}}^2 \right)
+	\vec{Q}_\mathrm{att} &= \mathrm{diag}\left( \sigma_\mathrm{\phi}^2,\sigma_\mathrm{\theta}^2,\sigma_\mathrm{\psi}^2,\sigma_\mathrm{\dot{\phi}}^2,\sigma_\mathrm{\dot{\theta}}^2,\sigma_\mathrm{\dot{\psi}}^2,\sigma_\mathrm{\ddot{\phi}}^2,\sigma_\mathrm{\ddot{\theta}}^2,\sigma_\mathrm{\ddot{\psi}}^2 \right)\\
+	\vec{R}_\mathrm{att} &= \mathrm{diag} \left( \sigma_{\phi\mathrm{,acc}}^2,\sigma_{\theta\mathrm{,acc}}^2,\sigma_{\psi\mathrm{,mag}}^2,\sigma_{\dot{\phi}\mathrm{,gyro}}^2,\sigma_{\dot{\theta}\mathrm{,gyro}}^2,\sigma_{\dot{\psi}\mathrm{,gyro}}^2 \right)
 \end{flalign}
-\fxnote{say how we calculate these variances, refer to an appendix maybe}
+\fxnote{say how we calculate these variances, refer to an appendix with values also maybe}
 The states chosen for the Kalman model include all variables to be estimated and those in which dynamics of the system play a role. These are
 \begin{flalign}
     \vec{x}_\mathrm{att} &= 
@@ -114,22 +114,23 @@ The matrix $\vec{B}_\mathrm{att}$ is mostly formed by zeros, the only nonzero el
 
 Once the model is constructed, the Kalman filter equations can be obtained. They are divided in two steps, prediction and update. \cite{SHaykin}.
 \subsection*{Prediction Step}
-In the prediction step, the sensor most recent measurement has not been acquired yet and the model of the system is used to predict the state values in the next period. The error covariance is also predicted using the system matrix, $\vec{A}_\mathrm{att}$, and the covariance matrix, $\vec{Q}$, of the process noise vector included in the model.
+In the prediction step, the sensor most recent measurement has not been acquired yet and the model of the system is used to predict the state values in the next period. The error covariance is also predicted using the system matrix, $\vec{A}_\mathrm{att}$, and the covariance matrix, $\vec{Q}_\mathrm{att}$, of the process noise vector included in the model.
 The prediction step of the Kalman filter is  
 \begin{flalign}
-	\hat{\vec{x}}_\mathrm{att}(k+1|k) &= \vec{A}_\mathrm{att} \hat{\vec{x}}_\mathrm{att}(k|k) + \vec{B}_\mathrm{att} \vec{u}(k) \label{eq:predictx} \\
-	\vec{P}(k+1|k) &= \vec{A}_\mathrm{att} \vec{P}(k|k) \vec{A}_\mathrm{att}^\mathrm{T} + \vec{Q} \label{eq:predictP}
+	\hat{\vec{x}}_\mathrm{att}(k+1|k) &= \vec{A}_\mathrm{att} \hat{\vec{x}}_\mathrm{att}(k|k) + \vec{B}_\mathrm{att} \vec{u}(k) \label{eq:predictxatt} \\
+	\vec{P}_\mathrm{pos}(k+1|k) &= \vec{A}_\mathrm{att} \vec{P}_\mathrm{pos}(k|k) \vec{A}_\mathrm{att}^\mathrm{T} + \vec{Q}_\mathrm{att} \label{eq:predictPatt}
 \end{flalign}
 
 \subsection*{Update Step}
 The update step corrects the estimate using the prediction obtained in the previous step and the innovation \cite[p. 7]{SHaykin}, that is, the error between the new measurement and the predicted new measurement. This error updates $\vec{x}_\mathrm{att}$ weighted by the Kalman gain $\vec{K}(k)$. The update step is
 The update step of the Kalman filter calculates the updated state estimation and the updated error covariance as 
 \begin{flalign}
-    \hat{\vec{x}}_\mathrm{att}(k|k) &= \hat{\vec{x}}_\mathrm{att}(k|k-1) + \vec{K}(k) \left[ y(k) - \vec{C}_\mathrm{att}  \hat{\vec{x}}_\mathrm{att}(k|k-1) \right]\ , \label{eq:updatex}\\
-    \vec{P}(k|k) &= \left[ \vec{I} - \vec{K}(k) \vec{C}_\mathrm{att}^\mathrm{T} \right] \vec{P}(k|k-1)\ . \label{eq:updateP}
-\end{flalign}
+    \hat{\vec{x}}_\mathrm{att}(k|k) &= \hat{\vec{x}}_\mathrm{att}(k|k-1) + \vec{K}(k) \left[ \vec{y}(k) - \vec{C}_\mathrm{att}  \hat{\vec{x}}_\mathrm{att}(k|k-1) \right]\ , \label{eq:updatexatt}\\
+    \vec{P}_\mathrm{pos}(k|k) &= \left[ \vec{I} - \vec{K}(k) \vec{C}_\mathrm{att}^\mathrm{T} \right] \vec{P}_\mathrm{pos}(k|k-1)\ . \label{eq:updatePatt}
+\end{flalign}s
 Being the Kalman gain 
 \begin{flalign}
-	\vec{K}(k) &= \vec{P}(k|k-1) \vec{C}_\mathrm{att}^\mathrm{T} \left[\vec{C}_\mathrm{att} \vec{P-1}(k|k) \vec{C}_\mathrm{att}^\mathrm{T} + \vec{R} \right]^{-1}\ , \label{eq:kalmangain}
+	\vec{K}(k) &= \vec{P}_\mathrm{pos}(k|k-1) \vec{C}_\mathrm{att}^\mathrm{T} \left[\vec{C}_\mathrm{att} \vec{P-1}(k|k) \vec{C}_\mathrm{att}^\mathrm{T} + \vec{R}_\mathrm{att} \right]^{-1}\ , \label{eq:kalmangainatt}
 \end{flalign}
-which weights how much the measurements and the prediction affect the estimate of the states. It is calculated using the prediction error covariance matrix, $\vec{P}$, the output matrix, $\vec{C}_\mathrm{att}$, and the covariance matrix for the noise vector included in the measurement model. A more detailed derivation of this gain can be found in \cite[pp. 5-8]{SHaykin}
+which weights how much the measurements and the prediction affect the estimate of the states. It is calculated using the prediction error covariance matrix, $\vec{P}_\mathrm{pos}$, the output matrix, $\vec{C}_\mathrm{att}$, and the covariance matrix for the noise vector included in the measurement model. A more detailed derivation of this gain can be found in \cite[pp. 5-8]{SHaykin}
+\fxnote{talk about initialization of the estimate and the error covariance}
