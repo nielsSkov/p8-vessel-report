@@ -91,7 +91,11 @@ The $\vec{B}_\mathrm{pos}$ matrix has non-zero elements only in the row related 
     \end{flalign}
 \end{minipage}\hfill
 
-With these matrices, the prediction and update steps of the Extended Kalman filter can be calculated as described below.
+With these matrices, the prediction and update steps of the Extended Kalman filter can be calculated as described below. As for the attitude Kalman filter, the estimate and the error covariance matrix need o be initialized. This is done as 
+\begin{flalign}
+	\vec{x}_\mathrm{pos}(0|0) &= \vec{0}_\mathrm{1x6}\ ,\\
+	\vec{P}_\mathrm{pos}(0|0) &= \vec{Q}_\mathrm{pos}\ .
+\end{flalign}
 \subsection*{Prediction Step}
 The first calculation in each cycle is the elements of the $\vec{A}_\mathrm{pos}$ matrix that depend on the attitude state of the vessel. Then, the state vector estimation, $\hat{\vec{x}}_\mathrm{pos}$, and error covariance matrix, $ \vec{P}_\mathrm{pos} $ are predicted as  
 \begin{flalign}

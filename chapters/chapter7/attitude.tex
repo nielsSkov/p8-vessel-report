@@ -42,12 +42,12 @@ The output vector elements depend on the measurements given by the IMU. These in
 	\va{\ddot{x}_\mathrm{b,acc}}{is the measured acceleration along the $x_\mathrm{b}$ direction}{}
 	\va{\ddot{y}_\mathrm{b,acc}}{is the measured acceleration along the $y_\mathrm{b}$ direction}{}
 	\va{\ddot{z}_\mathrm{b,acc}}{is the measured acceleration along the $z_\mathrm{b}$ direction}{}
-	\va{M_{x_\mathrm{b}}}{is the magnetic field component along the $x_\mathrm{b}$ direction}{}
-	\va{M_{y_\mathrm{b}}}{is the magnetic field component along the $y_\mathrm{b}$ direction}{}
-	\va{M_{z_\mathrm{b}}}{is the magnetic field component along the $z_\mathrm{b}$ direction}{}			
+	\va{M_{x_\mathrm{b}}}{is the magnetic field strength along the $x_\mathrm{b}$ direction}{}
+	\va{M_{y_\mathrm{b}}}{is the magnetic field strength along the $y_\mathrm{b}$ direction}{}
+	\va{M_{z_\mathrm{b}}}{is the magnetic field strength along the $z_\mathrm{b}$ direction}{}			
 \end{where}
 
-Leading to the attitude vector 
+Leading to the output vector 
 \begin{flalign}
     \vec{y}_\mathrm{att} =
     \begin{bmatrix}
@@ -112,13 +112,18 @@ The matrix $\vec{B}_\mathrm{att}$ is mostly formed by zeros, the only nonzero el
     \end{flalign}
 \end{minipage}\hfill
 
-Once the model is constructed, the Kalman filter equations can be obtained. They are divided in two steps, prediction and update. \cite{SHaykin}.
+Once the model is constructed, the Kalman filter equations can be obtained. They are divided in two steps, prediction and update \cite{SHaykin}. To start the process, the estimate and error covariance matrix $\vec{P}_\mathrm{att}$ need to be initialized. The state estimation is initilaized with its mean, which is zero and the error covariance matrix is initialized with the covariance matrix for the states. The initialization is done as
+\begin{flalign}
+	\vec{x}_\mathrm{att}(0|0) &= \vec{0}_\mathrm{1x6}\\
+	\vec{P}_\mathrm{att}(0|0) &= \vec{Q}_\mathrm{att}\ .
+\end{flalign}
+ 
 \subsection*{Prediction Step}
 In the prediction step, the sensor most recent measurement has not been acquired yet and the model of the system is used to predict the state values in the next period. The error covariance is also predicted using the system matrix, $\vec{A}_\mathrm{att}$, and the covariance matrix, $\vec{Q}_\mathrm{att}$, of the process noise vector included in the model.
 The prediction step of the Kalman filter is  
 \begin{flalign}
 	\hat{\vec{x}}_\mathrm{att}(k+1|k) &= \vec{A}_\mathrm{att} \hat{\vec{x}}_\mathrm{att}(k|k) + \vec{B}_\mathrm{att} \vec{u}(k) \label{eq:predictxatt} \\
-	\vec{P}_\mathrm{pos}(k+1|k) &= \vec{A}_\mathrm{att} \vec{P}_\mathrm{pos}(k|k) \vec{A}_\mathrm{att}^\mathrm{T} + \vec{Q}_\mathrm{att} \label{eq:predictPatt}
+	\vec{P}_\mathrm{att}(k+1|k) &= \vec{A}_\mathrm{att} \vec{P}_\mathrm{att}(k|k) \vec{A}_\mathrm{att}^\mathrm{T} + \vec{Q}_\mathrm{att} \label{eq:predictPatt}
 \end{flalign}
 
 \subsection*{Update Step}
@@ -126,11 +131,11 @@ The update step corrects the estimate using the prediction obtained in the previ
 The update step of the Kalman filter calculates the updated state estimation and the updated error covariance as 
 \begin{flalign}
     \hat{\vec{x}}_\mathrm{att}(k|k) &= \hat{\vec{x}}_\mathrm{att}(k|k-1) + \vec{K}(k) \left[ \vec{y}(k) - \vec{C}_\mathrm{att}  \hat{\vec{x}}_\mathrm{att}(k|k-1) \right]\ , \label{eq:updatexatt}\\
-    \vec{P}_\mathrm{pos}(k|k) &= \left[ \vec{I} - \vec{K}(k) \vec{C}_\mathrm{att}^\mathrm{T} \right] \vec{P}_\mathrm{pos}(k|k-1)\ . \label{eq:updatePatt}
+    \vec{P}_\mathrm{att}(k|k) &= \left[ \vec{I} - \vec{K}(k) \vec{C}_\mathrm{att}^\mathrm{T} \right] \vec{P}_\mathrm{att}(k|k-1)\ . \label{eq:updatePatt}
 \end{flalign}s
 Being the Kalman gain 
 \begin{flalign}
-	\vec{K}(k) &= \vec{P}_\mathrm{pos}(k|k-1) \vec{C}_\mathrm{att}^\mathrm{T} \left[\vec{C}_\mathrm{att} \vec{P-1}(k|k) \vec{C}_\mathrm{att}^\mathrm{T} + \vec{R}_\mathrm{att} \right]^{-1}\ , \label{eq:kalmangainatt}
+	\vec{K}(k) &= \vec{P}_\mathrm{att}(k|k-1) \vec{C}_\mathrm{att}^\mathrm{T} \left[\vec{C}_\mathrm{att} \vec{P-1}(k|k) \vec{C}_\mathrm{att}^\mathrm{T} + \vec{R}_\mathrm{att} \right]^{-1}\ , \label{eq:kalmangainatt}
 \end{flalign}
-which weights how much the measurements and the prediction affect the estimate of the states. It is calculated using the prediction error covariance matrix, $\vec{P}_\mathrm{pos}$, the output matrix, $\vec{C}_\mathrm{att}$, and the covariance matrix for the noise vector included in the measurement model. A more detailed derivation of this gain can be found in \cite[pp. 5-8]{SHaykin}
-\fxnote{talk about initialization of the estimate and the error covariance}
+which weights how much the measurements and the prediction affect the estimate of the states. It is calculated using the prediction error covariance matrix, $\vec{P}_\mathrm{att}$, the output matrix, $\vec{C}_\mathrm{att}$, and the covariance matrix for the noise vector included in the measurement model. A more detailed derivation of this gain can be found in \cite[pp. 5-8]{SHaykin}.
+
