@@ -12,11 +12,11 @@ The algorithm starts by considering the first two waypoints in the path. The yaw
 	&y_\mathrm{los}-y_\mathrm{k} = \frac{y_\mathrm{k+1}-y_\mathrm{k}}{x_\mathrm{k+1}-x_\mathrm{k}}(x_\mathrm{los}-x_\mathrm{k}) \label{eq:line} 
 \end{flalign}
 \begin{where}
-	\va{R}{$\ \ $is the radius of the circle centered at the vessel position}{}
-	\va{[x_\mathrm{los},y_\mathrm{los}]}{$\ \ $is the crossing point between the circle around the vessel and the straight line that joins the waypoints}{}
-	\va{[x_\mathrm{k},y_\mathrm{k}]}{$\ \ $is the first waypoint in the currently followed path segment}{}
-	\va{[x_\mathrm{k+1},y_\mathrm{k+1}]}{$\ \ $is the second waypoint in the currently followed path segment}{}
-	\va{[x_\mathrm{n},y_\mathrm{n}]}{$\ \ $is the position of the vessel in the NED frame}{}
+	\va{R}{is the radius of the circle centered at the vessel position}{}
+	\va{[x_\mathrm{los},y_\mathrm{los}]}{is the crossing point between the circle around the vessel and the straight line that joins the waypoints}{}
+	\va{[x_\mathrm{k},y_\mathrm{k}]}{is the first waypoint in the currently followed path segment}{}
+	\va{[x_\mathrm{k+1},y_\mathrm{k+1}]}{is the second waypoint in the currently followed path segment}{}
+	\va{[x_\mathrm{n},y_\mathrm{n}]}{is the position of the vessel in the NED frame}{}
 \end{where}
 %
 \begin{figure}[H]
