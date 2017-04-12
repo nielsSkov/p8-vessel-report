@@ -1,0 +1,118 @@
+\section{Position Estimation} \label{sec:posFusion}
+The Kalman filter designed for the estimation of the psoition of the vessel is an Extended Kalman Filter. This variant allows to use the Kalman filter for systems with nonlinear dynamics as it linearizes the system around each estimate by computing the jacobian of the system and the output matrices. \cite[pp. 16-20]{SHaykin}.
+
+As for the attitude Kalman filter, a process model and a measurement model need to be created. These are
+\begin{flalign}
+    \vec{x}_\mathrm{pos}(k+1) &= \vec{A}_\mathrm{pos}(k)\vec{x}_\mathrm{pos}(k) + \vec{B}_\mathrm{pos} \vec{u}(k) + \vec{w}_\mathrm{pos}(k)\ , \\
+    \vec{y}_\mathrm{pos}(k) &= \vec{C}_\mathrm{pos} \vec{x}_\mathrm{pos}(k) + \vec{v}_\mathrm{pos}(k)\ .
+\end{flalign}
+\begin{where}
+    \va{\vec{x}_\mathrm{pos}(k)}{is the system state vector}{}
+    \va{\vec{w}_\mathrm{pos}(k)}{is the process noise vector}{}
+    \va{\vec{v}_\mathrm{pos}(k)}{is the measurement noise vector}{}
+    \va{\vec{A}_\mathrm{pos}(k)}{is the system matrix for the position Kalman filter}{}
+    \va{\vec{B}_\mathrm{pos}}{is the input matrix for the position Kalman filter}{}
+    \va{\vec{C}_\mathrm{pos}}{is the output matrix for the position Kalman filter}{}    
+\end{where}
+The noise, $\vec{w}_\mathrm{pos}(k)$ and $\vec{v}_\mathrm{pos}(k)$, are independent zero-mean white Gaussian noise vectors with covariance matrices $\vec{Q}_\mathrm{pos}$ and $\vec{R}_\mathrm{pos}$, respectively. These are 
+\begin{flalign}
+	\vec{Q}_\mathrm{pos} &= \mathrm{diag} \left( \sigma_\mathrm{x_\mathrm{n}}^2,\sigma_\mathrm{y_\mathrm{n}}^2,\sigma_\mathrm{\dot{x}_\mathrm{b}}^2,\sigma_\mathrm{\dot{y}_\mathrm{b}}^2,\sigma_\mathrm{\ddot{x}_\mathrm{b}}^2,\sigma_\mathrm{\ddot{y}_\mathrm{b}}^2 \right)\\
+	\vec{R}_\mathrm{pos} &= \mathrm{diag} \left( \sigma_{x_\mathrm{n}\mathrm{,GPS}}^2,\sigma_{y_\mathrm{n}\mathrm{,GPS}}^2,\sigma_{\ddot{x}_\mathrm{b}\mathrm{,acc}}^2,\sigma_{\ddot{y}_\mathrm{b}\mathrm{,acc}}^2 \right)
+\end{flalign}
+ 
+The state vector for this Kalman filter is formed by the position in the NED frame, the velocity in the body frame and the accelerations in the body frame. These variables are either needed in the outer path follower controller or they describe an important part of the dynamics of the system. The position and velocity are on the former group while the accelerations is in the latter. It can also be seen from the state vector, \autoref{eq:stateskalmanpos}, that the $ z $ coordinate is not considered in this filter as it is not needed in the controllers and it does not play a relevant role in the dynamics of the system.
+\begin{flalign}
+    \vec{x}_\mathrm{pos} &=
+    \begin{bmatrix}
+        x_\mathrm{n} & y_\mathrm{n} & \dot{x}_\mathrm{b} & \dot{y}_\mathrm{b} & \ddot{x}_\mathrm{b} & \ddot{y}_\mathrm{b} \label{eq:stateskalmanpos}\nonumber
+    \end{bmatrix}^\mathrm{T}\ .
+\end{flalign}
+
+The output vector is formed by the position data provided by the GPS module and the accelerations in the body frame provided by the IMU accelerometer. This is represented as
+\begin{flalign}
+    \vec{y}_\mathrm{pos} &=
+    \begin{bmatrix}
+        x_\mathrm{n} & y_\mathrm{n} & \ddot{x}_\mathrm{b} & \ddot{y}_\mathrm{b} \nonumber 
+    \end{bmatrix}^\mathrm{T}\ .
+\end{flalign}
+
+Finally, as for the attitude Kalman filter, the input vector is formed by the two thruster forces.
+\begin{flalign}
+    \vec{u} &=
+    \begin{bmatrix}
+        F_1 & F_2  \nonumber 
+    \end{bmatrix}^\mathrm{T}\ .
+\end{flalign}
+
+The next step is to build the matrices involved in the models. The most interesting one, and the reason why an Extended Kalman Filter is used is the $\vec{A}_\mathrm{pos}$ matrix written as 
+\begin{flalign}
+    \vec{A}_\mathrm{pos}(\phi(k),\theta(k),\psi(k)) =
+    \begin{bmatrix}
+        1 & 0 & T_\mathrm{s} \ \vec{R}^\mathrm{n}_\mathrm{b}(1,1) & T_\mathrm{s} \ \vec{R}^\mathrm{n}_\mathrm{b}(1,2) & 0 & 0 \\
+        0 & 1 & T_\mathrm{s} \ \vec{R}^\mathrm{n}_\mathrm{b}(2,1) & T_\mathrm{s} \ \vec{R}^\mathrm{n}_\mathrm{b}(2,2) & 0 & 0 \\
+        0 & 0 & 1 & 0 & T_\mathrm{s} & 0 \\
+        0 & 0 & 0 & 1 & 0 & T_\mathrm{s} \\
+        0 & 0 & \frac{-d_\mathrm{x}}{m_\mathrm{x}} & 0 & -T_\mathrm{s}\frac{d_\mathrm{x}}{m_\mathrm{x}} & 0 \\
+        0 & 0 & 0 & \frac{-d_\mathrm{y}}{m_\mathrm{y}} & 0 & -T_\mathrm{s}\frac{d_\mathrm{y}}{m_\mathrm{y}}   \nonumber
+    \end{bmatrix}\ .
+\end{flalign}
+As it can be seen from the matrix, some terms are not constant, but depend on the attitude state of the vessel. These terms come from the transformation from the translational velocity from the body frame to the NED frame when using the rotation matrix \autoref{eq:RotMatrix}. They are also shown below for repetition purposes.
+\begin{flalign}
+    \vec{R}^\mathrm{n}_\mathrm{b}(1,1) &= \cos(\theta(k)) \cos(\psi(k))\ , \nonumber \\
+    \vec{R}^\mathrm{n}_\mathrm{b}(1,2) &= \sin(\phi(k)) \sin(\theta(k)) \cos(\psi(k)) - \cos(\phi(k)) \sin(\psi(k))\ , \nonumber \\
+    \vec{R}^\mathrm{n}_\mathrm{b}(2,1) &= \cos(\theta(k)) \sin(\psi(k))\ , \nonumber \\
+    \vec{R}^\mathrm{n}_\mathrm{b}(2,2) &= \sin(\phi(k)) \sin(\theta(k)) \sin(\psi(k)) + \cos(\phi(k)) \cos(\psi(k))\ .\nonumber
+\end{flalign}
+For using such a matrix in the Kalman filter formulas it is linearized around the most recent available estimate \cite[p. 18]{SHaykin}. For this matrix, this is done by evaluating the matrix with the most recent attitude estimate provided by the attitude Kalman filter. In this way, the $ \vec{A}_\mathrm{pos} $ matrix is known at each Kalman filter cycle.
+
+The $\vec{B}_\mathrm{pos}$ matrix has non-zero elements only in the row related with the acceleration in $x_\mathrm{b}$ direction. The $\vec{C}_\mathrm{pos}$ has a similar structure as for the attitude Kalman filter, with ones in the diagonal when the measurements and the states are directly correlated. This occurs for the position in the NED frame and the accelerations in the body frame. The $\vec{B}_\mathrm{pos}$ and $\vec{C}_\mathrm{pos}$ are
+\begin{minipage}{0.3\linewidth}
+    \begin{flalign}
+        \vec{B}_\mathrm{pos} &=
+        \begin{bmatrix}
+            0 & 0 \\
+            0 & 0 \\
+            0 & 0 \\
+            0 & 0 \\
+            \frac{1}{m_\mathrm{x}} & \frac{1}{m_\mathrm{x}} \\
+            0 & 0  \nonumber 
+        \end{bmatrix}\ ,
+    \end{flalign}
+\end{minipage}\hfill
+\begin{minipage}{0.6\linewidth}
+    \begin{flalign}
+        \vec{C}_\mathrm{pos} &=
+        \begin{bmatrix}
+            1 & 0 & 0 & 0 & 0 & 0 \\
+            0 & 1 & 0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 & 1 & 0 \\
+            0 & 0 & 0 & 0 & 0 & 1  \nonumber 
+        \end{bmatrix}\ .
+    \end{flalign}
+\end{minipage}\hfill
+
+With these matrices, the prediction and update steps of the Extended Kalman filter can be calculated as described below. As for the attitude Kalman filter, the estimate and the error covariance matrix need o be initialized. This is done as 
+\begin{flalign}
+	\vec{x}_\mathrm{pos}(0|0) &= \vec{0}_\mathrm{1x6}\ ,\\
+	\vec{P}_\mathrm{pos}(0|0) &= \vec{Q}_\mathrm{pos}\ .
+\end{flalign}
+\subsection*{Prediction Step}
+The first calculation in each cycle is the elements of the $\vec{A}_\mathrm{pos}$ matrix that depend on the attitude state of the vessel. Then, the state vector estimation, $\hat{\vec{x}}_\mathrm{pos}$, and error covariance matrix, $ \vec{P}_\mathrm{pos} $ are predicted as  
+\begin{flalign}
+	\hat{\vec{x}}_\mathrm{pos}(k+1|k) &= \vec{A}_\mathrm{pos}(k) \hat{\vec{x}}_\mathrm{pos}(k|k) + \vec{B}_\mathrm{pos} \vec{u}(k)\ , \\
+	\vec{P}_\mathrm{pos}(k+1|k) &= \vec{A}_\mathrm{pos} \vec{P}_\mathrm{pos}(k|k) \vec{A}_\mathrm{pos}^\mathrm{T} + \vec{Q}\ .
+\end{flalign}
+
+\subsection*{Update Step}
+Once the new measurement data, $\vec{y}(k)$, is received, the estimate is corrected according to the Kalman gain, which weighs the importance of the measurement and the prediction for updating the estimate. The equations for the update step are
+\begin{flalign}
+    \hat{\vec{x}}_\mathrm{pos}(k|k) &= \hat{\vec{x}}_\mathrm{pos}(k|k-1) + \vec{K} \left[ \vec{y}(k) - \vec{C}_\mathrm{pos}  \hat{\vec{x}}_\mathrm{pos}(k|k-1) \right] \\
+    \vec{P}_\mathrm{pos}(k|k) &= \left[\vec{I} - \vec{K}(k) \vec{C}_\mathrm{pos}^\mathrm{T} \right] \vec{P}_\mathrm{pos}(k|k-1)
+\end{flalign}
+
+The Kalman gain is calculated as
+\begin{flalign}
+	\vec{K}(k) &= \vec{P}_\mathrm{pos}(k|k-1) \vec{C}_\mathrm{pos}^\mathrm{T} \left[ \vec{C}_\mathrm{pos} \vec{P-1}(k|k) \vec{C}_\mathrm{pos}^\mathrm{T} + \vec{R}_\mathrm{pos} \right]^{-1} 
+\end{flalign}
+
+\fxnote{talk about initialization of the estimate and the error covariance}

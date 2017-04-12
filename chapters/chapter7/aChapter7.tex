@@ -1,0 +1,6 @@
+\chapter{Sensor Fusion}\label{chap:sensorFusion}
+The sensors placed in the vessel are, as presented in \autoref{sec:sensors}, an IMU and a GPS module. The information provided by these sensors has to be combined in order to obtain useful information to use in the controllers. This process is achieved using two Kalman filters. 
+
+The Kalman filter is a linear recursive estimator that can be applied to systems with both linear and nonlinear dynamics. It provides a solution in two steps, a prediction step ad an update step \cite{SHaykin}. The reason for using two of them is to make the structure of the system more modular and gain advantage of the faster update rate of the IMU compared with that of the GPS.
+
+The first filter estimates the attitude, the angular velocity and the angular acceleration from the data provided by the IMU. The second is an extended Kalman filter (EKF) that estimates the position in the NED frame and the translational velocity and acceleration in the $x_\mathrm{b}$ and $y_\mathrm{b}$ directions, using the IMU acceleration data and the GPS measurements.
