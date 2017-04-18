@@ -19,7 +19,7 @@ The measurement model describes how the measurements taken from the IMU relate w
 \end{where}
 The noise vectors $\vec{w}_\mathrm{att}(k)$ and $\vec{v}_\mathrm{att}(k)$ are independent, and follow a zero mean normal distribution. The covariance matrices of each distribution are $\vec{Q}_\mathrm{att}$ and $\vec{R}_\mathrm{att}$, respectively. These are diagonal matrices calculated as
 \begin{flalign}
-	\vec{Q}_\mathrm{att} &= \mathrm{diag}\left( \sigma_\mathrm{\phi}^2,\sigma_\mathrm{\theta}^2,\sigma_\mathrm{\psi}^2,\sigma_\mathrm{\dot{\phi}}^2,\sigma_\mathrm{\dot{\theta}}^2,\sigma_\mathrm{\dot{\psi}}^2,\sigma_\mathrm{\ddot{\phi}}^2,\sigma_\mathrm{\ddot{\theta}}^2,\sigma_\mathrm{\ddot{\psi}}^2 \right)\\
+	\vec{Q}_\mathrm{att} &= \mathrm{diag}\left( \sigma_\mathrm{\phi}^2,\sigma_\mathrm{\theta}^2,\sigma_\mathrm{\psi}^2,\sigma_\mathrm{\dot{\phi}}^2,\sigma_\mathrm{\dot{\theta}}^2,\sigma_\mathrm{\dot{\psi}}^2,\sigma_\mathrm{\ddot{\phi}}^2,\sigma_\mathrm{\ddot{\theta}}^2,\sigma_\mathrm{\ddot{\psi}}^2 \right) \\
 	\vec{R}_\mathrm{att} &= \mathrm{diag} \left( \sigma_{\phi\mathrm{,acc}}^2,\sigma_{\theta\mathrm{,acc}}^2,\sigma_{\psi\mathrm{,mag}}^2,\sigma_{\dot{\phi}\mathrm{,gyro}}^2,\sigma_{\dot{\theta}\mathrm{,gyro}}^2,\sigma_{\dot{\psi}\mathrm{,gyro}}^2 \right)
 \end{flalign}
 \fxnote{say how we calculate these variances, refer to an appendix with values also maybe}
@@ -34,9 +34,9 @@ Even though the inner state space controller only considers $\psi$ and $\dot{\ps
 
 The output vector elements depend on the measurements given by the IMU. These include the angular velocities provided by the gyroscope and the attitude measurements. The latter are obtained from a direct calculation using the accelerometer and magnetometer data \cite{MBibuli} as	
 \begin{flalign}
-	\phi_\mathrm{acc} &= \arctan\left(\frac{\ddot{y}_\mathrm{b,acc}}{\sqrt{\ddot{x}_\mathrm{b,acc}^2 + \ddot{z}_\mathrm{b,acc}^2}} \right)\ , \\
-	\theta_\mathrm{acc} &= \arctan \left( \frac{\ddot{x}_\mathrm{b,acc}}{\sqrt{\ddot{y}_\mathrm{b,acc}^2 + \ddot{z}_\mathrm{b,acc}^2}} \right)\ , \\
-	\psi_\mathrm{mag} &= \arctan \left( \frac{M_{y_\mathrm{b}} \cos(\phi) + M_{z_\mathrm{b}} \sin(\phi)}{M_{x_\mathrm{b}} \cos(\theta) + M_{y_\mathrm{b}} \sin(\phi) \sin(\theta) + M_{z_\mathrm{b}} \cos(\phi) \sin(\theta)} \right)\ .
+	\phi_\mathrm{acc} &= \arctan\left(\frac{\ddot{y}_\mathrm{b,acc}}{\sqrt{\ddot{x}_\mathrm{b,acc}^2 + \ddot{z}_\mathrm{b,acc}^2}} \right)\ , \label{eq:roll_acc} \\
+	\theta_\mathrm{acc} &= \arctan \left( \frac{\ddot{x}_\mathrm{b,acc}}{\sqrt{\ddot{y}_\mathrm{b,acc}^2 + \ddot{z}_\mathrm{b,acc}^2}} \right)\ , \label{eq:pitch_acc} \\
+	\psi_\mathrm{mag} &= \arctan \left( \frac{M_{y_\mathrm{b}} \cos(\phi) + M_{z_\mathrm{b}} \sin(\phi)}{M_{x_\mathrm{b}} \cos(\theta) + M_{y_\mathrm{b}} \sin(\phi) \sin(\theta) + M_{z_\mathrm{b}} \cos(\phi) \sin(\theta)} \right)\ .\label{eq:yaw_mag}
 \end{flalign}
 \begin{where}
 	\va{\ddot{x}_\mathrm{b,acc}}{is the measured acceleration along the $x_\mathrm{b}$ direction}{}
