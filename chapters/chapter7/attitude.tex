@@ -130,12 +130,13 @@ The prediction step of the Kalman filter is
 The update step corrects the estimate using the prediction obtained in the previous step and the innovation \cite[p. 7]{SHaykin}, that is, the error between the new measurement and the predicted new measurement. This error updates $\vec{x}_\mathrm{att}$ weighted by the Kalman gain $\vec{K}(k)$. The update step is
 The update step of the Kalman filter calculates the updated state estimation and the updated error covariance as 
 \begin{flalign}
-    \hat{\vec{x}}_\mathrm{att}(k|k) &= \hat{\vec{x}}_\mathrm{att}(k|k-1) + \vec{K}(k) \left[ \vec{y}(k) - \vec{C}_\mathrm{att}  \hat{\vec{x}}_\mathrm{att}(k|k-1) \right]\ , \label{eq:updatexatt}\\
-    \vec{P}_\mathrm{att}(k|k) &= \left[ \vec{I} - \vec{K}(k) \vec{C}_\mathrm{att}^\mathrm{T} \right] \vec{P}_\mathrm{att}(k|k-1)\ . \label{eq:updatePatt}
-\end{flalign}s
+    \hat{\vec{x}}_\mathrm{att}(k+1|k+1) &= \hat{\vec{x}}_\mathrm{att}(k+1|k) + \vec{K}(k+1) \left[ \vec{y}(k+1) - \vec{C}_\mathrm{att}  \hat{\vec{x}}_\mathrm{att}(k+1|k) \right]\ , \label{eq:updatexatt}\\
+    \vec{P}_\mathrm{att}(k+1|k+1) &= \left[ \vec{I} - \vec{K}(k+1) \vec{C}_\mathrm{att}^\mathrm{T} \right] \vec{P}_\mathrm{att}(k+1|k)\ . \label{eq:updatePatt}
+\end{flalign}
+
 Being the Kalman gain 
 \begin{flalign}
-	\vec{K}(k) &= \vec{P}_\mathrm{att}(k|k-1) \vec{C}_\mathrm{att}^\mathrm{T} \left[\vec{C}_\mathrm{att} \vec{P}(k|k-1) \vec{C}_\mathrm{att}^\mathrm{T} + \vec{R}_\mathrm{att} \right]^{-1}\ , \label{eq:kalmangainatt}
+	\vec{K}(k+1) &= \vec{P}_\mathrm{att}(k+1|k) \vec{C}_\mathrm{att}^\mathrm{T} \left[\vec{C}_\mathrm{att} \vec{P}(k+1|k) \vec{C}_\mathrm{att}^\mathrm{T} + \vec{R}_\mathrm{att} \right]^{-1}\ , \label{eq:kalmangainatt}
 \end{flalign}
 which weights how much the measurements and the prediction affect the estimate of the states. It is calculated using the prediction error covariance matrix, $\vec{P}_\mathrm{att}$, the output matrix, $\vec{C}_\mathrm{att}$, and the covariance matrix for the noise vector included in the measurement model. A more detailed derivation of this gain can be found in \cite[pp. 5-8]{SHaykin}.
 \fxnote{Include simulations}
