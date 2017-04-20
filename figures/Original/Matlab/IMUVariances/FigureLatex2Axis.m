@@ -1,10 +1,11 @@
-function FigureLatex2Axis(titletext,xlab,ylab_left,ylab_right,enablelegend,legendtext,xlimit,ylimleft,ylimright,font,titlefont,linewidth)
-%FigureLatex2Axis(titletext,xlab,ylab_left,ylab_right,enablelegend,legendtext,xlimit,ylimit,font,titlefont,linewidth)
+function FigureLatex2Axis(titletext,xlab,ylab_left,ylab_right,enablelegend,legendtext,labellocation,xlimit,ylimleft,ylimright,font,titlefont,linewidth)
+%FigureLatex2Axis(titletext,xlab,ylab_left,ylab_right,enablelegend,legendtext,labellocation,xlimit,ylimleft,ylimright,font,titlefont,linewidth)
 % Function that modifies the characteristics of the last figure with the
 % parameters set by the user. Just call the function after ploting the
 % figure. It is meant to work with two y axes.
 
 hold on
+yyaxis left
 % Set line width
 if linewidth
     lines = findobj(gcf,'Type','Line');
@@ -55,7 +56,11 @@ end
 
 % Write legend and set font size and interpreter to Latex
 if enablelegend
-    h = legend(legendtext,'Location','SouthEast');
+    if labellocation
+        h = legend(legendtext,'Location',labellocation);
+    else
+        h = legend(legendtext,'Location','SouthEast');
+    end
     set(h,'FontSize',font,'Interpreter','Latex');
 end
 

@@ -3,7 +3,7 @@ close all
 clear
 clc
 
-% Load IMU data
+% data=csvread('imu_data_060417.csv',1,0);
 load imu_data_06042017
 
 % Get sensor data
@@ -23,6 +23,10 @@ xmag=data(:,9);
 ymag=data(:,10);
 zmag=data(:,11);
 
+% Calculate variances and biases of the gyro
+sigma2_xgyro=var(xgyro,'omitnan');
+sigma2_ygyro=var(ygyro,'omitnan');
+sigma2_zgyro=var(zgyro,'omitnan');
 
 bias_xgyro=mean(xgyro);
 bias_ygyro=mean(ygyro);
@@ -37,6 +41,10 @@ Mxh=xmag.*cos(pitch)+ymag.*sin(roll).*sin(pitch)+zmag.*cos(roll).*sin(pitch);
 Myh=ymag.*cos(roll)+zmag.*sin(roll);
 yaw=atan(Myh./Mxh);
 
+% Calculate variances of roll, pitch and yaw
+sigma2_roll=var(roll,'omitnan');
+sigma2_pitch=var(pitch,'omitnan');
+sigma2_yaw=var(yaw,'omitnan');
 
 FigHandle = figure('Position', [50, 50, 900, 600]);
 subplot(3,1,1)
