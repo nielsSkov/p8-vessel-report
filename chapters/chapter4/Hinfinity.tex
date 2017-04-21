@@ -2,6 +2,7 @@
 The linearized model in \autoref{sec:linearizationModel} has varying parameters, such as the added mass and damping coefficients. The vessel may also experience external disturbances, such as wind forces. During surveying, the vessel needs to be robust to these model variations and it must be able to sufficiently reject disturbances. Using the $\mathcal{H}_\infty$ design technique, a robust controller for the vessel can be synthesized.
 
 \subsection{$\mathcal{H}_\infty$ State Space Model}
+\fxnote{Explain what is the goal with al the norms and transfer function stuff}
 The state space model from \autoref{xDotLinear} and \autoref{yLinear} needs to be remodeled into a state space form suitable for the $\mathcal{H}_\infty$ controller design. This representation starts with the equations
 \begin{flalign}
   \vec{\dot{x}}(t) &= \vec{A_1} \vec{x}(t) + \vec{B_1} \vec{w}(t) + \vec{B_2} \vec{u}(t)\ ,
@@ -61,7 +62,7 @@ The uncontrolled input states are part of the state vector. The $\vec{A}_\mathrm
 	\va{a}{is a parameter defining the pole position of the transfer function that weighs the uncontrolled input d}{}
 \end{where}
 
-This process also entails defining the weights for each uncontrolled input. The weight on the reference is set to be a first order transfer function with a very fast pole so the step input does not get distorted. The weight on the input disturbances are \fxnote{how are the disturbance weights} as most of them appear at low frequencies. The noise, on the other hand, is weighted according to a \fxnote{how are the noise weights}, as it is stronger in the high frequency range. The weights chosen are
+This process also entails defining the weights for each uncontrolled input. The weight on the reference is set to be a first order transfer function with a very fast pole so the step input does not get distorted. The weight on the input disturbances are \fxnote{how are the disturbance weights} as most of them appear at low frequencies. The noise, on the other hand, is weighted according to a \fxnote{how are the noise weights}, as it is stronger in the high frequency range. In this way, the controller design focuses on accommodating these inputs in their particular frequency ranges. The weights chosen are
 
 \fxnote{include weights as transfer functions and explain numbers}
 
@@ -123,35 +124,125 @@ Once the state, input and output vectors have been defined, the model matrices c
 
 The matrices present in \autoref{eq:xDotHinf}, \ref{eq:zHinf} and \ref{eq:yHinf} are derived from the relations between the different signals and states. 
 
+Starting with \autoref{eq:xDotHinf}, it contains the $\vec{A}_1$, $\vec{B}_1$ and $\vec{B}_2$ matrices. 
+
 The matrix $\vec{A}_1$ describes the dynamics of the system states and all the other added states, which account for the references and disturbances. Its value is
-\fxnote{write the good A matrix}
+\fxnote{write the proper A matrix}
 \begin{flalign}
-	\label{eq:Aatt}
-	\vec{A}_\mathrm{att} &=
+	\label{eq:A1}
+	\vec{A}_1 &=
 	\begin{bmatrix}
-		1 & 0 & 0 & T_\mathrm{s} & 0 & 0 & 0 & 0 & 0 \\
-		0 & 1 & 0 & 0 & T_\mathrm{s} & 0 & 0 & 0 & 0 \\
-		0 & 0 & 1 & 0 & 0 & T_\mathrm{s} & 0 & 0 & 0 \\
-		0 & 0 & 0 & 1 & 0 & 0 & T_\mathrm{s} & 0 & 0 \\
-		0 & 0 & 0 & 0 & 1 & 0 & 0 & T_\mathrm{s} & 0 \\
-		0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & T_\mathrm{s} \\
-		0 & 0 & 0 & \frac{-d_\mathrm{\phi}}{I_\mathrm{x}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\psi}}{I_\mathrm{x}} & 0 & 0 \\
-		0 & 0 & 0 & 0 & \frac{-d_\mathrm{\theta}}{I_\mathrm{y}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\theta}}{I_\mathrm{y}} & 0 \\
-		0 & 0 & 0 & 0 & 0 & \frac{-d_\mathrm{\psi}}{I_\mathrm{z}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\psi}}{I_\mathrm{z}}\ . \nonumber
-	\end{bmatrix}
+		0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+		0 & \frac{-d_\mathrm{\psi}}{I_\mathrm{z}} & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+		0 & 0 & \frac{-d_\mathrm{x}}{m_\mathrm{x}} & 0 & 0 & 0 & 0 & 0 & 0 \\
+		-1 & 0 & 0 & -0.001 & 0 & 0 & 0 & 0 & 0 \\
+		0 & 0 & -1 & 0 & 0 & -0.001 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 & -50 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 0 & -50 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 0 & 0 & -200 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & -200
+	\end{bmatrix}\ . \nonumber
 \end{flalign}
-As it can be seen, the matrix
+It can be seen that the matrix is composed by submatrices that correspond to the different parts of the system, namely for the original states in the first three rows, the integral states for reference tracking in the next two rows and the uncontrolled inputs in the last four rows.
+
+$\vec{B}_1$ relates the uncontrolled inputs with the state derivatives, its value is 
+\fxnote{write the proper B1 matrix}
+\begin{flalign}
+	\label{eq:B1}
+	\vec{B}_1 &=
+	\begin{bmatrix}
+		0 & 0 & 0 & 0 & 0 & 0 \\
+		0 & 0 & \frac{1}{I_\mathrm{z}} & 0 & 0 & 0 \\
+		0 & 0 & 0 & \frac{1}{m_\mathrm{x}} & 0 & 0  \\
+		1 & 0 & 0 & 0 & 0 & 0  \\
+		0 & 1 & 0 & 0 & 0 & 0  \\
+		0 & 0 & 50 & 0 & 0 & 0  \\
+		0 & 0 & 0 & 50 & 0 & 0  \\
+		0 & 0 & 0 & 0 & 200 & 0  \\
+		0 & 0 & 0 & 0 & 0 & 200 
+	\end{bmatrix}\ . \nonumber
+\end{flalign}
+
+The matrix $\vec{B}_2$ relates the controlled inputs to the states, in this case, the motor thrusters only affect the system states. The $\vec{B}_2$ matrix is constructed as 
+\fxnote{write the proper B2 matrix}
+\begin{flalign}
+	\label{eq:B2}
+	\vec{B}_2 &=
+	\begin{bmatrix}
+		0 & \frac{l_1}{I_\mathrm{z}} & \frac{1}{m_\mathrm{x}} & 0 & 0 & 0 & 0 & 0 & 0\\
+		0 & \frac{-l_2}{I_\mathrm{z}} & \frac{1}{m_\mathrm{x}} & 0 & 0 & 0 & 0 & 0& 0\\
+	\end{bmatrix}^\mathrm{T}\ . \nonumber
+\end{flalign}
+
+Next, the matrices appearing in \autoref{eq:zHinf} are derived. These are $\vec{C}_1$, $\vec{D}_{11}$ and $\vec{D}_{12}$ and they can be considered to be weighting matrices where the importance of each of the performance outputs and the usage of the controlled inputs can be specified.
+
+The $\vec{C}_1$ matrix relates the states and the performance outputs, it is formed by a diagonal matrix, where some weighs are applied to each state, and some zero rows corresponding to the controlled inputs of the system. The matrix is constructed as 
+\fxnote{write the proper C1 matrix}
+\begin{flalign}
+	\label{eq:C1}
+	\vec{C}_1 &=
+	\begin{bmatrix}
+		1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+		0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\
+		0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 
+	\end{bmatrix}\ . \nonumber
+\end{flalign}
+The weights have been chosen as \fxnote{how we choose the weights}
+
+$\vec{D}_{11}$ is a zero matrix as there is no relation between the uncontrolled inputs and the performance outputs in the $\mathcal{H}_\infty$ design. It has as many rows as the number of elements in the performance output and as many columns uncontrolled  inputs.
+
+The $\vec{D}_{12}$ has non-zero elements only in the entries that weight the inputs. The matrix is
+\fxnote{write the proper D12 matrix}
+\begin{flalign}
+	\label{eq:D12}
+	\vec{D}_{12} &=
+	\begin{bmatrix}
+		0 & 0 & ... & 0 & 1 & 0 \\
+		0 & 0 & ... & 0 & 0 & 1 
+	\end{bmatrix}^\mathrm{T}\ . \nonumber
+\end{flalign}
+
+Finally, the matrices present in \autoref{eq:yHinf}, $\vec{C}_2$, $\vec{D}_{12}$ and $\vec{D}_{22}$, are derived below, they entail no design as they describe how the measured outputs of the system are affected. 
+
+The $\vec{C}_2$ matrix relates the states with the measured outputs, selecting the $\psi$ and $\dot{x}_\mathrm{b}$ states and the integral states. The $\vec{C}_2$ matrix is 
+\fxnote{write the proper C2 matrix}
+\begin{flalign}
+	\label{eq:C2}
+	\vec{C}_2 &=
+	\begin{bmatrix}
+		1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+	\end{bmatrix}\ . \nonumber
+\end{flalign}
+
+The $\vec{D}_{21}$ matrix relates uncontrolled inputs with the measurement outputs, mainly adding the noise to the measurements. This matrix is 
+\fxnote{write the proper D21 matrix}
+\begin{flalign}
+	\label{eq:D21}
+	\vec{D}_{21} &=
+	\begin{bmatrix}
+		0 & 0 & 1 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 1 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 0 \\
+	\end{bmatrix}\ . \nonumber
+\end{flalign}
+
+\subsection{$\mathcal{H}_\infty$ Controller Design}
+The design of the $\mathcal{H}_\infty$ controller 
 
 
-
-
-
-
-
-
-
-
-
+Talk about the riccati equations
 
 
 
