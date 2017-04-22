@@ -1,8 +1,11 @@
 \section{$\mathcal{H}_\infty$ Design}
-The linearized model in \autoref{sec:linearizationModel} has varying parameters, such as the added mass and damping coefficients. The vessel may also experience external disturbances, such as wind forces. During surveying, the vessel needs to be robust to these model variations and it must be able to sufficiently reject disturbances. Using the $\mathcal{H}_\infty$ design technique, a robust controller for the vessel can be synthesized.
+The linearized model in \autoref{sec:linearizationModel} has varying parameters, such as the added mass and damping coefficients. The vessel may also experience external disturbances, such as wind forces. During surveying, the vessel needs to be robust to these model variations and it must be able to sufficiently reject disturbances. Using the $\mathcal{H}_\infty$ design technique, a robust controller for the vessel can be synthesized. The design of such controller differs from the LQR design. In this case, the design of model and controller is done simultaneously and can not be clearly separated as for the LQR case.
 
-\subsection{$\mathcal{H}_\infty$ State Space Model}
-\fxnote{Explain what is the goal with al the norms and transfer function stuff}
+The $\mathcal{H}_\infty$ problem consists of finding an internally stabilizing controller that provides a closed loop $\mathcal{H}_\infty$ norm less than some bound $\gamma$.
+Refer to the lecture notes.
+The mathematical formulation of the $\mathcal{H}_\infty$ problem and its solution is given in \cite[pp. 91-119]{AAStoorvogel} \cite[p. 835]{JCDoyle} 
+
+\fxnote{Explain all the norms and transfer function stuff and the less than 1 thing}
 The state space model from \autoref{xDotLinear} and \autoref{yLinear} needs to be remodeled into a state space form suitable for the $\mathcal{H}_\infty$ controller design. This representation starts with the equations
 \begin{flalign}
   \vec{\dot{x}}(t) &= \vec{A_1} \vec{x}(t) + \vec{B_1} \vec{w}(t) + \vec{B_2} \vec{u}(t)\ ,
@@ -37,7 +40,7 @@ The $\mathcal{H}_\infty$ model representation can also be seen in \autoref{fig:H
 \end{figure}
 For obtaining the matrices present in \autoref{eq:xDotHinf}, \ref{eq:zHinf} and \ref{eq:yHinf}, the content of the state vector and signal vectors needs to be defined.
 
-\subsubsection{State Vector}
+\subsection*{State Vector}
 The state vector construction starts with the three states that define the basic dynamics of the system. Namely, $\psi$, $\dot{\psi}$ and $\dot{x}_\mathrm{b}$. As some reference tracking is desired, integral states need to be included in the state vector, these depend on the measured output and the reference signal as 
 \begin{flalign}
 	\vec{\dot{x}}_\mathrm{int} =
@@ -71,7 +74,7 @@ The states coming from the weighting functions are
 The complete state vector for the $\mathcal{H}_\infty$ controller design is
 \fxnote{write state vector}
 
-\subsubsection{Controlled Inputs Vector}
+\subsection*{Controlled Inputs Vector}
 The controlled input are the two forces provided by the thrusters of the boat, that is, 
 \begin{flalign}
 	\vec{u(t)}= 
@@ -82,7 +85,7 @@ The controlled input are the two forces provided by the thrusters of the boat, t
 \end{flalign} \nonumber
 
 
-\subsubsection{Uncontrolled Input vector}
+\subsection*{Uncontrolled Input vector}
 The uncontrolled inputs include the references to be tracked, the input disturbances, and the measurement noises. The size of this vector depends on the amount of reference signals, the input disturbances considered (wind, waves) and the amount of measured outputs, as these are normally affected by noise. The references for the inner controller are two, the heading, $\psi$, and the translational speed along the $x_\mathrm{b}$ direction. The input disturbances can also be considered to be bla bla \fxnote{See which ones we include, if it is wind, it is 2, if it is waves, it is 4 probably.}. The noise vector has also size 2 as the only measured outputs considered for the inner controller are the outputs to be tracked. The uncontrolled input vector is formed as
 \begin{flalign}
 	\vec{w(t)}= 
@@ -98,7 +101,7 @@ The uncontrolled inputs include the references to be tracked, the input disturba
 \end{where}
 \fxnote{check if everything that we want to include has been included.}
 
-\subsubsection{Measurement Output Vector}
+\subsection*{Measurement Output Vector}
 The measurement output vector includes the outputs that are to track a reference. It also includes the integral states as they represent the error between the outputs and the references. Consequently, the output vector contains 4 elements and is represented as 
 \begin{flalign}
 	\vec{y(t)}= 
@@ -108,7 +111,7 @@ The measurement output vector includes the outputs that are to track a reference
 	\label{eq:yVectorHinf}
 \end{flalign} \nonumber
 
-\subsubsection{Performance Output Vector}
+\subsection*{Performance Output Vector}
 The performance output contains all variables whose performance should be taken into account by the controller. As the design entails a state feedback control, all the states are considered performance outputs. The controlled inputs are also part of this vector as it is desired to set some limitations or constant weights in order to account for the saturation of these inputs in the real system.
 \begin{flalign}
 	\vec{z(t)}= 
@@ -120,7 +123,7 @@ The performance output contains all variables whose performance should be taken 
 
 Once the state, input and output vectors have been defined, the model matrices can be derived.
 
-\subsubsection{Model Matrices}
+\subsection*{Model Matrices}
 
 The matrices present in \autoref{eq:xDotHinf}, \ref{eq:zHinf} and \ref{eq:yHinf} are derived from the relations between the different signals and states. 
 
@@ -238,12 +241,8 @@ The $\vec{D}_{21}$ matrix relates uncontrolled inputs with the measurement outpu
 	\end{bmatrix}\ . \nonumber
 \end{flalign}
 
-\subsection{$\mathcal{H}_\infty$ Controller Design}
-The design of the $\mathcal{H}_\infty$ controller 
 
-
-Talk about the riccati equations
-
+Talk about Hinf solution and the riccati equations and the gamma value chosen and all that
 
 
 
