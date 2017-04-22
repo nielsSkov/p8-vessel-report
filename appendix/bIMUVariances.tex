@@ -4,30 +4,50 @@
 \textbf{Date: 06/04/2017}
 
 \subsubsection{Purpose}
-Find the variance and bias of the gyroscope present in the IMU, as well as the variance when calculation the attitude using the accelerometer and the magnetometer as described in \autoref{sec:attFusion} in \autoref{eq:roll_acc}, \ref{eq:roll_acc} and \ref{eq:yaw_mag}.
+Find the variance of the accelerometer and the variance and bias of the gyroscope present in the IMU, as well as the variance when calculation the attitude using the accelerometer and the magnetometer as described in \autoref{sec:attFusion} in \autoref{eq:roll_acc}, \ref{eq:roll_acc} and \ref{eq:yaw_mag}.
 
 \subsubsection{Procedure}
+\begin{itemize}
+    \item Leave the sensor in a fixed position and orientation
+    \item Record the data
+    \item Process the data to get the needed parameters.  
+\end{itemize}
+
 \subsubsection{Results}
 
+\subsubsection{Accelerometer}
 \begin{figure}[H]
-    \includegraphics[width=.8\textwidth]{figures/IMUVariancesGyro.pdf}
+    \includegraphics[width=.7\textwidth]{figures/IMUVariancesAcc}
 \end{figure}
+%
+\begin{flalign}
+    \sigma_{\ddot{x}\mathrm{b,acc}}^2 & = 0.00053125 \ \mathrm{m}^2 \mathrm{s}^{-4} \nonumber \\
+    \sigma_{\dot{y}\mathrm{b,acc}}^2 & = 0.00074110 \ \mathrm{m}^2 \mathrm{s}^{-4} \nonumber \\
+    \sigma_{\dot{z}\mathrm{b,acc}}^2 & = 0.00612738  \ \mathrm{m}^2 \mathrm{s}^{-4} \nonumber
+\end{flalign}
+
+\subsubsection{Gyroscope}
+\begin{figure}[H]
+    \includegraphics[width=.7\textwidth]{figures/IMUVariancesGyro}
+\end{figure}
+%
 \begin{flalign}
      \sigma_{\dot{\phi}\mathrm{,gyro}}^2 & = 0.00001165 \ \mathrm{rad}^2 \mathrm{s}^{-2} \nonumber \\
      \sigma_{\dot{\theta}\mathrm{,gyro}}^2 & = 0.00002264 \ \mathrm{rad}^2 \mathrm{s}^{-2} \nonumber \\
      \sigma_{\dot{\psi}\mathrm{,gyro}}^2 & = 0.00779047  \ \mathrm{rad}^2 \mathrm{s}^{-2} \nonumber
 \end{flalign}
-
+%
 \begin{flalign}
     \mathrm{bias}_{\dot{\phi}\mathrm{,gyro}} & = -0.03753197 \ \mathrm{rad s}^{-1} \nonumber \\
     \mathrm{bias}_{\dot{\theta}\mathrm{,gyro}} & = -4.49556388 \ \mathrm{rad s}^{-1} \nonumber \\
     \mathrm{bias}_{\dot{\psi}\mathrm{,gyro}} & = 0.16183876  \ \mathrm{rad s}^{-1} \nonumber
 \end{flalign}
 
+\subsubsection{Attitude Calculation}
 \begin{figure}[H] 
-    \includegraphics[width=.8\textwidth]{figures/IMUVariancesAtt.pdf}
+    \includegraphics[width=.7\textwidth]{figures/IMUVariancesAtt}
 \end{figure}
-
+%
 \begin{flalign}
     \sigma_{\phi\mathrm{,acc}}^2 & = 0.01033366 \ \mathrm{rad}^2 \nonumber \\
     \sigma_{\theta\mathrm{,acc}}^2 & = 3.98535412 \ \mathrm{rad}^2\nonumber \\
