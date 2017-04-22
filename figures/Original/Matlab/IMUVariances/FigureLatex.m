@@ -17,10 +17,10 @@ end
 set(gca,'TickLabelInterpreter','latex')
 
 % Change limits and font size of axes numbers
-if xlimit~=0
+if length(xlimit)==2
     xlim(xlimit)
 end
-if ylimit~=0
+if length(ylimit)==2
     ylim(ylimit)
 end
 
