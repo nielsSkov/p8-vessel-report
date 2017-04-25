@@ -4,38 +4,39 @@ clear
 clc
 
 % Load IMU data
-load imu_data_06042017
+data=csvread('imu_data_060417.csv',11,0);
+%load imu_data_06042017
 
 % Get sensor data
 xgyro=data(:,3);
 xgyro=xgyro(xgyro<10);
 xgyro=xgyro(xgyro>-10);
-ygyro=data(:,4);
+ygyro=-data(:,4);
 ygyro=ygyro(ygyro<10);
 ygyro=ygyro(ygyro>-20);
-zgyro=data(:,5);
+zgyro=-data(:,5);
 zgyro=zgyro(zgyro<10);
 zgyro=zgyro(zgyro>-10);
 xacc=data(:,6);
-yacc=data(:,7);
-zacc=data(:,8);
+yacc=-data(:,7);
+zacc=-data(:,8);
 xmag=data(:,9);
-ymag=data(:,10);
-zmag=data(:,11);
+ymag=-data(:,10);
+zmag=-data(:,11);
 
 % Calculate roll and pitch
-roll=atan(yacc./sqrt(xacc.^2+zacc.^2));
-pitch=atan(xacc./sqrt(yacc.^2+zacc.^2));
+roll=-atan2(yacc,sqrt(xacc.^2+zacc.^2));
+pitch=-atan2(xacc,sqrt(yacc.^2+zacc.^2));
 
 % Calculate yaw
 Mxh=xmag.*cos(pitch)+ymag.*sin(roll).*sin(pitch)+zmag.*cos(roll).*sin(pitch);
 Myh=ymag.*cos(roll)+zmag.*sin(roll);
-yaw=atan(Myh./Mxh);
+yaw=atan2(Myh,Mxh);
 
 % Calculate variances
-sigma2_roll=var(roll);
-sigma2_pitch=var(pitch);
-sigma2_yaw=var(yaw);
+sigma2_roll=var(roll)
+sigma2_pitch=var(pitch)
+sigma2_yaw=var(yaw)
 
 % Calculate variances of the accelerometer
 xacc=xacc(xacc<10);
@@ -44,18 +45,18 @@ yacc=yacc(yacc<10);
 yacc=yacc(yacc>-10);
 zacc=zacc(zacc<10);
 zacc=zacc(zacc>-10);
-sigma2_xacc=var(xacc);
-sigma2_yacc=var(yacc);
-sigma2_zacc=var(zacc);
+sigma2_xacc=var(xacc)
+sigma2_yacc=var(yacc)
+sigma2_zacc=var(zacc)
 
 % Calculate variances and biases of the gyroscope
-sigma2_xgyro=var(xgyro);
-sigma2_ygyro=var(ygyro);
-sigma2_zgyro=var(zgyro);
+sigma2_xgyro=var(xgyro)
+sigma2_ygyro=var(ygyro)
+sigma2_zgyro=var(zgyro)
 
-bias_xgyro=mean(xgyro);
-bias_ygyro=mean(ygyro);
-bias_zgyro=mean(zgyro);
+bias_xgyro=mean(xgyro)
+bias_ygyro=mean(ygyro)
+bias_zgyro=mean(zgyro)
 
 % Plots
 FigHandle = figure('Position', [50, 50, 900, 600]);
