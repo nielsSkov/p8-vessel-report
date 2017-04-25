@@ -14,12 +14,10 @@ The LLI is designed and implemented in a previous project, and wont be described
 The route following uses waypoints together with position data to generate a reference for the low level controller. 
 The method described in section\fxnote{Ref to section describing Route following node} describes the line between two waypoints as an affine linear line.  
 This description have the issue of having singularity when describing vertical lines, making the slope infinite.  
-To circumvent this, the implementation uses a different approach. 
-While the general concept remains the same, the method for describing a line is have changed. 
+This issue is avoided in the implemented algorithm by using a different description of a line. 
+The description uses polar coordinates to describe the line going from the center of the boat and hitting the line between waypoints perpendicularly.
 \autoref{fig:line_polar} illustrates how this  description is used. 
 $W_{prev}$ and $W_{next}$ is the two waypoints, r is the distance from the boat to the line between them and $\theta$ is the angle.
-The description uses polar coordinates to describe the line going from the center of the boat and hitting the line between waypoints perpendicularly.
-This results in a description of a line with infinite length, but a slope that results in it hitting both waypoints. 
 \begin{figure}[H]
   \includegraphics[width=0.5\textwidth]{figures/waypoint_line}
   \caption{Illustration of line specification}
