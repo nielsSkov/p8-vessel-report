@@ -1,0 +1,11 @@
+\chapter{RTK GPS}\label{app:rtk_gps}
+This appendix contains a description on how a RTK gps works, how the basestation is implemented and how to use it.
+
+
+\section{Rtk gps basics}
+
+An RTK GPS is often used for purposes where the precision of a ordinary GPS is insufficient.
+It is able to archive a greater precision by comparing the measurements from the satellites with those of a base station.
+The base station is a stationary GPS receiver with a known position, which streams correction data, to be used by the rover. 
+The rover compares the data received from the base station, to it's own measurements and is through that able to receive a greater precision.
+
