@@ -69,6 +69,7 @@
     \input{chapters/chapter4/LQR.tex}
     \input{chapters/chapter4/simLQR.tex}
     \input{chapters/chapter4/Hinfinity.tex}
+    \input{chapters/chapter4/simHinf.tex}
     \input{chapters/chapter4/comparison.tex}
     
     %---------- Chapter 6 ---------------------------------------- Path Following
@@ -79,7 +80,9 @@
     %---------- Chapter 7 ---------------------------------------- Sensor Fusion
     \input{chapters/chapter7/aChapter7.tex}
     \input{chapters/chapter7/attitude.tex}
+    \input{chapters/chapter7/attitudeResults.tex}
     \input{chapters/chapter7/position.tex}
+    \input{chapters/chapter7/positionResults.tex}
     
     %---------- Chapter 6 ---------------------------------------- Implementation    
     \input{chapters/chapter6/aChapter6.tex}
@@ -88,22 +91,21 @@
     %%% PART 3 %%%
     \part{Test \& Conclusion}
     
-    
+   
     %%% APPENDIX %%%
     % Setup for Appendix and Bibliography
     \bookmarksetup{startatroot}
     \addtocontents{toc}{\bigskip}
-    \newpage
+   %\newpage
     \fancyhead[RO]{\color{aaublue}\small Appendix \nouppercase\rightmark} %even page
     \fancyhead[LE]{\color{aaublue}\small Appendix \nouppercase\rightmark} %uneven page
     \fancyhead[RE,LO]{}
     \titleformat{\section}[hang]{\Large\bfseries}{\thesection\hsp\textcolor{aaublue}{|}\hsp}{0pt}{\Large\bfseries}
-    \renewcommand{\thesection}{\Alph{section}}
-    \setcounter{section}{0}
 
+    \renewcommand{\thechapter}{\Alph{chapter}}
+    \setcounter{chapter}{0}
     \appendix
     \part*{Appendix}
-    
     \addcontentsline{toc}{chapter}{Appendix}
     \cleardoublepage\makeatletter\@openrightfalse\makeatother
     
@@ -111,13 +113,14 @@
     \input{appendix/aBathymetricMapPortOfAalborg.tex}
     %---------- Appendix B ---------------------------------------- IMU Variances
     \input{appendix/bIMUVariances.tex}
+    %---------- Appendix B ---------------------------------------- RTK GPS
+    \input{appendix/cRTKGPS.tex}
 
     %%% BIBLIOGRAPHY %%%
     % Remove header so it does not say Appendix Bibliography
     \printbibliography
     \fancyhead[LE,RO]{}
-          
-                
+                          
     %%% LIST OF CORRECTIONS %%%
     \listoffixmes 
        
