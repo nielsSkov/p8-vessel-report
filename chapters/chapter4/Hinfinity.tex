@@ -1,14 +1,14 @@
 \section{$\mathcal{H}_\infty$ Design}
 The linearized model in \autoref{sec:linearizationModel} has varying parameters, such as the added mass and damping coefficients. The vessel may also experience external disturbances, such as wind forces. During surveying, the vessel needs to be robust to these model variations and it must be able to sufficiently reject disturbances. Using the $\mathcal{H}_\infty$ design technique, a robust controller for the vessel can be synthesized. The design of such controller differs from the LQR design. In this case, the design of model and controller is done simultaneously and can not be clearly separated as for the LQR case.
 
-The $\mathcal{H}_\infty$ problem consists of finding an internally stabilizing controller that provides a closed loop $\mathcal{H}_\infty$ norm less than some bound $\gamma$.
-Refer to the lecture notes.
-The mathematical formulation of the $\mathcal{H}_\infty$ problem and its solution is given in \cite[pp. 91-119]{AAStoorvogel} \cite[p. 835]{JCDoyle} 
+The $\mathcal{H}_\infty$ problem consists of finding an internally stabilizing controller that provides a closed loop $\mathcal{H}_\infty$ norm less than some bound $\gamma$ \cite[p. 835]{JCDoyle}, \cite[pp. 92-93]{AAStoorvogel}. Such controller is also called suboptimal $\mathcal{H}_\infty$ controller, as there might be smaller $gamma$ yielding an internally stabilizing controller.% The reason for not deigning the optimal controller is \fxnote{write reason}
 
-\fxnote{Explain all the norms and transfer function stuff and the less than 1 thing}
-The state space model from \autoref{xDotLinear} and \autoref{yLinear} needs to be remodeled into a state space form suitable for the $\mathcal{H}_\infty$ controller design. This representation starts with the equations
+A more detailed mathematical formulation of the $\mathcal{H}_\infty$ problem and its solution is given in \cite[pp. 91-119]{AAStoorvogel}. 
+
+The state space model from \autoref{xDotLinear} and \autoref{yLinear} needs to be remodeled into a state space form suitable for solving the suboptimal $\mathcal{H}_\infty$ control problem. This representation starts with the equations
+For solving the suboptimal $\mathcal{H}_\infty$ control problem, the system has to be expressed in a particular state space form \cite[pp. 95]{AAStoorvogel}, \cite[p. 64]{RobustNotes}. This form is
 \begin{flalign}
-  \vec{\dot{x}}(t) &= \vec{A_1} \vec{x}(t) + \vec{B_1} \vec{w}(t) + \vec{B_2} \vec{u}(t)\ ,
+  \vec{\dot{x}}(t) &= \vec{A} \vec{x}(t) + \vec{B_1} \vec{w}(t) + \vec{B_2} \vec{u}(t)\ ,
   \label{eq:xDotHinf} \\
   \vec{z}(t) &= \vec{C_1} \vec{x}(t) + \vec{D_{11}} \vec{w}(t) + \vec{D_{12}} \vec{u}(t)\ ,
   \label{eq:zHinf} \\
@@ -21,7 +21,7 @@ The state space model from \autoref{xDotLinear} and \autoref{yLinear} needs to b
   \va{\vec{u}}{is the controlled input vector}{}
   \va{\vec{z}}{is the performance output vector}{}
   \va{\vec{y}}{is the measured output vector}{}
-  \va{\vec{A_1}}{is the state matrix}{}
+  \va{\vec{A}}{is the state matrix}{}
   \va{\vec{B_1}}{is the uncontrolled input matrix}{}
   \va{\vec{B_2}}{is the controlled input matrix}{}
   \va{\vec{C_1}}{is the performance output matrix}{}
@@ -38,6 +38,19 @@ The $\mathcal{H}_\infty$ model representation can also be seen in \autoref{fig:H
 	\caption{Block diagram used in the $\mathcal{H}_\infty$ controller design.}
 	\label{fig:HinfDiag}
 \end{figure}
+
+The method used to achieve the solution to the problem requires assuming certain conditions on the matrix in the model \cite[p. 835]{JCDoyle}. These conditions are 
+\begin{itemize}
+	\item $\left (\vec{A},\vec{B}_1 \right)$ and $\left( \vec{A}, \vec{B}_2 \right)$ are stabilizable.
+	\item $\left (\vec{C}_1,\vec{A} \right)$ and $\left( \vec{C}_2, \vec{A} \right)$ are detectable.
+	\item $\vec{D}_{12}^\mathrm{T}[\vec{C}_1\ \vec{D_{12}}]$ is $[\vec{0}\ \vec{I}]$.
+	\item $	\begin{bmatrix}
+				\vec{B}_1 \\
+				\vec{D}_{21} 
+			\end{bmatrix}\vec{D}_{21}^\mathrm{T}$ is $[\vec{0}\ \vec{I}]$.
+	\item $\vec{D}_{11}$ and $\vec{D}_{22}$ are zero.
+\end{itemize}
+\fxnote{WE DO NOT FULFILL ASSUMPTION 4}
 For obtaining the matrices present in \autoref{eq:xDotHinf}, \ref{eq:zHinf} and \ref{eq:yHinf}, the content of the state vector and signal vectors needs to be defined.
 
 \subsection*{State Vector}
@@ -65,9 +78,19 @@ The uncontrolled input states are part of the state vector. The $\vec{A}_\mathrm
 	\va{a}{is a parameter defining the pole position of the transfer function that weighs the uncontrolled input d}{}
 \end{where}
 
-This process also entails defining the weights for each uncontrolled input. The weight on the reference is set to be a first order transfer function with a very fast pole so the step input does not get distorted. The weight on the input disturbances are \fxnote{how are the disturbance weights} as most of them appear at low frequencies. The noise, on the other hand, is weighted according to a \fxnote{how are the noise weights}, as it is stronger in the high frequency range. In this way, the controller design focuses on accommodating these inputs in their particular frequency ranges. The weights chosen are
+This process also entails defining the weights for each uncontrolled input. The weight on the reference is set to be a first order transfer function with a very fast pole so the step input does not get distorted. The weight on the input disturbances are \fxnote{how are the disturbance weights} as most of them appear at low frequencies. The noise, on the other hand, is weighted according to a \fxnote{how are the noise weights}, as it is stronger in the high frequency range. In this way, the controller design focuses on accommodating these inputs in their particular frequency ranges. The weights are
 
-\fxnote{include weights as transfer functions and explain numbers}
+\fxnote{include proper weighting transfer functions and it looks a bit ugly as it is now}
+\begin{itemize}
+	\item $\frac{1}{s+1}$ for $\psi_\mathrm{ref}$
+	\item $\frac{1}{s+1}$ for $\dot{x}_\mathrm{b,ref}$
+	\item $\frac{1}{s+1}$ for $F_\mathrm{wind}$
+	\item $\frac{1}{s+1}$ for $\tau_\mathrm{wind}$
+	\item $\frac{1}{s+1}$ for $F_\mathrm{wave}$
+	\item $\frac{1}{s+1}$ for $\tau_\mathrm{wave}$
+	\item $\frac{1}{s+1}$ for $n_\mathrm{\psi}$
+	\item $\frac{1}{s+1}$ for $n_\mathrm{\dot{x}_\mathrm{b}}$	
+\end{itemize}
 
 The states coming from the weighting functions are 
 \fxnote{write states coming from the weighting functions,  for the references is 2, for waves, it is probably two as it is a sinusoidal function, for the wind it is 2, and for the noise it is 2}
@@ -86,18 +109,18 @@ The controlled input are the two forces provided by the thrusters of the boat, t
 
 
 \subsection*{Uncontrolled Input vector}
-The uncontrolled inputs include the references to be tracked, the input disturbances, and the measurement noises. The size of this vector depends on the amount of reference signals, the input disturbances considered (wind, waves) and the amount of measured outputs, as these are normally affected by noise. The references for the inner controller are two, the heading, $\psi$, and the translational speed along the $x_\mathrm{b}$ direction. The input disturbances can also be considered to be bla bla \fxnote{See which ones we include, if it is wind, it is 2, if it is waves, it is 4 probably.}. The noise vector has also size 2 as the only measured outputs considered for the inner controller are the outputs to be tracked. The uncontrolled input vector is formed as
+The uncontrolled inputs include the references to be tracked, the input disturbances, and the measurement noises. The size of this vector depends on the amount of reference signals, the input disturbances considered (wind, waves) and the amount of measured outputs, as these are normally affected by noise. The references for the inner controller are two, the heading, $\psi$, and the translational speed along the $x_\mathrm{b}$ direction. The input disturbances are coming from wind and from waves. These two elements potentially generate both a force along the $x_\mathrm{b}$ and a torque in $\psi$. The noise vector affects measured outputs considered for the inner controller, which are the outputs, $\psi$ and $\dot{x}_\mathrm{b}$. The uncontrolled input vector is formed as
 \begin{flalign}
 	\vec{w(t)}= 
 	\begin{bmatrix}
-		\psi_\mathrm{ref} & \dot{x}_\mathrm{b},_\mathrm{ref} & F_\mathrm{wind} & \tau_\mathrm{wind} & n_{\psi} & n_{\dot{x}_\mathrm{b}}
+		\psi_\mathrm{ref} & \dot{x}_\mathrm{b},_\mathrm{ref} & F_\mathrm{wind} & \tau_\mathrm{wind} & F_\mathrm{wave} & \tau_\mathrm{wave}& n_{\psi} & n_{\dot{x}_\mathrm{b}}
 	\end{bmatrix}^\mathrm{T} \ .
 	\label{eq:wVectorHinf}
 \end{flalign} \nonumber
 \begin{where}
 	\va{n_\mathrm{x}}{is noise affecting measured output x}{}
-	\va{F_\mathrm{wind}}{is the force of the wind along the $x_\mathrm{b}$ direction}{}
-	\va{\tau_\mathrm{wind}}{is the torque of the wind in $\psi$}{}
+	\va{F_\mathrm{wind/wave}}{is the force of the wind/waves along the $x_\mathrm{b}$ direction}{}
+	\va{\tau_\mathrm{wind/wave}}{is the torque of the wind/waves in $\psi$}{}
 \end{where}
 \fxnote{check if everything that we want to include has been included.}
 
@@ -234,16 +257,29 @@ The $\vec{D}_{21}$ matrix relates uncontrolled inputs with the measurement outpu
 	\label{eq:D21}
 	\vec{D}_{21} &=
 	\begin{bmatrix}
-		0 & 0 & 1 & 0 & 0 & 0 \\
-		0 & 0 & 0 & 1 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 1 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 1 \\
 		0 & 0 & 0 & 0 & 0 & 0 \\
 		0 & 0 & 0 & 0 & 0 & 0 \\
 	\end{bmatrix}\ . \nonumber
 \end{flalign}
 
+After setting up the model, which includes part of the controller design, the $\mathcal{H}_\infty$ controller can be found by solving a Riccatti equation defined as
+\begin{flalign}
+	\label{eq:Xinf}
+	\vec{X}_\infty &= Ric
+	\begin{bmatrix}
+		\vec{A} & \gamma^{-2}\vec{B}_1\vec{B}_1^\mathrm{T} - \vec{B}_2\vec{B}_2^\mathrm{T} \\
+		-\vec{C}_1^\mathrm{T}\vec{C}_1 & -\vec{A}^\mathrm{T}
+	\end{bmatrix}\ , \nonumber
+\end{flalign}
 
-Talk about Hinf solution and the riccati equations and the gamma value chosen and all that
+and calculating the controller gain matrix as
+\begin{flalign}
+	\vec{F}_\infty = -\vec{B}_2^\mathrm{T}\vec{X}_\infty
+\end{flalign}
 
+The value of $\gamma$ in the Riccatti equation has been chosen according to \fxnote{explain value for gamma}
 
 
 
