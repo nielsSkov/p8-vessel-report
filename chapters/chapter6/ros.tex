@@ -5,8 +5,8 @@ This allows each node to run in parallel in multiple threads while still being a
 The data sharing is done through topics, onto which the nodes can publish and subscribe to. 
 The topic contains the data stored in a prespecified data structure, specified as a message, such that each node publishes data of the same type. 
 \subsection{System overview}
-The system consistes of two subsystems, a Low-Level-Interface (LLI) and a High-Level-Interface (HLI). 
-The LLI is a Harware interface, responsible for reading all the sensors and sending control signals to the motors.
+The system consists of two subsystems, a Low-Level-Interface (LLI) and a High-Level-Interface (HLI). 
+The LLI is a hardware interface, responsible for reading all the sensors and sending control signals to the motors.
 The HLI contains the sensor fusion, and the controllers, as well as a interface to the operator. 
 The LLI is designed and implemented in a previous project, and wont be described in detail, which is also applicable of the sensor fusion from the HLI.\fxnote{Ensure this is also true in the future (:}
 
