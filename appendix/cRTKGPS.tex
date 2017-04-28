@@ -2,10 +2,49 @@
 This appendix contains a description on how a RTK gps works, how the basestation is implemented and how to use it.
 
 
-\section{Rtk gps basics}
-
-An RTK GPS is often used for purposes where the precision of a ordinary GPS is insufficient.
-It is able to archive a greater precision by comparing the measurements from the satellites with those of a base station.
+\section{RTK GPS basics}
+%%http://www.novatel.com/an-introduction-to-gnss/chapter-5-resolving-errors/real-time-kinematic-rtk/
+%%https://www.e-education.psu.edu/geog862/node/1828
+%%http://www.wasoft.de/e/iagwg451/intro/introduction.html
+The inaccuracies of GPS receivers is mostly due to atmospheric changes, which adds a verity of disturbances dependent on the weather, temperature etc.
+This results in most modern GPS receivers having a precision of 2-5 m. 
+For applications where this precision is insufficient, an RTK GPS can be used. 
+By comparing the measurements received from a base station, the rover is able to compensate for the disturbances.
 The base station is a stationary GPS receiver with a known position, which streams correction data, to be used by the rover. 
-The rover compares the data received from the base station, to it's own measurements and is through that able to receive a greater precision.
+The increased performance is a result of the weather pattern is locally similar, meaning that if the base station and the rover is close (within 10-20 km) to each other, the disturbances they experience is the same.
+This enables the rover to compensate for the weather patterns, granted the base station received the same satellites as the rover.
+This can result in down to sub centimeter precision for some high grade implementations.
+
+\section{Base station implementation and usage}
+The modules used for the base station is the emlid reach RTK.
+It is able to act both as a base station and as a rover depending on the settings.
+The settings pane is accessed by typing the ip of the reach in a browser, which connects to a GUI server hosted by the reach after initialization.
+In order to get the best possible measurements, the base is set to "static mode" in "RTK settings" as it's positioning mode.
+The emlid reach is setup to send the RTCM3 messages through a USB interface to a computer, acting as a bridge between the university servers and the outside. This setting is found under the "base mode" pane in the GUI.
+
+RTCM3 is a protocol designed to send correction data from a base station to a rover. 
+This setup is shown on \autoref{fig:app_gps_setup}.
+
+\begin{figure}[H]
+	\includegraphics[width=0.6\textwidth]{figures/comunicationSetup.pdf}
+	\caption{Overall setup of gps}
+	\label{fig:app_gps_setup}
+\end{figure}
+
+The computer runs a python server capable of reading the serial data, and forwards in the correct package sizes.
+
+The correction data from the base station consists of different message types, varying in length.
+Each message contains a message header, data and a checksum. 
+The message header contains information on message type and packet size, which is used to forward the right amount of bytes each time.
+Through testing it have been found that the header is initiated with a hex value of d3, indicating that a new package begins. 
+As the data is transmitted binary, this pattern is not a guarantee that a message is transmitted. 
+To ensure the correct package sizes is send, an initialization sequence is run on the server at startup, which searches for the initialization sequence, finds the packet size, then reads that amount of bytes, until a package is received with that length, followed by another start sequence.
+This can be validated using the checksum, however this feature is not implemented due to time constraints. 
+
+The package size is obtained by locating the initialization sequence to find the header containing the package size.
+The base station is implemented to cast the RTCM3 message on a TCP socket on IP: 192.38.55.85 Port: 5500. 
+Users with access to the Internet is able to access this socket from anywhere.
+Under the "Correction Input" pane the method of input can be selected, if the reach have internet connection, these can be aquired by selecting the "TCP" and client mode, and typing in the ip and portnumber at their respective field.
+
+
 
