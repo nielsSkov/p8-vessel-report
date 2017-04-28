@@ -70,38 +70,35 @@ The state vector includes also the states coming from the reference, disturbance
 	\caption{Block diagram illustrating how an uncontrolled input is weighted in the $\mathcal{H}_\infty$ controller design. $d$ is the uncontrolled input and $d'$ is the weighted uncontrolled input. The states $\vec{x}_\mathrm{d}$ are included in the state vector of the $\mathcal{H}_\infty$ state space representation.}
 	\label{fig:WeightDiag}
 \end{figure}
-The uncontrolled input states are part of the state vector. The $\vec{A}_\mathrm{d}$ and $\vec{B}_\mathrm{d}$ in \autoref{fig:WeightDiag} can be calculated from a weighting function as in the example given in \autoref{eq:weightingexample}, where the uncontrolled input $d$ is weighted trough a first order transfer function with low-pass characteristics.
+The uncontrolled input states are part of the state vector. The $\vec{A}_\mathrm{d}$, $\vec{B}_\mathrm{d}$, $\vec{C}_\mathrm{d}$ and $\vec{D}_\mathrm{d}$ in \autoref{fig:WeightDiag} can be calculated from a weighting function as in the example given in \autoref{eq:weightingexampleLP}, where the uncontrolled input $d$ is weighted by means of a first order transfer function with low-pass characteristics.
 \begin{flalign}
-	\frac{d'}{d}=\frac{a}{s+a} \rightarrow \dot{d}' = -a d' + a d \rightarrow \begin{cases} \dot{x}_\mathrm{d} = -a x_\mathrm{d} + a d \\ d' = x_\mathrm{d} \end{cases}\label{eq:weightingexample} 
+	\frac{d'}{d}=\frac{a}{s+a} \rightarrow \dot{d}' = -a d' + a d \rightarrow \begin{cases} \dot{x}_\mathrm{d} = -a x_\mathrm{d} + a d \\ d' = x_\mathrm{d} \end{cases}\label{eq:weightingexampleLP} 
 \end{flalign}
 \begin{where}
-	\va{a}{is a parameter defining the pole position of the transfer function that weighs the uncontrolled input d}{}
+	\va{a}{is a parameter defining the pole position of the weighting function}{}
 \end{where}
+Another example with a high pass weighting function is shown in \autoref{eq:weightingexampleHP}.
+\begin{flalign}
+	\frac{n'}{n}=\frac{s}{s+a} = \frac{-a}{s+a}-1 \rightarrow \begin{cases} \dot{x}_\mathrm{n} = -a x_\mathrm{n} + n \\ n' = - a x_\mathrm{n} + n  \end{cases}\label{eq:weightingexampleHP} 
+\end{flalign}
 
 This process also entails defining the weights for each uncontrolled input. The weight on the reference is set to be a first order transfer function with a very fast pole so the step input does not get distorted. The weights on the input disturbances are also low pass filtered as most of them appear at low frequencies. The noise, on the other hand, is weighted according to a high pass filter, as it is stronger in the high frequency range. In this way, the controller design focuses on achieving a robust controller with respect to the uncontrolled inputs in their particular frequency ranges. The weights for each uncontrolled input are are
 \fxnote{include proper weighting transfer functions and it looks a bit ugly as it is now}
 \begin{flalign}
-	W_{\psi_\mathrm{ref}} &= \frac{1}{s+1}\ ,\label{eq:weightpsi} \\
-	W_{\dot{x}_\mathrm{b,ref}} &= \frac{1}{s+1}\ ,\label{eq:weightxbdot} \\
-	W_{F_\mathrm{wind}} &= \frac{1}{s+1}\ , \label{eq:weightFwind}  \\
-	W_{\tau_\mathrm{wind}} &= \frac{1}{s+1}\ , \label{eq:weightTwind} \\
-	W_{F_\mathrm{wave}} &= \frac{1}{s+1}\ , \label{eq:weightFwave} \\
-	W_{\tau_\mathrm{wave}} &= \frac{1}{s+1}\ , \label{eq:weightTwave} \\
-	W_{n_\psi} &= \frac{s}{s+1}\ , \label{eq:weightnoisepsi} \\
-	W_{n_{\dot{x}_\mathrm{b}}} &= \frac{s}{s+1}\ , \label{eq:weightnoisexbdot} 
+	W_{\psi_\mathrm{ref}} &= \frac{1}{s+1}\ ,\  W_{\dot{x}_\mathrm{b,ref}} = \frac{1}{s+1}\ ,\nonumber \\
+	W_{F_\mathrm{wind}} &= \frac{1}{s+1}\ ,\nonumber\   W_{\tau_\mathrm{wind}} = \frac{1}{s+1}\ , \nonumber\\
+	W_{F_\mathrm{wave}} &= \frac{1}{s+1}\ , \nonumber\  W_{\tau_\mathrm{wave}} = \frac{1}{s+1}\ , \nonumber\\
+	W_{n_\psi} &= \frac{s}{s+1}\ , \nonumber\ 	W_{n_{\dot{x}_\mathrm{b}}} = \frac{s}{s+1}\ .\nonumber
 \end{flalign}}
 
-The states coming from the weighting functions are 
+The states coming from the weighting functions, together with the system states and the integral states, constitute the state vector as 
 \begin{flalign}
 	\vec{x}(t)=
 	\begin{bmatrix}
-		\psi_\mathrm{ref} & \dot{x}_\mathrm{b},_\mathrm{ref} & F_\mathrm{wind} & \tau_\mathrm{wind} & F_\mathrm{wave} & \tau_\mathrm{wave}& n_{\psi} & n_{\dot{x}_\mathrm{b}}
+		\psi & \dot{\psi} & \dot{x}_\mathrm{b} & x_{F_\mathrm{wind}} & x_{\tau_\mathrm{wind}} & x_{F_\mathrm{wave}} & x_{\tau_\mathrm{wave}} & x_{n_{\psi}} & x_{n_{\dot{x}_\mathrm{b}}}
 	\end{bmatrix}^\mathrm{T} \ .
 	\label{eq:xVectorHinf}
 \end{flalign}
-
-The complete state vector for the $\mathcal{H}_\infty$ controller design is
-\fxnote{write state vector}
 
 \subsection*{Controlled Inputs Vector}
 The controlled input are the two forces provided by the thrusters of the boat, that is, 
@@ -128,10 +125,9 @@ The uncontrolled inputs include the references to be tracked, the input disturba
 	\va{F_\mathrm{wind/wave}}{is the force of the wind/waves along the $x_\mathrm{b}$ direction}{}
 	\va{\tau_\mathrm{wind/wave}}{is the torque of the wind/waves in $\psi$}{}
 \end{where}
-\fxnote{check if everything that we want to include has been included.}
 
 \subsection*{Measurement Output Vector}
-The measurement output vector includes the outputs that are to track a reference. It also includes the integral states as they represent the error between the outputs and the references. Consequently, the output vector contains 4 elements and is represented as 
+The measurement output vector includes the outputs that are to track a reference. It also includes the integral states as they represent the error between the outputs and the references and are affected by noise. Consequently, the output vector contains 4 elements and is represented as 
 \begin{flalign}
 	\vec{y(t)}= 
 	\begin{bmatrix}
@@ -242,7 +238,7 @@ The $\vec{D}_{12}$ has non-zero elements only in the entries that weight the inp
 	\end{bmatrix}^\mathrm{T}\ . \nonumber
 \end{flalign}
 
-Finally, the matrices present in \autoref{eq:yHinf}, $\vec{C}_2$, $\vec{D}_{12}$ and $\vec{D}_{22}$, are derived below, they entail no design as they describe how the measured outputs of the system are affected. 
+Finally, the matrices present in \autoref{eq:yHinf}, $\vec{C}_2$, $\vec{D}_{12}$ and $\vec{D}_{22}$, are derived below, they are not part of the design as they describe how the measured outputs of the system are affected. 
 
 The $\vec{C}_2$ matrix relates the states with the measured outputs, selecting the $\psi$ and $\dot{x}_\mathrm{b}$ states and the integral states. The $\vec{C}_2$ matrix is 
 \fxnote{write the proper C2 matrix}
