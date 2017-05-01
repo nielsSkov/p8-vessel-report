@@ -1,0 +1,15 @@
+\section{Topics}
+Each topic is predefined to contain specific data that need to be exchanged between the nodes. This data can be anything from sensor data to commands for the motors.
+
+The \lstinline[style=cinline]{/samples} topic contains a message that comes from the LLI.
+
+The data decoded by the \lstinline[style=cinline]{/sensor_node} from the previous message, is published in the \lstinline[style=cinline]{/imu} topic, such as accelerometer, magnetometer and gyroscope data.
+
+The \lstinline[style=cinline]{/gps_pos} topic includes the latitude and longitude of the boat, as well as its relative position to the chosen origin of the NED frame.
+
+Each Kalman filter node, \lstinline[style=cinline]{/KF_attitude_node} and \lstinline[style=cinline]{/KF_position_node}, publishes the estimated states in two topics, \lstinline[style=cinline]{/kf_attitude} and \lstinline[style=cinline]{/kf_position}. These states include angular and translational positions, velocities and accelerations.
+
+The \lstinline[style=cinline]{/path_follower_node} publish the references for speed and heading in the \lstinline[style=cinline]{/control_reference} topic, to whom the \lstinline[style=cinline]{/lqr_node} is subscribed.
+
+Finally, the \lstinline[style=cinline]{/lqr_node} publishes the commands, in the form of PWM, that the motor controllers need to apply in the \lstinline[style=cinline]{/lli_input} topic.
+

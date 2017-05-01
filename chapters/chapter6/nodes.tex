@@ -1,0 +1,27 @@
+\section{Nodes}
+Each node uses the information coming from a topic or from a device connected to the computer and publishes its results in another topic, which is the used by one or more nodes. The functionality of each node is described below.
+
+\subsection*{\lstinline[style=cinline]{/lli_node}}
+This node is in charge of reading the messages that come from the LLI and publishing them in the \lstinline[style=cinline]{/samples} topic. It is also responsible of sending the commands, which are published in the \lstinline[style=cinline]{/lli_input} topic, to the LLI. This commands need to be coded in a message in a proper way, such that the LLI can read them.
+
+\subsection*{\lstinline[style=cinline]{/sensor_node}}
+The purpose of this node is to decode the information of the IMU that is packed in the messages of the \lstinline[style=cinline]{/samples} topic. This is done extracting the data from a string and converting it in the measurements of the accelerometer, the magnetometer and the gyroscope by transforming them into the correct units. This information is then published in the \lstinline[style=cinline]{/imu} topic.
+
+\subsection*{\lstinline[style=cinline]{/gps_node}}
+This node has two main functionalities. 
+
+On one side, it parses the correction data from the RTK base to the GPS in the boat using the serial port. A more detailed description of the RTK base can be found in \autoref{app:rtk_gps}. 
+
+On the other side, it read the position information that comes from the GPS from the same serial port and decode it to know the latitude and longitude of the boat. With this information it is able to compute the relative distance of the boat with the chosen origin of the NED frame, given by its latitude and longitude.
+
+\subsection*{\lstinline[style=cinline]{/KF_attitude_node}}
+The attitude Kalman filter in implemented in this node using the information that comes from the \lstinline[style=cinline]{/imu} topic. This node uses that data to estimate the angular position, velocity and acceleration of the boat as described in \autoref{sec:attFusion}. Finally, the estimation is published in the \lstinline[style=cinline]{/kf_attitude} topic.
+
+\subsection*{\lstinline[style=cinline]{/KF_position_node}}
+The estimation of the position of the boat is done in this node. The information of the GPS is fused with the measurements of the accelerometer and the estimated attitude to give a better estimate of the translational position, velocity and acceleration of the boat. This estimation if then  published in the \lstinline[style=cinline]{/kf_position} topic.
+
+\subsection*{\lstinline[style=cinline]{/path_follower_node}}
+This node implements the path follower algorithm described in \autoref{sec:pathfollower}. It read the waypoints, generated as described in \autoref{sec:pathgeneration}, from a .txt file and the estimated position and attitude form the Kalman filters. With this information it is able to compute the required heading reference for the boat to reach the desired path.
+
+\subsection*{\lstinline[style=cinline]{/lqr_node}}
+The inner controller nodes used the information from both filters as well as the reference published in the \lstinline[style=cinline]{/control_reference} topic to apply the gains, both state feedback and integral control, nad compute the required force in each motor. This forces are finally translated to PWM values to be publish in the \lstinline[style=cinline]{/lli_input} topic.

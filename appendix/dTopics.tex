@@ -1,0 +1,65 @@
+\chapter{Topics Description} \label{app:topics}
+
+\begin{table}[H]
+    \begin{tabular}{|>{\centering\arraybackslash}p{4.2cm}|>{\centering\arraybackslash}p{3.5cm}|>{\centering\arraybackslash}p{2.5cm}|>{\centering\arraybackslash}p{2cm}|}
+        \hline %-----------------------------------------------------------------------------------
+        \textbf{Topic} &\textbf{Message Type} & \textbf{Data Type} &\textbf{Variable} \\
+        \hline %-----------------------------------------------------------------------------------
+        \multirow{4}{*}{\lstinline[style=cinline]{/samples}}   & \multirow{4}{*}{Faps.msg}      & string   & DevID \\
+        &  & string   & MsgID       \\
+        &  & string[] & Data       \\
+        &  & float64  & Time       \\        
+        \hline %-----------------------------------------------------------------------------------
+        \multirow{12}{*}{\lstinline[style=cinline]{/imu}}      & \multirow{12}{*}{ADIS13205.msg}  & float32   & supply \\
+        &  & float32 & xgyro \\
+        &  & float32 & ygyro \\
+        &  & float32 & zgyro \\
+        &  & float32 & xaccl \\
+        &  & float32 & yaccl \\
+        &  & float32 & zaccl \\
+        &  & float32 & xmagn \\
+        &  & float32 & ymagn \\
+        &  & float32 & zmagn \\
+        &  & float32 & temp \\
+        &  & float32 & adc \\
+        \hline %-----------------------------------------------------------------------------------
+        \multirow{5}{*}{\lstinline[style=cinline]{/gps_pos}}      & \multirow{5}{*}{gps\_msg.msg}  & string   & timestamp \\
+        &  & float64 & delx \\
+        &  & float64 & dely \\
+        &  & float64 & longitude \\
+        &  & float64 & latitude \\
+        \hline %-----------------------------------------------------------------------------------
+        \multirow{4}{*}{\lstinline[style=cinline]{/lli_input}}   & \multirow{4}{*}{LLIinput.msg}      & uint8   & DevID \\
+        &  & uint8   & MsgID       \\
+        &  & int16 & Data       \\
+        &  & float64  & Time       \\ 
+        \hline %-----------------------------------------------------------------------------------
+    \end{tabular}
+\end{table}
+\begin{table}[H]
+    \begin{tabular}{|>{\centering\arraybackslash}p{4.2cm}|>{\centering\arraybackslash}p{3.5cm}|>{\centering\arraybackslash}p{2.5cm}|>{\centering\arraybackslash}p{2cm}|}    
+        \hline %-----------------------------------------------------------------------------------
+        \textbf{Topic} &\textbf{Message Type} & \textbf{Data Type} &\textbf{Variable} \\
+        \hline %-----------------------------------------------------------------------------------
+        \multirow{9}{*}{\lstinline[style=cinline]{/kf_attitude}}      & \multirow{9}{*}{AttitudeStates.msg}  & float64   & roll \\
+        &  & float64 & pitch \\
+        &  & float64 & yaw \\
+        &  & float64 & rolld \\
+        &  & float64 & pitchd \\
+        &  & float64 & yawd \\
+        &  & float64 & rolldd \\
+        &  & float64 & pitchdd \\
+        &  & float64 & yawdd \\
+        \hline %-----------------------------------------------------------------------------------
+        \multirow{6}{*}{\lstinline[style=cinline]{/kf_position}}      & \multirow{6}{*}{PositionStates.msg}  & float64   & xn \\
+        &  & float64 & yn \\
+        &  & float64 & xb\_vel \\
+        &  & float64 & yb\_vel \\
+        &  & float64 & xb\_acc \\
+        &  & float64 & yb\_acc \\
+        \hline %-----------------------------------------------------------------------------------
+        \multirow{2}{*}{\lstinline[style=cinline]{/control_reference}}      & \multirow{2}{*}{Ref.msg}  & float32   & speed \\
+        &  & float32 & yaw \\
+        \hline %-----------------------------------------------------------------------------------
+    \end{tabular}
+\end{table}
