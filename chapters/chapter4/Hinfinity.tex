@@ -8,11 +8,11 @@ A more detailed mathematical formulation of the $\mathcal{H}_\infty$ problem and
 The state space model from \autoref{xDotLinear} and \autoref{yLinear} needs to be remodeled into a state space form suitable for solving the suboptimal $\mathcal{H}_\infty$ control problem. This representation starts with the equations
 For solving the suboptimal $\mathcal{H}_\infty$ control problem, the system has to be expressed in a particular state space form \cite[pp. 95]{AAStoorvogel}, \cite[p. 64]{RobustNotes}. This form is
 \begin{flalign}
-  \vec{\dot{x}}(t) &= \vec{A} \vec{x}(t) + \vec{B_1} \vec{w}(t) + \vec{B_2} \vec{u}(t)\ ,
+  \vec{\dot{x}}(t) &= \vec{A}_1 \vec{x}(t) + \vec{B}_1 \vec{w}(t) + \vec{B}_2 \vec{u}(t)\ ,
   \label{eq:xDotHinf} \\
-  \vec{z}(t) &= \vec{C_1} \vec{x}(t) + \vec{D_{11}} \vec{w}(t) + \vec{D_{12}} \vec{u}(t)\ ,
+  \vec{z}(t) &= \vec{C}_1 \vec{x}(t) + \vec{D}_{11} \vec{w}(t) + \vec{D}_{12} \vec{u}(t)\ ,
   \label{eq:zHinf} \\
-  \vec{y}(t) &= \vec{C_2} \vec{x}(t) + \vec{D_{21}} \vec{w}(t) + \vec{D_{22}} \vec{u}(t)\ ,
+  \vec{y}(t) &= \vec{C}_2 \vec{x}(t) + \vec{D}_{21} \vec{w}(t) + \vec{D}_{22} \vec{u}(t)\ ,
   \label{eq:yHinf} 
 \end{flalign}
 \begin{where}
@@ -21,18 +21,18 @@ For solving the suboptimal $\mathcal{H}_\infty$ control problem, the system has 
   \va{\vec{u}}{is the controlled input vector}{}
   \va{\vec{z}}{is the performance output vector}{}
   \va{\vec{y}}{is the measured output vector}{}
-  \va{\vec{A}}{is the state matrix}{}
-  \va{\vec{B_1}}{is the uncontrolled input matrix}{}
-  \va{\vec{B_2}}{is the controlled input matrix}{}
-  \va{\vec{C_1}}{is the performance output matrix}{}
-  \va{\vec{D_{11}}}{is the direct feedthrough matrix from $\vec{w}$ to $\vec{z}$}{}
-  \va{\vec{D_{12}}}{is the direct feedthrough matrix from $\vec{u}$ to $\vec{z}$}{}
-  \va{\vec{C_2}}{is the output matrix}{}
-  \va{\vec{D_{21}}}{is the direct feedthrough matrix from $\vec{w}$ to $\vec{y}$}{}
-  \va{\vec{D_{22}}}{is the direct feedthrough matrix from $\vec{u}$ to $\vec{y}$}{}
+  \va{\vec{A}_1}{is the state matrix}{}
+  \va{\vec{B}_1}{is the uncontrolled input matrix}{}
+  \va{\vec{B}_2}{is the controlled input matrix}{}
+  \va{\vec{C}_1}{is the performance output matrix}{}
+  \va{\vec{D}_{11}}{is the direct feedthrough matrix from $\vec{w}$ to $\vec{z}$}{}
+  \va{\vec{D}_{12}}{is the direct feedthrough matrix from $\vec{u}$ to $\vec{z}$}{}
+  \va{\vec{C}_2}{is the measured output matrix}{}
+  \va{\vec{D}_{21}}{is the direct feedthrough matrix from $\vec{w}$ to $\vec{y}$}{}
+  \va{\vec{D}_{22}}{is the direct feedthrough matrix from $\vec{u}$ to $\vec{y}$}{}
 \end{where}
 
-The $\mathcal{H}_\infty$ model representation can also be seen in \autoref{fig:HinfDiag}, where all signals and matrices involved on the design process are represented.
+The $\mathcal{H}_\infty$ model representation can also be seen in \autoref{fig:HinfDiag}, where all signals and matrices involved in the design process are represented.
 \begin{figure}[H]
 	\includegraphics[width=0.6\textwidth]{figures/HinfDiag}
 	\caption{Block diagram used in the $\mathcal{H}_\infty$ controller design.}
@@ -41,8 +41,8 @@ The $\mathcal{H}_\infty$ model representation can also be seen in \autoref{fig:H
 
 The method used to achieve the solution to the problem requires assuming certain conditions on the matrix in the model \cite[p. 835]{JCDoyle}. These conditions are 
 \begin{itemize}
-	\item $\left (\vec{A},\vec{B}_1 \right)$ and $\left( \vec{A}, \vec{B}_2 \right)$ are stabilizable.
-	\item $\left (\vec{C}_1,\vec{A} \right)$ and $\left( \vec{C}_2, \vec{A} \right)$ are detectable.
+	\item $\left (\vec{A}_1,\vec{B}_1 \right)$ and $\left( \vec{A}_1, \vec{B}_2 \right)$ are stabilizable.
+	\item $\left (\vec{C}_1,\vec{A}_1 \right)$ and $\left( \vec{C}_2, \vec{A}_1 \right)$ are detectable.
 	\item $\vec{D}_{12}^\mathrm{T}[\vec{C}_1\ \vec{D_{12}}]$ is $[\vec{0}\ \vec{I}]$.
 	\item $	\begin{bmatrix}
 				\vec{B}_1 \\
@@ -58,13 +58,17 @@ The state vector construction starts with the three states that define the basic
 \begin{flalign}
 	\vec{\dot{x}}_\mathrm{int} =
 	\begin{bmatrix}
+		x_{int_{\psi}} \\
+		x_{int_{\dot{x}_\mathrm{b}}}
+	\end{bmatrix}\ = 
+	\begin{bmatrix}
 		\psi_\mathrm{ref}-\psi \\
 		\dot{x}_\mathrm{b,ref} - \dot{x}_\mathrm{b}
-	\end{bmatrix}^\mathrm{T}\ .
+	\end{bmatrix}\ .
 	\label{eq:xintVectorHinf}
 \end{flalign}
 
-The state vector includes also the states coming from the reference, disturbance and noise models. These extra states, not only show the dynamics of the uncontrolled inputs, but also reflect the weighting functions that have been applied to each of them. This process is carried out in order to modify how the uncontrolled inputs affect the states, this is normally done through transfer functions, \cite{MSalari}. In order to include weights in the state space representation, some states for each uncontrolled input need to be defined. \autoref{fig:WeightDiag} shows an example of how an uncontrolled input is weighted so it can be included in the state space representation.
+The state vector also includes the states coming from the reference, disturbance and noise models. These extra states, not only show the dynamics of the uncontrolled inputs, but also reflect the weighting functions that have been applied to each of them. This process is carried out in order to modify how the uncontrolled inputs affect the states, this is normally done through transfer functions, \cite{MSalari}. In order to include weights in the state space representation, some states for each uncontrolled input need to be defined. \autoref{fig:WeightDiag} shows an example of how an uncontrolled input is weighted so it can be included in the state space representation.
 \begin{figure}[H]
 	\includegraphics[width=0.6\textwidth]{figures/WeightDiag}
 	\caption{Block diagram illustrating how an uncontrolled input is weighted in the $\mathcal{H}_\infty$ controller design. $d$ is the uncontrolled input and $d'$ is the weighted uncontrolled input. The states $\vec{x}_\mathrm{d}$ are included in the state vector of the $\mathcal{H}_\infty$ state space representation.}
@@ -95,7 +99,7 @@ The states coming from the weighting functions, together with the system states 
 \begin{flalign}
 	\vec{x}(t)=
 	\begin{bmatrix}
-		\psi & \dot{\psi} & \dot{x}_\mathrm{b} & x_{F_\mathrm{wind}} & x_{\tau_\mathrm{wind}} & x_{F_\mathrm{wave}} & x_{\tau_\mathrm{wave}} & x_{n_{\psi}} & x_{n_{\dot{x}_\mathrm{b}}}
+		\psi & \dot{\psi} & \dot{x}_\mathrm{b} & x_{int_{\psi}} & x_{int_{\dot{x}_\mathrm{b}}} & x_{F_\mathrm{wind}} & x_{\tau_\mathrm{wind}} & x_{F_\mathrm{wave}} & x_{\tau_\mathrm{wave}} & x_{n_{\psi}}\ \ \  x_{n_{\dot{x}_\mathrm{b}}}
 	\end{bmatrix}^\mathrm{T} \ .
 	\label{eq:xVectorHinf}
 \end{flalign}
@@ -154,7 +158,7 @@ The matrices present in \autoref{eq:xDotHinf}, \ref{eq:zHinf} and \ref{eq:yHinf}
 
 Starting with \autoref{eq:xDotHinf}, it contains the $\vec{A}_1$, $\vec{B}_1$ and $\vec{B}_2$ matrices. 
 
-The matrix $\vec{A}_1$ describes the dynamics of the system states and all the other added states, which account for the references and disturbances. Its value can be seen in \autoref{app:matrices} and its structure is \fxnote{make appendix for all matrices}
+The matrix $\vec{A}_1$ describes the dynamics of the system states and all the other added states, which account for the references and disturbances. Its value can be seen in \autoref{app:matrices} and its structure is \fxnote{make appendix for all matrices} \fxnote{mention A and B matrices for integral, wave, wind etc comes from weighting functions}
 \begin{flalign}
 	\label{eq:A1}
 	\vec{A}_1 &=
@@ -196,7 +200,7 @@ The matrix $\vec{B}_2$ relates the controlled inputs to the states, in this case
 
 Next, the matrices appearing in \autoref{eq:zHinf} are derived. These are $\vec{C}_1$, $\vec{D}_{11}$ and $\vec{D}_{12}$ and they can be considered to be weighting matrices where the importance of each of the performance outputs and the usage of the controlled inputs can be specified.
 
-The $\vec{C}_1$ matrix relates the states and the performance outputs, it is formed by a diagonal matrix, where some weighs are applied to each state, and some zero rows corresponding to the controlled inputs of the system. The matrix is constructed as 
+The $\vec{C}_1$ matrix relates the states and the performance outputs, it is formed by a diagonal matrix, where some weights are applied to each state, and some zero rows corresponding to the controlled inputs of the system. The matrix is constructed as 
 \begin{flalign}
 	\label{eq:C1}
 	\vec{C}_1 &=
