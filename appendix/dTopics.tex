@@ -23,7 +23,7 @@
         &  & float32 & temp \\
         &  & float32 & adc \\
         \hline %-----------------------------------------------------------------------------------
-        \multirow{5}{*}{\lstinline[style=cinline]{/gps_pos}}      & \multirow{5}{*}{gps\_msg.msg}  & string   & timestamp \\
+        \multirow{5}{*}{\lstinline[style=cinline]{/gps_pos}}      & \multirow{5}{*}{RTKGPS.msg}  & string   & timestamp \\
         &  & float64 & delx \\
         &  & float64 & dely \\
         &  & float64 & longitude \\
@@ -53,10 +53,10 @@
         \hline %-----------------------------------------------------------------------------------
         \multirow{6}{*}{\lstinline[style=cinline]{/kf_position}}      & \multirow{6}{*}{PositionStates.msg}  & float64   & xn \\
         &  & float64 & yn \\
-        &  & float64 & xb\_vel \\
-        &  & float64 & yb\_vel \\
-        &  & float64 & xb\_acc \\
-        &  & float64 & yb\_acc \\
+        &  & float64 & xbd \\
+        &  & float64 & ybd \\
+        &  & float64 & xbdd \\
+        &  & float64 & ybdd \\
         \hline %-----------------------------------------------------------------------------------
         \multirow{2}{*}{\lstinline[style=cinline]{/control_reference}}      & \multirow{2}{*}{Ref.msg}  & float32   & speed \\
         &  & float32 & yaw \\
