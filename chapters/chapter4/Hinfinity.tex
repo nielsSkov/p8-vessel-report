@@ -100,7 +100,7 @@ The states coming from the weighting functions, together with the system states 
 	\vec{x}(t)=
 	\begin{bmatrix}
 		\psi & \dot{\psi} & \dot{x}_\mathrm{b} & x_{int_{\psi}} & x_{int_{\dot{x}_\mathrm{b}}} & x_{F_\mathrm{wind}} & x_{\tau_\mathrm{wind}} & x_{F_\mathrm{wave}} & x_{\tau_\mathrm{wave}} & x_{n_{\psi}}\ \ \  x_{n_{\dot{x}_\mathrm{b}}}
-	\end{bmatrix}^\mathrm{T} \ .
+	\end{bmatrix}^\mathrm{T}\ .
 	\label{eq:xVectorHinf}
 \end{flalign}
 
@@ -158,7 +158,7 @@ The matrices present in \autoref{eq:xDotHinf}, \ref{eq:zHinf} and \ref{eq:yHinf}
 
 Starting with \autoref{eq:xDotHinf}, it contains the $\vec{A}_1$, $\vec{B}_1$ and $\vec{B}_2$ matrices. 
 
-The matrix $\vec{A}_1$ describes the dynamics of the system states and all the other added states, which account for the references and disturbances. Its value can be seen in \autoref{app:matrices} and its structure is \fxnote{make appendix for all matrices} \fxnote{mention A and B matrices for integral, wave, wind etc comes from weighting functions}
+The matrix $\vec{A}_1$ describes the dynamics of the system states and all the other added states, which account for the references and disturbances. Its value can be seen in \autoref{app:matrices} and its structure is \fxnote{make appendix for all matrices}
 \begin{flalign}
 	\label{eq:A1}
 	\vec{A}_1 &=
@@ -170,7 +170,7 @@ The matrix $\vec{A}_1$ describes the dynamics of the system states and all the o
 		\vec{0}_{2\mathrm{x}3} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{A}_\mathrm{noise} 
 	\end{bmatrix}\ . \nonumber
 \end{flalign}
-It can be seen that the matrix is composed by submatrices that correspond to the different parts of the system, namely for the original states in the first three rows, the integral states for reference tracking in the next two rows and the uncontrolled inputs in the last four rows.
+It can be seen that the matrix is composed by submatrices that correspond to the different parts of the system, namely for the original states in the first three rows, the integral states for reference tracking in the next two rows and the uncontrolled inputs in the last six rows. The last submatrices result from the weighting functions applied to the different uncontrolled inputs.
 
 $\vec{B}_1$ relates the uncontrolled inputs with the state derivatives, its value is shown in \autoref{app:matrices}. Its structure in terms of the different submatrices is \begin{flalign}
 	\label{eq:B1}
@@ -214,7 +214,7 @@ The $\vec{C}_1$ matrix relates the states and the performance outputs, it is for
 		\vec{0}_{2\mathrm{x}3}  & \vec{0}_{2\mathrm{x}2}  & \vec{0}_{2\mathrm{x}2}  & \vec{0}_{2\mathrm{x}2}  & \vec{0}_{2\mathrm{x}2} 
 	\end{bmatrix}\ . \nonumber
 \end{flalign}
-Where the weighting submatrices values have been chosen as \fxnote{how we choose the weights}.The value of the $\vec{C}_1$ matrix can be seen in \autoref{app:matrices}.
+Where the weighting submatrices values have been chosen as \fxnote{explain how we choose the weights}.The value of the $\vec{C}_1$ matrix can be seen in \autoref{app:matrices}.
 
 $\vec{D}_{11}$ is a zero matrix as there is no relation between the uncontrolled inputs and the performance outputs in the $\mathcal{H}_\infty$ design. It has as many rows as the number of elements in the performance output and as many columns uncontrolled  inputs.
 
