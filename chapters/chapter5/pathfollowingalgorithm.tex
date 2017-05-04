@@ -1,5 +1,5 @@
 \section{Path Following Algorithm}\label{sec:pathfollower}
-The path generated is approximated by straight line segments connected by waypoints. The vessel then follows these in order to track the path and cover the area in which the measurements are to be taken. This approximation is suitable as the bathymetric measurements are usually taken in straight line paths. If curved paths were required, the solution would be to sample the path with higher frequency in curved sections. \autoref{fig:pathandwaypoints} shows an example of how a path is approximated by straight line segments and waypoints.
+The path generated is approximated by straight line segments connected by the calculated waypoints. The vessel then follows these in order to track the path and cover the area in which the measurements are to be taken. This approximation is suitable as the bathymetric measurements are usually taken in straight line paths. If curved paths were required, the solution would be to sample the path with higher frequency in curved sections. \autoref{fig:pathandwaypoints} shows an example of how a path is approximated by straight line segments and waypoints.
 \begin{figure}[H]
 	\includegraphics[width=0.6\textwidth]{figures/pathandwpts}
 	\caption{A predefined path and its approximation as straight line segments using waypoints.}

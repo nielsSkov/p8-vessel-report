@@ -86,14 +86,31 @@ Another example with a high pass weighting function is shown in \autoref{eq:weig
 	\frac{n'}{n}=\frac{s}{s+a} = \frac{-a}{s+a}-1 \rightarrow \begin{cases} \dot{x}_\mathrm{n} = -a x_\mathrm{n} + n \\ n' = - a x_\mathrm{n} + n  \end{cases}\label{eq:weightingexampleHP} 
 \end{flalign}
 
-This process also entails defining the weights for each uncontrolled input. The weight on the reference is set to be a first order transfer function with a very fast pole so the step input does not get distorted. The weights on the input disturbances are also low pass filtered as most of them appear at low frequencies. The noise, on the other hand, is weighted according to a high pass filter, as it is stronger in the high frequency range. In this way, the controller design focuses on achieving a robust controller with respect to the uncontrolled inputs in their particular frequency ranges. The weights for each uncontrolled input are are
-\fxnote{include proper weighting transfer functions and it looks a bit ugly as it is now}
+This process also entails defining the weights for each uncontrolled input. The weight on the reference is set to be a first order transfer function with a very fast pole so the step input does not get distorted. The weights on the input disturbances are also low pass filtered as most of them appear at low frequencies. The noise, on the other hand, is weighted according to a high pass filter, as it is stronger in the high frequency range. In this way, the controller design focuses on achieving a robust controller with respect to the uncontrolled inputs in their particular frequency ranges. The chosen frequencies are 1, 20 and 20 rad/s for the references, wind disturbance and wave disturbance low pass filters, respectively, and 100 rad/s for the noise high pass filter. These numbers are calculated based on several test which can be seen in \fxnote{make appendix with freq tests} The weights for each uncontrolled input are
+
+\hspace{0.2\linewidth}
+\begin{minipage}{0.3\linewidth}
 \begin{flalign}
-	W_{\psi_\mathrm{ref}} &= \frac{1}{s+1}\ ,\  W_{\dot{x}_\mathrm{b,ref}} = \frac{1}{s+1}\ ,\nonumber \\
-	W_{F_\mathrm{wind}} &= \frac{1}{s+1}\ ,\nonumber\   W_{\tau_\mathrm{wind}} = \frac{1}{s+1}\ , \nonumber\\
-	W_{F_\mathrm{wave}} &= \frac{1}{s+1}\ , \nonumber\  W_{\tau_\mathrm{wave}} = \frac{1}{s+1}\ , \nonumber\\
-	W_{n_\psi} &= \frac{s}{s+1}\ , \nonumber\ 	W_{n_{\dot{x}_\mathrm{b}}} = \frac{s}{s+1}\ .\nonumber
+	W_{\psi_\mathrm{ref}} &= \frac{1}{s+1}\ ,\nonumber \\
+	W_{F_\mathrm{wind}} &= \frac{20}{s+20}\ ,\nonumber\\
+	W_{F_\mathrm{wave}} &= \frac{20}{s+20}\ ,\nonumber\\
+	W_{n_\psi} &= \frac{s}{s+100}\ .\nonumber
 \end{flalign}
+\end{minipage}
+\begin{minipage}{0.3\linewidth}
+\begin{flalign}
+	W_{\dot{x}_\mathrm{b,ref}} &= \frac{1}{s+1}\ ,\nonumber \\
+	W_{\tau_\mathrm{wind}} &= \frac{20}{s+20}\ , \nonumber\\
+	W_{\tau_\mathrm{wave}} &= \frac{20}{s+20}\ , \nonumber\\
+	W_{n_{\dot{x}_\mathrm{b}}} &= \frac{s}{s+100}\ .\nonumber
+\end{flalign}
+\end{minipage}\hfill
+%\begin{flalign}
+%	W_{\psi_\mathrm{ref}} = \frac{1}{s+1}\ ,\  W_{\dot{x}_\mathrm{b,ref}} = \frac{1}{s+1}\ ,\nonumber \\
+%	W_{F_\mathrm{wind}} = \frac{1}{s+1}\ ,\nonumber\   W_{\tau_\mathrm{wind}} = \frac{1}{s+1}\ , \nonumber\\
+%	W_{F_\mathrm{wave}} = \frac{1}{s+1}\ , \nonumber\  W_{\tau_\mathrm{wave}} = \frac{1}{s+1}\ , \nonumber\\
+%	W_{n_\psi} = \frac{s}{s+1}\ , \nonumber\ 	W_{n_{\dot{x}_\mathrm{b}}} = \frac{s}{s+1}\ .\nonumber
+%\end{flalign}
 
 The states coming from the weighting functions, together with the system states and the integral states, constitute the state vector as 
 \begin{flalign}
@@ -120,7 +137,7 @@ The uncontrolled inputs include the references to be tracked, the input disturba
 \begin{flalign}
 	\vec{w(t)}= 
 	\begin{bmatrix}
-		\psi_\mathrm{ref} & \dot{x}_\mathrm{b},_\mathrm{ref} & F_\mathrm{wind} & \tau_\mathrm{wind} & F_\mathrm{wave} & \tau_\mathrm{wave}& n_{\psi} & n_{\dot{x}_\mathrm{b}}
+		\psi_\mathrm{ref} & \dot{x}_\mathrm{b,ref} & F_\mathrm{wind} & \tau_\mathrm{wind} & F_\mathrm{wave} & \tau_\mathrm{wave}& n_{\psi} & n_{\dot{x}_\mathrm{b}}
 	\end{bmatrix}^\mathrm{T} \ .
 	\label{eq:wVectorHinf}
 \end{flalign} \nonumber
@@ -185,7 +202,6 @@ $\vec{B}_1$ relates the uncontrolled inputs with the state derivatives, its valu
 \end{flalign}
 
 The matrix $\vec{B}_2$ relates the controlled inputs to the states, in this case, the motor thrusters only affect the system states. The $\vec{B}_2$ matrix is constructed as 
-\fxnote{write the proper B2 matrix}
 \begin{flalign}
 	\label{eq:B2}
 	\vec{B}_2 &=
@@ -200,7 +216,7 @@ The matrix $\vec{B}_2$ relates the controlled inputs to the states, in this case
 
 Next, the matrices appearing in \autoref{eq:zHinf} are derived. These are $\vec{C}_1$, $\vec{D}_{11}$ and $\vec{D}_{12}$ and they can be considered to be weighting matrices where the importance of each of the performance outputs and the usage of the controlled inputs can be specified.
 
-The $\vec{C}_1$ matrix relates the states and the performance outputs, it is formed by a diagonal matrix, where some weights are applied to each state, and some zero rows corresponding to the controlled inputs of the system. The matrix is constructed as 
+The $\vec{C}_1$ matrix relates the states and the performance outputs, it is formed by a diagonal matrix, where weights are applied to each state, and some zero rows corresponding to the controlled inputs of the system. The matrix is constructed as 
 \begin{flalign}
 	\label{eq:C1}
 	\vec{C}_1 &=
@@ -214,8 +230,14 @@ The $\vec{C}_1$ matrix relates the states and the performance outputs, it is for
 		\vec{0}_{2\mathrm{x}3}  & \vec{0}_{2\mathrm{x}2}  & \vec{0}_{2\mathrm{x}2}  & \vec{0}_{2\mathrm{x}2}  & \vec{0}_{2\mathrm{x}2} 
 	\end{bmatrix}\ . \nonumber
 \end{flalign}
-Where the weighting submatrices values have been chosen as \fxnote{explain how we choose the weights}.The value of the $\vec{C}_1$ matrix can be seen in \autoref{app:matrices}.
-
+Where the weighting submatrices values have been chosen as according to the importance of each state in the controller design. The numbers are found through an iterative process starting with an initial design that weighted more the most important states in the system, which are the system states and the reference states. The design process was carried out by simulating the controller with the non-linear model of the system. The final designed weights are
+\fxnote{check these numbers}
+\begin{flalign}
+	\vec{W}_\mathrm{x} = diag(2,3,2)\ ,\vec{W}_\mathrm{i}=diag(5,2)\ ,\vec{W}_\mathrm{wind}=diag(1,1)\ ,  
+\end{flalign}
+\begin{flalign}
+    \vec{W}_\mathrm{wave}=diag(1,1)\ ,\vec{W}_\mathrm{noise}=diag(1,1)\ .
+\end{flalign}
 $\vec{D}_{11}$ is a zero matrix as there is no relation between the uncontrolled inputs and the performance outputs in the $\mathcal{H}_\infty$ design. It has as many rows as the number of elements in the performance output and as many columns uncontrolled  inputs.
 
 The $\vec{D}_{12}$ has non-zero elements only in the entries that weight the inputs, its values can be seen in \autoref{app:matrices}. The matrix is constructed as 
@@ -270,10 +292,4 @@ and calculating the state feedback gain matrix as
 	\vec{F}_\infty = -\vec{B}_2^\mathrm{T}\vec{X}_\infty
 \end{flalign}
 
-The value of $\gamma$ in the Riccatti equation has been chosen according to \fxnote{explain value for gamma}
-
-
-
-
-
-
+The value of $\gamma$ in the Riccatti equation is also a design parameter that can be modified making the controller more or less conservative. The value chosen should be bigger than the largest singular value of the system. In this design, the minimum $\gamma$ value is 2.7832. The final value has been chosen higher than the minimum in order to have a small robustness margin. The value used is 5.
