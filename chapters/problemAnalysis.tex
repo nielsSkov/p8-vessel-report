@@ -20,7 +20,7 @@ It is therefore desired to automate the process, preferably with a smaller unman
 
 The controller design must be able to track references provided by a path planer as well as rejecting disturbances such as possible wind or the effect of the waves. This requires a model of the disturbances to be included in the controller design along with a robust controller capable of handling model uncertainties.
 
-The path planer must be able to design a route, in the form of waypoints, to reach all the position needed to perform the different measurements required for the survey.
+The path planer must be able to design a route, in the form of waypoints\fxnote{not necessarily, is it not too early to decide?}, to reach all the positions needed to perform the different measurements required for the survey.
 
 The accuracy and precision with which the route can be tracked has a significant impact on the efficiency of the system. The less closely the path is tracked, the more overlap of the echo sounder beam is required from each sweep in order to cover the entirety of the bottom.
 
@@ -29,7 +29,7 @@ The quality of the bathymetric measurements will also play part in determining t
 \section{Design Considerations}
 The system design assumes that the sensor used to measure the bottom of the fjord is based on the current multibeam echosounder used by the Port of Aalborg, the multibeam echosounder SeaBat 7125 \cite{echoSounder}, which has a swath angle of 140$^\mathrm{o}$.
 
-Based on the bathymetric map found in \autoref{app:bathymetricMapPortOfAalborg}, a mean depth can be considered to estimate the width of the beam when it reaches the bottom. This width is used to plan the trajectory that the boat needs to follow to be able to reach all the points in a given area, see \autoref{chap:outerController}. In \autoref{fig:echosounder} a diagram of the echosounder's beam can be seen.
+Based on the bathymetric map found in \autoref{app:bathymetricMapPortOfAalborg}, a mean depth\fxnote{should this not be a worst case? (approx. 6.7 m), otherwise, what happens to the map whenever the depth is less than the mean depth? Worst case an 18 m gap in the scan.} can be considered to estimate the width of the beam when it reaches the bottom. This width is used to plan the trajectory that the boat needs to follow to be able to reach all the points in a given area, see \autoref{chap:outerController}. In \autoref{fig:echosounder} a diagram of the echosounder's beam can be seen.
 
 \begin{figure}[H]
     \includegraphics[width=0.9\textwidth]{figures/echosounder}
