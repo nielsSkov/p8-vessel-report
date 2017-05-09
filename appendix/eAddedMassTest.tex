@@ -1,0 +1,53 @@
+\chapter{Test Journal: Added Mass}
+%%%% Purpose
+\subsection{Purpose}
+The purpose of this test journal is to measure the added mass of the vessel, which is needed for completing the model.
+%%%% Theory
+\subsection{Theory}
+By knowing the Force applied to the vessel and the acceleration, the added mass can be obtained by rearranging equation \autoref{eq:x_pos_model} and \autoref{eq:y_pos_model} to acquire the x and y components respectively.
+This assumes the force-input relationship of the actuators as well as the drag coefficients is known.
+
+%%%% Requirements
+\subsection{Equipment}
+\begin{itemize}
+	\item Aau ship\fxnote{Ensure this is the correct name, is it enough to just mention a ship or every thing located on it as this will influence the test}
+	\item Emlid Reach RTK GPS
+	\item 2x INLINE 750 14.8V brushless DC-Motor
+	\item 2x Speed Controller +70 G3.5
+	\item ADIS16405BMLZ IMU
+	\item Ps3 Controller  
+	\item 2x Smarthpone with WiFi-Hotspot enabled
+	\item laptop running remote-controller-client.by and it's dependencies installed (script located in appendix)\fxnote{Make sure this is done at hand in}
+\end{itemize}
+
+
+\subsection{Test Setup}
+
+
+
+%%%% Test Setup
+\subsection{Procedure}
+\begin{enumerate}
+	\item Turn on all equipment
+	\item launch following launch scripts:
+		\begin{itemize}
+			\item addedMass.launch 
+			\item Rosbag.launch \fxnote{inset correct script name}
+		\end{itemize}
+	\item Connect Ps3-controller to laptop
+	\item Run remote-controller-client.py with sudo privileges
+	\item input a step to the motors by holding down the 
+	\item reposition the vessel to the initial starting position
+	\item two different steps to the motors
+\item process the data using \autoref{eq:x_pos_model} and \autoref{eq:y_pos_model}
+\end{enumerate}
+
+
+\subsection{Error Sources}
+\begin{itemize}
+	\item Wind and Wave Disturbances
+	\item Measurement noise
+\end{itemize}
+
+%%%% Results
+\subsection{result}

@@ -11,18 +11,12 @@ This results in most modern GPS receivers having a precision of 2-5 m.
 For applications where this precision is insufficient, an RTK GPS can be used. 
 By comparing the measurements received from a base station, the rover is able to compensate for the disturbances.
 The base station is a stationary GPS receiver with a known position, which streams correction data, to be used by the rover. 
-The increased performance is a result of the weather pattern is locally similar, meaning that if the base station and the rover is close (within 10-20 km) to each other, the disturbances they experience is the same.
-This enables the rover to compensate for the weather patterns, granted the base station received the same satellites as the rover.
+%The increased performance is a result of the weather pattern is locally similar, meaning that if the base station and the rover is close (within 10-20 km) to each other, the disturbances they experience is the same.
+As long as the rover remains within a close distance to the base station, the rover will be able to use the offset the base station experiences to improve it's own measurements.
+%This enables the rover to compensate for the weather patterns, granted the base station received the same satellites as the rover.
 This can result in down to sub centimeter precision for some high grade implementations.
 
 \section{Base station implementation and usage}
-%The modules used for the base station is the emlid reach RTK.
-%%%%%%%%%%Report%%%%%%%%%%
-In addition to the UP-501 module, an Emlid Reach RTK gps is installed.
-An RTK gps is able to archive a higher precision than an ordinary gps by receiving correction data from a base station.
-The base station is setup at a stationary location with a known, precise gps position.
-Knowing this, the base station is able to generate correction data, based on measurements such as the phase of incoming sattelite signals, which is to be send to an rover.
-%The base station is setup using a Emlid reach RTK gps, and a computer which sends the correction data to a socket.
 The correction data is used by the rover to estimate signal disturbances, caused be the signals entering the atmosphere. 
 This enables it to increase the precision of it's gps measurements, from .
 This data is formatted as a RTCM3 message, which is a protocol designed for this purpose.
@@ -33,8 +27,6 @@ This data is formatted as a RTCM3 message, which is a protocol designed for this
 \end{figure}
 \autoref{fig:app_gps_setup} shows how the RTK gps system is setup. 
 The computer runs a Python script which forwards the message to a TCP socket, making it accessible through the Internet. 
-The onboard computer connects to this socket and feeds the data to the Rover located on the boat.
-
 %%%%appendix%%%%%%%%%%%%
 The Reach is able to act both as a base station and as a rover depending on the settings.
 The settings pane is accessed by typing the ip of the reach in a browser, which connects to a GUI server hosted by the reach after initialization.
