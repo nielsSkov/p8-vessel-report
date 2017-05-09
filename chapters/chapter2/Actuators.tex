@@ -2,22 +2,22 @@
 
 The actuation system present on the vessel is constituted by the thrusters. These can be divided into two forward thrusters and two side thrusters. 
 
-\subsection{Forward Thrusters}
+\subsection{Thrusters}
 The forward thrusters are the main actuators present on the vessel and they provide a forward force depending on the rotational speed as 
 %
 \begin{flalign}
-	F(n_\mathrm{PWM}) = \num{0.2567} \cdot n_\mathrm{PWM} - \num{22.83} .
+	F(n_\mathrm{PWM}) = \num{0.2567} \cdot n_\mathrm{PWM} - \num{22.83} \ \ .
 	\label{eq:forwardSpeedForce}
 \end{flalign}
 %
 They can also rotate in the opposite direction, producing a backwards force that can be calculated as 
 %
 \begin{flalign}
-	F(n_\mathrm{PWM}) = \num{0.2567} \cdot n_\mathrm{PWM} - \num{22.83} .
+	F(n_\mathrm{PWM}) = \num{0.1152} \cdot n_\mathrm{PWM} - \num{7.318} \ \ .
 	\label{eq:backwardSpeedForce}
 \end{flalign}
 %
-These equations have been obtained through experimental tests in described in \cite{thesis}.
+These equations have been obtained through experimental tests described in \emph{Formation Control of Autonomous Surface Vehicles}. \cite{thesis}
 
 The forward thrusters are actuated with brushless motors INLINE 750 \num{14.8} V from Graupner. They have two poles with a velocity constant of 1035 rpm kV$^{-1}$ and can operate within \num{7.4} and \num{22.2} V, being the nominal voltage \num{14.8} V. \cite{motors}
 
