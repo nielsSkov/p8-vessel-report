@@ -29,7 +29,7 @@ The quality of the bathymetric measurements will also play part in determining t
 \section{Design Considerations}
 The system design assumes that the sensor used to measure the bottom of the fjord is based on the current multibeam echosounder used by the Port of Aalborg, the multibeam echosounder SeaBat 7125 \cite{echoSounder}, which has a swath angle of 140$^\mathrm{o}$.
 
-Based on the bathymetric map found in \autoref{app:bathymetricMapPortOfAalborg}, a mean depth can be considered to estimate the width of the beam when it reaches the bottom. This width is used to plan the trajectory that the boat needs to follow to be able to reach all the points in a given area, see \autoref{chap:outerController}. In \autoref{fig:echosounder} a diagram of the echosounder's beam can be seen.
+Based on the bathymetric map found in \autoref{app:bathymetricMapPortOfAalborg}, a minimum depth can be considered to estimate the width of the beam when it reaches the bottom. This width is used to plan the trajectory that the boat needs to follow to be able to reach all the points in a given area, see \autoref{chap:outerController}. In \autoref{fig:echosounder} a diagram of the echosounder's beam can be seen.
 
 \begin{figure}[H]
     \includegraphics[width=0.9\textwidth]{figures/echosounder}
