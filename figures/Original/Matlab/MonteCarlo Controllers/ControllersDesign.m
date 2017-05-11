@@ -13,9 +13,6 @@ C=[1 0 0;
 D=[0 0;
     0 0];
 
-% Sampling time
-Ts = 0.05;
-
 % Sizes of ss model
 nx=size(A,1);    % Number of states
 nu=size(B,2);   % Number of inputs
