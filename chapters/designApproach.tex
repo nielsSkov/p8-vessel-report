@@ -1,34 +1,37 @@
 \chapter{Design Approach}
 %%%%%%Intoduction/description
+Based on the requirements mentioned in Section \ref{sec:requirements} the approach shown in \autoref{fig:controllerDiagram} is designed. 
+The system is designed to autonomously survey an area specified by some coordinates.
 
-%%%%% Path Planning
-The path planner computes a path for the vessel to follow, given four waypoints as input, representing a rectangle. 
-The path is computed such that the vessel covers the entire area within the rectangle. 
-This path will be used as a reference by the outer controller.
-
+This is achieved by computing a path within the specified area, that preforms a sweeping motion with a predefined width.
+The path is used as input into the controllers, making the vessel follow it. 
+Additionally to improve the accuracy of the measurements the sensor data will be fused together before it's used as input for the controllers. 
+%%%%% Path generation
 \begin{figure}[H]
     \includegraphics[width=0.3\textwidth]{figures/controllerDiagram2}
     \caption{}
     \label{fig:controllerDiagram}
 \end{figure}
 
- 
-
-
 The control design consists of two controllers, an inner controller and an outer controller. 
 
-The inner controller uses the references $\dot{x_{bref}}$ and $\dot{\psi_{ref}}$ to regulate $\dot{x_{b}}$ and $\dot{\psi}$ using $F_{1}$ and $F_{2}$. 
+As shown on \autoref{fig:controllerDiagram} the outer controller follows the path by changing the reference of the inner controller to obtain it's desired position. 
+This approach is chosen as it separates the inertial frame from the boat frame, avoiding nonlinearities that would be present if a single controller used both frames of reference. 
+
+The inner controller uses the references $\dot{x}_{bref}$ and $\dot{\psi}_{ref}$ to regulate $\dot{x}_{b}$ and $\dot{\psi}$ using $F_{1}$ and $F_{2}$. 
 Two design approaches will be tested for the inner controller, an $H_{\infty}$ controller and a LQR controller.
 The $H_{\infty}$ controller will be designed to be robust towards wind and wave disturbances and towards model errors. 
-The LQR controller will be designed to reduce the energy consumption of the vessel, giving the vessel a longer operation period. 
+The LQR controller will be designed to reduce the energy consumption of the vessel and the states. 
 
-These two approaches will be compared in the end, to see how each compares in the design categories; robustness and energy consumption. 
+The two approaches for the inner controller will be compared in the end, to see how each compares in the design categories; robustness and energy consumption. \fxnote{Make sure this is correct}
 
 The outer controller is responsible for maintaining following a path in the inertial frame. 
-It receives a set of waypoints from the path planner, which when interpolated represents a desired path for the boat to follow. 
-By comparing the measured position of the vessel it is able to compute a heading needed in the inertial frame, which is needed to follow that path.
-This is obtained by adjusting the reference of the inner controller. 
+The path received from the path generation algorithm represents a desired path for the boat to follow. \\
+
+Using $x_{n}$ , $y_{n}$ $x_b$ $y_b$ and $\psi$ it is able to compute the $\psi_{ref}$ and $x_{ref}$ needed to follow the path. 
+
 %%%%%Sensor Fusion%%%%%%
 The sensor fusion is implemented to improve the accuracy of the measurements. 
-The sensor fusion ustilizes a kalmann filter to reduce measurement noise from the sensors, by comparing the measurements to a model of the vessel. 
+The sensor fusion utilizes a kalmann filter to reduce measurement noise from the sensors, by comparing the measurements to a model of the vessel. 
+The filter fuses $\psi_{raw}$ $x_{b}$ $y_{b}$ to $\psi_{raw}$ $x_{b}$ $y_{b}$ which is the measurements used by the controllers. 
 
