@@ -1,9 +1,4 @@
-\section{Background}
-The model of the surface vessel is based in the hydrodynamic modeling presented in \cite{TFossen}, where the principal effects that need to be taken into account are described.
-
-In this section, the different contributions are summarized and related to the vessel at hand.
-
-\subsection{Reference Frames}
+\section{Reference Frames}
 To describe the orientation and position of the surface vessel two coordinate frames are used, the body frame and an inertial frame. For operations in a local area, with longitude and latitude approximately constants (flat navigation) a NED system (North-East-Down) can be assumed as an inertial frame where Newton's physics will apply \cite[p. 17]{TFossen}.
 
 To distinguish between the two frames, the body frame is denoted by a subindex "$_\mathrm{b}$", and the inertial frame with subindex "$_\mathrm{n}$". In \autoref{fig:refFrame}, a diagram of the surface vessel with the notation used can be seen.
@@ -101,7 +96,7 @@ In the case of the rotational movement, the motion is describe using the Newton'
 This movement is subject to the Coriolis effect, which appear if the vessel is not rotating around the axis with least- or highest- inertial axis.
 The influence of this force is small if the vessel rotates at low speeds, hence it have been neglected in the model.
 
-\subsection{Hydrostatics}
+\section{Hydrostatics}
 
 The hydrostatics describe what forces and torques are applied on the surface vessel by the volume of fluid displaced when floating on water. The force induced upon the vessel is called buoyancy force and it is applied to the center of buoyancy.  
 
@@ -167,7 +162,7 @@ T_{\theta} &= -\rho g V \overline{GM}_{\mathrm{L}} \sin \theta (\cos \theta \cos
 The metacentric heights are the distances between the center of gravity and the metacenter of the vessel. The metacenter position is related with the position of the center of gravity and that of the center of buoyancy. \cite[pp. 65-67]{TFossen}
 %equations in the book page 78
 
-\subsection{Hydrodynamics}
+\section{Hydrodynamics}
 The hydrodynamic forces induced in the surface vessel are mainly caused by two terms. The added mass and the viscous damping.
 
 The added mass induces forces that originate from the vessel imposing some energy in the surrounding fluid when it moves through it. The force generated is dependent on the acceleration of the vessel. \fxnote{what to do here??}

@@ -1,8 +1,5 @@
 \section{Linear Quadratic Regulator} \label{sec:lqr}
-\fxnote{Make Matrix Appendix with numbers}
-\fxnote{Refference to matrix appendix where appropriate in this section.}
-%
-It is desired to design a state feedback using a linear quadratic regulator (LQR). 
+The first design approach for the inner controller is a state feedback. The compensator gain is obtained using a linear quadratic regulator (LQR). First, a state space model of the system is created based on the equations derived in \autoref{chap:model}. Then, a cost function based on the state errors and the input usage is minimized in order to calculate the controller gains. 
 
 \subsection{State Space Model}
 The linearized model derived in \autoref{sec:linearizationModel}, consisting of \autoref{eq:x_pos_model_lin} to \ref{eq:psi_model_lin}, needs to be represented in state space form in order to design a state space controller. In order to do that, the 3 degree of freedom model used for the control of the vessel is represented as
@@ -174,7 +171,7 @@ which cooresponds to \autoref{eq:xDotLinearDiscrete} and \ref{eq:yLinearDiscrete
 A discrete time infinite horizon LQR is used in the design of the feedback, $\vec{F_e} = [\ \vec{F} \ \ \vec{F}_\mathrm{I} ]\ $, which works by minimizing the cost function,
 %
 \begin{flalign}
-  J = \sum_{k=0}^\infty \vec{x}_k^\mathrm{T}\vec{Q}\vec{x}_k + \vec{u}_k^\mathrm{T}\vec{R}\vec{u}_k \ dt \ \ .
+  J = \sum_{k=0}^\infty \vec{x}_k^\mathrm{T}\vec{Q}\vec{x}_k + \vec{u}_k^\mathrm{T}\vec{R}\vec{u}_k  \ \ .
 \end{flalign}
 \begin{where}
 	\va{\vec{Q}}{is the symmetric positive semidefinite state cost matrix}{}
@@ -227,6 +224,7 @@ where $\vec{P}$ can be found as the solution of the infinite horizon algebraic d
 %
 Once $\vec{F}_\mathrm{e}$ is obtained, it is split into the two feedback matrices, $\vec{F}_\mathrm{e} = [\ \vec{F} \ \ \vec{F}_\mathrm{I}\ ]$, and implemented, following the control structure provided in \autoref{fig:blockConrolDesignLQR}.
 
+These design has been simulated together with the nonlinear model of the system. Its performance is also compared to the $\mathcal{H}_\infty$ controller designed in \autoref{sec:Hinf} when disturbances, measurement noise and parameter uncertainties are present. The simulations are presented in \autoref{sec:comparison}.
 
 
 
