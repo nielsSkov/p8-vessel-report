@@ -1,6 +1,6 @@
 \section{Path Generation Algorithm}\label{sec:pathgeneration}
 
-\fxnote{Check if all variables are correct}The path generation algorithm creates a list of waypoints for the vessel to follow. The area that needs to be surveyed is used to generate the waypoints. The desired area is a bounded rectangle and is given as an input to the algorithm as two coordinates, in \autoref{eq:pathgenxy}, that specifies the start and end coordinates of the area.
+\fxnote{Check if all variables are correct}The path generation algorithm creates a list of waypoints for the vessel to follow. The area that needs to be surveyed is used to generate the waypoints. The desired area is a bounded rectangle and is given as an input to the algorithm as two coordinates, in \autoref{eq:pathgenxy}\fxnote{ref doesn't work}, that specifies the start and end coordinates of the area.
 %
 \begin{flalign} 
   \{x_\mathrm{start}; y_\mathrm{start}\}  \rule{40px}{0px} \{x_\mathrm{end}; y_\mathrm{end}\}
@@ -14,7 +14,7 @@
   \va{y_\mathrm{end}}{is the ending y coordinate}{}
 \end{where}
 %
-Bathymetric measurements are typically performed in straight lines\fxnote{find source}. This is used as a design criteria for the path generation algorithm. The path is generated with straight lines and turns for which the vessel shall follow. To determine the width between these lines, the dynamics of the vessel, the swath angle of the multibeam echosounder and the minimum depth to survey were taken into consideration. The swath angle and minimum depth of the Port of Aalborg survey were used to calculate the width between straight lines, as described in \autoref{sec:designconsiderations},
+Bathymetric measurements are typically performed in straight lines\fxnote{find source}. This is used as a design criteria for the path generation algorithm. The path is generated with straight lines and turns for which the vessel shall follow. To determine the width between these lines, the dynamics of the vessel, the swath angle of the multibeam echosounder and the minimum depth of the area to survey were taken into consideration. The swath angle and minimum depth of the Port of Aalborg survey in \autoref{app:bathymetricMapPortOfAalborg} were used to calculate the width between straight lines, as described in \autoref{sec:designconsiderations},
 %
 \begin{flalign}
   w_\mathrm{beam} = 36 \mathrm{m}
