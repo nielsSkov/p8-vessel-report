@@ -1,11 +1,11 @@
 \section{Path Following Algorithm}\label{sec:pathfollower}
-The path generated is approximated by straight line segments connected by the calculated waypoints. The vessel then follows these in order to track the path and cover the area in which the measurements are to be taken. This approximation is suitable as the bathymetric measurements are usually taken in straight line paths. If curved paths were required, the solution would be to sample the path with higher frequency in curved sections. \autoref{fig:pathandwaypoints} shows an example of how a path is approximated by straight line segments and waypoints.
+The path generated is approximated by straight line segments connected by the calculated waypoints. The vessel then follows these in order to track the path and cover the area in which the measurements are to be taken. This approximation is suitable as the bathymetric measurements are usually taken in straight line paths. Straight line segments on the curved paths are not required as the curved paths are outside of the area of interest. If curved paths were required, the solution would be to sample the path with higher frequency in curved sections. \autoref{fig:pathandwaypoints} shows an example of how a path is approximated by straight line segments and waypoints.
 \begin{figure}[H]
 	\includegraphics[width=0.6\textwidth]{figures/pathandwpts}
 	\caption{A predefined path and its approximation as straight line segments using waypoints.}
 	\label{fig:pathandwaypoints}
 \end{figure}
-The algorithm starts by considering the first two waypoints in the path. The yaw reference given to the state space controller is calculated based on the crossing point between the straight line segment that joints the waypoints and a circle centered in the position of the boat. \autoref{fig:LOSalgorithm} shows how this crossing point is obtained. The point is also called LOS (Line Of Sight) point and is found using the equations of the circle and of the straight line as
+The algorithm starts by considering the first two waypoints in the path. The yaw reference given to the state space controller is calculated based on the crossing point between the straight line segment that joints the waypoints and a circle centered in the position of the boat. \autoref{fig:LOSalgorithm} shows how this crossing point is obtained. The crossing point is also called LOS (Line Of Sight) point and is found using the equations of the circle and of the straight line as
 %
 \begin{flalign}
 	(&x_\mathrm{los}-x_\mathrm{n})^2 + (y_\mathrm{los}-y_\mathrm{n})^2 = R^2, \label{eq:circle} \ \\
