@@ -37,18 +37,43 @@ Based on the bathymetric map found in \autoref{app:bathymetricMapPortOfAalborg},
     \label{fig:echosounder}
 \end{figure}
 
+\section{Control Analysis}
+For the boat to autonomously survey an area, a controller is needed. 
+The performance of the controller is crucial for how well the system preforms overall. 
+One of the challenges when designing a controller is how well it handles disturbances. 
+\begin{figure}[H]
+    \includegraphics[width=0.5\textwidth]{figures/boatdisturbance}
+    \caption{Illustration of disturbances}
+    \label{fig:boatdist}
+\end{figure}
+In the case of the boat the disturbances are mostly represented as wind and wave disturbances. 
+As illustrated on \autoref{fig:boatdist}, these external forces would alter the force vector of the boat, altering it's trajectory. 
+If the controller is not sufficiently robust against this kind of noise, the boat might not be able to follow a path, or do so with less precision, which then would needed to be compensated for. 
+This would result in a loss in operating range, as the vessel would have to overlap a larger area to make sure the path covers the entirety of the survey area.
+
+Additionally the controller could experience disturbances in regards to model inaccuracies. 
+It is not possible to model a system perfectly, and variations in said models, would influence the controller, as it's design will be based upon these. 
+
+Another aspect of controller design is the energy consumption. 
+The controller could be optimized such that it spends as little energy as possible reaching it's destination, giving the vessel a larger possible survey area. 
+
+As the controller should be operational in most weather conditions, the robustness of the controller is considered the most important parameter. 
+
+
+
 \section{Functional Requirements} \label{sec:requirements}
 To be able to design a working prototype some functional requirements must be set and verified at the end of the project once all the design has been carried out.
 %
 \begin{enumerate}
   \item It should be possible to select the area in which the bathymetric measurements are to be performed.
   \item A path planning algorithm should be able to plan a path within the selected area such that the bathymetric measurements can be performed.
-  \item It should be possible to track the path laid out by the path planning algorithm.
-  \item It should be possible to store the recorded data locally for extraction at the end of the survey.
+  \item The vessel should be able to track the path laid out by the path planning algorithm.
+  \item The controller should be robust to external disturbances.
+  \item The vessel should record and store data locally for extraction at the end of the survey.
   \item It should be possible to give the ASV a command to stop or call it back to land.
 \end{enumerate}
 %
-The remainder of the problem analysis will go into how the functional requirements can be achieved. This will result in a set of technical requirements, which sets the perimeters of the design.
+%The remainder of the problem analysis will go into how the functional requirements can be achieved. This will result in a set of technical requirements, which sets the perimeters of the design.
 
 
 
