@@ -5,9 +5,9 @@ The system is designed to autonomously survey an area specified by some coordina
 
 This is achieved by computing a path within the specified area, that preforms a sweeping motion with a predefined width.
 The path is used as input into the controllers, making the vessel follow it. 
-Additionally to improve the accuracy of the measurements the sensor data will be fused together before it's used as input for the controllers. 
+Additionally to improve the precision of the measurements the sensor data will be fused together before it's used as input for the controllers. 
 %%%%% Path generation
-\begin{figure}[H]
+begin{figure}[H]
     \includegraphics[width=0.3\textwidth]{figures/controllerDiagram2}
     \caption{}
     \label{fig:controllerDiagram}
@@ -31,7 +31,7 @@ The path received from the path generation algorithm represents a desired path f
 Using $x_{n}$ , $y_{n}$ $x_b$ $y_b$ and $\psi$ it is able to compute the $\psi_{ref}$ and $x_{ref}$ needed to follow the path. 
 
 %%%%%Sensor Fusion%%%%%%
-The sensor fusion is implemented to improve the accuracy of the measurements. 
+The sensor fusion is implemented to improve the precision of the measurements. 
 The sensor fusion utilizes a kalmann filter to reduce measurement noise from the sensors, by comparing the measurements to a model of the vessel. 
-The filter fuses $\psi_{raw}$ $x_{b}$ $y_{b}$ to $\psi_{raw}$ $x_{b}$ $y_{b}$ which is the measurements used by the controllers. 
+The filter fuses the measured sensor data into $\psi$, $x_{b}$, $y_{b}$, $\dot{x}_{b}$ and $\dot{y}_{b}$ which is the states used by the controllers. 
 
