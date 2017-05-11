@@ -1,11 +1,11 @@
 \section{Path Following Algorithm}\label{sec:pathfollower}
-The path generated is approximated by straight line segments connected by the calculated waypoints. The vessel then follows these in order to track the path and cover the area in which the measurements are to be taken. This approximation is suitable as the bathymetric measurements are usually taken in straight line paths. If curved paths were required, the solution would be to sample the path with higher frequency in curved sections. \autoref{fig:pathandwaypoints} shows an example of how a path is approximated by straight line segments and waypoints.
+The path generated is approximated by straight line segments connected by the calculated waypoints. The vessel then follows these in order to track the path and cover the area in which the measurements are to be taken. This approximation is suitable as the bathymetric measurements are usually taken in straight line paths. Straight line segments on the curved paths are not required as the curved paths are outside of the area of interest. If curved paths were required, the solution would be to sample the path with higher frequency in curved sections. \autoref{fig:pathandwaypoints} shows an example of how a path is approximated by straight line segments and waypoints.
 \begin{figure}[H]
 	\includegraphics[width=0.6\textwidth]{figures/pathandwpts}
 	\caption{A predefined path and its approximation as straight line segments using waypoints.}
 	\label{fig:pathandwaypoints}
 \end{figure}
-The algorithm starts by considering the first two waypoints in the path. The yaw reference given to the state space controller is calculated based on the crossing point between the straight line segment that joints the waypoints and a circle centered in the position of the boat. \autoref{fig:LOSalgorithm} shows how this crossing point is obtained. The point is also called LOS (Line Of Sight) point and is found using the equations of the circle and of the straight line as
+The algorithm starts by considering the first two waypoints in the path. The yaw reference given to the state space controller is calculated based on the crossing point between the straight line segment that joints the waypoints and a circle centered in the position of the boat. \autoref{fig:LOSalgorithm} shows how this crossing point is obtained. The crossing point is also called LOS (Line Of Sight) point and is found using the equations of the circle and of the straight line as
 %
 \begin{flalign}
 	(&x_\mathrm{los}-x_\mathrm{n})^2 + (y_\mathrm{los}-y_\mathrm{n})^2 = R^2, \label{eq:circle} \ \\
@@ -42,6 +42,8 @@ The algorithm relies on the path and the circle defined around the boat to cross
 
 If the vessel is positioned far from the path such that the circle does not intersect it, then the algorithm uses the next waypoint as LOS point. Once the vessel gets closer to the path, the LOS point is calculated as described above.
 
+The yaw reference, $\psi_\mathrm{ref}$, given to the controller in \ref{innercontrol} ensures that the vessel will follow the desired LOS.
+
 In order to follow all the path, a way to change which two waypoints define the current path segment needs to be established. Several possibilities can be considered but all of them change active waypoints when the vessel gets close enough to the waypoint that defines the end of the segment. In the project at hand, the distance to the waypoint is evaluated as the distance from the waypoint to the intersection point of the path segment and a perpendicular line to the segment that passes through the vessel position. This distance is depicted in \autoref{fig:changewaypoints}.
 \begin{figure}[H]
 	\includegraphics[width=0.6\textwidth]{figures/LOSalgorithmdistancewp}
@@ -52,36 +54,46 @@ With this approach, the vessel will always try to move forward in the path altho
 This could be caused by a sudden disturbance experienced by the vessel and, in general, it is desired to keep following the path rather than turning around to hit the waypoint. In most cases, the vessel itself is going to be close to the waypoint when the change occurs. This can be seen in the simulation plots presented below. 
 
 \subsection{Path Following Algorithm Simulation}
+The path following algorithm has been tested in the same path and considering different settings for the algorithm. In all cases, the radius of the circle defined around the vessel is 5 m and the distance in which the active waypoints are changed is 3 m. \fxnote{check these numbers}
 
-\fxnote{Do not include many graphs now because we will probably redo them. Just some dummy ones.} 
-\fxnote{Maybe we could include the result also with different low level controllers}
-The path following algorithm has been tested in the same path and considering different settings for the algorithm. In all cases, the radius of the circle defined around the vessel is 5 m and the distance in which the active waypoints are changed is 3 m. 
-
-In \autoref{fig:simpleLOSalgorithm} and \ref{fig:simpleLOSalgorithmdisturbance} the results of the algorithm are presented when considering the simpler case in which $\psi_\mathrm{ref} = \chi$, that is, assuming the velocity of the vessel is pointing along the $x_\mathrm{b}$ direction. In the first graph the path is followed precisely as the assumption regarding the velocity vector holds,  whereas in the second, the constant disturbance imposes an offset in the position of the vessel.
+In \autoref{fig:lqrwrong} and \ref{fig:robwrong} the results of the algorithm are presented when considering the simpler case in which $\psi_\mathrm{ref} = \chi$, that is, assuming the velocity of the vessel is pointing along the $x_\mathrm{b}$ direction. The simulations are performed with both inner controller designs. In both graphs, the path is not precisely followed when disturbances are introduced in the system. This offset is expected as the assumption for this simpler algorithm to work does not hold.
 \begin{figure}[H]
 	\captionbox  %<--use captionbox instead if no global caption is needed
 	{               %                                \%-%-%-%-%-%-%\
-	 	Performance of the path following algorithm based on $\psi_\mathrm{ref}=\chi$.                %\
-		\label{fig:simpleLOSalgorithm}                                  %\
+	 		Performance of the path following algorithm based on $\psi_\mathrm{ref}=\chi$ and using the LQR inner controller. The system is experiencing wind and wave disturbances, model perturbations and measurement noise.\label{fig:lqrwrong}                                  %\
 	}                                                                 %\
 	{                                                                  %\
-		\includegraphics[width=.45\textwidth]{figures/pathfollowingsimple}         %\
+		\includegraphics[width=.45\textwidth]{figures/path_lqr_no_correc}         %\
 	}                                                                    %\
 	\hspace{5pt}                                                          %\
 	\captionbox  %<-----------------------------------------------------%\
 	{       
-		Performance of the path following algorithm based on $\psi_\mathrm{ref}=\chi$. The vessel is experiencing a constant disturbance force of 1 N applied with an angle of $\pi/2$.                                                                  %\                         %\
-		\label{fig:simpleLOSalgorithmdisturbance}                                     %\
+		Performance of the path following algorithm based on $\psi_\mathrm{ref}=\chi$ and using the $\mathcal{H}_\infty$ inner controller. The system is experiencing wind and wave disturbances, model perturbations and measurement noise.                                       %\                         %\
+		\label{fig:robwrong}                                     %\
 	}                                                                           %\
 	{                                                                            %\
-		\includegraphics[width=.45\textwidth]{figures/pathfollowingsimpledist}            %|
+		\includegraphics[width=.45\textwidth]{figures/path_rob_no_correc}            %|
 	}                                                                             %|
 \end{figure}
-When the information of the vessel velocity is used to calculate the reference angle, $\psi_\mathrm{ref}$, the disturbance is rejected. This is seen in \autoref{fig:normalLOSalgorithmdisturbance}, where the vessel is experiencing the same disturbance as in \autoref{fig:simpleLOSalgorithmdisturbance}. In this case, the offset in position has been corrected and the path is precisely followed.
+When the information of the vessel velocity is used to calculate the reference angle, $\psi_\mathrm{ref}$, the disturbance is rejected. This is seen in \autoref{fig:lrqcorrect} and \ref{fig:robustcorrect}, where the vessel is experiencing disturbances and model perturbations in the same range as in \autoref{fig:lqrwrong} and \ref{fig:robustwrong}. In this case, the offset in position has been corrected and the path is precisely followed in the straight line segments.
 \begin{figure}[H]
-	\includegraphics[width=0.5\textwidth]{figures/pathfollowingcomplex}
-	\caption{Performance of the path following algorithm based on $\psi_\mathrm{ref}=\chi-\beta$. The vessel is experiencing a constant disturbance force of 1 N applied with an angle of $\pi/2$.}
-	\label{fig:normalLOSalgorithmdisturbance}
+	\captionbox  %<--use captionbox instead if no global caption is needed
+	{               %                                \%-%-%-%-%-%-%\
+		Performance of the path following algorithm based on $\psi_\mathrm{ref}=\chi-\beta$ and using the LQR inner controller. The system is experiencing wind and wave disturbances, model perturbations and measurement noise.                %\
+		\label{fig:lrqcorrect}                                  %\
+	}                                                                 %\
+	{                                                                  %\
+		\includegraphics[width=.45\textwidth]{figures/path_lqr}         %\
+	}                                                                    %\
+	\hspace{5pt}                                                          %\
+	\captionbox  %<-----------------------------------------------------%\
+	{       
+		Performance of the path following algorithm based on $\psi_\mathrm{ref}=\chi-\beta$ and using the $\mathcal{H}_\infty$ inner controller. The system is experiencing wind and wave disturbances, model perturbations and measurement noise.                                                                   %\                         %\
+		\label{fig:robustcorrect}                                     %\
+	}                                                                           %\
+	{                                                                            %\
+		\includegraphics[width=.45\textwidth]{figures/path_rob}            %|
+	}                                                                             %|
 \end{figure}
 According to the results of the simulations, it can be said that the vessel hits the waypoints precisely when they are part of a straight line section of the path. In curved sections, the vessel joins smoothly the straight line segments that approximate the curve. In many cases, and especially for bathymetric measurements the algorithm can be considered suitable.
 
