@@ -1,11 +1,11 @@
 \section{Path Following Algorithm}\label{sec:pathfollower}
-The path generated is approximated by straight line segments connected by the calculated waypoints. The vessel then follows these in order to track the path and cover the area in which the measurements are to be taken. This approximation is suitable as the bathymetric measurements are usually taken in straight line paths. Straight line segments on the curved paths are not required as the curved paths are outside of the area of interest. If curved paths were required, the solution would be to sample the path with higher frequency in curved sections. \autoref{fig:pathandwaypoints} shows an example of how a path is approximated by straight line segments and waypoints.
+The path generated is approximated by straight line segments connected by the calculated waypoints. The vessel then follows these in order to track the path and cover the area in which the measurements are to be taken. This approximation is suitable as the bathymetric measurements are usually taken in straight line paths. Straight line segments are sufficient on the curved paths as the curved paths are outside the area of interest. If curved paths were required, a solution would be to sample the path with higher frequency in curved sections. \autoref{fig:pathandwaypoints} shows an example of how a path is approximated by straight line segments and waypoints.
 \begin{figure}[H]
 	\includegraphics[width=0.6\textwidth]{figures/pathandwpts}
 	\caption{A predefined path and its approximation as straight line segments using waypoints.}
 	\label{fig:pathandwaypoints}
 \end{figure}
-The algorithm starts by considering the first two waypoints in the path. The yaw reference given to the state space controller is calculated based on the crossing point between the straight line segment that joints the waypoints and a circle centered in the position of the boat. \autoref{fig:LOSalgorithm} shows how this crossing point is obtained. The crossing point is also called LOS (Line Of Sight) point and is found using the equations of the circle and of the straight line as
+The algorithm starts by considering the first two waypoints in the path. The yaw reference given to the state space controller is calculated based on the crossing point between the straight line segment that joints the waypoints and a circle centered in the position of the boat. \autoref{fig:LOSalgorithm} shows how this crossing point is obtained. There may be two intersections between the straight line and the circle, thus the chosen crossing point is the point closer to second waypoint. The crossing point is also called Line of Sight (LOS) point and is found using the equations of the circle and of the straight line as
 %
 \begin{flalign}
 	(&x_\mathrm{los}-x_\mathrm{n})^2 + (y_\mathrm{los}-y_\mathrm{n})^2 = R^2, \label{eq:circle} \ \\
@@ -42,8 +42,14 @@ The algorithm relies on the path and the circle defined around the boat to cross
 
 If the vessel is positioned far from the path such that the circle does not intersect it, then the algorithm uses the next waypoint as LOS point. Once the vessel gets closer to the path, the LOS point is calculated as described above.
 
-The yaw reference, $\psi_\mathrm{ref}$, given to the controller in \ref{innercontrol} ensures that the vessel will follow the desired LOS.
-
+The yaw reference, $\psi_\mathrm{ref}$, given to the controller in \autoref{chap:innercontrol} ensures that the vessel will follow the desired LOS. While following the LOS the distance between the vessel and the path, $e$, in \autoref{fig:patherror}, will decrease. At each time sample $\psi_\mathrm{ref}$ is recalculated using the algorithm. This is done to ensure $e$ will converge to the zero, meaning the vessel will converge onto the path.
+%
+\begin{figure}[H]
+	\includegraphics[width=0.8\textwidth]{figures/patherror}
+	\caption{Path following algorithm minimizing the error $e$ between the path and vessel}
+	\label{fig:patherror}
+\end{figure}
+%
 In order to follow all the path, a way to change which two waypoints define the current path segment needs to be established. Several possibilities can be considered but all of them change active waypoints when the vessel gets close enough to the waypoint that defines the end of the segment. In the project at hand, the distance to the waypoint is evaluated as the distance from the waypoint to the intersection point of the path segment and a perpendicular line to the segment that passes through the vessel position. This distance is depicted in \autoref{fig:changewaypoints}.
 \begin{figure}[H]
 	\includegraphics[width=0.6\textwidth]{figures/LOSalgorithmdistancewp}
