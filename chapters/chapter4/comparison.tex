@@ -51,15 +51,15 @@ In \autoref{fig:yaw_mc_lqr} and \ref{fig:yaw_mc_rob}, the performance of the con
 \end{figure}
 The behavior seen in these figures resembles that for \autoref{fig:xbdot_mc_lqr} and \ref{fig:xbdot_mc_rob}. The $\mathcal{H}_\infty$ controller shows less overshoot and variability in the different simulations but it is also slightly slower that the LQR controller. In both case, the step  In order to achieve a proper comparison, the variance with respect to the nominal model respons in abscense of disturbances has been calculated. For the LQR controller, the variance is \fxnote{Write variance for LQR}, while that for the $\mathcal{H}_\infty$ controller is \fxnote{write variance for robust}.
 
-These controller designs are also compared by their usage of inputs. The mean force applied by the trhusters when simulating the LQR controller is \fxnote{write amount of input lqr}, while that of the $\mathcal{H}_\infty$ controller is \fxnote{write amount of input robust}. It is clear that the \fxnote{LQR/ROBUST} controller uses less force to track the reference. This correlates with the settling times seen for each controller, as the LQR showed a faster step response compared to the $\mathcal{H}_\infty$ controller. 
+These controller designs are also compared by their usage of inputs. The mean force applied at each time by the thrusters when simulating the LQR controller is \num{21.5098} N, while that of the $\mathcal{H}_\infty$ controller is \num{21.8321} N. It is clear that the \fxnote{LQR/ROBUST} controller uses less force to track the reference. This correlates with the settling times seen for each controller, as the LQR showed a faster step response compared to the $\mathcal{H}_\infty$ controller. 
 
-Finally, to combine performance and usage of inputs, the mean cost used in the LQR design is calculated as 
-
+Finally, to combine performance and usage of inputs, the cost used in the LQR design is calculated as 
+%
 \begin{flalign}
-J = \sum_{k=0}^\infty \vec{x}_k^\mathrm{T}\vec{Q}\vec{x}_k + \vec{u}_k^\mathrm{T}\vec{R}\vec{u}_k \ dt \ \ .
+J = \sum_{k=0}^\infty \vec{x}_k^\mathrm{T}\vec{Q}\vec{x}_k + \vec{u}_k^\mathrm{T}\vec{R}\vec{u}_k  \ \ .
 \end{flalign}
 
-The mean cost is \fxnote{write cost LQR} and \fxnote{write cost robust} for the LRQ and $\mathcal{H}_\infty$ controller designs. As expected, the cost is lower for the LQR design as minimizing it is the basis of the LQR approach.
+The mean cost among the simulations is \num{7.1378}$\cdot 10^5$ and \num{3.4203}$\cdot 10^6$ for the LRQ and $\mathcal{H}_\infty$ controller designs. As expected, the cost is lower for the LQR design as minimizing it is the basis of the LQR approach.
 
 
 
