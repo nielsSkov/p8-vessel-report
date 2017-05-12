@@ -1,7 +1,3 @@
-close all
-clear
-clc
-
 run Parameters
 
 %--------------------------- LQR Design -----------------------------------
@@ -16,9 +12,6 @@ C=[1 0 0;
     0 0 1];
 D=[0 0;
     0 0];
-
-% Sampling time
-Ts = 0.05;
 
 % Sizes of ss model
 nx=size(A,1);    % Number of states

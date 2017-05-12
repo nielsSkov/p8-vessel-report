@@ -1,19 +1,41 @@
-\chapter{IMU Variances Test} \label{app:IMUVariances}
+\chapter{Test Journal: IMU Variances Test} \label{app:IMUVariances}
 
-\textbf{Name: Group 832}\\
 \textbf{Date: 06/04/2017}
 
-\subsubsection{Purpose}
+\subsubsection*{Purpose}
 Find the variance of the accelerometer and the variance and bias of the gyroscope present in the IMU, as well as the variance when calculation the attitude using the accelerometer and the magnetometer as described in \autoref{sec:attFusion} in \autoref{eq:roll_acc}, \ref{eq:roll_acc} and \ref{eq:yaw_mag}.
 
-\subsubsection{Procedure}
+\subsection*{Equipment}
 \begin{itemize}
-    \item Leave the sensor in a fixed position and orientation.
-    \item Record the data.
-    \item Process the data to get the needed parameters.  
+    \item Vessel with all its components.
+    %	\item Emlid Reach RTK GPS
+    %	\item 2x INLINE 750 14.8V brushless DC-Motor
+    %	\item 2x Speed Controller +70 G3.5
+    %	\item ADIS16405BMLZ IMU
+    %	\item Ps3 Controller  
+    \item External laptop.
 \end{itemize}
 
-\subsubsection{Results}
+\subsection*{Procedure}
+\begin{enumerate}
+    \item Turn on all equipment.
+    \item Remotely log into the boat, when both, laptop and vessel's computer, are in the same network.
+    \item Run the following nodes
+    \begin{itemize}
+        \item \lstinline[style=cinline]{/lli_node}
+        \item \lstinline[style=cinline]{/sensor_node}
+    \end{itemize}
+    \item Leave the vessel in a fixed position and orientation.
+    \item Record the following topics
+    \begin{itemize}
+        \item \lstinline[style=cinline]{/imu}      
+    \end{itemize}
+    \item Stop the recording after some time has passed.
+    \item Turn off the equipment.
+    \item Process the data.
+\end{enumerate}
+
+\subsubsection*{Results}
 
 \subsubsection{Accelerometer}
 \begin{figure}[H]
