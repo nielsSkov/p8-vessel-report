@@ -18,13 +18,29 @@ The measurements are currently performed from a manned vessel on which a multi b
 
 It is therefore desired to automate the process, preferably with a smaller unmanned vessel. This will allow for more frequent bathymetric measurements and the efficiency of guiding ships through the Port of Aalborg can be improved.
 
-The controller design must be able to track references provided by a path planer as well as rejecting disturbances such as possible wind or the effect of the waves. This requires a model of the disturbances to be included in the controller design along with a robust controller capable of handling model uncertainties.
+The vessel must be able to preform bathymetric measurements within an area autonomously. 
+To do so it must be able to plan and follow a route, such that the entire area is measured. 
+The route will be dependent on the sweep width of the sensor and the precision of the controller.
+In order to ensure the entire area is covered, the path planner should include some overlap of the scanned areas, as this would account for potential inaccuracies of the system.
 
-The path planer must be able to design a route, in the form of waypoints\fxnote{not necessarily, is it not too early to decide?}, to reach all the positions needed to perform the different measurements required for the survey.
 
-The accuracy and precision with which the route can be tracked has a significant impact on the efficiency of the system. The less closely the path is tracked, the more overlap of the echo sounder beam is required from each sweep in order to cover the entirety of the bottom.
+%The controller design must be able to track references provided by a path planer as well as rejecting disturbances such as possible wind or the effect of the waves. This requires a model of the disturbances to be included in the controller design along with a robust controller capable of handling model uncertainties.
 
-The quality of the bathymetric measurements will also play part in determining the required overlap. Additionally other applications for the ASV would have requirements for the precision and accuracy provided by the control design. For these reasons and in order not to constrain the design to only one potential use, it is decided to set up some rather tight requirements for the system.
+%The path planer must be able to design a route, in the form of waypoints\fxnote{not necessarily, is it not too early to decide?}, to reach all the positions needed to perform the different measurements required for the survey.
+
+%The accuracy and precision with which the route can be tracked has a significant impact on the efficiency of the system. The less closely the path is tracked, the more overlap of the echo sounder beam is required from each sweep in order to cover the entirety of the bottom.
+
+The quality of the bathymetric measurements play part in determining the required overlap. Additionally other applications for the ASV would have requirements for the precision and accuracy provided by the control design. For these reasons and in order not to constrain the design to only one potential use, it is decided to set up some rather tight requirements for the system.
+
+%%%%%Precision%%%%%%%%%%%
+Following the S-44 IHO standards for hydrographic mapping, the measurements fall into the special category, which sets a maximum allowable horizontal total horizontal unceartanty (THU) of 2 m, 95\% confidence level for the positional measurements. 
+This standard is intended for under-keel measurements of the sea floor, which aligns with the scope of this project.\cite{IHO-S-44} 
+The Canadian Hydrography Service (CHS) includes a stricter category, the Exclusive order. 
+This category extends the special category to be more focused on shallow waters, such as harbors. 
+This category sets the maximum THU to be 30 cm with a 95\% confidence interval. 
+It have been decided to use this standard as this is the one that best resembles the intended use case of the system.\cite{CHS}
+%From the project proposal it appears that a positioning accuracy of 0.1 m is desired. 
+%From initial meetings with project supervisor, Jesper Abilgaard Larsen it was stated that a minimum precision of 0.3 m is required for the bathymetric measurements to be usable.\fxnote{Working on how to source this maybe use minutes?}
 
 \section{Design Considerations}\label{sec:designconsiderations}
 The system design assumes that the sensor used to measure the bottom of the fjord is based on the current multibeam echosounder used by the Port of Aalborg, the multibeam echosounder SeaBat 7125 \cite{echoSounder}, which has a swath angle of 140$^\mathrm{o}$.
@@ -37,18 +53,52 @@ Based on the bathymetric map found in \autoref{app:bathymetricMapPortOfAalborg},
     \label{fig:echosounder}
 \end{figure}
 
+%%%%%Communication%%%%%%%%%%%
+As the ASV is to be operated on water, it will be hard to access it during operation. 
+As it is desired for to have access to the vessel at all times, some form of communication between a operator and the vessel must be established. 
+This is crucial for the implementation of safety features such as emergency stops, redirecting the vessel or steer it back to land in case of system failures.
+
+\section{Control Analysis}
+For the vessel to autonomously survey an area, a controller is needed. 
+The performance of the controller is crucial for how well the system preforms overall. 
+One of the challenges when designing a controller is how well it handles disturbances. 
+In the case of the vessel the disturbances are mostly represented as wind and wave disturbances. 
+\begin{figure}[H]
+    \includegraphics[width=0.5\textwidth]{figures/boatdisturbance}
+    \caption{Illustration of how the vessel is affected by disturbances}
+    \label{fig:boatdist}
+\end{figure}
+
+As illustrated on \autoref{fig:boatdist}, these external forces would alter the force vector of the vessel, influencing it's trajectory. 
+If the controller is not sufficiently robust against this kind of noise, the vessel might not be able to follow a path, or do so with less precision, which then would needed to be compensated for. 
+This would result in a loss in operating range, as the vessel would have to overlap a larger area to make sure the path covers the entirety of the survey area.
+
+Additionally the controller could experience disturbances in regards to model inaccuracies. 
+It is not possible to model a system perfectly, and will always be an approximation. 
+These model variations influence the controllers performance as its design is based upon these. 
+
+Another aspect of controller design is the energy consumption. 
+The controller could be optimized such that it spends as little energy as possible reaching it's destination, giving the vessel a larger possible survey area. 
+
+As the controller should be operational in most weather conditions, the robustness of the controller is considered the most important parameter. 
+
+
+
 \section{Functional Requirements} \label{sec:requirements}
 To be able to design a working prototype some functional requirements must be set and verified at the end of the project once all the design has been carried out.
 %
 \begin{enumerate}
   \item It should be possible to select the area in which the bathymetric measurements are to be performed.
-  \item A path planning algorithm should be able to plan a path within the selected area such that the bathymetric measurements can be performed.
-  \item It should be possible to track the path laid out by the path planning algorithm.
-  \item It should be possible to store the recorded data locally for extraction at the end of the survey.
-  \item It should be possible to give the ASV a command to stop or call it back to land.
+  %\item A path planning algorithm should be able to plan a path within the selected area such that the bathymetric measurements can be performed.
+  %\item The ASV should be able to track the path laid out by the path planning algorithm.
+  \item The ASV should be able to autonomously plan and follow a route, such that the entire survey area is mapped.
+  \item The controller should be robust to external disturbances.
+  \item The ASV should record and store data locally for extraction at the end of the survey.
+  \item It should be possible to give the ASV a command to stop and steer it back to land.
+  \item THU not exceed 30cm with a 95\% confidence interval.
 \end{enumerate}
 %
-The remainder of the problem analysis will go into how the functional requirements can be achieved. This will result in a set of technical requirements, which sets the perimeters of the design.
+%The remainder of the problem analysis will go into how the functional requirements can be achieved. This will result in a set of technical requirements, which sets the perimeters of the design.
 
 
 
