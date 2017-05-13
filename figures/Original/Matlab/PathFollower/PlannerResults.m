@@ -13,15 +13,15 @@ step_interval =0.05;
 time_step = 10;
 enable_disturbance = 1;
 xbDisturbance = 1.5;
-ybDisturbance = 2;
+ybDisturbance = 1.5;
 yawDisturbance = 1.5;
 sineAmplitude = 1;
-sineFrequency = 1;
+sineFrequency = 5;
 
 Nsim = 100;
 % Create random vectors for the parameters and the disturbances
 percentage = 0.2;
-mx_rand = [mx; mx + (percentage*mx*(2*rand(Nsim-1,1)-1))];
+m_rand = [m; m + (percentage*m*(2*rand(Nsim-1,1)-1))];
 Iz_rand = [Iz; Iz + (percentage*Iz*(2*rand(Nsim-1,1)-1))];
 Iz_rand(Iz_rand<0) = Iz;
 
@@ -64,7 +64,7 @@ for i=1:1:Nsim
     end
     
     %Select the new parameters
-    mx = mx_rand(i);
+    m = m_rand(i);
     dx = dx_rand(i);
     dy = dy_rand(i);
     Iz = Iz_rand(i);
@@ -102,7 +102,7 @@ end
 run ControllersDesign.m
 run pathGeneration.m
 %load MonteCarloPathNoCorrection
-load MonteCarloPath
+%load MonteCarloPath
 
 yn_lqr_sim_min = min(yn_lqr_sim);
 yn_lqr_sim_max = max(yn_lqr_sim);
