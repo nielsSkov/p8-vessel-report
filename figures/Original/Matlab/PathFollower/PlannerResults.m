@@ -15,7 +15,7 @@ enable_disturbance = 1;
 xbDisturbance = 1.5;
 ybDisturbance = 2;
 yawDisturbance = 1.5;
-sineAmplitude = 0.2;
+sineAmplitude = 1;
 sineFrequency = 1;
 
 Nsim = 100;
