@@ -1,4 +1,4 @@
-\chapter{Test Journal: Model Verification}
+\chapter{Test Journal: Model Verification}\label{app:modelVerification}
 
 \textbf{Date: 11/05/2017}
 
@@ -51,3 +51,23 @@ The purpose of this test journal is to get real measurements to verify the model
 %\end{itemize}
 
 \subsection*{Results}
+The results when applying two constant but different forces ($F1=-1$ N and $F1=12$ N), which produces a counterclockwise turn, can be seen below.
+\begin{figure}[H]
+    \captionbox 
+    {   
+        Position of the boat in the $x_\mathrm{n}$-$y_\mathrm{n}$ plane given by the GPS data.
+        \label{fig:turn_app}
+    }                                                                 
+    {                                                                  
+        \includegraphics[width=.45\textwidth]{figures/turn_app}         
+    }                                                                    
+    \hspace{5pt}                                                          
+    \captionbox  
+    {      
+        $x_\mathrm{n}$ and $y_\mathrm{n}$ with respect to time.
+        \label{fig:turn_time_app}
+    }                                                                          
+    {
+        \includegraphics[width=.45\textwidth]{figures/turn_time_app}
+    }
+\end{figure}
