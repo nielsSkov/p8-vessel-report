@@ -1,5 +1,5 @@
 \section{System Additions}
-Some changes including GPS and communication setup are made, a full diagram is seen in \autoref{fig:systemDiagram2}.
+Some changes, including a new GPS and communication setup, has been added to the system, a full diagram is seen in \autoref{fig:systemDiagram2}.
 %
 \begin{figure}[H]
   \includegraphics[width=.65\textwidth]{figures/systemDiagram5}
@@ -7,14 +7,17 @@ Some changes including GPS and communication setup are made, a full diagram is s
   \label{fig:systemDiagram2}
 \end{figure}
 %
-The Real Time Kinematic GPS system, described in further detail below, is added to obtain better positioning of the ASV. This is necessary to obtain sub-meter positioning, without which the control design would have little impact on the performance of the system.\\
+The Real Time Kinematic GPS system, described in further detail below, is added to obtain better positioning of the ASV. 
+%This is necessary to obtain sub-meter positioning, without which the control design would have little impact on the performance of the system.\\
+
 Additionally a VPN server and a USB modem is used to provide user input when the ASV and user are not on the same closed network. This makes it possible to access the ASV through the cellular network and thus eliminates potential problems with regards to range between user and ASV.
 
 \section{Real Time Kinematic (RTK) GPS}
 An RTK GPS system consists of two parts, a base station, and a rover.
-The base station is set up at a stationary location with a known, precise GPS position.\\
-The rover GPS, mounted on the ASV, measures its location, based on GPS satellites and measurements from the base station.\cite{EmlidRTK}\\
-The module used in this project, both for the base and the rover GPS, is the Emlid Reach RTK GPS, see \autoref{fig:emlidReach}.
+
+The base station is set up at a stationary location with a known, precise GPS position. The rover GPS, mounted on the ASV, measures its location, based on GPS satellites and measurements from the base station.\cite{EmlidRTK}
+
+The modules used in this project, both for the base and the rover GPS, is the Emlid Reach RTK GPS, see \autoref{fig:emlidReach}.
 
 \begin{figure}[H]
   \includegraphics[width=0.27\textwidth]{figures/emlidReach}
@@ -28,13 +31,14 @@ An RTK GPS is able to archive a higher precision than an ordinary GPS by receivi
 %The correction data is used by the rover to estimate signal disturbances, caused be the signals entering the atmosphere. 
 This enables it to increase the precision of the GPS measurements, from 2-5m down to a theoretical precision of a few centimeters.\cite{EmlidRTK}
 
-This data is formatted as an RTCM3 message, which is a protocol designed for this purpose.
+This data is formatted as an RTCM3 message, which is a protocol designed for this purpose.\\
+
 \begin{figure}[H]
 	\includegraphics[width=0.8\textwidth]{figures/comunicationSetup.pdf}
 	\caption{Overall set up of GPS}
 	\label{fig:rtk_GPS}
 \end{figure}
+%
 \autoref{fig:rtk_GPS} shows how the RTK GPS system is set up. 
-The computer runs a Python script which forwards the message to a TCP socket, making it accessible through the Internet. 
-The HLI on the vessel connects to this socket and feeds the data to the Rover located on the boat.
-For a more detailed description of the setup see \autoref{app:rtk_gps}.\fxnote{the reference should be to a test showing the iproved result of using a base for corrections}
+
+The computer runs a Python script which forwards the message to a TCP socket, making it accessible through the Internet. The HLI on the vessel connects to this socket and feeds the data to the Rover located on the boat. For a more detailed description of the setup see \autoref{app:rtk_gps}.\fxnote{the reference should be to a test showing the iproved result of using a base for corrections}

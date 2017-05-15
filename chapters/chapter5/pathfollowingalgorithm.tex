@@ -59,50 +59,6 @@ In order to follow all the path, a way to change which two waypoints define the 
 With this approach, the vessel will always try to move forward in the path although a waypoint position has not been precisely attained. % This avoids situations like the one shown in \autoref{fig:goingbackapproach} where the vessel turns around in order to hit the waypoint precisely.
 This could be caused by a sudden disturbance experienced by the vessel and, in general, it is desired to keep following the path rather than turning around to hit the waypoint. In most cases, the vessel itself is going to be close to the waypoint when the change occurs. This can be seen in the simulation plots presented below. 
 
-\subsection{Path Following Algorithm Simulation}
-The path following algorithm has been tested in the same path and considering different settings for the algorithm. In all cases, the radius of the circle defined around the vessel is 5 m and the distance in which the active waypoints are changed is 3 m. \fxnote{check these numbers}
-
-In \autoref{fig:lqrwrong} and \ref{fig:robwrong} the results of the algorithm are presented when considering the simpler case in which $\psi_\mathrm{ref} = \chi$, that is, assuming the velocity of the vessel is pointing along the $x_\mathrm{b}$ direction. The simulations are performed with both inner controller designs. In both graphs, the path is not precisely followed when disturbances are introduced in the system. This offset is expected as the assumption for this simpler algorithm to work does not hold.
-\begin{figure}[H]
-	\captionbox  %<--use captionbox instead if no global caption is needed
-	{               %                                \%-%-%-%-%-%-%\
-	 		Performance of the path following algorithm based on $\psi_\mathrm{ref}=\chi$ and using the LQR inner controller. The system is experiencing wind and wave disturbances, model perturbations and measurement noise.\label{fig:lqrwrong}                                  %\
-	}                                                                 %\
-	{                                                                  %\
-		\includegraphics[width=.45\textwidth]{figures/path_lqr_no_correc}         %\
-	}                                                                    %\
-	\hspace{5pt}                                                          %\
-	\captionbox  %<-----------------------------------------------------%\
-	{       
-		Performance of the path following algorithm based on $\psi_\mathrm{ref}=\chi$ and using the $\mathcal{H}_\infty$ inner controller. The system is experiencing wind and wave disturbances, model perturbations and measurement noise.                                       %\                         %\
-		\label{fig:robwrong}                                     %\
-	}                                                                           %\
-	{                                                                            %\
-		\includegraphics[width=.45\textwidth]{figures/path_rob_no_correc}            %|
-	}                                                                             %|
-\end{figure}
-When the information of the vessel velocity is used to calculate the reference angle, $\psi_\mathrm{ref}$, the disturbance is rejected. This is seen in \autoref{fig:lrqcorrect} and \ref{fig:robustcorrect}, where the vessel is experiencing disturbances and model perturbations in the same range as in \autoref{fig:lqrwrong} and \ref{fig:robustwrong}. In this case, the offset in position has been corrected and the path is precisely followed in the straight line segments.
-\begin{figure}[H]
-	\captionbox  %<--use captionbox instead if no global caption is needed
-	{               %                                \%-%-%-%-%-%-%\
-		Performance of the path following algorithm based on $\psi_\mathrm{ref}=\chi-\beta$ and using the LQR inner controller. The system is experiencing wind and wave disturbances, model perturbations and measurement noise.                %\
-		\label{fig:lrqcorrect}                                  %\
-	}                                                                 %\
-	{                                                                  %\
-		\includegraphics[width=.45\textwidth]{figures/path_lqr}         %\
-	}                                                                    %\
-	\hspace{5pt}                                                          %\
-	\captionbox  %<-----------------------------------------------------%\
-	{       
-		Performance of the path following algorithm based on $\psi_\mathrm{ref}=\chi-\beta$ and using the $\mathcal{H}_\infty$ inner controller. The system is experiencing wind and wave disturbances, model perturbations and measurement noise.                                                                   %\                         %\
-		\label{fig:robustcorrect}                                     %\
-	}                                                                           %\
-	{                                                                            %\
-		\includegraphics[width=.45\textwidth]{figures/path_rob}            %|
-	}                                                                             %|
-\end{figure}
-According to the results of the simulations, it can be said that the vessel hits the waypoints precisely when they are part of a straight line section of the path. In curved sections, the vessel joins smoothly the straight line segments that approximate the curve. In many cases, and especially for bathymetric measurements the algorithm can be considered suitable.
-
 	
 
 

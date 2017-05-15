@@ -25,15 +25,15 @@ The translational movement of the vessel is described by \autoref{eq:x_pos_model
 The model includes the forces applied by the motors and the damping, that create and acceleration in the boat. 
 %
 \begin{flalign}
-	m_\mathrm{x} \ddot{x}_\mathrm{b} &=  F_\mathrm{1} + F_\mathrm{2}  - d_{\dot{x}_\mathrm{b}} \dot{x}_\mathrm{b} + F_{x_\mathrm{b}}
+	m \ddot{x}_\mathrm{b} &=  F_\mathrm{1} + F_\mathrm{2}  - d_{\dot{x}_\mathrm{b}} \dot{x}_\mathrm{b} + F_{x_\mathrm{b}}
     \label{eq:x_pos_model} \\
-    m_\mathrm{y} \ddot{y}_\mathrm{b} &=  -d_{\dot{y}_\mathrm{b}} \dot{y_\mathrm{b}} + F_{y_\mathrm{b}}
+    m \ddot{y}_\mathrm{b} &=  -d_{\dot{y}_\mathrm{b}} \dot{y_\mathrm{b}} + F_{y_\mathrm{b}}
     \label{eq:y_pos_model} \\
-    m_\mathrm{z} \ddot{z}_\mathrm{b} &=  -d_{\dot{z}_\mathrm{b}}\dot{z_\mathrm{b}} + F_{z_\mathrm{b}} \label{eq:z_pos_model}
+    m \ddot{z}_\mathrm{b} &=  -d_{\dot{z}_\mathrm{b}}\dot{z_\mathrm{b}} + F_{z_\mathrm{b}} \label{eq:z_pos_model}
 \end{flalign}
 %
 \begin{where}
-	\va{m_\mathrm{x,y,z}}{are the virtual masses in their respective direction}{kg}
+	\va{m}{is the mass of the boat}{kg}
     \va{\ddot{x}_\mathrm{b}}{is the acceleration in the $x_\mathrm{b}$ direction}{m s^{-2}}
     \va{\ddot{y}_\mathrm{b}}{is the acceleration in the $y_\mathrm{b}$ direction}{m s^{-2}}
     \va{\ddot{z}_\mathrm{b}}{is the acceleration in the $z_\mathrm{b}$ direction}{m s^{-2}}
@@ -46,7 +46,7 @@ The model includes the forces applied by the motors and the damping, that create
 From the equations it can be seen that only the $x_\mathrm{b}$ axis is controllable, as this is the axis containing the main thrusters. 
 While the vessel do contain side thrusters, they are only intended for fine maneuvering, as their strength is relatively weak, compared to the main thrusters.
 
-The virtual mass components are the added mass from the displaced water in the respective direction plus the mass of the vessel. This value is different for each axis, as the difference in shape drags a different amount of water.
+%The virtual mass components are the added mass from the displaced water in the respective direction plus the mass of the vessel. This value is different for each axis, as the difference in shape drags a different amount of water.
     
 The rotational movement of the vessel is described by \autoref{eq:phi_model}, \ref{eq:theta_model} and \ref{eq:psi_model}.
 %
@@ -59,9 +59,9 @@ The rotational movement of the vessel is described by \autoref{eq:phi_model}, \r
 \end{flalign}
 %
 \begin{where}
-    \va{I_\mathrm{x}}{is the inertia around the $x_\mathrm{b}$ axis}{kg}
-    \va{I_\mathrm{y}}{is the inertia around the $y_\mathrm{b}$ axis}{kg}
-    \va{I_\mathrm{z}}{is the inertia around the $z_\mathrm{b}$ axis}{kg}
+    \va{I_\mathrm{x}}{is the inertia around the $x_\mathrm{b}$ axis}{kg m^2}
+    \va{I_\mathrm{y}}{is the inertia around the $y_\mathrm{b}$ axis}{kg m^2}
+    \va{I_\mathrm{z}}{is the inertia around the $z_\mathrm{b}$ axis}{kg m^2}
     \va{\ddot{\phi}}{is the angular acceleration around the $x_\mathrm{b}$ axis}{rad s^{-2}}
     \va{\ddot{\theta}}{is the angular acceleration around the $y_\mathrm{b}$ axis}{rad s^{-2}}
     \va{\ddot{\psi}}{is the angular acceleration around the $z_\mathrm{b}$ axis}{rad s^{-2}}

@@ -1,7 +1,3 @@
-close all
-clear
-clc
-
 run Parameters
 
 %--------------------------- LQR Design -----------------------------------

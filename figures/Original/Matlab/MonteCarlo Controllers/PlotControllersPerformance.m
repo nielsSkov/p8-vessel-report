@@ -1,4 +1,4 @@
-%% Plot LQR Performance
+
 close all
 clear
 clc
@@ -13,15 +13,15 @@ t = 50;
 step_interval =0.05;
 time_step = 10;
 enable_disturbance = 1;
-xbDisturbance = 2;
-yawDisturbance = 2;
-sineAmplitude = 0.2;
+xbDisturbance = 1.5;
+yawDisturbance = 1.5;
+sineAmplitude = 0.5;
 sineFrequency = 1;
 
 Nsim = 1000;
 % Create random vectors for the parameters and the disturbances
 percentage = 0.2;
-mx_rand = [mx; mx + (percentage*mx*(2*rand(Nsim-1,1)-1))];
+m_rand = [m; m + (percentage*m*(2*rand(Nsim-1,1)-1))];
 Iz_rand = [Iz; Iz + (percentage*Iz*(2*rand(Nsim-1,1)-1))];
 Iz_rand(Iz_rand<0) = Iz;
 
@@ -59,7 +59,7 @@ F1_rob_sim = zeros(Nsim,t/step_interval+1);
 F2_rob_sim = zeros(Nsim,t/step_interval+1);
 
 for i=1:1:Nsim
-    i
+    disp(i)
     if (i==1)
         noise_power_yaw = 0;
         noise_power_yawdot = 0;
@@ -70,7 +70,7 @@ for i=1:1:Nsim
         noise_power_xbdot = 0.000001;
     end
     %Select the new parameters
-    mx = mx_rand(i);
+    m = m_rand(i);
     dx = dx_rand(i);
     dy = dy_rand(i);
     Iz = Iz_rand(i);
@@ -103,20 +103,21 @@ for i=1:1:Nsim
     
 end
 
-save MonteCarloControllers Nsim time_sim xbdot_lqr_sim yaw_lqr_sim...
-    F1_lqr_sim F2_lqr_sim xbdot_rob_sim yaw_rob_sim F1_rob_sim F2_rob_sim...
-    mx_rand Iz_rand dx_rand dy_rand dyaw_rand l1_rand l2_rand...
-    xbDisturbance_rand yawDisturbance_rand sineFrequency_rand... 
-    yawdot_lqr_sim yawdot_rob_sim yaw_int_lqr_sim xbdot_int_lqr_sim...
-    yaw_int_rob_sim xbdot_int_lqr_sim
+% save MonteCarloControllers Nsim time_sim xbdot_lqr_sim yaw_lqr_sim...
+%     F1_lqr_sim F2_lqr_sim xbdot_rob_sim yaw_rob_sim F1_rob_sim F2_rob_sim...
+%     mx_rand Iz_rand dx_rand dy_rand dyaw_rand l1_rand l2_rand...
+%     xbDisturbance_rand yawDisturbance_rand sineFrequency_rand...
+%     yawdot_lqr_sim yawdot_rob_sim yaw_int_lqr_sim xbdot_int_lqr_sim...
+%     yaw_int_rob_sim xbdot_int_rob_sim
 
 %% Analize results
-load MonteCarloControllers
+run ControllersDesign.m
+%load MonteCarloControllers
 
 cost_lqr = zeros(Nsim,1);
 cost_rob = zeros(Nsim,1);
 
-for i=1:1:Nsim   
+for i=1:1:Nsim
     % Calculate cost foe each simulation
     for j = 1:1:size(xbdot_lqr_sim,2)
         cost_lqr(i) = cost_lqr(i)...
@@ -129,21 +130,6 @@ for i=1:1:Nsim
             * Q * [yaw_rob_sim(i,j); yawdot_rob_sim(i,j); xbdot_rob_sim(i,j); yaw_int_rob_sim(i,j); xbdot_int_rob_sim(i,j)]...
             + [F1_rob_sim(i,j) F2_rob_sim(i,j)] * R * [F1_rob_sim(i,j); F2_rob_sim(i,j)];
     end
-    
-%     % Plot the results
-%     figure(1)
-%     plot(time_sim,xbdot_lqr_sim(i,:))
-%     hold on
-%     figure(2)
-%     plot(time_sim,xbdot_rob_sim(i,:))
-%     hold on
-%     
-%     figure(3)
-%     plot(time_sim,yaw_lqr_sim(i,:))
-%     hold on
-%     figure(4)
-%     plot(time_sim,yaw_rob_sim(i,:))
-%     hold on
 end
 
 xbdot_lqr_max = max(xbdot_lqr_sim);
@@ -157,38 +143,38 @@ yaw_rob_min = min(yaw_rob_sim);
 
 % Plot the results
 figure(1)
-X=[time_sim,fliplr(time_sim)];              
+X=[time_sim,fliplr(time_sim)];
 Y=[xbdot_lqr_min,fliplr(xbdot_lqr_max)];
-fill(X,Y,[0.8 0.2 0],'edgecolor','none'); 
+fill(X,Y,[0.8 0.2 0],'edgecolor','none');
 hold on
 plot(time_sim,xbdot_lqr_sim(1,:),'LineWidth',1.5,'Color',[0 0 0.7])
 
-figure(2)            
+figure(2)
 Y=[xbdot_rob_min,fliplr(xbdot_rob_max)];
-fill(X,Y,[0.8 0.2 0],'edgecolor','none'); 
+fill(X,Y,[0.8 0.2 0],'edgecolor','none');
 hold on
 plot(time_sim,xbdot_rob_sim(1,:),'LineWidth',1.5,'Color',[0 0 0.7])
 
-figure(3)             
+figure(3)
 Y=[yaw_lqr_min,fliplr(yaw_lqr_max)];
-fill(X,Y,[0.8 0.2 0],'edgecolor','none'); 
+fill(X,Y,[0.8 0.2 0],'edgecolor','none');
 hold on
 plot(time_sim,yaw_lqr_sim(1,:),'LineWidth',1.5,'Color',[0 0 0.7])
 
-figure(4)         
+figure(4)
 Y=[yaw_rob_min,fliplr(yaw_rob_max)];
-fill(X,Y,[0.8 0.2 0],'edgecolor','none'); 
+fill(X,Y,[0.8 0.2 0],'edgecolor','none');
 hold on
 plot(time_sim,yaw_rob_sim(1,:),'LineWidth',1.5,'Color',[0 0 0.7])
 
 figure(1)
-FigureLatex('Step Response in $\dot{x}_\mathrm{b}$ of the Linear Quadratic Regulator','Time [s]','Translational Velocity [m s$^-1$]',0,0,0,[0 30],[-0.1 1.6],12,13,0)
+FigureLatex('Step Response in $\dot{x}_\mathrm{b}$ of the Linear Quadratic Regulator','Time [s]','Translational Velocity [m s$^-1$]',1,{'Deviation Area','Nominal Response'},'SouthEast',[0 30],[-0.1 1.5],12,13,0)
 figure(2)
-FigureLatex('Step Response in $\dot{x}_\mathrm{b}$ of the Robust Controller','Time [s]','Translational Velocity [m s$^-1$]',0,0,0,[0 30],[-0.1 1.6],12,13,1.1)
+FigureLatex('Step Response in $\dot{x}_\mathrm{b}$ of the $\mathcal{H}_\infty$ Controller','Time [s]','Translational Velocity [m s$^-1$]',1,{'Deviation Area','Nominal Response'},'SouthEast',[0 30],[-0.1 1.5],12,13,1.1)
 figure(3)
-FigureLatex('Step Response in $\psi$ of the Linear Quadratic Regulator','Time [s]','Angular Position [rad]',0,0,0,[0 30],[-0.1 1.6],12,13,1.1)
+FigureLatex('Step Response in $\psi$ of the Linear Quadratic Regulator','Time [s]','Angular Position [rad]',1,{'Deviation Area','Nominal Response'},'SouthEast',[0 30],[-0.1 1.5],12,13,1.1)
 figure(4)
-FigureLatex('Step Response in $\psi$ of the Robust Controller','Time [s]','Angular Position [rad]',0,0,0,[0 30],[-0.1 1.6],12,13,1.1)
+FigureLatex('Step Response in $\psi$ of the $\mathcal{H}_\infty$ Controller','Time [s]','Angular Position [rad]',1,{'Deviation Area','Nominal Response'},'SouthEast',[0 30],[-0.1 1.5],12,13,1.1)
 
 % Calculate mean cost between the simulations
 mean_cost_lqr = mean(cost_lqr)

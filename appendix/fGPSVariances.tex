@@ -1,20 +1,35 @@
-%\chapter{GPS Variances Test} \label{app:GPSVariances}
-%
-%\textbf{Name: Group 832}\\
-%\textbf{Date: 04/05/2017}
-%
-%\subsubsection{Purpose}
-%Find the variance of the GPS measurements, when transformed into NED frame coordinates.
-%
-%\subsubsection{Procedure}
-%\begin{itemize}
-%    \item Leave the sensor in a fixed position.
-%    \item Record the data.
-%    \item Process the data to get the needed parameters.  
-%\end{itemize}
-%
-%\subsubsection{Results}
-%\subsubsection{Accelerometer}
+\chapter{Test Journal: GPS Variances Test} \label{app:GPSVariances}
+
+\textbf{Date: 10/05/2017}
+
+\subsubsection*{Purpose}
+Find the variance of the GPS measurements, when transformed into NED frame coordinates.
+
+\subsection*{Equipment}
+\begin{itemize}
+    \item Vessel with all its components. 
+    \item External laptop.
+\end{itemize}
+
+\subsection*{Procedure}
+\begin{enumerate}
+    \item Turn on all equipment.
+    \item Remotely log into the boat, when both, laptop and vessel's computer, are in the same network.
+    \item Run the following nodes
+    \begin{itemize}
+        \item \lstinline[style=cinline]{/gps_node}
+    \end{itemize}
+    \item Leave the vessel in a fixed position.
+    \item Record the following topics
+    \begin{itemize}
+        \item \lstinline[style=cinline]{/gps_pos}      
+    \end{itemize}
+    \item Stop the recording after some time has passed.
+    \item Turn off the equipment.
+    \item Process the data.
+\end{enumerate}
+
+\subsubsection*{Results}
 %\begin{figure}[H]
 %    \includegraphics[width=.7\textwidth]{figures/GPSVariances}
 %\end{figure}

@@ -23,7 +23,7 @@ In the case of the boat, the only non-linear terms are the restoring forces and 
     \tilde{F}_{x_\mathrm{b}} &= 0  \label{eq:forcexlin}\\
     \tilde{F}_{y_\mathrm{b}} &= 0  \label{eq:forceylin}\\
     \tilde{F}_{z_\mathrm{b}} &= -\rho g A_\mathrm{wp} \tilde{z}_\mathrm{n} \label{eq:forcezlin} \\
- 	\tilde{T}_{\phi} &= -\rho g V \overline{GM_{L}}\cdot \tilde{\phi} \label{eq:torquephilinar} \\
+ 	\tilde{T}_{\phi} &= -\rho g V \overline{GM_{T}}\cdot \tilde{\phi} \label{eq:torquephilinar} \\
     \tilde{T}_{\theta} &= -\rho g V \overline{GM_{L}}\cdot \tilde{\theta}\label{eq:torquethetalinar}   
 \end{flalign}
 
@@ -39,7 +39,7 @@ The model equations including these linearized terms end up being
     m_\mathrm{y} \ddot{y}_\mathrm{b} &=  -d_{\dot{y}_\mathrm{b}} \dot{y_\mathrm{b}}
      \label{eq:y_pos_model_lin} \\
     m_\mathrm{z} \ddot{z}_\mathrm{b} &=  -d_{\dot{z}_\mathrm{b}}\dot{z_\mathrm{b}} -\rho g A_\mathrm{wp} \tilde{z}_\mathrm{n} \label{eq:z_pos_model_lin}   \\
-    I_\mathrm{x}\ddot{\phi} &= -d_{\dot{\phi}} \dot{\phi} - \rho g V \overline{GM_{L}}\cdot \tilde{\phi} 
+    I_\mathrm{x}\ddot{\phi} &= -d_{\dot{\phi}} \dot{\phi} - \rho g V \overline{GM_{T}}\cdot \tilde{\phi} 
     \label{eq:phi_model_limn} \\
     I_\mathrm{y}\ddot{\theta} &= -d_{\dot{\theta}} \dot{\theta} - \rho g V \overline{GM_{L}}\cdot \tilde{\theta} 
     \label{eq:theta_model_lin} \\
