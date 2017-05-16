@@ -13,8 +13,6 @@ The control design consists of two controllers, an inner controller and an outer
 
 As shown on \autoref{fig:controllerDiagram} the outer controller is in charge of following the path by changing the reference of the inner controller to obtain its desired position. Using $x_{n}$ , $y_{n}$ $x_b$ $y_b$ and $\psi$ it is able to compute the $\psi_{ref}$ and $x_{ref}$ needed to follow the path. 
 
-This approach is chosen as it separates the inertial frame from the boat frame, avoiding nonlinearities that would be present if a single controller used both frames of reference. \fxnote{Not sure about this paragraph}
-
 The inner controller uses this references to control $\dot{x}_{b}$ and $\dot{\psi}$ by asking for the appropriate $F_{1}$ and $F_{2}$ commands. Two design approaches are tested for the inner controller, an $H_{\infty}$ Controller and a Linear Quadratic Regulator.
 
 The $H_{\infty}$ Controller is designed to be robust towards wind and wave disturbances and towards model errors. The LQR controller, on the other side, is designed to reduce the energy consumption of the vessel as well as to drive the states to the reference values as fast as possible. 
