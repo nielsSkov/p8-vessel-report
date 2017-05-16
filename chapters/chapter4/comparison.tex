@@ -3,14 +3,15 @@ The two controller designs are now compared in order to analyze the robustness, 
 
 The performance comparison is evaluated by looking at the response of the nonlinear model of the system when tracking a step in the reference inputs, $\dot{x}_\mathrm{b,ref}$ and $\psi_\mathrm{ref}$. 
 
-The disturbances applied to the system range from \fxnote{write range of forces along x} in the force along the $\dot{x}_\mathrm{b}$ axis and \fxnote{write range of taus} in the torque around the $z_\mathrm{b}$ axis. These disturbances come from wind and waves. The frequency of the latter is also varied from \fxnote{write range of frequencies}. The noise applied in all simulations is of \fxnote{write amount of noise}. 
+The disturbances applied to the system range from $\pm$\num{1.5} N in the force along the $\dot{x}_\mathrm{b}$ axis and $\pm$\num{1.5} Nm in the torque around the $z_\mathrm{b}$ axis. These disturbances come from wind and waves. The frequency of the latter is also varied from 0 to 10 Hz.
 
-The parameter uncertainties are assumed to vary $\pm$20\% \fxnote{check percentage} from their nominal value. The parameters varied in the simulation are the added mass, $m_\mathrm{x}$, the moment of inertia around the $z_\mathrm{b}$ axis, $I_\mathrm{z}$, the damping coefficients, $d_\mathrm{x}$ and $d_\psi$, and the lengths where the forces are applied, $l_1$ and $l_2$. 
+The parameter uncertainties are assumed to vary $\pm$20\% from their nominal value. The parameters varied in the simulation are the added mass, $m_\mathrm{x}$, the moment of inertia around the $z_\mathrm{b}$ axis, $I_\mathrm{z}$, the damping coefficients, $d_\mathrm{x}$ and $d_\psi$, and the lengths where the forces are applied, $l_1$ and $l_2$. 
 
-\autoref{fig:xbdot_mc_lqr} and \ref{fig:xbdot_mc_rob} show the step response of the velocity along the $x_\mathrm{b}$ direction from \fxnote{number of simulations} simulations where the model parameters and the disturbances were varied randomly within the defined ranges. These simulations also include a reference step in $\psi$ at 10 seconds that causes a perturbation in the $\dot{x}_\mathrm{b}$ response. 
+\autoref{fig:xbdot_mc_lqr} and \ref{fig:xbdot_mc_rob} show the step response of the velocity along the $x_\mathrm{b}$ direction from 1000 simulations where the model parameters and the disturbances were varied randomly within the defined ranges. These simulations also include a reference step in $\psi$ at 10 seconds that causes a perturbation in the $\dot{x}_\mathrm{b}$ response. 
 \begin{figure}[H]
     \captionbox 
     {   
+        Step response in $x_\mathrm{b}$ of the Linear Quadratic Regulator, where the nominal response, the maximum variation region and the 1-$\sigma$ region are shown.
         \label{fig:xbdot_mc_lqr}
     }                                                                 
     {                                                                  
@@ -19,22 +20,20 @@ The parameter uncertainties are assumed to vary $\pm$20\% \fxnote{check percenta
     \hspace{5pt}                                                          
     \captionbox  
     {      
+        Step response in $x_\mathrm{b}$ of the $\mathcal{H}_\infty$ Controller, where the nominal response, the maximum variation region and the 1-$\sigma$ region are shown.
         \label{fig:xbdot_mc_rob}
     }                                                                          
     {
         \includegraphics[width=.45\textwidth]{figures/xbdot_mc_rob}
     }
 \end{figure}
-As it can be seen, both controllers are able to track the given reference in $\dot{x}_\mathrm{b}$. The controller designed using LQR theory yields a fast controller, but the change in reference in the $\psi$ angle leads to a great perturbation in the vessel speed, reaching \fxnote{write value} m/s. There is no steady state error once the perturbation has been compensated by the controller. The $\mathcal{H}_\infty$ controller on the other hand, is much slower in terms of settling time, the perturbation introduced when changing $\psi_\mathrm{ref}$ is \fxnote{write value} m/s. This is acceptable as the forward velocity of the boat does not require a fast response or a precise value.
-
-It is also remarkable to see how the robust control design presents its biggest perturbations only in few simulations, while the LQR controller shows perturbations greater than 20 \% of the final value in a greater amount of simulations.
-
-These aspects are also seen when comparing the variance of the step response with respect to the performance of the controllers without disturbances or parameter uncertainties. The variance obtained by the LQR controller is \fxnote{write variance for LQR} and that for the $\mathcal{H}_\infty$ controller is \fxnote{write variance for robust}.
+As it can be seen, both controllers are able to track the given reference in $\dot{x}_\mathrm{b}$. The controller designed using LQR theory yields a fast controller, but the change in reference in the $\psi$ angle leads to a great perturbation in the vessel speed, reaching almost 50\%, while the 1-$\sigma$ values stays below 10\%. There is no steady state error once the perturbation has been compensated by the controller. The $\mathcal{H}_\infty$ controller on the other hand, is much slower in terms of settling time, the perturbation introduced when changing $\psi_\mathrm{ref}$ has a 1-$\sigma$ value that is almost zero and a maximum value around 10\%. This is acceptable as the forward velocity of the boat does not require a fast response and it is not a critical parameter for he outer controller.
 
 In \autoref{fig:yaw_mc_lqr} and \ref{fig:yaw_mc_rob}, the performance of the controllers in analyzed by looking at the step response when tracking a reference in $\psi$. These plots are part of the same simulations depicted in \autoref{fig:xbdot_mc_lqr} and \ref{fig:xbdot_mc_rob}, and therefore cope with the same disturbances and parameter variations. The step is applied after 10 seconds of simulation.
 \begin{figure}[H]
     \captionbox 
     {   
+        Step response in $\psi$ of the Linear Quadratic Regulator, where the nominal response, the maximum variation region and the 1-$\sigma$ region are shown.
         \label{fig:yaw_mc_lqr}
     }                                                                 
     {                                                                  
@@ -42,17 +41,18 @@ In \autoref{fig:yaw_mc_lqr} and \ref{fig:yaw_mc_rob}, the performance of the con
     }                                                                    
     \hspace{5pt}                                                          
     \captionbox  
-    {      
+    {   
+        Step response in $\psi$ of the $\mathcal{H}_\infty$ Controller, where the nominal response, the maximum variation region and the 1-$\sigma$ region are shown.   
         \label{fig:yaw_mc_rob}
     }                                                                          
     {
         \includegraphics[width=.45\textwidth]{figures/yaw_mc_rob}
     }
 \end{figure}
-The behavior seen in these figures resembles that for \autoref{fig:xbdot_mc_lqr} and \ref{fig:xbdot_mc_rob}. The $\mathcal{H}_\infty$ controller shows less overshoot and variability in the different simulations but it is also slightly slower that the LQR controller. In both case, the step  
+The behavior seen in these figures resembles that for \autoref{fig:xbdot_mc_lqr} and \ref{fig:xbdot_mc_rob}. The $\mathcal{H}_\infty$ controller shows less overshoot and variability in the different simulations but it is also slightly slower that the LQR controller. In both cases, the 1-$\sigma$ value is very closed to zero, but the reponse of the Linear Quadratic Regulator shows a maximum variation of 20\%.
 %In order to achieve a proper comparison, the variance with respect to the nominal model response in abscense of disturbances has been calculated. For the LQR controller, the variance is \fxnote{Write variance for LQR}, while that for the $\mathcal{H}_\infty$ controller is \fxnote{write variance for robust}.
 
-These controller designs are also compared by their usage of inputs. The mean force applied at each time by the thrusters when simulating the LQR controller is \num{21.5098} N, while that of the $\mathcal{H}_\infty$ controller is \num{21.8321} N. It is clear that the \fxnote{LQR/ROBUST} controller uses less force to track the reference. This correlates with the settling times seen for each controller, as the LQR showed a faster step response compared to the $\mathcal{H}_\infty$ controller. 
+These controller designs are also compared by their usage of inputs. The mean force applied at each time by the thrusters when simulating the LQR controller is \num{17.5793} N, while that of the $\mathcal{H}_\infty$ controller is \num{17.9281} N. It is clear that the \fxnote{LQR/ROBUST} controller uses less force to track the reference. This correlates with the settling times seen for each controller, as the LQR showed a faster step response compared to the $\mathcal{H}_\infty$ controller. 
 
 Finally, to combine performance and usage of inputs, the cost used in the LQR design is calculated as 
 %
@@ -60,7 +60,7 @@ Finally, to combine performance and usage of inputs, the cost used in the LQR de
     J = \sum_{k=0}^\infty \vec{x}_k^\mathrm{T}\vec{Q}\vec{x}_k + \vec{u}_k^\mathrm{T}\vec{R}\vec{u}_k \ .
 \end{flalign}
 
-The mean cost among the simulations is \num{7.1378}$\cdot 10^5$ and \num{3.4203}$\cdot 10^6$ for the LRQ and $\mathcal{H}_\infty$ controller designs. As expected, the cost is lower for the LQR design as minimizing it is the basis of the LQR approach.
+The mean cost among the simulations is \num{7.1441}$\cdot 10^5$ and \num{3.4227}$\cdot 10^6$ for the LRQ and $\mathcal{H}_\infty$ controller designs. As expected, the cost is lower for the LQR design as minimizing it is the basis of the LQR approach.
 
 
 

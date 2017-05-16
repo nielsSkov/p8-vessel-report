@@ -2,7 +2,7 @@
 This appendix contains a description on how a RTK gps works, how the basestation is implemented and how to use it.
 
 
-\section{RTK GPS basics}
+\section*{RTK GPS Basics}
 %%http://www.novatel.com/an-introduction-to-gnss/chapter-5-resolving-errors/real-time-kinematic-rtk/
 %%https://www.e-education.psu.edu/geog862/node/1828
 %%http://www.wasoft.de/e/iagwg451/intro/introduction.html
@@ -16,7 +16,7 @@ As long as the rover remains within a close distance to the base station, the ro
 %This enables the rover to compensate for the weather patterns, granted the base station received the same satellites as the rover.
 This can result in down to sub centimeter precision for some high grade implementations.
 
-\section{Base station implementation and usage}
+\section*{Base Station Implementation and Usage}
 The correction data is used by the rover to estimate signal disturbances, caused be the signals entering the atmosphere. 
 This enables it to increase the precision of it's gps measurements, from .
 This data is formatted as a RTCM3 message, which is a protocol designed for this purpose.

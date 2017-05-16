@@ -8,13 +8,13 @@ data=csvread('imu_data_060417.csv',11,0);
 %load imu_data_06042017
 
 % Get sensor data
-xgyro=data(:,3);
+xgyro=data(:,3)*pi/180;
 xgyro=xgyro(xgyro<10);
 xgyro=xgyro(xgyro>-10);
-ygyro=-data(:,4);
+ygyro=-data(:,4)*pi/180;
 ygyro=ygyro(ygyro<10);
 ygyro=ygyro(ygyro>-20);
-zgyro=-data(:,5);
+zgyro=-data(:,5)*pi/180;
 zgyro=zgyro(zgyro<10);
 zgyro=zgyro(zgyro>-10);
 xacc=data(:,6);
