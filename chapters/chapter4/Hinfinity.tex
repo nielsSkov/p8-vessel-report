@@ -175,7 +175,7 @@ The matrices present in \autoref{eq:xDotHinf}, \ref{eq:zHinf} and \ref{eq:yHinf}
 
 Starting with \autoref{eq:xDotHinf}, it contains the $\vec{A}_1$, $\vec{B}_1$ and $\vec{B}_2$ matrices. 
 
-The matrix $\vec{A}_1$ describes the dynamics of the system states and all the other added states, which account for the references and disturbances. Its value can be seen in \autoref{app:matrices} and its structure is \fxnote{make appendix for all matrices}
+The matrix $\vec{A}_1$ describes the dynamics of the system states and all the other added states, which account for the references and disturbances. Its its structure is
 \begin{flalign}
 	\label{eq:A1}
 	\vec{A}_1 &=
@@ -189,7 +189,8 @@ The matrix $\vec{A}_1$ describes the dynamics of the system states and all the o
 \end{flalign}
 It can be seen that the matrix is composed by submatrices that correspond to the different parts of the system, namely for the original states in the first three rows, the integral states for reference tracking in the next two rows and the uncontrolled inputs in the last six rows. The last submatrices result from the weighting functions applied to the different uncontrolled inputs.
 
-$\vec{B}_1$ relates the uncontrolled inputs with the state derivatives, its value is shown in \autoref{app:matrices}. Its structure in terms of the different submatrices is \begin{flalign}
+$\vec{B}_1$ relates the uncontrolled inputs with the state derivatives. Its structure in terms of the different submatrices is
+\begin{flalign}
 	\label{eq:B1}
 	\vec{B}_1 &=
 	\begin{bmatrix}
@@ -256,7 +257,7 @@ The $\vec{D}_{12}$ has non-zero elements only in the entries that weight the inp
 
 Finally, the matrices present in \autoref{eq:yHinf}, $\vec{C}_2$, $\vec{D}_{12}$ and $\vec{D}_{22}$, are derived below, they are not part of the design as they describe how the measured outputs of the system are affected. 
 
-The $\vec{C}_2$ matrix relates the states with the measured outputs, selecting the $\psi$ and $\dot{x}_\mathrm{b}$ states and the integral states to form the output, as seen in \autoref{eq:C2}. This matrix can also be seen in \autoref{app:matrices}.
+The $\vec{C}_2$ matrix relates the states with the measured outputs, selecting the $\psi$ and $\dot{x}_\mathrm{b}$ states and the integral states to form the output, as seen in \autoref{eq:C2}.
 \begin{flalign}
 	\label{eq:C2}
 	\vec{C}_2 &=
@@ -275,7 +276,6 @@ The $\vec{D}_{21}$ matrix relates uncontrolled inputs with the measurement outpu
 		\vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{D}_{noise} 
 	\end{bmatrix}\ . \nonumber
 \end{flalign}
-The values for this matrix can be seen in \autoref{app:matrices}.
 
 After setting up the model, which includes part of the controller design, the $\mathcal{H}_\infty$ controller can be found by solving a Riccatti equation defined as
 \begin{flalign}
