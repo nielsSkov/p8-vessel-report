@@ -49,8 +49,8 @@ The number of waypoints on both the straight lines and on the turns are generate
   \va{d_\mathrm{wps}}{is the distance between waypoints on the straight line}{}
   \va{n_\mathrm{wps}}{is the number of waypoints on each turn}{}
 \end{where}
-
-As the area is not fixed, waypoints are generated every $d_\mathrm{wps}$ to ensure the boat will keep its track. The path for turns is fixed $R_\mathrm{turn}$ therefore the number of waypoints are fixed to $n_\mathrm{wps}$.
+%
+As the area to survey may vary, the waypoints are generated every $d_\mathrm{wps}$ meters to ensure the boat will follow the designated path using these waypoints. Thus, the boat will not rely only on the waypoints that define the area. The path for turns is fixed $R_\mathrm{turn}$ therefore the number of waypoints are fixed to $n_\mathrm{wps}$.
 
 In \autoref{fig:pathgen1} an example of the desired area to survey and the generated waypoints is shown. It can be seen that the vessel is offset by $R_\mathrm{turn}$ and the minimum area the  multibeam sensor surveys is also shown.
 %
