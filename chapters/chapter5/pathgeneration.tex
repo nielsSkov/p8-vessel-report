@@ -1,6 +1,6 @@
 \section{Path Generation Algorithm}\label{sec:pathgeneration}
 
-\fxnote{Check if all variables are correct}The path generation algorithm creates a list of waypoints for the vessel to follow. The area that needs to be surveyed is used to generate the waypoints. The desired area is a bounded rectangle and is given as an input to the algorithm as two coordinates, in \eqref{eq:pathgenxy}\fxnote{ref doesn't work}, that specifies the start and end coordinates of the area.
+\fxnote{Check if all variables are correct}The path generation algorithm creates a list of waypoints for the vessel to follow. The area that needs to be surveyed is used to generate the waypoints. The desired area is a bounded rectangle and is given as an input to the algorithm as two coordinates, in \autoref{eq:pathgenxy}, that specifies the start and end coordinates of the area.
 %
 \begin{flalign} 
   \{x_\mathrm{start}; y_\mathrm{start}\}  \rule{40px}{0px} \{x_\mathrm{end}; y_\mathrm{end}\} \label{eq:pathgenxy}
@@ -37,7 +37,7 @@ The path generation algorithm first determines whether to generate waypoints alo
 	(x_\mathrm{end}-x_\mathrm{start}) \geq (y_\mathrm{end}-y_\mathrm{start})
 \end{flalign}
 %
-Once the sailing direction is chosen, the first waypoint is generated using the starting point's coordinates and the direction of the straight lines. The starting point in the non-sailing direction\fxnote{change term to something more technical. Suggestion:Transversal and longitudinal} is offset by $R_\mathrm{turn}$ so the multibeam is able to survey the from the edges of the area.
+Once the sailing direction is chosen, the first waypoint is generated using the starting point's coordinates and the direction of the straight lines. The starting point in the transversal direction is offset by $R_\mathrm{turn}$ so the multibeam is able to survey the from the edges of the area.
 
 The number of waypoints on both the straight lines and on the turns are generated using
 %
@@ -50,9 +50,9 @@ The number of waypoints on both the straight lines and on the turns are generate
   \va{n_\mathrm{wps}}{is the number of waypoints on each turn}{}
 \end{where}
 %
-As the area is not fixed, waypoints are generated every $d_\mathrm{wps}$ to ensure the boat will keep its track. The path for turns is fixed $R_\mathrm{turn}$ therefore the number of waypoints are fixed to $n_\mathrm{wps}$.
+As the area to survey may vary, the waypoints are generated every $d_\mathrm{wps}$ meters to ensure the boat will follow the designated path using these waypoints. Thus, the boat will not rely only on the waypoints that define the area. The path for turns is fixed $R_\mathrm{turn}$ therefore the number of waypoints are fixed to $n_\mathrm{wps}$.
 
- In \autoref{fig:pathgen1} an example of the desired area to survey and the generated waypoints is shown. It can be seen that the vessel is offset by $R_\mathrm{turn}$ and the minimum area the  multibeam sensor surveys is also shown.
+In \autoref{fig:pathgen1} an example of the desired area to survey and the generated waypoints is shown. It can be seen that the vessel is offset by $R_\mathrm{turn}$ and the minimum area the  multibeam sensor surveys is also shown.
 %
 \begin{figure}[H]
   \includegraphics[width=1\textwidth]{figures/pathGen} 

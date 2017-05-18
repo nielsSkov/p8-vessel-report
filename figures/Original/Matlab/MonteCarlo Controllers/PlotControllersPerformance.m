@@ -16,7 +16,7 @@ enable_disturbance = 1;
 xbDisturbance = 1.5;
 yawDisturbance = 1.5;
 sineAmplitude = 0.5;
-sineFrequency = 1;
+sineFrequency = 5;
 
 Nsim = 1;
 % Create random vectors for the parameters and the disturbances
@@ -110,15 +110,15 @@ end
 %     yawdot_lqr_sim yawdot_rob_sim yaw_int_lqr_sim xbdot_int_lqr_sim...
 %     yaw_int_rob_sim xbdot_int_rob_sim
 
-%% Analize results
+%% Analize resultsrun ControllersDesign.m
 run ControllersDesign.m
-%load MonteCarloControllers
+load MonteCarloControllers
 
 cost_lqr = zeros(Nsim,1);
 cost_rob = zeros(Nsim,1);
 
 for i=1:1:Nsim
-    % Calculate cost foe each simulation
+    % Calculate cost for each simulation
     for j = 1:1:size(xbdot_lqr_sim,2)
         cost_lqr(i) = cost_lqr(i)...
             + [yaw_lqr_sim(i,j) yawdot_lqr_sim(i,j) xbdot_lqr_sim(i,j) yaw_int_lqr_sim(i,j) xbdot_int_lqr_sim(i,j)]...
@@ -141,40 +141,54 @@ yaw_lqr_min = min(yaw_lqr_sim);
 yaw_rob_max = max(yaw_rob_sim);
 yaw_rob_min = min(yaw_rob_sim);
 
+xbdot_lqr_sigma = std(xbdot_lqr_sim);
+xbdot_rob_sigma = std(xbdot_rob_sim);
+yaw_lqr_sigma = std(yaw_lqr_sim);
+yaw_rob_sigma = std(yaw_rob_sim);
+
 % Plot the results
 figure(1)
 X=[time_sim,fliplr(time_sim)];
 Y=[xbdot_lqr_min,fliplr(xbdot_lqr_max)];
 fill(X,Y,[0.8 0.2 0],'edgecolor','none');
 hold on
+X=[time_sim,fliplr(time_sim)];
+Y=[xbdot_lqr_sim(1,:) - xbdot_lqr_sigma,fliplr(xbdot_lqr_sim(1,:) + xbdot_lqr_sigma)];
+fill(X,Y,[0 0.6 0],'edgecolor','none');
 plot(time_sim,xbdot_lqr_sim(1,:),'LineWidth',1.5,'Color',[0 0 0.7])
 
 figure(2)
 Y=[xbdot_rob_min,fliplr(xbdot_rob_max)];
 fill(X,Y,[0.8 0.2 0],'edgecolor','none');
 hold on
+Y=[xbdot_rob_sim(1,:) - xbdot_rob_sigma,fliplr(xbdot_rob_sim(1,:) + xbdot_rob_sigma)];
+fill(X,Y,[0 0.6 0],'edgecolor','none');
 plot(time_sim,xbdot_rob_sim(1,:),'LineWidth',1.5,'Color',[0 0 0.7])
 
 figure(3)
 Y=[yaw_lqr_min,fliplr(yaw_lqr_max)];
 fill(X,Y,[0.8 0.2 0],'edgecolor','none');
 hold on
+Y=[yaw_lqr_sim(1,:) - yaw_lqr_sigma,fliplr(yaw_lqr_sim(1,:) + yaw_lqr_sigma)];
+fill(X,Y,[0 0.6 0],'edgecolor','none');
 plot(time_sim,yaw_lqr_sim(1,:),'LineWidth',1.5,'Color',[0 0 0.7])
 
 figure(4)
 Y=[yaw_rob_min,fliplr(yaw_rob_max)];
 fill(X,Y,[0.8 0.2 0],'edgecolor','none');
 hold on
+Y=[yaw_rob_sim(1,:) - yaw_rob_sigma,fliplr(yaw_rob_sim(1,:) + yaw_rob_sigma)];
+fill(X,Y,[0 0.6 0],'edgecolor','none');
 plot(time_sim,yaw_rob_sim(1,:),'LineWidth',1.5,'Color',[0 0 0.7])
 
 figure(1)
-FigureLatex('Step Response in $\dot{x}_\mathrm{b}$ of the Linear Quadratic Regulator','Time [s]','Translational Velocity [m s$^-1$]',1,{'Deviation Area','Nominal Response'},'SouthEast',[0 30],[-0.1 1.5],12,13,0)
+FigureLatex('Step Response in $\dot{x}_\mathrm{b}$ of the Linear Quadratic Regulator','Time [s]','Translational Velocity [m s$^-1$]',1,{'Deviation Region','1-$\sigma$ Region','Nominal Response'},'SouthEast',[0 30],[-0.1 1.5],12,13,0)
 figure(2)
-FigureLatex('Step Response in $\dot{x}_\mathrm{b}$ of the $\mathcal{H}_\infty$ Controller','Time [s]','Translational Velocity [m s$^-1$]',1,{'Deviation Area','Nominal Response'},'SouthEast',[0 30],[-0.1 1.5],12,13,1.1)
+FigureLatex('Step Response in $\dot{x}_\mathrm{b}$ of the $\mathcal{H}_\infty$ Controller','Time [s]','Translational Velocity [m s$^-1$]',1,{'Deviation Region','1-$\sigma$ Region','Nominal Response'},'SouthEast',[0 30],[-0.1 1.5],12,13,1.1)
 figure(3)
-FigureLatex('Step Response in $\psi$ of the Linear Quadratic Regulator','Time [s]','Angular Position [rad]',1,{'Deviation Area','Nominal Response'},'SouthEast',[0 30],[-0.1 1.5],12,13,1.1)
+FigureLatex('Step Response in $\psi$ of the Linear Quadratic Regulator','Time [s]','Angular Position [rad]',1,{'Deviation Region','1-$\sigma$ Region','Nominal Response'},'SouthEast',[0 30],[-0.1 1.5],12,13,1.1)
 figure(4)
-FigureLatex('Step Response in $\psi$ of the $\mathcal{H}_\infty$ Controller','Time [s]','Angular Position [rad]',1,{'Deviation Area','Nominal Response'},'SouthEast',[0 30],[-0.1 1.5],12,13,1.1)
+FigureLatex('Step Response in $\psi$ of the $\mathcal{H}_\infty$ Controller','Time [s]','Angular Position [rad]',1,{'Deviation Region','1-$\sigma$ Region','Nominal Response'},'SouthEast',[0 30],[-0.1 1.5],12,13,1.1)
 
 % Calculate mean cost between the simulations
 mean_cost_lqr = mean(cost_lqr)

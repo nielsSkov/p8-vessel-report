@@ -10,7 +10,6 @@ warning off
 refXdot = 0.5;
 t = 150;
 step_interval =0.05;
-time_step = 10;
 enable_disturbance = 1;
 xbDisturbance = 1.5;
 ybDisturbance = 1.5;

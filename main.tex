@@ -41,7 +41,7 @@
     
     
     %%% PART 1 %%%
-    \part{Preanalysis}
+    \part{Pre-Analysis}
     
     %---------- Chapter 1 ---------------------------------------- Introduction
     \input{chapters/chapter1/aChapters1.tex}
@@ -68,7 +68,7 @@
     \part{Design \& Implementation}
     %---------- Chapter 5 ---------------------------------------- Design Approach
     \input{chapters/designApproach.tex}
-    %---------- Chapter 5 ---------------------------------------- Controller Design
+    %---------- Chapter 7 ---------------------------------------- Controller Design
     \input{chapters/chapter4/aChapters4.tex}
     \input{chapters/chapter4/LQR.tex}
     %\input{chapters/chapter4/simLQR.tex}
@@ -76,26 +76,33 @@
     %\input{chapters/chapter4/simHinf.tex}
     \input{chapters/chapter4/comparison.tex}
     
-    %---------- Chapter 6 ---------------------------------------- Path Following
+    %---------- Chapter 8 ---------------------------------------- Path Following
     \input{chapters/chapter5/aChapter5.tex}
     \input{chapters/chapter5/pathgeneration.tex}
     \input{chapters/chapter5/pathfollowingalgorithm.tex}
     \input{chapters/chapter5/pathfollowingsimulations.tex}
     
-    %---------- Chapter 7 ---------------------------------------- Sensor Fusion
+    %---------- Chapter 9 ---------------------------------------- Sensor Fusion
     \input{chapters/chapter7/aChapter7.tex}
     \input{chapters/chapter7/attitude.tex}
     \input{chapters/chapter7/attitudeResults.tex}
     \input{chapters/chapter7/position.tex}
     \input{chapters/chapter7/positionResults.tex}
     
-    %---------- Chapter 8 ---------------------------------------- Implementation    
+    %---------- Chapter 10 --------------------------------------- Implementation    
     \input{chapters/chapter6/aChapter6.tex}
     \input{chapters/chapter6/nodes.tex}
     \input{chapters/chapter6/topics.tex}
      
+     
     %%% PART 3 %%%
     \part{Test \& Conclusion}
+     %---------- Chapter 11 --------------------------------------- Results 
+    \input{chapters/results.tex}
+     %---------- Chapter 12 --------------------------------------- Discussion 
+    \input{chapters/discussion.tex}
+     %---------- Chapter 13 --------------------------------------- Conclusion 
+    \input{chapters/conclusion.tex}
     
    
     %%% APPENDIX %%%
@@ -129,11 +136,12 @@
     \input{appendix/eModelVerification.tex}  
     %---------- Appendix ---------------------------------------- Force Test
     \input{appendix/gForceTest.tex}  
+    %---------- Appendix ---------------------------------------- Disturbance Test
+    \input{appendix/hDisturbance.tex}  
 
     %%% BIBLIOGRAPHY %%%
-    % Remove header so it does not say Appendix Bibliography
     \printbibliography
-    \fancyhead[LE,RO]{}
+    \fancyhead[LE,RO]{}  % Remove header so it does not say "Appendix Bibliography"
                           
     %%% LIST OF CORRECTIONS %%%
     \listoffixmes 
