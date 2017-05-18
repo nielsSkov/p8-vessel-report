@@ -18,7 +18,7 @@ yawDisturbance = 1.5;
 sineAmplitude = 0.5;
 sineFrequency = 1;
 
-Nsim = 1000;
+Nsim = 1;
 % Create random vectors for the parameters and the disturbances
 percentage = 0.2;
 m_rand = [m; m + (percentage*m*(2*rand(Nsim-1,1)-1))];
