@@ -100,7 +100,7 @@ end
 %% Analize results
 run ControllersDesign.m
 run pathGeneration.m
-%load MonteCarloPathNoCorrection
+load MonteCarloPathNoCorrection
 %load MonteCarloPath
 
 yn_lqr_sim_min = min(yn_lqr_sim);
