@@ -1,7 +1,7 @@
 \section{Attitude Estimation}\label{sec:attFusion}
 The attitude estimation is done using a Kalman filter. The estimate contains attitude, angular velocity and angular acceleration information. For constructing the Kalman filter, a process model and a measurement model need to be created. 
 
-The process model describes the dynamics of the system and how the inputs affect its states. The process model includes also noise, which is assumed to be normally distributed. The process model is represented as in \autoref{eq:processmodelatt}. 
+The process model describes the dynamics of the system and how the inputs affect its states. The process model includes also noise, which is assumed to be normally distributed.
 The measurement model describes how the measurements taken from the IMU relate with the states of the system represented in the process model. Measurement noise is also included in the model. The process and measurement models are 
 %
 \begin{flalign}
@@ -11,20 +11,21 @@ The measurement model describes how the measurements taken from the IMU relate w
 \begin{where}
 	\va{\vec{x}_\mathrm{att}}{is the system state vector for the attitude Kalman filter}{}
 	\va{\vec{u}}{is the input vector}{}
-	\va{\vec{w}_\mathrm{att}(k)}{is the process noise vector}{}
-    \va{\vec{v}_\mathrm{att}(k)}{is the measurement noise vector}{}
+	\va{\vec{w}_\mathrm{att}}{is the process noise vector}{}
+    \va{\vec{v}_\mathrm{att}}{is the measurement noise vector}{}
     \va{\vec{A}_\mathrm{att}}{is the system matrix for the attitude Kalman filter model}{}
     \va{\vec{B}_\mathrm{att}}{is the input matrix for the attitude Kalman filter model}{}
     \va{\vec{C}_\mathrm{att}}{is the output matrix for the attitude Kalman filter model}{}    
 \end{where}
 
-The noise vectors $\vec{w}_\mathrm{att}(k)$ and $\vec{v}_\mathrm{att}(k)$ are independent, and follow a zero mean normal distribution. The covariance matrices of each distribution are $\vec{Q}_\mathrm{att}$ and $\vec{R}_\mathrm{att}$, respectively. These are diagonal matrices calculated as
+The noise vectors $\vec{w}_\mathrm{att}$ and $\vec{v}_\mathrm{att}$ are independent, and follow a zero mean normal distribution. The covariance matrices of each distribution are $\vec{Q}_\mathrm{att}$ and $\vec{R}_\mathrm{att}$, respectively. These are diagonal matrices calculated as
 \begin{flalign}
 	\vec{Q}_\mathrm{att} &= \mathrm{diag}\left( \sigma_\mathrm{\phi}^2,\sigma_\mathrm{\theta}^2,\sigma_\mathrm{\psi}^2,\sigma_\mathrm{\dot{\phi}}^2,\sigma_\mathrm{\dot{\theta}}^2,\sigma_\mathrm{\dot{\psi}}^2,\sigma_\mathrm{\ddot{\phi}}^2,\sigma_\mathrm{\ddot{\theta}}^2,\sigma_\mathrm{\ddot{\psi}}^2 \right) \\
 	\vec{R}_\mathrm{att} &= \mathrm{diag} \left( \sigma_{\phi\mathrm{,acc}}^2,\sigma_{\theta\mathrm{,acc}}^2,\sigma_{\psi\mathrm{,mag}}^2,\sigma_{\dot{\phi}\mathrm{,gyro}}^2,\sigma_{\dot{\theta}\mathrm{,gyro}}^2,\sigma_{\dot{\psi}\mathrm{,gyro}}^2 \right)
 \end{flalign}
-%
-\fxnote{say how we calculate these variances, refer to an appendix with values also maybe}
+
+The states variances can be seen in \fxnote{Refer to state variances appendix}, and the measurements variances in \autoref{app:IMUVariances}.
+
 The states chosen for the Kalman model include all variables to be estimated and those in which dynamics of the system play a role. These are
 \begin{flalign}
     \vec{x}_\mathrm{att} &= 
@@ -35,9 +36,9 @@ The states chosen for the Kalman model include all variables to be estimated and
 %
 Even though the inner state space controller only considers $\psi$ and $\dot{\psi}$, the other Euler angles and angular velocities are included to allow a better overall estimation, specially when using later the rotation matrix elements as described in \autoref{sec:posFusion}. The angular accelerations are normally not part of a state vector in a state space representation. However, in the attitude Kalman filter state vector, the accelerations are included as they are an important part of the dynamics of the vessel as it can be seen in the last tree rows in $A_\mathrm{att}$, \autoref{eq:Aatt}.
 
-The output vector elements depend on the measurements given by the IMU. These include the angular velocities provided by the gyroscope and the attitude measurements. The latter are obtained from a direct calculation using the accelerometer and magnetometer data \cite{MBibuli} as	
+The output vector elements depend on the measurements given by the IMU. These include the angular velocities provided by the gyroscope and the attitude measurements. The latter are obtained from a direct calculation using the accelerometer data to compute $\phi_\mathrm{acc}$ and $\theta_\mathrm{acc}$ and the magnetometer data projected on to the plane to compute $\psi_\mathrm{mag}$ \cite{MBibuli}, as	
 \begin{flalign}
-	\phi_\mathrm{acc} &= \arctan\left(\frac{\ddot{y}_\mathrm{b,acc}}{\sqrt{\ddot{x}_\mathrm{b,acc}^2 + \ddot{z}_\mathrm{b,acc}^2}} \right)\ , \label{eq:roll_acc} \\
+	\phi_\mathrm{acc} &= - \arctan\left(\frac{\ddot{y}_\mathrm{b,acc}}{\sqrt{\ddot{x}_\mathrm{b,acc}^2 + \ddot{z}_\mathrm{b,acc}^2}} \right)\ , \label{eq:roll_acc} \\
 	\theta_\mathrm{acc} &= - \arctan \left( \frac{\ddot{x}_\mathrm{b,acc}}{\sqrt{\ddot{y}_\mathrm{b,acc}^2 + \ddot{z}_\mathrm{b,acc}^2}} \right)\ , \label{eq:pitch_acc} \\
 	\psi_\mathrm{mag} &= \arctan \left( \frac{M_{y_\mathrm{b}} \cos(\phi) + M_{z_\mathrm{b}} \sin(\phi)}{M_{x_\mathrm{b}} \cos(\theta) + M_{y_\mathrm{b}} \sin(\phi) \sin(\theta) + M_{z_\mathrm{b}} \cos(\phi) \sin(\theta)} \right)\ .\label{eq:yaw_mag}
 \end{flalign}
@@ -66,7 +67,7 @@ The input vector, in this case stays the same as in the state space controller d
     \end{bmatrix}^\mathrm{T}\ .
 \end{flalign}
 %
-With this information, the process and measurement model matrices can be built. The $\vec{A}_\mathrm{att}$ matrix is what describes the dynamics of the model. In this system, the attitude is itself plus the discrete integration of the angular velocity over the sampling period. This is represented by the 1 and the T$_s$ in each of the Euler angle rows. The same dynamics describe the angular velocities. The angular accelerations depend on the angular velocities through the damping coefficients. In order to consider the most recent value of the angular velocities, the three last rows of $\vec{A}_\mathrm{att}$ are just a copy of the three middle rows of $\vec{A}_\mathrm{att}$ multiplied by the corresponding damping coefficient and divided by the matching moment of inertia. The elements on these last rows also include the minus sign coming from the damping. The $\vec{A}_\mathrm{att}$ matrix is 
+With this information, the process and measurement model matrices can be built. The $\vec{A}_\mathrm{att}$ matrix is what describes the dynamics of the model. In this system, the attitude is itself plus the discrete integration of the angular velocity over the sampling period. This is represented by the 1 and the $T_\mathrm{s}$ in each of the Euler angle rows. The same dynamics describe the angular velocities. The angular accelerations depend on the angular velocities through the damping coefficients. In order to consider the most recent value of the angular velocities, the three last rows of $\vec{A}_\mathrm{att}$ are just a copy of the three middle rows of $\vec{A}_\mathrm{att}$ multiplied by the corresponding damping coefficient and divided by the matching moment of inertia. The elements on these last rows also include the minus sign coming from the damping. The $\vec{A}_\mathrm{att}$ matrix is 
 \begin{flalign}
 	\label{eq:Aatt}
     \vec{A}_\mathrm{att} &=
@@ -77,10 +78,10 @@ With this information, the process and measurement model matrices can be built. 
         0 & 0 & 0 & 1 & 0 & 0 & T_\mathrm{s} & 0 & 0 \\
         0 & 0 & 0 & 0 & 1 & 0 & 0 & T_\mathrm{s} & 0 \\
         0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & T_\mathrm{s} \\
-        0 & 0 & 0 & \frac{-d_\mathrm{\phi}}{I_\mathrm{x}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\psi}}{I_\mathrm{x}} & 0 & 0 \\
-        0 & 0 & 0 & 0 & \frac{-d_\mathrm{\theta}}{I_\mathrm{y}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\theta}}{I_\mathrm{y}} & 0 \\
-        0 & 0 & 0 & 0 & 0 & \frac{-d_\mathrm{\psi}}{I_\mathrm{z}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\psi}}{I_\mathrm{z}}\ . \nonumber
-    \end{bmatrix}
+        0 & 0 & 0 & -\frac{d_\mathrm{\phi}}{I_\mathrm{x}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\psi}}{I_\mathrm{x}} & 0 & 0 \\
+        0 & 0 & 0 & 0 & -\frac{d_\mathrm{\theta}}{I_\mathrm{y}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\theta}}{I_\mathrm{y}} & 0 \\
+        0 & 0 & 0 & 0 & 0 & -\frac{d_\mathrm{\psi}}{I_\mathrm{z}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\psi}}{I_\mathrm{z}}\  \nonumber
+    \end{bmatrix}.
 \end{flalign}
 %
 The matrix $\vec{B}_\mathrm{att}$ is mostly formed by zeros, the only nonzero elements are placed in the last row, indicating how the forces contribute to the angular acceleration in the yaw angle. The $\vec{C}_\mathrm{att}$ matrix is also straightforward to obtain as the measurement are just the first six states in $\vec{x}_\mathrm{att}$. The $\vec{B}_\mathrm{att}$ and $\vec{C}_\mathrm{att}$ matrices are
@@ -97,7 +98,7 @@ The matrix $\vec{B}_\mathrm{att}$ is mostly formed by zeros, the only nonzero el
             0 & 0 \\
             0 & 0 \\
             0 & 0 \\
-            \frac{l_1}{I_\mathrm{z}} & \frac{-l_2}{I_\mathrm{z}}\nonumber 
+            \frac{l_1}{I_\mathrm{z}} & -\frac{l_2}{I_\mathrm{z}}\nonumber 
         \end{bmatrix} 
     \end{flalign}
 \end{minipage}\hfill
@@ -128,8 +129,7 @@ The prediction step of the Kalman filter is
 	\vec{P}_\mathrm{att}(k+1|k) &= \vec{A}_\mathrm{att} \vec{P}_\mathrm{att}(k|k) \vec{A}_\mathrm{att}^\mathrm{T} + \vec{Q}_\mathrm{att} \label{eq:predictPatt}
 \end{flalign}
 %
-The update step corrects the estimate using the prediction obtained in the previous step and the innovation \cite[p. 7]{SHaykin}, that is, the error between the new measurement and the predicted new measurement. This error updates $\vec{x}_\mathrm{att}$ weighted by the Kalman gain $\vec{K}(k)$. The update step is
-The update step of the Kalman filter calculates the updated state estimation and the updated error covariance as 
+The update step corrects the estimate using the prediction obtained in the previous step and the innovation \cite[p. 7]{SHaykin}, that is, the error between the new measurement and the predicted new measurement. This error updates $\vec{x}_\mathrm{att}$ weighted by the Kalman gain $\vec{K}(k)$. The update step of the Kalman filter calculates the updated state estimation and the updated error covariance as 
 \begin{flalign}
     \hat{\vec{x}}_\mathrm{att}(k+1|k+1) &= \hat{\vec{x}}_\mathrm{att}(k+1|k) + \vec{K}(k+1) \left[ \vec{y}(k+1) - \vec{C}_\mathrm{att}  \hat{\vec{x}}_\mathrm{att}(k+1|k) \right]\ , \label{eq:updatexatt}\\
     \vec{P}_\mathrm{att}(k+1|k+1) &= \left[ \vec{I} - \vec{K}(k+1) \vec{C}_\mathrm{att}^\mathrm{T} \right] \vec{P}_\mathrm{att}(k+1|k)\ . \label{eq:updatePatt}
