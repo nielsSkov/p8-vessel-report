@@ -114,7 +114,7 @@ To design this feedback system, it is convenient to express it on the following 
   \label{eq:yLinearDiscrete} 
 \end{flalign}
 %
-To describe the control design in this form, the $\vec{A_e}$, $\vec{B_e}$ and $\vec{C_e}$ matrices must be constructed. From \autoref{fig:blockConrolDesignLQR}, following relation is found:
+To describe the control design in this form, the $\vec{A_e}$, $\vec{B_e}$ and $\vec{C_e}$ matrices must be constructed. From \autoref{fig:blockConrolDesignLQR}, the discrete state space model for the integral is derived and shown in \autoref{eq:xIDiscrete}.
 %
 \begin{flalign}
   \vec{x_I}(k+1) &= \vec{x_I}(k) + \vec{y}(k) + \vec{r}(k)    \nonumber \\
@@ -166,19 +166,20 @@ This leads to the discrete state space model extended with the integral states e
   \label{eq:discreteSSWithIntegralY}
 \end{flalign}  
 %
-which cooresponds to \autoref{eq:xDotLinearDiscrete} and \ref{eq:yLinearDiscrete}.
+which corresponds to \autoref{eq:xDotLinearDiscrete} and \ref{eq:yLinearDiscrete}.
 
 A discrete time infinite horizon LQR is used in the design of the feedback, $\vec{F_e} = [\ \vec{F} \ \ \vec{F}_\mathrm{I} ]\ $, which works by minimizing the cost function,
 %
 \begin{flalign}
-  J = \sum_{k=0}^\infty \vec{x}_k^\mathrm{T}\vec{Q}\vec{x}_k + \vec{u}_k^\mathrm{T}\vec{R}\vec{u}_k  \ \ .
+  J = \sum_{k=0}^\infty \vec{x}_k^\mathrm{T}\vec{Q_d}\vec{x}_k + \vec{u}_k^\mathrm{T}\vec{R_d}\vec{u}_k  \ \ .
 \end{flalign}
 \begin{where}
-	\va{\vec{Q}}{is the symmetric positive semidefinite state cost matrix}{}
-  \va{\vec{R}}{is the symmetric positive definite input cost matrix}{}
+	\va{\vec{Q_d}}{is the discrete time symmetric positive semidefinite state cost matrix}{}
+  \va{\vec{R_d}}{is the discrete time symmetric positive definite input cost matrix}{}
 \end{where}
 
-The Q matrix contains the penalties for the state, such that a higher cost is generated for more critical states, thus driving these states faster to zero. The R matrix contains the penalties for the input. This helps to ensure that the actuators never enters saturation.\\
+The $\vec{Q_d}$ matrix contains the penalties for the states, such that a higher cost is generated for more critical states, thus driving these states faster to zero. The $\vec{R_d}$ matrix contains the penalties for the inputs. This helps to ensure the inputs are not driven towards saturation.
+
 It is necessary for all states to be stable and controllable. Otherwise the the performance index, $J$, will become infinite \cite[p. 125]{DSNaidu}.\\
 The controllability is determined by
 %
@@ -186,7 +187,7 @@ The controllability is determined by
   \vec{{\mathcal C}}
   = 
   \begin{bmatrix}
-    \vec{B}_\mathrm{e} & \vec{A}_\mathrm{e}\vec{B}_\mathrm{e} & \vec{A}_\mathrm{e}^\textbf{2} \vec{B}_\mathrm{e} & \vec{A}^\textbf{3}_\mathrm{e} \vec{B}_\mathrm{e} & \vec{A}^\textbf{4}_\mathrm{e} \vec{B}_\mathrm{e}
+    \vec{B}_\mathrm{e} & \vec{A}_\mathrm{e}\vec{B}_\mathrm{e} & \vec{A}_\mathrm{e}^{2} \vec{B}_\mathrm{e} & \vec{A}^{3}_\mathrm{e} \vec{B}_\mathrm{e} & \vec{A}^{4}_\mathrm{e} \vec{B}_\mathrm{e}
   \end{bmatrix}  \ \ ,
   \label{eq:integralControllability}
 \end{flalign}
@@ -194,7 +195,18 @@ The controllability is determined by
 of which the rank is 5, that is, the controllability matrix, $\vec{{\mathcal C}}$, has full rank, thus the system is controllable \cite[p. 169]{CTChen}.\\
 The eigenvalues of $\vec{A}_\mathrm{e}$ are all on or within the unit-circle in the z-plane, thus, no states are unstable and the LQR design is feasible.
 
-Bryson's rule is used as an initial design method to determine sensible values for the state and input penalties in the Q and R matrices.
+The design approach taken to describe the cost function, $J$, is done by defining weights on the states and inputs for the continuous time infinite horizon LQR cost function,
+%
+\begin{flalign}
+  J_{cont} = \int_{0}^\infty \vec{x}_k^\mathrm{T}\vec{Q}\vec{x}_k + \vec{u}_k^\mathrm{T}\vec{R}\vec{u}_k \  dt\ \ .
+  \label{eq:contLQRcost}
+\end{flalign}
+\begin{where}
+  \va{\vec{Q}}{is the continuous time symmetric positive semidefinite state cost matrix}{}
+  \va{\vec{R}}{is the continuous time symmetric positive definite input cost matrix}{}
+\end{where}
+
+Bryson's rule is used as an initial design method to determine sensible values for the state and input penalties of the $\vec{Q}$ and $\vec{R}$ matrices, as described in \autoref{eq:QRBryson}\\
 %
 \begin{flalign} 
   Q_{ii} &= \frac{1}{x_{i_\mathrm{max}}\text{}^2} \rule{30px}{0px} R_{ii} = \frac{1}{u_{i_\mathrm{max}} \text{}^2}
@@ -205,20 +217,68 @@ Bryson's rule is used as an initial design method to determine sensible values f
   \va{u_{i_\mathrm{max}}}{are the maximum acceptable input values}{}
 \end{where}
 
-The requirements stated in \autoref{sec:requirements} must be taken into account when determining the values of $x_{i_\mathrm{max}}$ and $u_{i_\mathrm{max}}$.
-\fxnote{Include arguments and numbers for final choice of Q and R.}
+The requirements stated in \autoref{sec:requirements} must be taken into account when determining the values of $x_{i_\mathrm{max}}$ and $u_{i_\mathrm{max}}$. As the USV needs a high accuracy for bathymetric measurements, the weights of $\vec{Q}$ are set higher than $\vec{R}$ to ensure priority is focused on driving the states down to zero. The individual integral states are penalized higher than the system states to set further importance on driving the integral states to zero. This will ensure the reference signals are closely tracked. The low weights for $\vec{R}$ also ensures the actuators are not overexerted. This means the actuators will not be driven to saturation and will be used less. This is also ideal for the mobile vessel as the actuators will use less energy, thus the USV will be able to perform longer surveys.
 
+These $\vec{Q}$ and $\vec{R}$ matrices must be discretized, as the state feedback design is done in the discrete time domain. \\
+With
+%
+\begin{flalign}
+  \vec{\Phi}(\tau) = e^{\vec{A}\tau} \\
+  \vec{\Gamma}(\tau) = \int_{0}^{\tau}e^{\vec{A}\eta}\vec{B}d\eta
+\end{flalign}
+%
+the weighting matrices, $\vec{Q}$ and $\vec{R}$, are discretized using \fxnote{add reference}
+\begin{flalign}
+  \begin{bmatrix}
+    \vec{Q_d} & 0 \\
+    0 & \vec{R_d} 
+  \end{bmatrix}
+  = \int_{0}^{T_s}
+  \begin{bmatrix}
+    \vec{\Phi}^T(\tau)      & 0 \\
+    \vec{\Gamma}^T(\tau)    & I
+  \end{bmatrix}
+  \begin{bmatrix}
+    \vec{Q} & 0 \\
+    0 & \vec{R}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \vec{\Phi}(\tau)  &   \vec{\Gamma}(\tau) \\
+    0           &   I
+  \end{bmatrix}
+  d\tau
+\end{flalign}
+%The chosen values for Q and R are shown in \autoref{eq:QRMatrices}.
+%
+% 
+% \begin{flalign}
+%   \vec{Q} = 
+%   \begin{bmatrix}
+%     100 & 0   & 0   & 0   & 0             \\
+%     0   & 100 & 0   & 0   & 0             \\
+%     0   & 0   & 100 & 0   & 0             \\
+%     0   & 0   & 0   & 400 & 0             \\
+%     0   & 0   & 0   & 0   & 400
+%   \end{bmatrix} \rule{30px}{0px}
+%   \vec{R} = 
+%   \begin{bmatrix}
+%     25\times10^{-6}   & 0                 \\
+%     0                 & 25\times10^{-6}
+%   \end{bmatrix}
+%   \label{eq:QRMatrices}
+% \end{flalign}
+%
 From this the state feedback is calculated by \cite[p. 42]{JLNy},
 %
 \begin{flalign}
-  \vec{F}_\mathrm{e} &= -(\vec{B}_\mathrm{e}^\mathrm{T} \vec{P}\vec{B}_\mathrm{e} + \vec{R})^{-1}  \vec{B}_\mathrm{e}^\mathrm{T} \vec{P}\vec{A}_\mathrm{e} \ \ ,
+  \vec{F}_\mathrm{e} &= -(\vec{B}_\mathrm{e}^\mathrm{T} \vec{P}\vec{B}_\mathrm{e} + \vec{R_d})^{-1}  \vec{B}_\mathrm{e}^\mathrm{T} \vec{P}\vec{A}_\mathrm{e} \ \ ,
   \label{eq:QRFeedback}
 \end{flalign}
 %
 where $\vec{P}$ can be found as the solution of the infinite horizon algebraic discrete-time Riccati equation \cite[p. 42]{JLNy},
 %
 \begin{flalign}
-\vec{P} &= \vec{A}_\mathrm{e}^\mathrm{T} \vec{P} \vec{A}_\mathrm{e} + \vec{Q} - \vec{A}_\mathrm{e}^\mathrm{T} \vec{P} \vec{B}_\mathrm{e} (\vec{B}_\mathrm{e}^\mathrm{T} \vec{P} \vec{B}_\mathrm{e} + \vec{R})^{-1} \vec{B}_\mathrm{e}^\mathrm{T} \vec{P} \vec{A}_\mathrm{e} \ \ .
+\vec{P} &= \vec{A}_\mathrm{e}^\mathrm{T} \vec{P} \vec{A}_\mathrm{e} + \vec{Q_d} - \vec{A}_\mathrm{e}^\mathrm{T} \vec{P} \vec{B}_\mathrm{e} (\vec{B}_\mathrm{e}^\mathrm{T} \vec{P} \vec{B}_\mathrm{e} + \vec{R_d})^{-1} \vec{B}_\mathrm{e}^\mathrm{T} \vec{P} \vec{A}_\mathrm{e} \ \ .
 \label{eq:discreteInfRiccati}
 \end{flalign}
 %
