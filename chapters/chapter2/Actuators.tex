@@ -4,21 +4,20 @@ The actuation system present on the vessel is constituted by the forward and the
 \subsection{Forward Thrusters}
 The forward thrusters are the main actuators present on the vessel and they provide a forward force depending on the rotational speed of the motors.
 
-The relationship between the command and the force that they exert is as follows
+The relationship between the command and the force that they exert  have been obtained through experimental tests described in \autoref{app:forceTest}. It is as follows
 %
 \begin{flalign}
-	\mathrm{PWM} = \num{8.5706} \ F - \num{91.9358} \ \ .
-	\label{eq:forwardSpeedForce}
+    \mathrm{PWM} = \num{6.6044} \ F + \num{70.0168} \ \ .
+    \label{eq:backwardSpeedForce}
 \end{flalign}
 %
 If a negative force is required hey can also rotate in the opposite direction, producing a backwards force that can be calculated as 
 %
 \begin{flalign}
-	\mathrm{PWM} = \num{6.6044} \ F + \num{70.0168} \ \ .
-	\label{eq:backwardSpeedForce}
+    \mathrm{PWM} = \num{8.5706} \ F - \num{91.9358} \ \ .
+    \label{eq:forwardSpeedForce}
 \end{flalign}
 %
-These equations have been obtained through experimental tests described in \autoref{app:forceTest}.
 
 The forward thrusters are actuated with brushless motors INLINE 750 \num{14.8} V from Graupner. They have two poles with a velocity constant of 1035 rpm kV$^{-1}$ and can operate within \num{7.4} and \num{22.2} V, being the nominal voltage \num{14.8} V. \cite{motors}
 
