@@ -1,7 +1,7 @@
 \section{$\mathcal{H}_\infty$ Design}\label{sec:Hinf}
 The linearized model in \autoref{sec:linearizationModel} has varying parameters, such as the added mass and damping coefficients. The vessel may also experience external disturbances, such as wind forces. During surveying, the vessel needs to be robust to these model variations and it must be able to sufficiently reject disturbances. Using the $\mathcal{H}_\infty$ design technique, a robust controller for the vessel can be synthesized. The design of such controller differs from the LQR design. In this case, the design of model and controller is done simultaneously and can not be clearly separated as for the LQR case.
 
-The $\mathcal{H}_\infty$ problem consists of finding an internally stabilizing controller that provides a closed loop $\mathcal{H}_\infty$ norm less than some bound $\gamma$ \cite[p. 835]{JCDoyle}, \cite[pp. 92-93]{AAStoorvogel}. Such controller is also called suboptimal $\mathcal{H}_\infty$ controller, as there might be smaller $\gamma$ yielding an internally stabilizing controller.% The reason for not deigning the optimal controller is \fxnote{write reason}
+The $\mathcal{H}_\infty$ problem consists of finding an internally stabilizing controller that provides a closed loop $\mathcal{H}_\infty$ norm less than some bound $\gamma$ \cite[p. 835]{JCDoyle}, \cite[pp. 92-93]{AAStoorvogel}. Such controller is also called suboptimal $\mathcal{H}_\infty$ Controller, as there might be smaller $\gamma$ yielding an internally stabilizing controller.% The reason for not deigning the optimal controller is \fxnote{write reason}
 
 A more detailed mathematical formulation of the $\mathcal{H}_\infty$ problem and its solution is given in \cite[pp. 91-119]{AAStoorvogel}. 
 
@@ -35,7 +35,7 @@ For solving the suboptimal $\mathcal{H}_\infty$ control problem, the system has 
 The $\mathcal{H}_\infty$ model representation can also be seen in \autoref{fig:HinfDiag}, where all signals and matrices involved in the design process are represented.
 \begin{figure}[H]
 	\includegraphics[width=0.6\textwidth]{figures/HinfDiag}
-	\caption{Block diagram used in the $\mathcal{H}_\infty$ controller design.}
+	\caption{Block diagram used in the $\mathcal{H}_\infty$ Controller design.}
 	\label{fig:HinfDiag}
 \end{figure}
 
@@ -71,7 +71,7 @@ The state vector construction starts with the three states that define the basic
 The state vector also includes the states coming from the reference, disturbance and noise models. These extra states, not only show the dynamics of the uncontrolled inputs, but also reflect the weighting functions that have been applied to each of them. This process is carried out in order to modify how the uncontrolled inputs affect the states, this is normally done through transfer functions, \cite{MSalari}. In order to include weights in the state space representation, some states for each uncontrolled input need to be defined. \autoref{fig:WeightDiag} shows an example of how an uncontrolled input is weighted so it can be included in the state space representation.
 \begin{figure}[H]
 	\includegraphics[width=0.6\textwidth]{figures/WeightDiag}
-	\caption{Block diagram illustrating how an uncontrolled input is weighted in the $\mathcal{H}_\infty$ controller design. $d$ is the uncontrolled input and $d'$ is the weighted uncontrolled input. The states $\vec{x}_\mathrm{d}$ are included in the state vector of the $\mathcal{H}_\infty$ state space representation.}
+	\caption{Block diagram illustrating how an uncontrolled input is weighted in the $\mathcal{H}_\infty$ Controller design. $d$ is the uncontrolled input and $d'$ is the weighted uncontrolled input. The states $\vec{x}_\mathrm{d}$ are included in the state vector of the $\mathcal{H}_\infty$ state space representation.}
 	\label{fig:WeightDiag}
 \end{figure}
 The uncontrolled input states are part of the state vector. The $\vec{A}_\mathrm{d}$, $\vec{B}_\mathrm{d}$, $\vec{C}_\mathrm{d}$ and $\vec{D}_\mathrm{d}$ in \autoref{fig:WeightDiag} can be calculated from a weighting function as in the example given in \autoref{eq:weightingexampleLP}, where the uncontrolled input $d$ is weighted by means of a first order transfer function with low-pass characteristics.
@@ -277,7 +277,7 @@ The $\vec{D}_{21}$ matrix relates uncontrolled inputs with the measurement outpu
 	\end{bmatrix}\ . \nonumber
 \end{flalign}
 
-After setting up the model, which includes part of the controller design, the $\mathcal{H}_\infty$ controller can be found by solving a Riccatti equation defined as
+After setting up the model, which includes part of the controller design, the $\mathcal{H}_\infty$ Controller can be found by solving a Riccatti equation defined as
 \begin{flalign}
 	\label{eq:Xinf}
 	\vec{X}_\infty &= Ric

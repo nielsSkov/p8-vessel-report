@@ -2,9 +2,9 @@
 %
 The goal of this project is to develop a control strategy that can make an autonomous surface vessel suitable for survey tasks in water. More specifically, it should be able to perform bathymetric measurements.
 
-In order to set up the requirements for the control system it is helpful to study a more concrete case in which bathymetric measurements are already in use and where improvements in measurement techniques are decried.
+In order to set up the requirements for the control system it is helpful to study a more concrete case in which bathymetric measurements are already in use and where improvements in measurement techniques are desired.
 
-The Port of Aalborg provides such a case along with previously used bathymetric measurements, see \autoref{fig:bathymetricMapPortOfAalborg}. These measurements are used by the Port of Aalborg to guide ships safely through the port without hitting the bottom.
+The Port of Aalborg provides such a case along with previously used bathymetric measurements, see \autoref{fig:bathymetricMapPortOfAalborg}. These measurements are used by the Port of Aalborg to guide ships safely through the port without grounding.
 
 \begin{figure}[H]
   \includegraphics[width=0.5\textwidth]{figures/smallDebthMapAalborg}
@@ -33,7 +33,7 @@ In order to ensure the entire area is covered, the path planner should include s
 The quality of the bathymetric measurements play part in determining the required overlap. Additionally other applications for the ASV would have requirements for the precision and accuracy provided by the control design. For these reasons and in order not to constrain the design to only one potential use, it is decided to set up some rather tight requirements for the system.
 
 %%%%%Precision%%%%%%%%%%%
-Following the S-44 IHO standards for hydrographic mapping, the measurements fall into the special category, which sets a maximum allowable horizontal total horizontal unceartanty (THU) of 2 m, 95\% confidence level for the positional measurements. 
+Following the S-44 IHO standards for hydrographic mapping, the measurements fall into the special category, which sets a maximum allowable horizontal uncertainty (THU) of 2 m, 95\% confidence level for the positional measurements. 
 This standard is intended for under-keel measurements of the sea floor, which aligns with the scope of this project.\cite{IHO-S-44} 
 The Canadian Hydrography Service (CHS) includes a stricter category, the Exclusive order. 
 This category extends the special category to be more focused on shallow waters, such as harbors. 
@@ -62,10 +62,10 @@ This is crucial for the implementation of safety features such as emergency stop
 For the vessel to autonomously survey an area, a controller is needed. 
 The performance of the controller is crucial for how well the system preforms overall. 
 One of the challenges when designing a controller is how well it handles disturbances. 
-In the case of the vessel the disturbances are mostly represented as wind and wave disturbances. 
+In the case of the vessel the disturbances are mostly represented as wind and wave disturbances. \fxnote{Should we mention the current}
 \begin{figure}[H]
     \includegraphics[width=0.5\textwidth]{figures/boatdisturbance}
-    \caption{Illustration of how the vessel is affected by disturbances}
+    \caption{Illustration of how the vessel is affected by disturbances.}
     \label{fig:boatdist}
 \end{figure}
 

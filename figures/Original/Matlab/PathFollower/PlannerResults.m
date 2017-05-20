@@ -1,4 +1,8 @@
 %% Script to check the performance of the trajectory following.
+close all
+clear
+clc
+
 run ControllersDesign.m
 run pathGeneration.m
 % run ControllerLQR.m
@@ -57,9 +61,9 @@ for i=1:1:Nsim
         noise_power_yawdot = 0;
         noise_power_xbdot = 0;
     else
-        noise_power_yaw = 0.0000001;
-        noise_power_yawdot = 0.000001;
-        noise_power_xbdot = 0.000001;
+        noise_power_yaw = 9.8847e-9;
+        noise_power_yawdot = 9.8847e-9;
+        noise_power_xbdot = 9.8847e-9;
     end
     
     %Select the new parameters
@@ -92,7 +96,7 @@ for i=1:1:Nsim
 end
 
 % save MonteCarloPathNoCorrection Nsim time_sim...
-%     mx_rand Iz_rand dx_rand dy_rand dyaw_rand l1_rand l2_rand...
+%     m_rand Iz_rand dx_rand dy_rand dyaw_rand l1_rand l2_rand...
 %     xbDisturbance_rand yawDisturbance_rand sineFrequency_rand...
 %     xn_lqr_sim yn_lqr_sim dist_lqr_sim xn_rob_sim yn_rob_sim...
 %     dist_rob_sim
@@ -100,7 +104,7 @@ end
 %% Analize results
 run ControllersDesign.m
 run pathGeneration.m
-%load MonteCarloPathNoCorrection
+load MonteCarloPathNoCorrection
 %load MonteCarloPath
 
 yn_lqr_sim_min = min(yn_lqr_sim);
@@ -119,6 +123,12 @@ dist_rob_sim_min = min(dist_rob_sim);
 dist_rob_sim_max = max(dist_rob_sim);
 dist_rob_sim_sigma = std(dist_rob_sim);
 
+
+yline = [0 2];
+xline1 = [40 40];
+xline2 = [65 65];
+xline3 = [99 99];
+xline4 = [125 125];
 
 figure(1)
 plot(wps(:,2),wps(:,1),'--xk');
@@ -140,7 +150,17 @@ hold on
 Y=[dist_lqr_sim(1,:) - dist_lqr_sim_sigma,fliplr(dist_lqr_sim(1,:) + dist_lqr_sim_sigma)];
 fill(X,Y,[0 0.6 0],'edgecolor','none'); 
 plot(time_sim,dist_lqr_sim(1,:),'LineWidth',1.5,'Color',[0 0 0.7])
-FigureLatex('Distance to the Path when using the Linear Quadratic Regulator','Time [s]','Distance [m]',1,{'Deviation Region','1-$\sigma$ Region','Nominal Response'},'NorthEast',0,[0 1],12,13,0)
+plot(xline1,yline,'--','Color',[0.5 0 0.8])
+plot(xline2,yline,'--','Color',[0.5 0 0.8])
+plot(xline3,yline,'--','Color',[0.5 0 0.8])
+plot(xline4,yline,'--','Color',[0.5 0 0.8])
+FigureLatex('Distance to the Path when using the Linear Quadratic Regulator','Time [s]','Distance [m]',1,{'Deviation Region','1-$\sigma$ Region','Nominal Response','Straight Path Limits'},'NorthEast',0,[0 1],12,13,1.1)
+
+yline = [0 2];
+xline1 = [42 42];
+xline2 = [68 68];
+xline3 = [102 102];
+xline4 = [128 128];
 
 figure(3)
 plot(wps(:,2),wps(:,1),'--xk');
@@ -162,5 +182,9 @@ hold on
 Y=[dist_rob_sim(1,:) - dist_rob_sim_sigma,fliplr(dist_rob_sim(1,:) + dist_rob_sim_sigma)];
 fill(X,Y,[0 0.6 0],'edgecolor','none'); 
 plot(time_sim,dist_rob_sim(1,:),'LineWidth',1.5,'Color',[0 0 0.7])
-FigureLatex('Distance to the Path when using the $\mathcal{H}_\infty$ Controller','Time [s]','Distance [m]',1,{'Deviation Region','1-$\sigma$ Region','Nominal Response'},'NorthEast',0,[0 1],12,13,0)
+plot(xline1,yline,'--','Color',[0.5 0 0.8])
+plot(xline2,yline,'--','Color',[0.5 0 0.8])
+plot(xline3,yline,'--','Color',[0.5 0 0.8])
+plot(xline4,yline,'--','Color',[0.5 0 0.8])
+FigureLatex('Distance to the Path when using the $\mathcal{H}_\infty$ Controller','Time [s]','Distance [m]',1,{'Deviation Region','1-$\sigma$ Region','Nominal Response','Straight Path Limits'},'NorthEast',0,[0 1],12,13,0)
 
