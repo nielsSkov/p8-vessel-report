@@ -45,7 +45,7 @@ If the vessel is positioned far from the path such that the circle does not inte
 The yaw reference, $\psi_\mathrm{ref}$, given to the controller in \autoref{chap:innercontrol} ensures that the vessel will follow the desired LOS. While following the LOS the distance between the vessel and the path, $e$, in \autoref{fig:patherror}, will decrease. At each time sample $\psi_\mathrm{ref}$ is recalculated using the algorithm. This is done to ensure $e$ will converge to the zero, meaning the vessel will converge onto the path.
 %
 \begin{figure}[H]
-	\includegraphics[width=0.8\textwidth]{figures/patherror}
+	\includegraphics[width=0.7\textwidth]{figures/patherror}
 	\caption{Path following algorithm minimizing the error $e$ between the path and vessel}
 	\label{fig:patherror}
 \end{figure}
@@ -59,8 +59,9 @@ This convergence can also be seen in the initial condition response of the contr
     \label{fig:initCondOuter}
 \end{figure}
 
+As described above, the distance to the path converges to zero when an initial position outside the path is set. The speed of convergence depends on the radius of the circle chose as can be seen in \autoref{fig:initCondOuter}. This is the tuning parameter that is used to design the controller.
 
-
+For this particular system, and considering that the smallest bandwidth of the inner controllers is \fxnote{Write bandwidth of inner}, a radius of \num{2.5} m is chosen as this gives a bandwidth of \fxnote{Write bandwidth of outer}, \fxnote{Write how fast} faster that the inner controller.
 
 In order to follow all the path, a way to change which two waypoints define the current path segment needs to be established. Several possibilities can be considered but all of them change active waypoints when the vessel gets close enough to the waypoint that defines the end of the segment. In the project at hand, the distance to the waypoint is evaluated as the distance from the waypoint to the intersection point of the path segment and a perpendicular line to the segment that passes through the vessel position. This distance is depicted in \autoref{fig:changewaypoints}.
 \begin{figure}[H]

@@ -18,7 +18,7 @@ yawDisturbance = 1.5;
 sineAmplitude = 0.5;
 sineFrequency = 5;
 
-Nsim = 1;
+Nsim = 1000;
 % Create random vectors for the parameters and the disturbances
 percentage = 0.2;
 m_rand = [m; m + (percentage*m*(2*rand(Nsim-1,1)-1))];
@@ -65,9 +65,9 @@ for i=1:1:Nsim
         noise_power_yawdot = 0;
         noise_power_xbdot = 0;
     else
-        noise_power_yaw = 0.0000001;
-        noise_power_yawdot = 0.000001;
-        noise_power_xbdot = 0.000001;
+        noise_power_yaw = 9.8847e-9;
+        noise_power_yawdot = 9.8847e-9;
+        noise_power_xbdot = 9.8847e-9;
     end
     %Select the new parameters
     m = m_rand(i);
@@ -103,17 +103,17 @@ for i=1:1:Nsim
     
 end
 
-% save MonteCarloControllers Nsim time_sim xbdot_lqr_sim yaw_lqr_sim...
-%     F1_lqr_sim F2_lqr_sim xbdot_rob_sim yaw_rob_sim F1_rob_sim F2_rob_sim...
-%     mx_rand Iz_rand dx_rand dy_rand dyaw_rand l1_rand l2_rand...
-%     xbDisturbance_rand yawDisturbance_rand sineFrequency_rand...
-%     yawdot_lqr_sim yawdot_rob_sim yaw_int_lqr_sim xbdot_int_lqr_sim...
-%     yaw_int_rob_sim xbdot_int_rob_sim
+save MonteCarloControllers Nsim time_sim xbdot_lqr_sim yaw_lqr_sim...
+    F1_lqr_sim F2_lqr_sim xbdot_rob_sim yaw_rob_sim F1_rob_sim F2_rob_sim...
+    m_rand Iz_rand dx_rand dy_rand dyaw_rand l1_rand l2_rand...
+    xbDisturbance_rand yawDisturbance_rand sineFrequency_rand...
+    yawdot_lqr_sim yawdot_rob_sim yaw_int_lqr_sim xbdot_int_lqr_sim...
+    yaw_int_rob_sim xbdot_int_rob_sim
 
 %% Analize resultsrun ControllersDesign.m
 close all
 run ControllersDesign.m
-load MonteCarloControllers
+%load MonteCarloControllers
 
 cost_lqr = zeros(Nsim,1);
 cost_rob = zeros(Nsim,1);
