@@ -27,7 +27,9 @@ The parameter uncertainties are assumed to vary $\pm$20\% from their nominal val
         \includegraphics[width=.45\textwidth]{figures/xbdot_mc_rob}
     }
 \end{figure}
-As it can be seen, both controllers are able to track the given reference in $\dot{x}_\mathrm{b}$. The controller designed using LQR theory yields a fast controller, but the change in reference in the $\psi$ angle leads to a great perturbation in the vessel speed, reaching almost 50\%, while the 1-$\sigma$ values stays below 10\%. There is no steady state error once the perturbation has been compensated by the controller. The $\mathcal{H}_\infty$ Controller on the other hand, is much slower in terms of settling time, the perturbation introduced when changing $\psi_\mathrm{ref}$ has a 1-$\sigma$ value that is almost zero and a maximum value around 10\%. This is acceptable as the forward velocity of the boat does not require a fast response and it is not a critical parameter for he outer controller.
+As it can be seen, both controllers are able to track the given reference in $\dot{x}_\mathrm{b}$. The controller designed using LQR theory yields a fast controller, but the change in reference in the $\psi$ angle leads to a great perturbation in the vessel speed, reaching almost 50\%, while the 1-$\sigma$ values stays below 10\%. There is no steady state error once the perturbation has been compensated by the controller. The $\mathcal{H}_\infty$ Controller on the other hand, is much slower in terms of settling time, the perturbation introduced when changing $\psi_\mathrm{ref}$ has a 1-$\sigma$ value that is almost zero and a maximum value around 10\%. This is acceptable as the forward velocity of the boat does not require a fast response and it is not a critical parameter for the outer controller.
+
+It can be seen that the LQR response has a settling time of 1 s, with an error band of 5\%, while the $\mathcal{H}_\infty$ Controller takes around 5 s to settle. These responses can be approximated with first order systems with time constants of \num{0.33} s and \num{1.66} s, respectively, which give bandwidths \num{3} rad s$^{-1}$ and \num{0.6} rad s$^{-1}$.
 
 In \autoref{fig:xbdot_mc_lqr_error} and \ref{fig:xbdot_mc_rob_error}, a closed look to the difference of the step responses with respect to the nominal behavior is shown.
 \begin{figure}[H]
@@ -75,6 +77,8 @@ In \autoref{fig:yaw_mc_lqr} and \ref{fig:yaw_mc_rob}, the performance of the con
 
 The behavior seen in these figures resembles that for \autoref{fig:xbdot_mc_lqr} and \ref{fig:xbdot_mc_rob}. The $\mathcal{H}_\infty$ Controller shows less overshoot and variability in the different simulations but it is also slightly slower that the LQR controller. In both cases, the 1-$\sigma$ value is very closed to zero, but the reponse of the Linear Quadratic Regulator shows a maximum variation of 20\%.
 %In order to achieve a proper comparison, the variance with respect to the nominal model response in abscense of disturbances has been calculated. For the LQR controller, the variance is \fxnote{Write variance for LQR}, while that for the $\mathcal{H}_\infty$ Controller is \fxnote{write variance for robust}.
+
+It can be seen as well that the LQR response has a settling time of 2 s, while the $\mathcal{H}_\infty$ Controller takes around \num{3.5} s to settle. These responses can be approximated with first order systems with time constants of \num{0.66} s and \num{1.16} s, respectively, which give bandwidths \num{1.5} rad s$^{-1}$ and \num{0.86} rad s$^{-1}$.
 
 As in the case of $\dot{x}_\mathrm{b}$, a close look at the difference with respect tot the nominal response can be seen in \autoref{fig:yaw_mc_lqr_error} and \ref{fig:yaw_mc_rob_error}.
 \begin{figure}[H]

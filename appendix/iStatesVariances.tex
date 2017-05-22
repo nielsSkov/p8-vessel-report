@@ -1,0 +1,30 @@
+\chapter{States Variances}\label{app:statesVariances}
+
+In the design of both Kalman filters the $Q$ matrices are composed by the variance of the states that form the systems.
+
+
+\subsection*{Attitude Kalman Filter}
+\begin{flalign}
+     \sigma_\mathrm{\phi}^2 &= T_\mathrm{s}^2\ \mathrm{rad}^2 \nonumber \\
+     \sigma_\mathrm{\theta}^2 &= T_\mathrm{s}^2\ \mathrm{rad}^2 \nonumber \\
+     \sigma_\mathrm{\psi}^2 &= T_\mathrm{s}^2\ \mathrm{rad}^2 \nonumber \\
+     \sigma_\mathrm{\dot{\phi}}^2 &= 0.01 T_\mathrm{s}\ \mathrm{rad}^2\mathrm{s}^{-2} \nonumber \\
+     \sigma_\mathrm{\dot{\theta}}^2 &= 0.01 T_\mathrm{s}\ \mathrm{rad}^2\mathrm{s}^{-2} \nonumber \\
+     \sigma_\mathrm{\dot{\psi}}^2 &= 0.01 T_\mathrm{s}\ \mathrm{rad}^2\mathrm{s}^{-2} \nonumber \\
+     \sigma_\mathrm{\ddot{\phi}}^2 &= 0.001\ \mathrm{rad}^2\mathrm{s}^{-4} \nonumber \\
+     \sigma_\mathrm{\ddot{\theta}}^2 &= 0.001\ \mathrm{rad}^2\mathrm{s}^{-4} \nonumber \\
+     \sigma_\mathrm{\ddot{\psi}}^2 &= 0.001\ \mathrm{rad}^2\mathrm{s}^{-4} \nonumber
+\end{flalign}
+
+\subsection*{Position Kalman Filter}
+\begin{flalign}
+ \sigma_\mathrm{x_\mathrm{n}}^2 &= T_\mathrm{s}^2\ \mathrm{m}^2\nonumber \\
+ \sigma_\mathrm{y_\mathrm{n}}^2 &= T_\mathrm{s}^2\ \mathrm{m}^2\nonumber \\
+ \sigma_\mathrm{\dot{x}_\mathrm{b}}^2 &= 0.01T_\mathrm{s}\ \mathrm{m}^2\mathrm{s}^{-2}\nonumber \\
+ \sigma_\mathrm{\dot{y}_\mathrm{b}}^2 &= 0.01T_\mathrm{s}\ \mathrm{m}^2\mathrm{s}^{-2} \nonumber \\
+ \sigma_\mathrm{\ddot{x}_\mathrm{b}}^2 &= 0.001\ \mathrm{m}^2\mathrm{s}^{-4} \nonumber \\
+ \sigma_\mathrm{\ddot{y}_\mathrm{b}}^2 &= 0.001\ \mathrm{m}^2\mathrm{s}^{-4} \nonumber
+\end{flalign}
+
+
+\fxnote{Did we write the sampling times in the chapter?}
