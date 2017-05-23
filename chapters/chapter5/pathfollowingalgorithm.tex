@@ -61,7 +61,7 @@ This convergence can also be seen in the initial condition response of the contr
 
 As described above, the distance to the path converges to zero when an initial position outside the path is set. The speed of convergence depends on the radius of the circle chose as can be seen in \autoref{fig:initCondOuter}. This is the tuning parameter that is used to design the controller.
 
-For this particular system, and considering that the smallest bandwidth of the inner controllers is \fxnote{Write bandwidth of inner}, a radius of \num{2.5} m is chosen as this gives a bandwidth of \fxnote{Write bandwidth of outer}, \fxnote{Write how fast} faster that the inner controller.
+For this particular system, and considering that the smallest bandwidth of the inner controllers is \num{0.6} rad s$^{-1}$, a radius of \num{2.5} m is chosen as this gives settling time of 15 s and a bandwidth of \num{0.2} rad s$^{-1}$, three faster that the inner controller.
 
 In order to follow all the path, a way to change which two waypoints define the current path segment needs to be established. Several possibilities can be considered but all of them change active waypoints when the vessel gets close enough to the waypoint that defines the end of the segment. In the project at hand, the distance to the waypoint is evaluated as the distance from the waypoint to the intersection point of the path segment and a perpendicular line to the segment that passes through the vessel position. This distance is depicted in \autoref{fig:changewaypoints}.
 \begin{figure}[H]

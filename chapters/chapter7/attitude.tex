@@ -24,7 +24,7 @@ The noise vectors $\vec{w}_\mathrm{att}$ and $\vec{v}_\mathrm{att}$ are independ
 	\vec{R}_\mathrm{att} &= \mathrm{diag} \left( \sigma_{\phi\mathrm{,acc}}^2,\sigma_{\theta\mathrm{,acc}}^2,\sigma_{\psi\mathrm{,mag}}^2,\sigma_{\dot{\phi}\mathrm{,gyro}}^2,\sigma_{\dot{\theta}\mathrm{,gyro}}^2,\sigma_{\dot{\psi}\mathrm{,gyro}}^2 \right)
 \end{flalign}
 
-The states variances can be seen in \fxnote{Refer to state variances appendix}, and the measurements variances in \autoref{app:IMUVariances}.
+The states variances can be seen in \autoref{app:statesVariances}, and the measurements variances in \autoref{app:IMUVariances}.
 
 The states chosen for the Kalman model include all variables to be estimated and those in which dynamics of the system play a role. These are
 \begin{flalign}
@@ -68,8 +68,8 @@ The input vector, in this case stays the same as in the state space controller d
 \end{flalign}
 %
 With this information, the process and measurement model matrices can be built. The $\vec{A}_\mathrm{att}$ matrix is what describes the dynamics of the model. In this system, the attitude is itself plus the discrete integration of the angular velocity over the sampling period. This is represented by the 1 and the $T_\mathrm{s}$ in each of the Euler angle rows. The same dynamics describe the angular velocities. The angular accelerations depend on the angular velocities through the damping coefficients. In order to consider the most recent value of the angular velocities, the three last rows of $\vec{A}_\mathrm{att}$ are just a copy of the three middle rows of $\vec{A}_\mathrm{att}$ multiplied by the corresponding damping coefficient and divided by the matching moment of inertia. The elements on these last rows also include the minus sign coming from the damping. The $\vec{A}_\mathrm{att}$ matrix is 
+
 \begin{flalign}
-	\label{eq:Aatt}
     \vec{A}_\mathrm{att} &=
     \begin{bmatrix}
     	1 & 0 & 0 & T_\mathrm{s} & 0 & 0 & 0 & 0 & 0 \\
@@ -82,6 +82,7 @@ With this information, the process and measurement model matrices can be built. 
         0 & 0 & 0 & 0 & -\frac{d_\mathrm{\theta}}{I_\mathrm{y}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\theta}}{I_\mathrm{y}} & 0 \\
         0 & 0 & 0 & 0 & 0 & -\frac{d_\mathrm{\psi}}{I_\mathrm{z}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\psi}}{I_\mathrm{z}}\  \nonumber
     \end{bmatrix}.
+    	\label{eq:Aatt}
 \end{flalign}
 %
 The matrix $\vec{B}_\mathrm{att}$ is mostly formed by zeros, the only nonzero elements are placed in the last row, indicating how the forces contribute to the angular acceleration in the yaw angle. The $\vec{C}_\mathrm{att}$ matrix is also straightforward to obtain as the measurement are just the first six states in $\vec{x}_\mathrm{att}$. The $\vec{B}_\mathrm{att}$ and $\vec{C}_\mathrm{att}$ matrices are
