@@ -1,0 +1,49 @@
+\chapter{Test Journal: GPS Variances Test} \label{app:GPSImprovement}
+
+\textbf{Date: TBA}
+
+\subsubsection*{Purpose}
+Dertermine the effectiveness of including base corrections when determining GPS loaction
+\subsection*{Equipment}
+\begin{itemize}
+	\item Emlid Reach RTK GPS connected to the base station as described in Appendix \ref{app:rtk_gps}
+    \item Water proof container
+    \item HTC Desire HD with access to cellular networks
+\end{itemize}
+
+\subsubsection*{Theory}
+
+The inaccuracies of GPS receivers is mostly due to atmospheric changes, which adds a verity of disturbances dependent on the weather, temperature etc.
+This results in most modern GPS receivers having a precision of 2-5 m. 
+For applications where this precision is insufficient, an RTK GPS can be used. 
+By comparing the measurements received from a base station, the rover is able to compensate for the disturbances.
+The base station is a stationary GPS receiver with a known position, which streams correction data, to be used by the rover. 
+%The increased performance is a result of the weather pattern is locally similar, meaning that if the base station and the rover is close (within 10-20 km) to each other, the disturbances they experience is the same.
+As long as the rover remains within a close distance to the base station, the rover will be able to use the offset the base station experiences to improve it's own measurements.
+%This enables the rover to compensate for the weather patterns, granted the base station received the same satellites as the rover.
+This can result in down to sub centimeter precision for some high grade implementations.
+By comparing the Mean and variance of similar GPS with and without base correction, the theoretical gain in accuracy by including base corrections can be shown.
+Under optimal circumstances, this test should be preformed by two similar GPS's at the simultaneously, however it was not a possibility, thus two days with similar weather was chosen as test dates instead.
+
+\subsection*{Procedure}
+
+\begin{enumerate}
+	\item Through reach view connect the Emlid Reach to the base station.
+	\item Turn on Hotspot on the phone.
+	\item Put the GPS and Phone in the container.
+	\item Place the GPS and phone with access to a power outlet and clear sky view.
+	\item Wait 24 hours.
+	\item Retrieve the log process the data.
+	\item Disconnect the phone and restart the experiment without base corrections.
+	
+\end{enumerate}
+
+\subsubsection*{Results}
+%\begin{figure}[H]
+%    \includegraphics[width=.7\textwidth]{figures/GPSVariances}
+%\end{figure}
+%%
+%\begin{flalign}
+%    \sigma_{x\mathrm{n,GPS}}^2 & = 0.00050346 \ \mathrm{m}^2  \nonumber \\
+%    \sigma_{y\mathrm{n,GPS}}^2 & = 0.00057036 \ \mathrm{m}^2  \nonumber
+%\end{flalign}

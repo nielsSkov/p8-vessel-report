@@ -21,7 +21,7 @@ The noise, $\vec{w}_\mathrm{pos}(k)$ and $\vec{v}_\mathrm{pos}(k)$, are independ
 	\vec{R}_\mathrm{pos} &= \mathrm{diag} \left( \sigma_{x_\mathrm{n}\mathrm{,GPS}}^2,\sigma_{y_\mathrm{n}\mathrm{,GPS}}^2,\sigma_{\ddot{x}_\mathrm{b}\mathrm{,acc}}^2,\sigma_{\ddot{y}_\mathrm{b}\mathrm{,acc}}^2 \right)
 \end{flalign}
  
-As well as in the case of the attitude, the state variances can be seen in \fxnote{Refer to state variances appendix} and the measurement variances in \autoref{app:GPSVariances}.
+As well as in the case of the attitude, the state variances can be seen in \autoref{app:statesVariances} and the measurement variances in \autoref{app:rtk_gps} and \autoref{app:IMUVariances}.
 
 The state vector for this Kalman filter is formed by the position in the NED frame, the velocity in the body frame and the accelerations in the body frame. These variables are either needed in the outer path follower controller or they describe an important part of the dynamics of the system. The position and velocity are on the former group while the accelerations is in the latter. It can also be seen from the state vector, \autoref{eq:stateskalmanpos}, that the $ z $ coordinate is not considered in this filter as it is not needed in the controllers and it does not play a relevant role in the dynamics of the system.
 \begin{flalign}
