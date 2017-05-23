@@ -28,19 +28,19 @@ The path generation algorithm is confined to generate waypoints in an area that 
 Now that the desired area is well defined, as a rectangle, the path generation algorithm is able to generate a list of waypoints for the USV to follow in the given area. \\The path is generated with straight lines and turns for which the vessel shall follow. This pattern is chosen as bathymetric measurements are typically performed in straight lines \fxnote{source}.To determine the width between these lines, the dynamics of the vessel, the swath angle of the multibeam echosounder and the minimum depth of the area to survey were taken into consideration. The swath angle and minimum depth of the Port of Aalborg survey in \autoref{app:bathymetricMapPortOfAalborg} were used to calculate the width between straight lines, as described in \autoref{sec:designconsiderations},
 %
 \begin{flalign}
-  w_\mathrm{beam} = 36 \mathrm{m}
+  w_\mathrm{beam} = 36\ \mathrm{m}
 \end{flalign}
 \begin{where}
-  \va{w_\mathrm{beam}}{is the minimum required beamwidth}{}
+  \va{w_\mathrm{beam}}{is the minimum required beamwidth}{m}
 \end{where}
 
 The dynamics of the vessel also needs to be considered to ensure the vessel can perform smooth turns between straight lines. It is determined that the vessel capable of using the turning radius 
 %
 \begin{flalign}
-  R_\mathrm{turn} = \frac{1}{2} w_\mathrm{beam} = 18 \mathrm{m}
+  R_\mathrm{turn} = \frac{1}{2} w_\mathrm{beam} = 18\ \mathrm{m}
 \end{flalign}
 \begin{where}
-  \va{R_\mathrm{turn}}{is the turning radius of the waypoints}{}
+  \va{R_\mathrm{turn}}{is the turning radius of the waypoints}{m}
 \end{where}
 
 The path generation algorithm first determines whether to generate waypoints along the x axis or the y axis. This is done to ensure the vessel will perform the least number of turns and is determined by calculating whether the x or y distance is greater. This is done by checking if
