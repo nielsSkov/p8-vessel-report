@@ -43,10 +43,10 @@ The dynamics of the vessel also needs to be considered to ensure the vessel can 
   \va{R_\mathrm{turn}}{is the turning radius of the waypoints}{m}
 \end{where}
 
-The path generation algorithm first determines whether to generate waypoints along the x axis or the y axis. This is done to ensure the vessel will perform the least number of turns and is determined by calculating whether the x or y distance is greater. This is done by checking if
+The path generation algorithm first determines along which side of the rectangle to generate waypoints. This is done to ensure the vessel will perform the least number of turns and is determined by calculating which side of the rectangle is larger. This is done by checking if
 %
 \begin{flalign}
-	(x_\mathrm{end}-x_\mathrm{start}) \geq (y_\mathrm{end}-y_\mathrm{start})
+	\sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2} \geq \sqrt{(x_1 - x_4)^2 + (y_1 - y_4)^2}
 \end{flalign}
 %
 Once the sailing direction is chosen, the first waypoint is generated using the starting point's coordinates and the direction of the straight lines. The starting point in the transversal direction is offset by $R_\mathrm{turn}$ so the multibeam is able to survey the from the edges of the area.
