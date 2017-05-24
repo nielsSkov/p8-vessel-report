@@ -24,7 +24,8 @@ The noise vectors $\vec{w}_\mathrm{att}$ and $\vec{v}_\mathrm{att}$ are independ
 	\vec{R}_\mathrm{att} &= \mathrm{diag} \left( \sigma_{\phi\mathrm{,acc}}^2,\sigma_{\theta\mathrm{,acc}}^2,\sigma_{\psi\mathrm{,mag}}^2,\sigma_{\dot{\phi}\mathrm{,gyro}}^2,\sigma_{\dot{\theta}\mathrm{,gyro}}^2,\sigma_{\dot{\psi}\mathrm{,gyro}}^2 \right)
 \end{flalign}
 
-The states variances can be seen in \autoref{app:statesVariances}, and the measurements variances in \autoref{app:IMUVariances}.
+The states variances have been found iteratively in order to obtain the a good estimation of the states. The measurements variances have been obtained from the real sensors and can be seen in \autoref{app:IMUVariances}. The final state variances are \fxnote{write values maybe}.
+
 
 The states chosen for the Kalman model include all variables to be estimated and those in which dynamics of the system play a role. These are
 \begin{flalign}

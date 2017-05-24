@@ -1,7 +1,8 @@
 \chapter{States Variances}\label{app:statesVariances}
 
-In the design of both Kalman filters the $Q$ matrices are composed by the variance of the states that form the systems.
+In the design of both Kalman filters the $Q$ matrices are composed by the variance of the states of the system. 
 
+The variances used in the filters are found iteratively using the simulations. The initial guess for these variances 
 
 \subsection*{Attitude Kalman Filter}
 \begin{flalign}
@@ -11,9 +12,9 @@ In the design of both Kalman filters the $Q$ matrices are composed by the varian
      \sigma_\mathrm{\dot{\phi}}^2 &= 0.01 T_\mathrm{s}\ \mathrm{rad}^2\mathrm{s}^{-2} \nonumber \\
      \sigma_\mathrm{\dot{\theta}}^2 &= 0.01 T_\mathrm{s}\ \mathrm{rad}^2\mathrm{s}^{-2} \nonumber \\
      \sigma_\mathrm{\dot{\psi}}^2 &= 0.01 T_\mathrm{s}\ \mathrm{rad}^2\mathrm{s}^{-2} \nonumber \\
-     \sigma_\mathrm{\ddot{\phi}}^2 &= 0.001\ \mathrm{rad}^2\mathrm{s}^{-4} \nonumber \\
-     \sigma_\mathrm{\ddot{\theta}}^2 &= 0.001\ \mathrm{rad}^2\mathrm{s}^{-4} \nonumber \\
-     \sigma_\mathrm{\ddot{\psi}}^2 &= 0.001\ \mathrm{rad}^2\mathrm{s}^{-4} \nonumber
+     \sigma_\mathrm{\ddot{\phi}}^2 &= 0.03 T_\mathrm{s}\ \mathrm{rad}^2\mathrm{s}^{-4} \nonumber \\
+     \sigma_\mathrm{\ddot{\theta}}^2 &= 0.03 T_\mathrm{s}\ \mathrm{rad}^2\mathrm{s}^{-4} \nonumber \\
+     \sigma_\mathrm{\ddot{\psi}}^2 &= 0.03 T_\mathrm{s}\ \mathrm{rad}^2\mathrm{s}^{-4} \nonumber
 \end{flalign}
 
 \subsection*{Position Kalman Filter}
@@ -22,8 +23,8 @@ In the design of both Kalman filters the $Q$ matrices are composed by the varian
  \sigma_\mathrm{y_\mathrm{n}}^2 &= T_\mathrm{s}^2\ \mathrm{m}^2\nonumber \\
  \sigma_\mathrm{\dot{x}_\mathrm{b}}^2 &= 0.01T_\mathrm{s}\ \mathrm{m}^2\mathrm{s}^{-2}\nonumber \\
  \sigma_\mathrm{\dot{y}_\mathrm{b}}^2 &= 0.01T_\mathrm{s}\ \mathrm{m}^2\mathrm{s}^{-2} \nonumber \\
- \sigma_\mathrm{\ddot{x}_\mathrm{b}}^2 &= 0.001\ \mathrm{m}^2\mathrm{s}^{-4} \nonumber \\
- \sigma_\mathrm{\ddot{y}_\mathrm{b}}^2 &= 0.001\ \mathrm{m}^2\mathrm{s}^{-4} \nonumber
+ \sigma_\mathrm{\ddot{x}_\mathrm{b}}^2 &= 0.03 T_\mathrm{s}\ \mathrm{m}^2\mathrm{s}^{-4} \nonumber \\
+ \sigma_\mathrm{\ddot{y}_\mathrm{b}}^2 &= 0.03 T_\mathrm{s}\ \mathrm{m}^2\mathrm{s}^{-4} \nonumber
 \end{flalign}
 
 
