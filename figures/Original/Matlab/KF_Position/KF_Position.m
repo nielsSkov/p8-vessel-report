@@ -42,18 +42,18 @@ C_pos=[1 0 0 0 0 0;
     0 0 0 0 0 1];
 
 % State variances
-sigma2_xn=Ts^2;
-sigma2_yn=Ts^2;
-sigma2_xndot=0.01*Ts;
-sigma2_yndot=0.01*Ts;
-sigma2_xnddot=0.001;
-sigma2_ynddot=0.001;
+sigma2_xn=0.001;
+sigma2_yn=0.001;
+sigma2_xndot=0.00001;
+sigma2_yndot=0.00001;
+sigma2_xnddot=0.00001;
+sigma2_ynddot=0.00001;
 
 % Sensor variance
-sigma2_gps_xn=3;
-sigma2_gps_yn=3;
-sigma2_acc_xbddot=0.003;
-sigma2_acc_ybddot=0.003;
+sigma2_gps_xn=0.7;
+sigma2_gps_yn=0.7;
+sigma2_acc_xbddot=0.00050346;
+sigma2_acc_ybddot=0.00057036;
 
 % Covariances matrices
 Q=diag([sigma2_xn, sigma2_yn, sigma2_xndot,sigma2_yndot, sigma2_xnddot,...
@@ -125,9 +125,10 @@ end
 % xn
 figure
 hold on
-plot(x.Time,meas(1,:),'Color',[0 0 0.6])
+plot(x.Time,meas(1,:),'Color',[0 0.7 0])
+
+plot(x.Time,x.Data(:,1),'Color',[0 0 0.7])
 plot(x.Time,x_pos(1,:),'Color',[0.7 0 0])
-plot(x.Time,x.Data(:,1),'Color',[0 0.7 0])
 FigureLatex('$x_\mathrm{n}$','Time [s]','Translational Position [m]',1,{'Measurement', 'Estimation', 'Real'},0,[0 20],0,12,14,1.2)
 
 % xb velocity
@@ -140,7 +141,7 @@ FigureLatex('$\dot{x}_\mathrm{b}$','Time [s]','Translational Velocity [m $^{-1}$
 % xb acceleration
 figure
 hold on
-plot(x.Time,meas(3,:),'Color',[0 0 0.6])
+plot(x.Time,meas(3,:),'Color',[0 0.7 0])
 plot(x.Time,x_pos(5,:),'Color',[0.7 0 0])
-plot(x.Time,xbddot.Data(:,1),'Color',[0 0.7 0])
+plot(x.Time,xbddot.Data(:,1),'Color',[0 0 0.7])
 FigureLatex('$\ddot{x}_\mathrm{b}$','Time [s]','Translational Acceleration [m s$^{-2}$]',1,{'Measurement','Estimation', 'Real'},0,[0 40],0,12,14,1.2)

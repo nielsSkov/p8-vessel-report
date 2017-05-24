@@ -45,7 +45,7 @@ In \autoref{fig:lqrwrong}, \ref{fig:distlqrwrong}, \ref{fig:robwrong} and \ref{f
 
 In these graphs, it is clear that the path is not precisely followed when disturbances are introduced in the system. This offset is expected as the assumption for this simpler algorithm to work does not hold with disturbances like wind and waves. The latter is specially visible in the straight line parts of the path, where the vessel movement shows a 1-$\sigma$ value that goes up to 15 cm and a maximum value that reaches up to approximately 40 cm.
 
-The straight path limits are also included to show the parts of the path where it is important to be closed to the line. It can be seen that both nominal responses and the 1-$\sigma$ regions are below the 30 cm requirement, whereas some of the extreme curves go beyond that line.
+The straight path limits are also included to show the parts of the path where it is important to be closed to the line. It can be seen that both nominal responses and the 1-$\sigma$ regions are below 40 cm.
 
 When the information of the vessel velocity is used to calculate the reference angle, $\psi_\mathrm{ref}$, the disturbance is rejected. This is seen in \autoref{fig:lrqcorrect}, \ref{fig:distlqr}, \ref{fig:robustcorrect} and \ref{fig:distrobustcorrect}, where the vessel is experiencing disturbances and model perturbations in the same range as in the previously shown figures. Both the vessel X-Y movement and the distance to the target path are depicted. 
 
@@ -86,8 +86,4 @@ When the information of the vessel velocity is used to calculate the reference a
 	}
 \end{figure}
 
-In this case, the offset in position has been corrected and the path is followed within the desired precision in the straight line segments. There are still some small deviations due to the wave disturbance present in the system, but the 1-$\sigma$ value is almost below 5 cm and the maximum variations stay below 15 cm with respect to the reference path.
-
-It is also noticeable in this cases, that in the straight part of the path, the distance is kept below 30 cm, fulfilling the requirement for the bathymetric measurements.
-
-According to the results of the simulations, it can be said that the vessel follows the path through the waypoints when they are part of a straight line section of the path. In curved sections, the vessel joins smoothly the straight line segments that approximate the curve. In many cases, and especially for bathymetric measurements, the algorithm can be considered suitable.
+In this case, the offset in position has been corrected and the path is followed within the desired precision in the straight line segments. There are still some small deviations due to the wave disturbance present in the system, but the 1-$\sigma$ value is mostly 5 cm and the maximum variations stay below 15 cm with respect to the reference path.
