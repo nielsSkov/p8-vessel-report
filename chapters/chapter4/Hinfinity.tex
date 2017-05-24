@@ -129,7 +129,7 @@ The controlled input are the two forces provided by the thrusters of the boat, t
 		F_1 & F_2 
 	\end{bmatrix}^\mathrm{T}\ .
 	\label{eq:uVectorHinf}
-\end{flalign} \nonumber
+\end{flalign}
 
 
 \subsection*{Uncontrolled Input vector}
@@ -140,7 +140,7 @@ The uncontrolled inputs include the references to be tracked, the input disturba
 		\psi_\mathrm{ref} & \dot{x}_\mathrm{b,ref} & F_\mathrm{wind} & \tau_\mathrm{wind} & F_\mathrm{wave} & \tau_\mathrm{wave}& n_{\psi} & n_{\dot{x}_\mathrm{b}}
 	\end{bmatrix}^\mathrm{T} \ .
 	\label{eq:wVectorHinf}
-\end{flalign} \nonumber
+\end{flalign} 
 \begin{where}
 	\va{n_\mathrm{x}}{is noise affecting measured output x}{}
 	\va{F_\mathrm{wind/wave}}{is the force of the wind/waves along the $x_\mathrm{b}$ direction}{}
@@ -155,7 +155,7 @@ The measurement output vector includes the outputs that are to track a reference
 		\psi & \dot{x}_\mathrm{b} & \vec{x}_\mathrm{int}
 	\end{bmatrix}^\mathrm{T}\ .
 	\label{eq:yVectorHinf}
-\end{flalign} \nonumber
+\end{flalign}
 
 \subsection*{Performance Output Vector}
 The performance output contains all variables whose performance should be taken into account by the controller. As the design entails a state feedback control, all the states are considered performance outputs. The controlled inputs are also part of this vector as it is desired to set some limitations or constant weights in order to account for the saturation of these inputs in the real system.
@@ -165,7 +165,7 @@ The performance output contains all variables whose performance should be taken 
 		\vec{x} & \vec{u}
 	\end{bmatrix}^\mathrm{T}\ .
 	\label{eq:zVectorHinf}
-\end{flalign} \nonumber
+\end{flalign}
 
 Once the state, input and output vectors have been defined, the model matrices can be derived.
 
@@ -185,7 +185,7 @@ The matrix $\vec{A}_1$ describes the dynamics of the system states and all the o
 		\vec{0}_{2\mathrm{x}3} & \vec{0}_{2\mathrm{x}2} & \vec{A}_\mathrm{wind} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} \\
 		\vec{0}_{2\mathrm{x}3} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{A}_\mathrm{wave} & \vec{0}_{2\mathrm{x}2} \\
 		\vec{0}_{2\mathrm{x}3} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{A}_\mathrm{noise} 
-	\end{bmatrix}\ . \nonumber
+	\end{bmatrix}\ .
 \end{flalign}
 It can be seen that the matrix is composed by submatrices that correspond to the different parts of the system, namely for the original states in the first three rows, the integral states for reference tracking in the next two rows and the uncontrolled inputs in the last six rows. The last submatrices result from the weighting functions applied to the different uncontrolled inputs.
 
@@ -199,7 +199,7 @@ $\vec{B}_1$ relates the uncontrolled inputs with the state derivatives. Its stru
 		\vec{0}_{2\mathrm{x}2} & \vec{B}_\mathrm{wind} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} \\
 		\vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{B}_\mathrm{wave} & \vec{0}_{2\mathrm{x}2} \\
 		\vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{B}_\mathrm{noise} 
-	\end{bmatrix}\ . \nonumber
+	\end{bmatrix}\ .
 \end{flalign}
 
 The matrix $\vec{B}_2$ relates the controlled inputs to the states, in this case, the motor thrusters only affect the system states. The $\vec{B}_2$ matrix is constructed as 
@@ -212,7 +212,7 @@ The matrix $\vec{B}_2$ relates the controlled inputs to the states, in this case
 		\vec{0}_{2\mathrm{x}2} \\
 		\vec{0}_{2\mathrm{x}2} \\
 		\vec{0}_{2\mathrm{x}2} 
-	\end{bmatrix}\ . \nonumber
+	\end{bmatrix}\ .
 \end{flalign}
 
 Next, the matrices appearing in \autoref{eq:zHinf} are derived. These are $\vec{C}_1$, $\vec{D}_{11}$ and $\vec{D}_{12}$ and they can be considered to be weighting matrices where the importance of each of the performance outputs and the usage of the controlled inputs can be specified.
@@ -229,7 +229,7 @@ The $\vec{C}_1$ matrix relates the states and the performance outputs, it is for
 		\vec{0}_{2\mathrm{x}3} &  \vec{0}_{2\mathrm{x}2}  & \vec{0}_{2\mathrm{x}2} &  \vec{0}_{2\mathrm{x}2} &  \vec{W}_\mathrm{noise} \\
 		\vec{0}_{2\mathrm{x}3}  & \vec{0}_{2\mathrm{x}2}  & \vec{0}_{2\mathrm{x}2}  & \vec{0}_{2\mathrm{x}2} &  \vec{0}_{2\mathrm{x}2} \\
 		\vec{0}_{2\mathrm{x}3}  & \vec{0}_{2\mathrm{x}2}  & \vec{0}_{2\mathrm{x}2}  & \vec{0}_{2\mathrm{x}2}  & \vec{0}_{2\mathrm{x}2} 
-	\end{bmatrix}\ . \nonumber
+	\end{bmatrix}\ .
 \end{flalign}
 Where the weighting submatrices values have been chosen as according to the importance of each state in the controller design. The numbers are found through an iterative process starting with an initial design that weighted more the most important states in the system, which are the system states and the reference states. The design process was carried out by simulating the controller with the non-linear model of the system. The final designed weights are
 \fxnote{check these numbers}
@@ -252,7 +252,7 @@ The $\vec{D}_{12}$ has non-zero elements only in the entries that weight the inp
 		\vec{0}_{2\mathrm{x}2} \\
 		\vec{0}_{2\mathrm{x}2} \\
 		\vec{W}_\mathrm{u}
-	\end{bmatrix}\ . \nonumber
+	\end{bmatrix}\ .
 \end{flalign}
 
 Finally, the matrices present in \autoref{eq:yHinf}, $\vec{C}_2$, $\vec{D}_{12}$ and $\vec{D}_{22}$, are derived below, they are not part of the design as they describe how the measured outputs of the system are affected. 
@@ -264,7 +264,7 @@ The $\vec{C}_2$ matrix relates the states with the measured outputs, selecting t
 	\begin{bmatrix}
 		\vec{C} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{C}_\mathrm{noise} \\
 		\vec{0}_{2\mathrm{x}3} & \vec{I}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{C}_\mathrm{noise} 
-	\end{bmatrix}\ . \nonumber
+	\end{bmatrix}\ . 
 \end{flalign}
 
 The $\vec{D}_{21}$ matrix relates uncontrolled inputs with the measurement outputs, mainly adding the noise to the outputs as
@@ -274,7 +274,7 @@ The $\vec{D}_{21}$ matrix relates uncontrolled inputs with the measurement outpu
 	\begin{bmatrix}
 		\vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{D}_{noise} \\
 		\vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{D}_{noise} 
-	\end{bmatrix}\ . \nonumber
+	\end{bmatrix}\ . 
 \end{flalign}
 
 After setting up the model, which includes part of the controller design, the $\mathcal{H}_\infty$ Controller can be found by solving a Riccatti equation defined as
@@ -284,7 +284,7 @@ After setting up the model, which includes part of the controller design, the $\
 	\begin{bmatrix}
 		\vec{A} & \gamma^{-2}\vec{B}_1\vec{B}_1^\mathrm{T} - \vec{B}_2\vec{B}_2^\mathrm{T} \\
 		-\vec{C}_1^\mathrm{T}\vec{C}_1 & -\vec{A}^\mathrm{T}
-	\end{bmatrix}\ ,\nonumber
+	\end{bmatrix}\ ,
 \end{flalign}
 
 and calculating the state feedback gain matrix as
