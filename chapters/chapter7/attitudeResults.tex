@@ -1,36 +1,44 @@
-\subsection{Performance of the Filter}
-The performance of the Kalman filter is tested through simulations. These are performed by applying some arbitrary inputs to the nonlinear model of the system derived in \autoref{chap:model}. The signals obtained are transformed into measurements by adding noise whose variance are those present in the physical sensors, as seen in \autoref{app:IMUVariances}.
+\subsection{Simulation of the Filter}
+The performance of the Kalman filter is tested through simulations. These are performed by applying some arbitrary inputs to the model of the system derived in \autoref{chap:model}. The signals obtained are transformed into measurements by adding noise whose variance is that present in the physical sensors and shown in \autoref{app:IMUVariances}.
 
-In \autoref{fig:sim_yaw} the estimation of the heading, $\psi$, can be seen.
+The simulations are also used to tune the filters so a good estimation of the states is obtained. The tuning parameters are the elements in the covariance matrix for the states, $\vec{Q}_\mathrm{att}$. The final values obtained are
+\begin{flalign}
+	\vec{Q}_\mathrm{att} &= \mathrm{diag}\left(0,0,0,0,0,0,0,0,0 \right)
+\end{flalign}
+It is noticeable that the size of the variances is small and that correlates with the slow dynamics that the vessel shows.\fxnote{maybe don't say this}
+
+The procedure starts by focusing on the estimation of the angular velocities and angular accelerations as these states are mostly dependent on the measurement given by the gyroscope and act as input for the attitude state estimation.
+
+The result with the final state variances is shown in \autoref{fig:sim_yawdot} and \ref{fig:sim_yawddot}, where the estimation for $\dot{\psi}$ and $\ddot{\psi}$ are shown. As it can be seen, both signals are correctly estimated. It is specially remarkable in $\ddot{\psi}$, as there are no direct measurements for this state.
+\begin{figure}[H]
+	\captionbox 
+	{   
+		Result of the estimation of the angular velocity around $z_\mathrm{b}$, compared to the real value in the simulation and the measurements.
+		\label{fig:sim_yawdot}
+	}                                                                 
+	{                                                                  
+		\includegraphics[width=.45\textwidth]{figures/sim_yawdot}         
+	}                                                                    
+	\hspace{5pt}                                                          
+	\captionbox  
+	{      
+		Estimation of the angular acceleration around $z_\mathrm{b}$, compared to the real value.
+		\label{fig:sim_yawddot}
+	}                                                                          
+	{
+		\includegraphics[width=.45\textwidth]{figures/sim_yawddot}
+	}
+\end{figure}
+
+\autoref{fig:sim_yaw} shows the estimation of the heading, $\psi$ as an example of the attitude estimation of the Kalman filter. This plot is obtained with the final values for the state matrix elements.
 \begin{figure}[H]
     \includegraphics[width=0.5\textwidth]{figures/sim_yaw}
     \caption{Result of the estimation of the heading, compared to the real value in the simulation and the measurements.}
     \label{fig:sim_yaw}
 \end{figure}
+In this case, the filter is also able to remove most of the noise present in the measurement and provide an estimation close to the real value. 
+%
 
-The filter is able to remove part of the noise present in the measurements, and gives a better results than the raw measurements.
-%
-The estimation of the angular velocity and acceleration around $z_\mathrm{b}$ can be seen in \autoref{fig:sim_yawdot} and \ref{fig:sim_yawddot}, respectively. The filter is able to give a correct estimate of the real signals even when there is no measurement, as it is the case for $\ddot{\psi}$.
-%
-\begin{figure}[H]
-    \captionbox 
-    {   
-        Result of the estimation of the angular velocity around $z_\mathrm{b}$, compared to the real value in the simulation and the measurements.
-        \label{fig:sim_yawdot}
-    }                                                                 
-    {                                                                  
-        \includegraphics[width=.45\textwidth]{figures/sim_yawdot}         
-    }                                                                    
-    \hspace{5pt}                                                          
-    \captionbox  
-    {      
-        Estimation of the angular acceleration around $z_\mathrm{b}$, compared to the real value.
-        \label{fig:sim_yawddot}
-    }                                                                          
-    {
-        \includegraphics[width=.45\textwidth]{figures/sim_yawddot}
-    }
-\end{figure}
 %
 %\begin{figure}[H]
 %    \includegraphics[width=0.5\textwidth]{figures/real_yaw}

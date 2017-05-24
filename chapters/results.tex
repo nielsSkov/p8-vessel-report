@@ -5,10 +5,14 @@
     \item It should be possible to select the area in which the bathymetric measurements are to be performed.
     \item The ASV should be able to autonomously plan and follow a route, such that the entire survey area is mapped.
     \item The controller should be robust to external disturbances.
-    \item THU not exceed 30cm with a 95\% confidence interval.
+    \item THU should not exceed 30cm with a 95\% confidence interval.
 \end{itemize}
 
-Talk about the planing of the waypoints and the lines between them
+The results are obtained considering a survey area in the limfjord. This area is seen in \autoref{fig:surveyLimfjord}. In the image, the path and the waypoints calculated with the path generation algorithm are also depicted.
+
+\fxnote{include figure of the map with the waypoints on top}
+
+\autoref{fig:path_lqr} shows the simulation results of the path followed by the vessel in the survey area. The results are also shown in \autoref{fig:distlqr2} by plotting the error to the reference path.
 \begin{figure}[H]
     \captionbox  
     {            
@@ -16,7 +20,7 @@ Talk about the planing of the waypoints and the lines between them
         \label{fig:path_lqr}                               
     }                                                                
     {                                                                 
-        \includegraphics[width=.45\textwidth]{figures/path_lqr}         
+        \includegraphics[width=.45\textwidth]{figures/path_lqr}    
     }                                                                  
     \hspace{5pt}                                                        
     \captionbox 
@@ -28,6 +32,8 @@ Talk about the planing of the waypoints and the lines between them
         \includegraphics[width=.45\textwidth]{figures/dist_lqr}          
     }                                                                            
 \end{figure}
+
+The path has also been tracked using the $\mathcal{H}_\infty$ inner controller 
 \begin{figure}[H]
     \captionbox 
     {   
@@ -45,7 +51,9 @@ Talk about the planing of the waypoints and the lines between them
         \includegraphics[width=.45\textwidth]{figures/dist_rob}
     }
 \end{figure}
+It is also noticeable in this cases, that in the straight part of the path, the distance is kept below 30 cm, fulfilling the requirement for the bathymetric measurements.
 
+According to the results of the simulations, it can be said that the vessel follows the path through the waypoints when they are part of a straight line section of the path. In curved sections, the vessel joins smoothly the straight line segments that approximate the curve. In many cases, and especially for bathymetric measurements, the algorithm can be considered suitable.
 
 
 \section{Implementation Requirements}
