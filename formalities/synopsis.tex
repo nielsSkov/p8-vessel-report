@@ -1,4 +1,1 @@
-Autonomous surface vehicles (ASV) have a wide range of applications that goes from marine research to surveillance. 
-
-
-\fxnote{Write synopsis}
+Autonomous surface vehicles (ASV) have a wide range of applications that goes from marine research to surveillance. This project designs a control strategy for an autonomous surface vessel with the purpose of acquiring bathymetric measurements. The vessel at hand is equiped with two thrusters, an RTK GPS module, an IMU and two processing units. The control system is divided in two levels, an inner and an outer controller. The former is designed using both LQR and robust control theory and handles the heading and speed of the vessel while the outer controller makes the vessel track a path by computing its appropriate heading and speed using a enclosure based steering algorithm. This control system receives data from the vessel sensors through two kalman filters, which estimate the attitude and translational variables of the vessel.
