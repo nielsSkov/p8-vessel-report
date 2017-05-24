@@ -5,6 +5,7 @@ The simulations are also used to tune the filters so a good estimation of the st
 \begin{flalign}
 	\vec{Q}_\mathrm{att} &= \mathrm{diag}\left(0,0,0,0,0,0,0,0,0 \right)
 \end{flalign}
+
 It is noticeable that the size of the variances is small and that correlates with the slow dynamics that the vessel shows.\fxnote{maybe don't say this}
 
 The procedure starts by focusing on the estimation of the angular velocities and angular accelerations as these states are mostly dependent on the measurement given by the gyroscope and act as input for the attitude state estimation.
@@ -30,7 +31,7 @@ The result with the final state variances is shown in \autoref{fig:sim_yawdot} a
 	}
 \end{figure}
 
-\autoref{fig:sim_yaw} shows the estimation of the heading, $\psi$ as an example of the attitude estimation of the Kalman filter. This plot is obtained with the final values for the state matrix elements.
+\autoref{fig:sim_yaw} shows the estimation of the heading, $\psi$ as an example of the attitude estimation of the Kalman filter. This plot is obtained with the final values for the state covariance matrix elements.
 \begin{figure}[H]
     \includegraphics[width=0.5\textwidth]{figures/sim_yaw}
     \caption{Result of the estimation of the heading, compared to the real value in the simulation and the measurements.}

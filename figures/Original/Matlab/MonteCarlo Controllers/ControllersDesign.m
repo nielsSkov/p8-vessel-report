@@ -46,8 +46,8 @@ Bicont = [B;
 maxYaw = 0.1;          %[rad]
 maxYawDot = 0.1;          %[rad/s]
 maxXDot = 0.1;            %[m/s]
-maxYawInt= 0.1;
-maxXdotInt= 0.1;
+maxYawInt= 0.5;
+maxXdotInt= 0.5;
 Q = diag([maxYaw maxYawDot maxXDot maxYawInt maxXdotInt]);
 Q = 1./(Q.^2);
 Q(Q==Inf)=0;
