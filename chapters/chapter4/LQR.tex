@@ -90,7 +90,7 @@ As the controller eventually must be implemented the design is carried out in th
   \label{yLinearDiscrete} 
 \end{flalign}
 %
-where the z subindexes indicate the matrices being in the discrete domain and k is the sample index. The model is discretized using zero order hold. In \autoref{fig:discreteSSBlock} the discrete system is shown in a block diagram. The feed forward matrix is excluded as it is not present in this system.
+where the z subindexes indicate the matrices being in the discrete domain and k is the sample index. The model is discretized using zero order hold, with a sampling time, $T_s = 0.05 \mathrm{s}$. This sampling time is suitable as it is faster than the system's dynamics, which ensures the controller will be able to react faster than the system. In \autoref{fig:discreteSSBlock} the discrete system is shown in a block diagram. The feed forward matrix is excluded as it is not present in this system.
 %
 \begin{figure}[H]
   \includegraphics[width=0.6\textwidth]{figures/discreteSystemBlockDiagram}

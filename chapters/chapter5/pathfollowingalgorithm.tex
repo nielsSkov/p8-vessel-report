@@ -55,13 +55,13 @@ This convergence can also be seen in the initial condition response of the contr
 %
 \begin{figure}[H]
     \includegraphics[width=0.45\textwidth]{figures/initCondOuter}
-    \caption{Initial condition response of the outer controller, when considering a fast an ideal inner controller.}
+    \caption{Initial condition response of the outer controller, when considering an ideal inner controller, that is, the inner dynamics are not considered. The speed is set to \num{0.4} ms$^{-1}$.}
     \label{fig:initCondOuter}
 \end{figure}
 
 As described above, the distance to the path converges to zero when an initial position outside the path is set. The speed of convergence depends on the radius of the circle chose as can be seen in \autoref{fig:initCondOuter}. This is the tuning parameter that is used to design the controller.
 
-For this particular system, and considering that the smallest bandwidth of the inner controllers is \num{0.6} rad s$^{-1}$, a radius of \num{2.5} m is chosen as this gives settling time of 15 s and a bandwidth of \num{0.2} rad s$^{-1}$, three faster that the inner controller.
+For this particular system, and considering that the bandwidth of the LQR is \num{1.5} rad s$^{-1}$, a radius of \num{2} m is chosen as this gives settling time of 15 s and a bandwidth of \num{0.2} rad s$^{-1}$, seven times slower than the inner controller. For the $\mathcal{H}_\infty$ Controller, the bandwidth is \num{0.6} rad s$^{-1}$, so the radius is chosen to be \num{4.5} m, giving a bandwidth of \num{0.085} rad s$^{-1}$.
 
 In order to follow all the path, a way to change which two waypoints define the current path segment needs to be established. Several possibilities can be considered but all of them change active waypoints when the vessel gets close enough to the waypoint that defines the end of the segment. In the project at hand, the distance to the waypoint is evaluated as the distance from the waypoint to the intersection point of the path segment and a perpendicular line to the segment that passes through the vessel position. This distance is depicted in \autoref{fig:changewaypoints}.
 \begin{figure}[H]
