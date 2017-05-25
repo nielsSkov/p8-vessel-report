@@ -1,16 +1,9 @@
 \subsection{Simulation of the Filter}
-The performance of the Kalman filter is tested through simulations. These are performed by applying some arbitrary inputs to the model of the system derived in \autoref{chap:model}. The signals obtained are transformed into measurements by adding noise whose variance is that present in the physical sensors and shown in \autoref{app:IMUVariances}.
+The performance of the Kalman filter is tested through simulations. These are performed by applying some arbitrary inputs to the model of the system derived in \autoref{chap:model}. The signals obtained are transformed into measurements by adding noise whose variance is that present in the physical sensors and shown in \autoref{app:IMUVariances}. The simulations are also used to tune the filters so a good estimation of the states is obtained. The tuning parameters are the elements in the covariance matrix for the states, $\vec{Q}_\mathrm{att}$. 
 
-The simulations are also used to tune the filters so a good estimation of the states is obtained. The tuning parameters are the elements in the covariance matrix for the states, $\vec{Q}_\mathrm{att}$. The final values obtained are
-\begin{flalign}
-	\vec{Q}_\mathrm{att} &= \mathrm{diag}\left(0,0,0,0,0,0,0,0,0 \right)
-\end{flalign}
+The procedure starts by focusing on the estimation of the angular velocities and the angular accelerations as these states are mostly dependent on the measurement given by the gyroscope and act as input for the attitude state estimation.
 
-It is noticeable that the size of the variances is small and that correlates with the slow dynamics that the vessel shows.\fxnote{maybe don't say this}
-
-The procedure starts by focusing on the estimation of the angular velocities and angular accelerations as these states are mostly dependent on the measurement given by the gyroscope and act as input for the attitude state estimation.
-
-The result with the final state variances is shown in \autoref{fig:sim_yawdot} and \ref{fig:sim_yawddot}, where the estimation for $\dot{\psi}$ and $\ddot{\psi}$ are shown. As it can be seen, both signals are correctly estimated. It is specially remarkable in $\ddot{\psi}$, as there are no direct measurements for this state.
+The result is shown in \autoref{fig:sim_yawdot} and \ref{fig:sim_yawddot}, where the estimations for $\dot{\psi}$ and $\ddot{\psi}$ are plotted. As it can be seen, both signals are correctly estimated. It is specially remarkable in $\ddot{\psi}$, as there are no direct measurements for this state.
 \begin{figure}[H]
 	\captionbox 
 	{   
@@ -38,8 +31,13 @@ The result with the final state variances is shown in \autoref{fig:sim_yawdot} a
     \label{fig:sim_yaw}
 \end{figure}
 In this case, the filter is also able to remove most of the noise present in the measurement and provide an estimation close to the real value. 
-%
 
+The final values obtained for $\vec{Q}_\mathrm{att}$ are
+\begin{flalign}
+	\vec{Q}_\mathrm{att} &= \mathrm{diag}\left(0,0,0,0,0,0,0,0,0 \right)
+\end{flalign}
+
+It is noticeable that the size of the variances is small and that correlates with the slow dynamics that the vessel shows.\fxnote{maybe don't say this}
 %
 %\begin{figure}[H]
 %    \includegraphics[width=0.5\textwidth]{figures/real_yaw}
