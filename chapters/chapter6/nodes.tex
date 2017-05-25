@@ -23,16 +23,18 @@ The estimation of the position of the boat is done in this node. The information
 \subsection*{\lstinline[style=cinline]{/path_follower_node}}
 This node implements the path follower algorithm described in \autoref{sec:pathfollower}. It read the waypoints generated as described in \autoref{sec:pathgeneration} from a .txt file, and the estimated position and attitude form the Kalman filters. With this information it is able to compute the required heading reference for the boat to reach the desired path.
 
-\subsection*{\lstinline[style=cinline]{/lqr_node}}
-The inner controller nodes used the information from both filters as well as the reference published in the \lstinline[style=cinline]{/control_reference} topic to apply the gains, both state feedback and integral control, nad compute the required force in each motor. This forces are finally translated to PWM values to be publish in the \lstinline[style=cinline]{/lli_input} topic.
+\subsection*{\lstinline[style=cinline]{/controller_node}}
+The inner controller node uses the information from both filters as well as the reference published in the \lstinline[style=cinline]{/control_reference} topic to apply the gains, both state feedback and integral control, nad compute the required force in each motor. This forces are finally translated to PWM values to be publish in the \lstinline[style=cinline]{/lli_input} topic.
 
 \subsection*{\lstinline[style=cinline]{/keyboard_teleop_node}}
 This node send commands to the motors using the \lstinline[style=cinline]{/lli_input} topic. The commands depend on the keys that are pressed:
 \begin{itemize}
     \item '1': Enable the commands.
     \item '0': Disable the commands and stop the motors.
-    \item 'w'/'a': Increase/decrease the speed of the motors.
-    \item 's'/'d': Turn left/right. One of the motors rotates with half of its speed.
+    \item 'W'/'A': Increase/decrease the speed of the motors.
+    \item 'S'/'D': Turn left/right. One of the motors rotates with half of its speed.
+    \item 'H': Gives the motors a step in speed in the forward direction
+    \item 'T': Gives the motors a step in speed to turn counterclockwise
 \end{itemize}
 
 
