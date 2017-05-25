@@ -83,5 +83,7 @@ When the information of the vessel velocity is used to calculate the reference a
 	}
 \end{figure}
 
-In this case, the offset in position has been corrected and the path is followed within the desired precision in the straight line segments. There are still some small deviations due to the wave disturbance present in the system, but the 1-$\sigma$ value is mostly 5 cm and the maximum variations stay below 10 cm with respect to the reference path.
+In this case, the offset in position has been corrected and the path is followed within the desired precision in the straight line segments. There are still some small deviations due to the wave disturbance present in the system, but the 1-$\sigma$ value is under 10 cm and the maximum variations stay below 15 cm with respect to the reference path.
 
+When comparing the two inner controllers, different behaviors are seen. In the turns, the variations experienced by the LQR are larger than those seen with the $\mathcal{H}_\infty$ controller. This is expected as it is consistent with the response seen in the step responses presented in \autoref{sec:comparison}, where a higher deviations appeared in the LQR when the references were applied to the system. 
+In the straight line segments, the behavior is the opposite, the LQR shows a smaller maximum and 1$-\sigma$ error than those shown by the $\mathcal{H}_\infty$ controller. This is due to the speed of the controller in terms of settling time, the faster response of the LQR makes it able of correcting the constant wind disturbances and low frequency wave disturbances slightly better, making the error lower by approximately 4 cm.
