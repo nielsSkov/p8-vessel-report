@@ -33,32 +33,32 @@ B_att=[0 0;
 C_att=[eye(6) zeros(6,3)];
 
 % State variances
-sigma2_roll=Ts^2;
-sigma2_pitch=Ts^2;
-sigma2_yaw=Ts^2;
-sigma2_rolldot=0.01*Ts;
-sigma2_pitchdot=0.01*Ts;
-sigma2_yawdot=0.01*Ts;
-sigma2_rollddot=0.001;
-sigma2_pitchddot=0.001;
-sigma2_yawddot=0.001;
+sigma2_roll=0.00001;
+sigma2_pitch=0.00001;
+sigma2_yaw=0.00001;
+sigma2_rolldot=0.0001;
+sigma2_pitchdot=0.0001;
+sigma2_yawdot=0.0000000001;
+sigma2_rollddot=0.01;
+sigma2_pitchddot=0.01;
+sigma2_yawddot=0.01;
 
 % Sensor variance
-sigma2_acc_roll=0.01033366;
-sigma2_acc_pitch=3.98535412;
-sigma2_mag_yaw=0.03143813;
-sigma2_gyro_roll=0.00001165;
-sigma2_gyro_pitch=0.00002264;
-sigma2_gyro_yaw=0.00779067;
-bias_gyro_roll=-0.03753197;
-bias_gyro_pitch=-4.49556388;
-bias_gyro_yaw=0.16183879;
+sigma2_acc_roll=0.00001165;%0.01033366;
+sigma2_acc_pitch=0.00002264;%3.98535412;
+sigma2_mag_yaw=0.00779021;%0.03143813;
+sigma2_gyro_roll=0.0000103;
+sigma2_gyro_pitch=0.0000120;
+sigma2_gyro_yaw=0.000007606;
+% bias_gyro_roll=-0.03753197;
+% bias_gyro_pitch=-4.49556388;
+% bias_gyro_yaw=0.16183879;
 
 % Covariances matrices
 Q=diag([sigma2_roll, sigma2_pitch, sigma2_yaw, sigma2_rolldot, sigma2_pitchdot,...
     sigma2_yawdot, sigma2_rollddot, sigma2_pitchddot, sigma2_yawddot]);
-R=diag([sigma2_acc_roll, sigma2_acc_pitch, sigma2_mag_yaw, sigma2_gyro_roll,...
-    sigma2_gyro_pitch, sigma2_gyro_yaw]);
+R=diag([sigma2_acc_roll, sigma2_acc_pitch, sigma2_mag_yaw, 1000*sigma2_gyro_roll,...
+    1000*sigma2_gyro_pitch, sigma2_gyro_yaw]);
 
 % Data
 att_data=att.Data';
@@ -113,25 +113,25 @@ end
 % Yaw
 figure
 hold on
-plot(att.Time,meas(3,:),'Color',[0 0 0.6])
+plot(att.Time,meas(3,:),'Color',[0 0.7 0])
 plot(att.Time,x_att(3,:),'Color',[0.7 0 0])
-plot(att.Time,att.Data(:,3),'Color',[0 0.7 0])
-FigureLatex('$\psi$','Time [s]','Angular Position [rad]',1,{'Measurement', 'Estimation', 'Real'},0,0,0,12,14,1.2)
+plot(att.Time,att.Data(:,3),'Color',[0 0 0.7])
+FigureLatex('$\psi$','Time [s]','Angular Position [rad]',1,{'Measurement', 'Estimation', 'Real'},0,[0 20],0,12,14,1.2)
 
 % Yaw velocity
 figure
 hold on
-plot(att.Time,meas(6,:),'Color',[0 0 0.6])
+plot(att.Time,meas(6,:),'Color',[0 0.7 0])
 plot(att.Time,x_att(6,:),'Color',[0.7 0 0])
-plot(att.Time,attdot.Data(:,3),'Color',[0 0.7 0])
-FigureLatex('$\dot{\psi}$','Time [s]','Angular Velocity [rad $^{-1}$]',1,{'Measurement', 'Estimation', 'Real'},0,0,0,12,14,1.2)
+plot(att.Time,attdot.Data(:,3),'Color',[0 0 0.7])
+FigureLatex('$\dot{\psi}$','Time [s]','Angular Velocity [rad $^{-1}$]',1,{'Measurement', 'Estimation', 'Real'},0,[0 20],0,12,14,1.2)
 
 % Yaw acceleration
 figure
 hold on
 plot(att.Time,x_att(9,:),'Color',[0.7 0 0])
-plot(att.Time,attddot.Data(:,3),'Color',[0 0.7 0])
-FigureLatex('$\ddot{\psi}$','Time [s]','Angular Acceleration [rad s$^{-2}$]',1,{'Estimation', 'Real'},0,0,0,12,14,1.2)
+plot(att.Time,attddot.Data(:,3),'Color',[0 0 0.7])
+FigureLatex('$\ddot{\psi}$','Time [s]','Angular Acceleration [rad s$^{-2}$]',1,{'Estimation', 'Real'},0,[0 20],0,12,14,1.2)
 
 
 %% Test with real IMU data%% IMU test
@@ -166,23 +166,24 @@ B_att=[0 0;
 C_att=[eye(6) zeros(6,3)];
 
 % State variances
-sigma2_roll=Ts^2;
-sigma2_pitch=Ts^2;
-sigma2_yaw=Ts^2;
-sigma2_rolldot=0.01*Ts;
-sigma2_pitchdot=0.01*Ts;
-sigma2_yawdot=0.01*Ts;
-sigma2_rollddot=0.001;
-sigma2_pitchddot=0.001;
-sigma2_yawddot=0.001;
+sigma2_roll=0.00001;
+sigma2_pitch=0.00001;
+sigma2_yaw=0.00001;
+sigma2_rolldot=0.0001;
+sigma2_pitchdot=0.0001;
+sigma2_yawdot=0.0000000001;
+sigma2_rollddot=0.01;
+sigma2_pitchddot=0.01;
+sigma2_yawddot=0.01;
+
 
 % Sensor variance
-sigma2_acc_roll=0.01033366;
-sigma2_acc_pitch=3.98535412;
-sigma2_mag_yaw=0.01;%0.03143813;
-sigma2_gyro_roll=0.00001165;
-sigma2_gyro_pitch=0.00002264;
-sigma2_gyro_yaw=0.00779067;
+sigma2_acc_roll=0.00001165;%0.01033366;
+sigma2_acc_pitch=0.00002264;%3.98535412;
+sigma2_mag_yaw=0.00779021;%0.03143813;
+sigma2_gyro_roll=0.0000103;
+sigma2_gyro_pitch=0.0000120;
+sigma2_gyro_yaw=0.000007606;
 bias_gyro_roll=-0.03753197;
 bias_gyro_pitch=-4.49556388;
 bias_gyro_yaw=0.16183879;

@@ -11,8 +11,8 @@ run pathGeneration.m
 
 warning off
 
-refXdot = 0.5;
-t = 150;
+refXdot = 0.4;
+t = 200;
 step_interval =0.05;
 enable_disturbance = 1;
 xbDisturbance = 1.5;
@@ -92,7 +92,7 @@ for i=1:1:Nsim
     dist_rob_sim(i,:) = dist_rob.Data';
     
     clear index
-    
+    clear index2
 end
 
 % save MonteCarloPathNoCorrection Nsim time_sim...
@@ -125,10 +125,10 @@ dist_rob_sim_sigma = std(dist_rob_sim);
 
 
 yline = [0 2];
-xline1 = [40 40];
-xline2 = [65 65];
-xline3 = [99 99];
-xline4 = [125 125];
+xline1 = [49 49];
+xline2 = [82 82];
+xline3 = [125 125];
+xline4 = [156 156];
 
 figure(1)
 plot(wps(:,2),wps(:,1),'--xk');
@@ -157,10 +157,10 @@ plot(xline4,yline,'--','Color',[0.5 0 0.8])
 FigureLatex('Distance to the Path when using the Linear Quadratic Regulator','Time [s]','Distance [m]',1,{'Deviation Region','1-$\sigma$ Region','Nominal Response','Straight Path Limits'},'NorthEast',0,[0 1],12,13,1.1)
 
 yline = [0 2];
-xline1 = [42 42];
-xline2 = [68 68];
-xline3 = [102 102];
-xline4 = [128 128];
+xline1 = [51 51];
+xline2 = [84 84];
+xline3 = [125 125];
+xline4 = [158 158];
 
 figure(3)
 plot(wps(:,2),wps(:,1),'--xk');
@@ -186,5 +186,5 @@ plot(xline1,yline,'--','Color',[0.5 0 0.8])
 plot(xline2,yline,'--','Color',[0.5 0 0.8])
 plot(xline3,yline,'--','Color',[0.5 0 0.8])
 plot(xline4,yline,'--','Color',[0.5 0 0.8])
-FigureLatex('Distance to the Path when using the $\mathcal{H}_\infty$ Controller','Time [s]','Distance [m]',1,{'Deviation Region','1-$\sigma$ Region','Nominal Response','Straight Path Limits'},'NorthEast',0,[0 1],12,13,0)
+FigureLatex('Distance to the Path when using the $\mathcal{H}_\infty$ Controller','Time [s]','Distance [m]',1,{'Deviation Region','1-$\sigma$ Region','Nominal Response','Straight Path Limits'},'NorthEast',0,[0 1],12,13,1.1)
 

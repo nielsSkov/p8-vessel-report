@@ -89,6 +89,7 @@
     \input{chapters/chapter7/attitudeResults.tex}
     \input{chapters/chapter7/position.tex}
     \input{chapters/chapter7/positionResults.tex}
+    
     %---------- Chapter 10 --------------------------------------- Implementation    
     \input{chapters/chapter6/aChapter6.tex}
     \input{chapters/chapter6/nodes.tex}
@@ -103,8 +104,15 @@
      %---------- Chapter 13 --------------------------------------- Conclusion 
     \input{chapters/conclusion.tex}
     
+    %%% BIBLIOGRAPHY %%%
+    \printbibliography
+    %\fancyhead[LE,RO]{}  % Remove header so it does not say "Appendix Bibliography"
+   \addcontentsline{toc}{chapter}{Bibliography}
+   
+   
    
     %%% APPENDIX %%%
+    \cleardoublepage\makeatletter\@openrightfalse\makeatother
     % Setup for Appendix and Bibliography
     \bookmarksetup{startatroot}
     \addtocontents{toc}{\bigskip}
@@ -119,7 +127,7 @@
     \appendix
     \part*{Appendix}
     \addcontentsline{toc}{chapter}{Appendix}
-    \cleardoublepage\makeatletter\@openrightfalse\makeatother
+    
     
     %---------- Appendix ---------------------------------------- Bathymetric Map
     \input{appendix/aBathymetricMapPortOfAalborg.tex}
@@ -127,8 +135,6 @@
     \input{appendix/dTopics.tex} 
     %---------- Appendix ---------------------------------------- RTK GPS
     \input{appendix/cRTKGPS.tex}
-    %---------- Appendix ---------------------------------------- State Variances
-    %\input{appendix/iStatesVariances.tex}
     %---------- Appendix ---------------------------------------- IMU Variances
     \input{appendix/bIMUVariances.tex}  
     %---------- Appendix ---------------------------------------- GPS Variances
@@ -138,12 +144,13 @@
     %---------- Appendix ---------------------------------------- Force Test
     \input{appendix/gForceTest.tex}  
     %---------- Appendix ---------------------------------------- Disturbance Test
-    \input{appendix/hDisturbance.tex}  
+    \input{appendix/hDisturbance.tex} 
+    %---------- Appendix ---------------------------------------- 
     \input{appendix/GPSImprovement.tex}  
+    %---------- Appendix ---------------------------------------- Inner Controller Test
+    \input{appendix/jInnerController.tex}
 
-    %%% BIBLIOGRAPHY %%%
-    \printbibliography
-    \fancyhead[LE,RO]{}  % Remove header so it does not say "Appendix Bibliography"
+   
                           
     %%% LIST OF CORRECTIONS %%%
     \listoffixmes 

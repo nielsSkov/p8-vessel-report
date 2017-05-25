@@ -1,1 +1,14 @@
 \chapter{Discussion}\label{chap:discussion}
+
+
+The initial simulations indicated that the controllers preformed satisfactory in their respective design parameters. 
+The LQR controller was shown to have faster step response than the robust controller, while the robust controller proved to be more robust towards noise and disturbances. 
+
+However, the controller design proved to be an  issue when testing the system in real life. 
+This indicates that there is some dynamics in the system that is not taken into account. 
+The lack of a good motor description in the system model is suspected to introduce a significant delay in the system, which could influence the dynamics of the vessel . 
+Additionally, the motors had a dead zone in the lower range of the operation area. 
+This means the motors have a hard time preforming minor corrections, as these tend to require smaller motor values, thus limiting the precision of the corrections the vessel is able to preform. 
+
+
+
