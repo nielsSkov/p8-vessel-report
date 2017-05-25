@@ -8,15 +8,15 @@ A more detailed mathematical formulation of the $\mathcal{H}_\infty$ problem and
 The state space model from \autoref{xDotLinear} and \autoref{yLinear} needs to be remodeled into a state space form suitable for solving the suboptimal $\mathcal{H}_\infty$ control problem. This representation starts with the equations
 For solving the suboptimal $\mathcal{H}_\infty$ control problem, the system has to be expressed in a particular state space form \cite[pp. 95]{AAStoorvogel}, \cite[p. 64]{robustNotes}. This form is
 \begin{flalign}
-  \vec{\dot{x}}(t) &= \vec{A}_1 \vec{x}(t) + \vec{B}_1 \vec{w}(t) + \vec{B}_2 \vec{u}(t)\ ,
+  \vec{\dot{x}}_\infty(t) &= \vec{A}_1 \vec{x}_\infty(t) + \vec{B}_1 \vec{w}(t) + \vec{B}_2 \vec{u}(t)\ ,
   \label{eq:xDotHinf} \\
-  \vec{z}(t) &= \vec{C}_1 \vec{x}(t) + \vec{D}_{11} \vec{w}(t) + \vec{D}_{12} \vec{u}(t)\ ,
+  \vec{z}(t) &= \vec{C}_1 \vec{x}_\infty(t) + \vec{D}_{11} \vec{w}(t) + \vec{D}_{12} \vec{u}(t)\ ,
   \label{eq:zHinf} \\
-  \vec{y}(t) &= \vec{C}_2 \vec{x}(t) + \vec{D}_{21} \vec{w}(t) + \vec{D}_{22} \vec{u}(t)\ ,
+  \vec{y}(t) &= \vec{C}_2 \vec{x}_\infty(t) + \vec{D}_{21} \vec{w}(t) + \vec{D}_{22} \vec{u}(t)\ ,
   \label{eq:yHinf} 
 \end{flalign}
 \begin{where}
-  \va{\vec{x}}{is the state vector}{}
+  \va{\vec{x}_\infty}{is the state vector}{}
   \va{\vec{w}}{is the uncontrolled input vector}{}
   \va{\vec{u}}{is the controlled input vector}{}
   \va{\vec{z}}{is the performance output vector}{}
@@ -58,8 +58,8 @@ The state vector construction starts with the three states that define the basic
 \begin{flalign}
 	\vec{\dot{x}}_\mathrm{int} =
 	\begin{bmatrix}
-		x_{int_{\psi}} \\
-		x_{int_{\dot{x}_\mathrm{b}}}
+		x_{\mathrm{int}_{\psi}} \\
+		x_{\mathrm{int}_{\dot{x}_\mathrm{b}}}
 	\end{bmatrix}\ = 
 	\begin{bmatrix}
 		\psi_\mathrm{ref}-\psi \\
@@ -175,7 +175,7 @@ The matrices present in \autoref{eq:xDotHinf}, \ref{eq:zHinf} and \ref{eq:yHinf}
 
 Starting with \autoref{eq:xDotHinf}, it contains the $\vec{A}_1$, $\vec{B}_1$ and $\vec{B}_2$ matrices. 
 
-The matrix $\vec{A}_1$ describes the dynamics of the system states and all the other added states, which account for the references and disturbances. Its its structure is
+The matrix $\vec{A}_1$ describes the dynamics of the system states and all the other added states, which account for the references and disturbances. Its structure is
 \begin{flalign}
 	\label{eq:A1}
 	\vec{A}_1 &=
@@ -241,7 +241,7 @@ Where the weighting submatrices values have been chosen as according to the impo
 \end{flalign}
 $\vec{D}_{11}$ is a zero matrix as there is no relation between the uncontrolled inputs and the performance outputs in the $\mathcal{H}_\infty$ design. It has as many rows as the number of elements in the performance output and as many columns uncontrolled  inputs.
 
-The $\vec{D}_{12}$ has non-zero elements only in the entries that weight the inputs, its values can be seen in \autoref{app:matrices}. The matrix is constructed as 
+The $\vec{D}_{12}$ has non-zero elements only in the entries that weight the inputs. The matrix is constructed as 
 \begin{flalign}
 	\label{eq:D12}
 	\vec{D}_{12} &=
@@ -287,10 +287,17 @@ After setting up the model, which includes part of the controller design, the $\
 	\end{bmatrix}\ ,
 \end{flalign}
 
-and calculating the state feedback gain matrix as
+and calculating the feedback gain matrix as
 \begin{flalign}
 	\vec{F}_\infty = -\vec{B}_2^\mathrm{T}\vec{X}_\infty
 \end{flalign}
+
+The state feedback matrix $\vec{F}$ then corresponds to the three first columns of $\vec{F}_\infty$, while the integral gain $\vec{F}_\mathrm{I}$ corresponds to the next two columns. Similarly to the LQR design, the final diagram with the placement of the gains can be seen in \autoref{fig:HinfControlBlockDiagram}.
+\begin{figure}[H]
+    \includegraphics[width=0.6\textwidth]{figures/HinfControlBlockDiagram}
+    \caption{Final block diagram of the $\mathcal{H}_\infty$ Controller design.}
+    \label{fig:HinfControlBlockDiagram}
+\end{figure}
 
 The value of $\gamma$ in the Riccatti equation is also a design parameter that can be modified making the controller more or less conservative. The value chosen should be bigger than the largest singular value of the system. In this design, the minimum $\gamma$ value is 2.7832. The final value has been chosen higher than the minimum in order to have a small robustness margin. The value used is 5. \fxnote{check this value}
 

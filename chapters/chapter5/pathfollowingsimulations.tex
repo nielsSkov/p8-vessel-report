@@ -10,7 +10,7 @@ In \autoref{fig:lqrwrong}, \ref{fig:distlqrwrong}, \ref{fig:robwrong} and \ref{f
 \begin{figure}[H]
 	\captionbox  %<--use captionbox instead if no global caption is needed
 	{  
-		Performance of the path following algorithm based on $\psi_\mathrm{ref}=\chi$ and using the LQR inner controller. The system is experiencing wind and wave disturbances, model perturbations and measurement noise.\label{fig:lqrwrong}                                
+		Performance of the path following algorithm based on $\psi_\mathrm{ref}=\chi$ and using the LQR inner controller. The reference for velocity is set to \num{0.4} ms$^{-1}$. and the system is experiencing wind and wave disturbances, model perturbations and measurement noise. \label{fig:lqrwrong}                                
 	}                                                                 
 	{                                                                  
 		\includegraphics[width=.45\textwidth]{figures/path_lqr_no_correc}         
@@ -18,7 +18,7 @@ In \autoref{fig:lqrwrong}, \ref{fig:distlqrwrong}, \ref{fig:robwrong} and \ref{f
 	\hspace{5pt}                                                  
 	\captionbox
 	{       
-		Distance to the path when using the algorithm based on $\psi_\mathrm{ref}=\chi$ and the LQR inner controller .The system is experiencing wind and wave disturbances, model perturbations and measurement noise.
+		Distance to the path when using the algorithm based on $\psi_\mathrm{ref}=\chi$ and the LQR inner controller.
 		\label{fig:distlqrwrong}                               
 	}                                                                  
 	{                                                                    
@@ -28,7 +28,7 @@ In \autoref{fig:lqrwrong}, \ref{fig:distlqrwrong}, \ref{fig:robwrong} and \ref{f
 \begin{figure}[H]
 	\captionbox 
 	{   
-		Performance of the path following algorithm based on $\psi_\mathrm{ref}=\chi$ and using the $\mathcal{H}_\infty$ inner controller. The system is experiencing wind and wave disturbances, model perturbations and measurement noise.\label{fig:robwrong}
+		Performance of the path following algorithm based on $\psi_\mathrm{ref}=\chi$ and using the $\mathcal{H}_\infty$ inner controller. The reference for velocity is set to \num{0.4} ms$^{-1}$. and the system is experiencing wind and wave disturbances, model perturbations and measurement noise.
 	}                                                                 
 	{                                                                  
 		\includegraphics[width=.45\textwidth]{figures/path_rob_no_correc}         
@@ -36,7 +36,7 @@ In \autoref{fig:lqrwrong}, \ref{fig:distlqrwrong}, \ref{fig:robwrong} and \ref{f
 	\hspace{5pt}                                                          
 	\captionbox  
 	{      
-		Distance to the path when using the algorithm based on $\psi_\mathrm{ref}=\chi$ and the $\mathcal{H}_\infty$ inner controller .The system is experiencing wind and wave disturbances, model perturbations and measurement noise.\label{fig:distrobwrong}
+		Distance to the path when using the algorithm based on $\psi_\mathrm{ref}=\chi$ and the $\mathcal{H}_\infty$ inner controller.\label{fig:distrobwrong}
 	}                                                                          
 	{
 		\includegraphics[width=.45\textwidth]{figures/dist_rob_no_correc}
@@ -48,23 +48,22 @@ In these graphs, it is clear that the path is not precisely followed when distur
 When the information of the vessel velocity is used to calculate the reference angle, $\psi_\mathrm{ref}$, the disturbance is rejected. This is seen in \autoref{fig:lrqcorrect}, \ref{fig:distlqr}, \ref{fig:robustcorrect} and \ref{fig:distrobustcorrect}, where the vessel is experiencing disturbances and model perturbations in the same range as in the previously shown figures. Both the vessel X-Y movement and the distance to the target path are depicted. 
 
 \begin{figure}[H]
-	\captionbox  %<--use captionbox instead if no global caption is needed
-	{               %                                \%-%-%-%-%-%-%\
-		Performance of the path following algorithm based on $\psi_\mathrm{ref}=\chi-\beta$ and using the LQR inner controller. The system is experiencing wind and wave disturbances, model perturbations and measurement noise.                %\
-		\label{fig:lrqcorrect}                                  %\
-	}                                                                 %\
-	{                                                                  %\
-		\includegraphics[width=.45\textwidth]{figures/path_lqr}         %\
-	}                                                                    %\
-	\hspace{5pt}                                                          %\
-	\captionbox  %<-----------------------------------------------------%\
+	\captionbox 
+	{            
+		Performance of the path following algorithm based on $\psi_\mathrm{ref}=\chi-\beta$ and using the LQR inner controller.The reference for velocity is set to \num{0.4} ms$^{-1}$. and the system is experiencing wind and wave disturbances, model perturbations and measurement noise.                
+		\label{fig:lrqcorrect}                                  
+	}                                                                 
+	{                                                                  
+		\includegraphics[width=.45\textwidth]{figures/path_lqr}         
+	}                                                                    
+	\hspace{5pt}                                                          
+	\captionbox 
 	{       
-			Distance to the path when using the algorithm based on $\psi_\mathrm{ref}=\chi-\beta$ and the LQR inner controller .The system is experiencing wind and wave disturbances, model perturbations and measurement noise.                                                                  %\                         %\
-		\label{fig:distlqr}                                     %\
-	}                                                                           %\
-	{                                                                            %\
-		\includegraphics[width=.45\textwidth]{figures/dist_lqr}            %|
-	}                                                                             %|
+		Distance to the path when using the algorithm based on $\psi_\mathrm{ref}=\chi-\beta$ and the LQR inner controller. \label{fig:distlqr}                                   
+	}                                                     
+	{                                                                        
+		\includegraphics[width=.45\textwidth]{figures/dist_lqr}            
+	}                                                                            
 \end{figure}
 \begin{figure}[H]
 	\captionbox 
@@ -77,7 +76,7 @@ When the information of the vessel velocity is used to calculate the reference a
 	\hspace{5pt}                                                          
 	\captionbox  
 	{      
-			Distance to the path when using the algorithm based on $\psi_\mathrm{ref}=\chi-\beta$ and the $\mathcal{H}_\infty$ inner controller .The system is experiencing wind and wave disturbances, model perturbations and measurement noise.\label{fig:distrobustcorrect}
+			Distance to the path when using the algorithm based on $\psi_\mathrm{ref}=\chi-\beta$ and the $\mathcal{H}_\infty$ inner controller. \label{fig:distrobustcorrect}
 	}                                                                          
 	{
 		\includegraphics[width=.45\textwidth]{figures/dist_rob}

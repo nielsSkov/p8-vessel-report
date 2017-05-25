@@ -104,6 +104,12 @@
      %---------- Chapter 13 --------------------------------------- Conclusion 
     \input{chapters/conclusion.tex}
     
+    %%% BIBLIOGRAPHY %%%
+    \printbibliography
+    %\fancyhead[LE,RO]{}  % Remove header so it does not say "Appendix Bibliography"
+   \addcontentsline{toc}{chapter}{Bibliography}
+   
+   
    
     %%% APPENDIX %%%
     \cleardoublepage\makeatletter\@openrightfalse\makeatother
@@ -144,9 +150,7 @@
     %---------- Appendix ---------------------------------------- Inner Controller Test
     \input{appendix/jInnerController.tex}
 
-    %%% BIBLIOGRAPHY %%%
-    \printbibliography
-    \fancyhead[LE,RO]{}  % Remove header so it does not say "Appendix Bibliography"
+   
                           
     %%% LIST OF CORRECTIONS %%%
     \listoffixmes 
