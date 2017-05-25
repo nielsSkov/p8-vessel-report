@@ -47,7 +47,7 @@ Finally, as for the attitude Kalman filter, the input vector is formed by the tw
     \end{bmatrix}^\mathrm{T}\ .
 \end{flalign}
 
-The next step is to build the matrices involved in the models. The $\vec{A}_\mathrm{pos}$ matrix written as 
+The next step is to build the matrices involved in the models. The sampling time $T_s$ is chosen as $0.2\mathrm{s}$ as this is the rate that the RTK GPS updates its position with. The $\vec{A}_\mathrm{pos}$ matrix written as 
 \begin{flalign}
     \vec{A}_\mathrm{pos}(\phi(k),\theta(k),\psi(k)) =
     \begin{bmatrix}
