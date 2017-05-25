@@ -11,15 +11,25 @@ Dertermine the effectiveness of including base corrections when determining GPS 
     \item HTC Desire HD with access to cellular networks
 \end{itemize}
 
-\subsubsection*{Theory}
+\subsubsection*{Theory}\cite{novatel}\cite{RTK_GPS}\cite{GPS_errors}\cite{ambg_res}
 
 The inaccuracies of GPS receivers is mostly due to atmospheric changes, which adds a verity of disturbances dependent on the weather, temperature etc.
+The most significant error to be corrected is the ambiguity resolution. 
+Ambiguity resolution is a fixed offset the GPS receiver experiences as the number of wavelengths from the satellite to the receiver is unknown. 
+This results in a integer which needs to be resolved, to improve the accuracy of the GPS measurements. 
+If the ambiguity resolution is not found, the gained precision from other sources is mostly irrelevant due to the bias. 
+
 This results in most modern GPS receivers having a precision of 2-5 m. 
 For applications where this precision is insufficient, an RTK GPS can be used. 
-By comparing the measurements received from a base station, the rover is able to compensate for the disturbances.
+By comparing the measurements received from a base station, the rover is able to compensate for these disturbances.
 The base station is a stationary GPS receiver with a known position, which streams correction data, to be used by the rover. 
+The increased precision gained from including a base station is done by assuming the position errors are correlated. 
+As long as the rover remains within a close distance to the base station, this is a good assumption. 
+The rover uses the correction data received form the base to estimate the noise causing the errors. 
+This result in the position position being improved by orders of magnitude. 
 %The increased performance is a result of the weather pattern is locally similar, meaning that if the base station and the rover is close (within 10-20 km) to each other, the disturbances they experience is the same.
-As long as the rover remains within a close distance to the base station, the rover will be able to use the offset the base station experiences to improve it's own measurements.
+The further the rover gets from the base, the more the noises start to become uncorrelated, resulting in a loss in accuracy. 
+
 %This enables the rover to compensate for the weather patterns, granted the base station received the same satellites as the rover.
 This can result in down to sub centimeter precision for some high grade implementations.
 By comparing the Mean and variance of similar GPS with and without base correction, the theoretical gain in accuracy by including base corrections can be shown.
