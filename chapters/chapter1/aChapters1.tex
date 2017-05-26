@@ -52,11 +52,13 @@ An example of a system designed to preform such a task is described in \cite{asv
 This system is able to detect and avoid obstacles in the water, while preforming precision measurements of water quality and greenhouse gases. 
 The vessel uses solar cells, which gives the added challenge of controlling the vessel at low speeds, to prevent battery usage during operation for longevity. 
 This allows the vessel to autonomously survey relatively large areas without needing to recharge. 
-
 %
+
+Regarding the control perspective, the problem of controlling the vessel autonomously has been studied in the recent years. The researches published provide different solutions to this problem. In \cite{Prempraneerach}, an Sliding Mode Control is used for controlling a catamaran. Yang Yang \textit{et al.} \cite{YangYang} desing a disturbance observer and a feedback control law based on a vectorial backstepping approach in order to obtain a robust vessel behavior. Reyhanoglu and Bommer, \cite{Reyhanoglu}, also base their control desing on a backstepping technique and they include a switched control law to achieve global tracking. In \cite{Kragelund}, the vessel model is obtained with system identification techniques and a comparison of different control theories is presented. The controllers compared are a PID controller with gain scheduling, a Model Reference Adaptive Controller and an $\mathit{L}_1$ adaptive controller.
 %one strength of an ASV is that it can map out an entire stream, whereas manual measurements typicaly will be cumbersome and low in mapping resolution due to accessibility of the stream and time constraints/cost.\\
 %for marine survey it can be useful as it can enter narrower and more shallow waters than larger manned vessels would be able to.\\
 %the military has also been using ASV's for surveillance.
-In this project, the design and implementation of an ASV able to preform bathymetric measurement will be described. 
-This will be done using the aauship platform supplied for this project by Aalborg university. 
+
+In this project, the design and implementation of an ASV able to preform bathymetric measurement is described. 
+This is done using the aauship platform supplied for this project by Aalborg university. 
 %In this project the focus is first and foremost the control design, which will be realized with focus on bathymetric measurements. This will constitute a basis for setting up requirements for precision which will determine important parameters in the control design.

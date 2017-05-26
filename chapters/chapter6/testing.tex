@@ -1,0 +1,38 @@
+\section{Testing}
+Using the ROS implementation the controllers designed for the USV were tested. This was done as explained in \fxnote{Appendix for results}. It was seen that the designed LQR and $\mathcal{H}_\infty$ controllers were too aggressive and were not able to sufficiently stabilize the vessel. This led to a redesign of the LQR controller such that the weight matrices $\vec{Q}$ and $\vec{R}$ were tuned to
+%
+\begin{flalign}
+	\vec{Q} = 
+	\begin{bmatrix}
+		100 & 0   & 0   & 0   & 0   & 0 \\
+		0   & 100 & 0   & 0   & 0   & 0 \\
+		0   & 0   & 100 & 0   & 0   & 0 \\
+		0   & 0   & 0   & 100 & 0   & 0 \\
+		0   & 0   & 0   & 0   & 4   & 0 \\
+		0   & 0   & 0   & 0   & 0   & 4
+	\end{bmatrix},
+	\rule{30px}{0px}
+	\vec{R} =
+	\begin{bmatrix}
+		2.5\times10^-3 	& 0   \\
+		0   			& 2.5\times10^-3 
+	\end{bmatrix} \ .
+\end{flalign}
+%
+With these new weight matrices, a new controller was calculated such that the controller gains are
+%
+\begin{flalign}
+	\vec{F} = 
+	\begin{bmatrix}
+		124.3988  &	113.7050   &	88.7435 \\
+ 		-124.3988 &	-113.7050  &	88.7435
+	\end{bmatrix},
+	\rule{30px}{0px}
+	\vec{F_I} =
+	\begin{bmatrix}
+		-20.6709 & 	-17.7744	\\
+   		20.6709  &	-17.7744
+	\end{bmatrix} \ .
+\end{flalign}
+%
+It should also be noted that the Kalman filter for the position gave inaccurate measurements for the speed, $\dot{x}_\mathrm{b}$. Due to this and time constraints, the Kalman filter implementation, from \cite{thesis}, was used to obtain a reliable $\dot{x}_\mathrm{b}$.
