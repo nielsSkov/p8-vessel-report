@@ -126,7 +126,6 @@ end
 figure
 hold on
 plot(x.Time,meas(1,:),'Color',[0 0.7 0])
-
 plot(x.Time,x.Data(:,1),'Color',[0 0 0.7])
 plot(x.Time,x_pos(1,:),'Color',[0.7 0 0])
 FigureLatex('$x_\mathrm{n}$','Time [s]','Translational Position [m]',1,{'Measurement', 'Estimation', 'Real'},0,[0 20],0,12,14,1.2)

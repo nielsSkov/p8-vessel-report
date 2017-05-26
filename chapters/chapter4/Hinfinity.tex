@@ -301,4 +301,18 @@ The state feedback matrix $\vec{F}$ then corresponds to the three first columns 
 
 The value of $\gamma$ in the Riccatti equation is also a design parameter that can be modified making the controller more or less conservative. The value chosen should be bigger than the largest singular value of the system. In this design, the minimum $\gamma$ value is 2.7832. The final value has been chosen higher than the minimum in order to have a small robustness margin. The value used is 5. \fxnote{check this value}
 
+The final values for the feedback gains result as follows
+\begin{flalign}
+    \vec{F} &= 
+    \begin{bmatrix}
+        2233.8 & 1514.2 & 1001.3 \\
+        -2233.8 & -1514.2 & 1001.3
+    \end{bmatrix} \\
+    \vec{F}_\mathrm{I} &=
+    \begin{bmatrix}
+        -1150.2 & -421.8 \\
+        1150.2 & -421.8
+    \end{bmatrix}
+\end{flalign}
+
 Once the controller is designed, its performance is evaluated in simulations, in which the compensator controls the nonlinear model derived in \autoref{chap:model}. 

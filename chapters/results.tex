@@ -5,7 +5,6 @@
     \item It should be possible to select the area in which the bathymetric measurements are to be performed.
     \item The ASV should be able to autonomously plan and follow a route, such that the entire survey area is mapped.
     \item The controller should be robust to external disturbances.
-    \item THU should not exceed 30cm with a 95\% confidence interval.
 \end{itemize}
 
 The are to survey can be selected by giving the four coordinates of the corners and the algorithm will select the needed waypoints to cover it, depending on the beamwidth.
@@ -61,9 +60,75 @@ Since the simulation includes as well disturbances, noise and parameter variatio
 
 \section{Implementation Requirements}
 \begin{itemize}
+    \item THU should not exceed 30 cm with a 95\% confidence interval.
     \item The ASV should record and store data locally for extraction at the end of the survey.
     \item It should be possible to give the ASV a command to stop and steer it back to land.
 \end{itemize}
 
-We rosbag the files to save all the topics
-Keyboard teleop node and VPN connection to run the nodes and stop them
+AS can be seen in \fxnote{GPS test appendix} the position measuremnts of the GPS can be done with.....
+
+The implementation in ROS allows to record all the topic, which contain all the sensor, estimation and inputs needed, to be able to process and analyze the data afterwards.
+
+A VPN connection has been added such that it is possible to connect to the boat remotely, allowing to run and stop the nodes when needed. A node for manual control has been added as well, such that it is possible to remotely move and control the vessel
+
+Using the ROS implementation the controllers designed for the USV were tested. This was done as explained in \autoref{app:Inner}. It was seen that the designed LQR and $\mathcal{H}_\infty$ controllers were too aggressive and were not able to sufficiently stabilize the vessel. This led to a redesign of the LQR controller such that the weight matrices $\vec{Q}$ and $\vec{R}$ were tuned such that the maximum force was reduced while the maximum allowable value for the states was increased to reduce the aggressiveness of the controller. 
+%
+%\begin{flalign}
+%    \vec{Q} = 
+%    \begin{bmatrix}
+%        100 & 0   & 0   & 0   & 0   & 0 \\
+%        0   & 100 & 0   & 0   & 0   & 0 \\
+%        0   & 0   & 100 & 0   & 0   & 0 \\
+%        0   & 0   & 0   & 100 & 0   & 0 \\
+%        0   & 0   & 0   & 0   & 4   & 0 \\
+%        0   & 0   & 0   & 0   & 0   & 4
+%    \end{bmatrix},
+%    \rule{30px}{0px}
+%    \vec{R} =
+%    \begin{bmatrix}
+%        2.5\times10^-3 	& 0   \\
+%        0   			& 2.5\times10^-3 
+%    \end{bmatrix} \ .
+%\end{flalign}
+%%
+With these new weight matrices, a new controller was calculated such that the controller gains are
+%
+\begin{flalign}
+    \vec{F} = 
+    \begin{bmatrix}
+        124.3988  &	113.7050   &	88.7435 \\
+        -124.3988 &	-113.7050  &	88.7435
+    \end{bmatrix},
+    \rule{30px}{0px}
+    \vec{F}_\mathrm{I} =
+    \begin{bmatrix}
+        -20.6709 & 	-17.7744	\\
+        20.6709  &	-17.7744
+    \end{bmatrix} \ .
+\end{flalign}
+%
+It should also be noted that the Kalman filter for the position gave inaccurate measurements for the speed, $\dot{x}_\mathrm{b}$. Due to this and time constraints, the Kalman filter implementation, from \cite{thesis}, was used to obtain a reliable $\dot{x}_\mathrm{b}$.
+
+This new controller has been tested to track a reference in heading while keeping a constant speed. The results can be seen in \autoref{fig:inner_yaw} and \ref{fig:inner_xbdot}.
+%
+\begin{figure}[H]
+    \captionbox 
+    {   
+        Step response in $\psi$ with a reference of -1 rad.
+        \label{fig:inner_yaw}
+    }                                                                 
+    {                                                                  
+        \includegraphics[width=.45\textwidth]{figures/inner_yaw}         
+    }                                                                    
+    \hspace{5pt}                                                          
+    \captionbox  
+    {      
+        Step response in $\dot{x}_\mathrm{b}$ with a reference of 1 m s$^{-1}$.
+        \label{fig:inner_xbdot}
+    }                                                                          
+    {
+        \includegraphics[width=.45\textwidth]{figures/inner_xbdot}
+    }
+\end{figure}
+
+The response in $\psi$ shows that the controller is able to track a reference

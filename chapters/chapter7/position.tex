@@ -71,7 +71,9 @@ As it can be seen from the matrix, some terms are not constant, but depend on th
 For using such a matrix, it is approximated around the most recent available estimate \cite[p. 18]{SHaykin}. For this matrix, this is done by evaluating the matrix with the most recent attitude estimate provided by the attitude Kalman filter. In this way, the $ \vec{A}_\mathrm{pos} $ matrix is known at each Kalman filter cycle.
 
 The $\vec{B}_\mathrm{pos}$ matrix has non-zero elements only in the row related with the acceleration in $x_\mathrm{b}$ direction. The $\vec{C}_\mathrm{pos}$ has a similar structure as for the attitude Kalman filter, with ones in the diagonal when the measurements and the states are directly correlated. This occurs for the position in the NED frame and the accelerations in the body frame. The $\vec{B}_\mathrm{pos}$ and $\vec{C}_\mathrm{pos}$ are
-\begin{minipage}{0.3\linewidth}
+
+\begin{minipage}{\linewidth}
+\begin{minipage}{0.5\linewidth}
     \begin{flalign}
         \vec{B}_\mathrm{pos} &=
         \begin{bmatrix}
@@ -84,7 +86,7 @@ The $\vec{B}_\mathrm{pos}$ matrix has non-zero elements only in the row related 
         \end{bmatrix}\ ,
     \end{flalign}
 \end{minipage}\hfill
-\begin{minipage}{0.6\linewidth}
+\begin{minipage}{0.5\linewidth}
     \begin{flalign}
         \vec{C}_\mathrm{pos} &=
         \begin{bmatrix}
@@ -95,6 +97,7 @@ The $\vec{B}_\mathrm{pos}$ matrix has non-zero elements only in the row related 
         \end{bmatrix}\ .
     \end{flalign}
 \end{minipage}\hfill
+\end{minipage}
 
 With these matrices, the prediction and update steps of the Extended Kalman filter can be calculated as described below. As for the attitude Kalman filter, the estimate and the error covariance matrix need o be initialized. This is done as 
 \begin{flalign}

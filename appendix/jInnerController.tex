@@ -1,6 +1,6 @@
 \chapter{Test Journal: Inner Controller} \label{app:Inner}
 
-\textbf{Date: 24/05/2017}
+\textbf{Date: 25/05/2017}
 
 \subsection*{Purpose}
 Check the performance of the inner controller, when tracking references in $\dot{x}_\mathrm{b}$ and $\psi$.
@@ -26,13 +26,10 @@ Check the performance of the inner controller, when tracking references in $\dot
     \item Record the following topics
     \begin{itemize}
         \item \lstinline[style=cinline]{/imu}   
-        \item \lstinline[style=cinline]{/gps_pos}
+        \item \lstinline[style=cinline]{/gps1}
         \item \lstinline[style=cinline]{/kf_attitude}
-        \item \lstinline[style=cinline]{/kf_position}   
+        \item \lstinline[style=cinline]{/KF_States}   
         \item \lstinline[style=cinline]{/lli_input}  
-    \end{itemize}
-    \item Run the following topic with a step in $\dot{x}_\mathrm{b}$/$\psi$.
-    \begin{itemize}
         \item \lstinline[style=cinline]{/lqr_node}
     \end{itemize}
     \item Stop the recording after some time has passed.
@@ -42,6 +39,23 @@ Check the performance of the inner controller, when tracking references in $\dot
 
 \subsection*{Results}
 
-\subsubsection*{$\dot{x}_\mathrm{b}$ Response}
-\subsubsection*{$\psi$ Response}
+\begin{figure}[H]
+    \captionbox 
+    {   
+        Step response in $\psi$.
+        \label{fig:inner_yaw_app}
+    }                                                                 
+    {                                                                  
+        \includegraphics[width=.45\textwidth]{figures/inner_yaw}         
+    }                                                                    
+    \hspace{5pt}                                                          
+    \captionbox  
+    {      
+        Step response in $\dot{x}_\mathrm{b}$.
+        \label{fig:inner_xbdot_app}
+    }                                                                          
+    {
+        \includegraphics[width=.45\textwidth]{figures/inner_xbdot}
+    }
+\end{figure}
 

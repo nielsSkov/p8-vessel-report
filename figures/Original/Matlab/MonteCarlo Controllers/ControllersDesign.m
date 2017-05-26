@@ -46,14 +46,14 @@ Bicont = [B;
 maxYaw = 0.1;          %[rad]
 maxYawDot = 0.1;          %[rad/s]
 maxXDot = 0.1;            %[m/s]
-maxYawInt= 0.5;
-maxXdotInt= 0.5;
+maxYawInt= 0.05;
+maxXdotInt= 0.05;
 Q = diag([maxYaw maxYawDot maxXDot maxYawInt maxXdotInt]);
 Q = 1./(Q.^2);
 Q(Q==Inf)=0;
 
 % For R Matrix
-maxF1 = 20;        %[N]
+maxF1 = 200;        %[N]
 maxF2 = maxF1;       %[N]
 
 R = diag([maxF1 maxF2]);

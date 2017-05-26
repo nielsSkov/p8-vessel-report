@@ -102,7 +102,7 @@ In order to track a reference and handle input disturbances, it is chosen to als
 %
 \begin{figure}[H]
   \includegraphics[width=0.9\textwidth]{figures/integralControlBlockDiagram}
-  \caption{Block diagram of the control structure in the discrete domain.}
+  \caption{Block diagram of the control structure in the discrete domain. $\vec{F}$ correspond to the feedback gain matrix while $\vec{F}_\mathrm{I}$ is the integral gain matrix.}
   \label{fig:blockConrolDesignLQR}
 \end{figure}
 %
@@ -282,7 +282,19 @@ where $\vec{P}$ can be found as the solution of the infinite horizon algebraic d
 \label{eq:discreteInfRiccati}
 \end{flalign}
 %
-Once $\vec{F}_\mathrm{e}$ is obtained, it is split into the two feedback matrices, $\vec{F}_\mathrm{e} = [\ \vec{F} \ \ \vec{F}_\mathrm{I}\ ]$, and implemented, following the control structure provided in \autoref{fig:blockConrolDesignLQR}.
+Once $\vec{F}_\mathrm{e}$ is obtained, it is split into the two feedback matrices, $\vec{F}_\mathrm{e} = [\ \vec{F} \ \ \vec{F}_\mathrm{I}\ ]$, and implemented, following the control structure provided in \autoref{fig:blockConrolDesignLQR}. The final values are
+\begin{flalign}
+    \vec{F} &= 
+    \begin{bmatrix}
+       589.1908 & 275.9541 & 166.0624 \\
+       -589.1908 & -275.9541 & 166.0624
+    \end{bmatrix} \\
+    \vec{F}_\mathrm{I} &=
+    \begin{bmatrix}
+       -507.9954 & -309.8882 \\
+       507.9954 & -309.8882
+    \end{bmatrix}
+\end{flalign}
 
 These design has been simulated together with the nonlinear model of the system. Its performance is also compared to the $\mathcal{H}_\infty$ controller designed in \autoref{sec:Hinf} when disturbances, measurement noise and parameter uncertainties are present. The simulations are presented in \autoref{sec:comparison}.
 
