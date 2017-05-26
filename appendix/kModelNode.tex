@@ -36,7 +36,7 @@ Check the performance of the inner and outer controller code, when tested with a
 \end{enumerate}
 
 \subsection*{Results}
-The result of the implemented code can be seen below
+The result of the implemented code are shown below
 \begin{figure}[H]
     \captionbox  
     {  
@@ -58,8 +58,9 @@ The result of the implemented code can be seen below
 \end{figure}
 
 \begin{figure}[H]
-    \includegraphics[width=.5\textwidth]{figures/model_node_path}
+    \includegraphics[width=.45\textwidth]{figures/model_node_path}
     \caption{Path and response of the implemented code, both the inner and the outer controllers together with the model node.}
     \label{fig:model_node_path}
 \end{figure}
 
+As it can be seen, both $\psi$ and $\dot{x}_\mathrm{b}$ converge to the reference when using the inner controller and the model follows the path when using the outer one. This proves that both controller nodes work and are coded properly.
