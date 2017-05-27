@@ -7,15 +7,15 @@
     \item The controller should be robust to external disturbances.
 \end{itemize}
 
-The are to survey can be selected by giving the four coordinates of the corners and the algorithm will select the needed waypoints to cover it, depending on the beamwidth.
+The area to survey is selected by giving the four corner points. Then, the algorithm selects the needed waypoints to cover it, depending on the beamwidth.
 
-Once this waypoints are selected the outer controller set the appropriate references for speed and heading to the inner controller. The performance of the outer controller when using both inner controllers can be seen in \autoref{sec:pathSim}. The figures are included here as well, but in this case to check the fulfillment of the requirements.
+Once this waypoints are selected the outer controller set the appropriate references for speed and heading to the inner controller. The performance of the outer controller when using both inner controllers can be seen in \autoref{sec:pathSim}. The figures are included here as well, in order to check the fulfillment of the requirements.
 
-\autoref{fig:path_lqr} shows the simulation results of the path followed by the vessel in the survey area when using the LQR as inner controllerr. The results are also shown in \autoref{fig:distlqr2} by plotting the error to the reference path.
+\autoref{fig:path_lqr} shows the simulation results of the path followed by the vessel in the survey area when using the LQR as inner controller. The results are also shown in \autoref{fig:distlqr2} by plotting the error to the reference path.
 \begin{figure}[H]
     \captionbox  
     {            
-        Performance of the path following algorithm based on $\psi_\mathrm{ref}=\chi-\beta$ and using the LQR inner controller. The system is experiencing wind and wave disturbances, model perturbations and measurement noise.            
+        Performance of the path following algorithm using the LQR as inner controller. The system is experiencing wind and wave disturbances, model perturbations and measurement noise.
         \label{fig:path_lqr}                               
     }                                                                
     {                                                                 
@@ -24,20 +24,20 @@ Once this waypoints are selected the outer controller set the appropriate refere
     \hspace{5pt}                                                        
     \captionbox 
     {       
-        Distance to the path when using the algorithm based on $\psi_\mathrm{ref}=\chi-\beta$ and the LQR inner controller.                                                                  %\                         %\
+        Distance to the path when using the following algorithm and the LQR inner controller.                                                                  %\                         %\
         \label{fig:distlqr2}                                  
     }                                                                          
     {                                                                            
         \includegraphics[width=.45\textwidth]{figures/dist_lqr}          
     }                                                                            
 \end{figure}
-It can be seen that the distance to the path is kept below 10 cm in the straight parts of the path, which correspond to the given area, while the distance on the curved section does not matter for the survey task. Since the system has a requirement of 30 cm, this is sufficiently fulfilled in simulation with the Linear Quadratic Regulator.
+It can be seen that the distance to the path is kept below 10 cm in the straight parts of the path, which correspond to the given area, while the distance on the curved section does not matter for the survey task. This precision is deemed sufficient for the control system of a survey vessel as the tracking accuracy is not critical in this type of application.
 
 The path has also been tracked using the $\mathcal{H}_\infty$ inner controller as seen below.
 \begin{figure}[H]
     \captionbox 
     {   
-        Performance of the path following algorithm based on $\psi_\mathrm{ref}=\chi-\beta$ and using the $\mathcal{H}_\infty$ inner controller. The system is experiencing wind and wave disturbances, model perturbations and measurement noise. \label{fig:path_rob2}
+        Performance of the path following algorithm using the $\mathcal{H}_\infty$ as inner controller. The system is experiencing wind and wave disturbances, model perturbations and measurement noise. \label{fig:path_rob2}
     }                                                                 
     {                                                                  
         \includegraphics[width=.45\textwidth]{figures/path_rob}         
@@ -51,7 +51,7 @@ The path has also been tracked using the $\mathcal{H}_\infty$ inner controller a
         \includegraphics[width=.45\textwidth]{figures/dist_rob}
     }
 \end{figure}
-In this case the requirement in the straight part of the path is also fulfilled since the distance stays always below 15 cm.
+In this case, the path is also adequately tracked as the maximum deviation in the straight line segments is approximately 15 cm, staying below 10 cm for most of the survey path segments.
 
 According to the results of the simulations, it can be said that the vessel follows the path through the waypoints when they are part of a straight line section of the path. In curved sections, the vessel joins smoothly the straight line segments that approximate the curve. 
 
@@ -65,13 +65,18 @@ Since the simulation includes as well disturbances, noise and parameter variatio
     \item It should be possible to give the ASV a command to stop and steer it back to land.
 \end{itemize}
 
-AS can be seen in \fxnote{GPS test appendix} the position measuremnts of the GPS can be done with.....
+As it can be seen in \fxnote{GPS test appendix} the position measurements of the GPS are done with.....
 
 The implementation in ROS allows to record all the topic, which contain all the sensor, estimation and inputs needed, to be able to process and analyze the data afterwards.
 
-A VPN connection has been added such that it is possible to connect to the boat remotely, allowing to run and stop the nodes when needed. A node for manual control has been added as well, such that it is possible to remotely move and control the vessel
+A VPN connection has been set up such that it is possible to connect to the vessel remotely, allowing to run and stop the nodes when needed. A node for manual control has been added as well, such that it is possible to remotely move and control the vessel
 
-Using the ROS implementation the controllers designed for the USV were tested. This was done as explained in \autoref{app:Inner}. It was seen that the designed LQR and $\mathcal{H}_\infty$ controllers were too aggressive and were not able to sufficiently stabilize the vessel. This led to a redesign of the LQR controller such that the weight matrices $\vec{Q}$ and $\vec{R}$ were tuned such that the maximum force was reduced while the maximum allowable value for the states was increased to reduce the aggressiveness of the controller. 
+Using the ROS implementation the controllers designed for the USV were tested. This was done as explained in \autoref{app:Inner}. It was seen that the designed LQR and $\mathcal{H}_\infty$ controllers were too aggressive and were not able to sufficiently stabilize the vessel. This led to a redesign of the LQR controller such that the weight matrices $\vec{Q}$ and $\vec{R}$ were tuned such that the maximum force was reduced while the maximum allowable value for the states was increased to reduce the aggressiveness of the controller.  
+The new $\vec{Q}$ and $\vec{R}$ matrices are 
+\begin{flalign}
+	\vec{Q} &= diag\left(\frac{1}{1}, 0, 0, 0, 0, 0, 0\right)\ , \nonumber \\
+	\vec{R} &= diag\left(0, 0, 0, 0\right)\ . 
+\end{flalign}
 %
 %\begin{flalign}
 %    \vec{Q} = 
@@ -107,9 +112,9 @@ With these new weight matrices, a new controller was calculated such that the co
     \end{bmatrix} \ .
 \end{flalign}
 %
-It should also be noted that the Kalman filter for the position gave inaccurate measurements for the speed, $\dot{x}_\mathrm{b}$. Due to this and time constraints, the Kalman filter implementation, from \cite{thesis}, was used to obtain a reliable $\dot{x}_\mathrm{b}$.
+It should also be noted that the Kalman filter for the position gave inaccurate measurements for the speed, $\dot{x}_\mathrm{b}$. Due to this and time constraints that made infeasible to solve the problem, the Kalman filter implementation from \cite{thesis} was used to obtain a reliable $\dot{x}_\mathrm{b}$.
 
-This new controller has been tested to track a reference in heading while keeping a constant speed. The results can be seen in \autoref{fig:inner_yaw} and \ref{fig:inner_xbdot}.
+This new controller has been tested by tracking a reference in heading while keeping a constant speed. The results can be seen in \autoref{fig:inner_yaw} and \ref{fig:inner_xbdot}.
 %
 \begin{figure}[H]
     \captionbox 
@@ -131,4 +136,8 @@ This new controller has been tested to track a reference in heading while keepin
     }
 \end{figure}
 
-The response in $\psi$ shows that the controller is able to track a reference
+The response in $\psi$ shows that the controller is able to track a reference, specially in the first five seconds. Afterwards, the boat is disturbed, at approximately 11 s, and the yaw angle deviates from its references. Once the perturbation is compensated by the controller, the reference is tracked again. It is worth mentioning the oscillations seen from 14 to 19 seconds. They are likely due to errors when estimating $\psi$ in the Kalman filter. This can be deduced as the vessel dynamics do not allow an oscillation of 0.4 rad of approximately 1 Hz. With high probability, this oscillations are lower in the real behavior of the vessel and have been, for this particular period, amplified by the Kalman filter.
+
+The $\dot{x}_\mathrm{b}$ response also shows a controller capable of tracking the reference. In this case, there is an overshoot in the speed response, it goes to approximately 1.3 m s$^{-1}$. It is important to disregard the deviation seen from 10 to 13 seconds as this corresponds to a perturbation suffered by the vessel while the test was running. After the controller recovers control of the speed, it can be seen that the speed converges to the desired reference of 1 ms$^{-1}$. 
+
+Due to time constraints, the performance of the outer controller could not be tested with success in the real vessel, but the implementation done in ROS suggests a working outer controller as shown in \autoref{app:ModelNode}. In this appendix the code implemented is tested in order to check if it is working together as expected. \fxnote{Maybe include figure form appendix.}.
