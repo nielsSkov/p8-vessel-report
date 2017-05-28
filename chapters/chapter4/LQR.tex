@@ -16,7 +16,7 @@ The linearized model derived in \autoref{sec:linearizationModel}, consisting of 
     \va{\vec{A}}{is the state matrix}{}
     \va{\vec{B}}{is the input matrix}{}
     \va{\vec{C}}{is the output matrix}{}
-    \va{\vec{D}}{is the feed-forward matrix}{}
+    \va{\vec{D}}{is the feedforward matrix}{}
 \end{where}
 
 The state vector is constituted by the angle and angular velocity in yaw as well as the velocity in $x_\mathrm{b}$. The system outputs are the yaw angle and velocity in $x_\mathrm{b}$. The input vector is composed of the two forces applied in the body frame.
@@ -87,100 +87,101 @@ The design in carried out in the discrete domain. To do so, it is necessary to d
   \vec{y}(k)   &= \vec{C}_\mathrm{z} \vec{x}(k) + \vec{D}_\mathrm{z} \vec{u}(k) \ ,
   \label{yLinearDiscrete} 
 \end{flalign}
+%
+where the z subindexes indicate the matrices being discrete and $k$ is the sample index.
 
-where the z subindexes indicate the matrices being in the discrete domain and k is the sample index.
-
-The model is discretized using zero order hold, with a sampling time, $T_s = 0.05 \mathrm{s}$. This sampling time is suitable as it is faster than the system's dynamics, which ensures the controller will be able to react faster to changes in the system. In \autoref{fig:discreteSSBlock} the discrete system is shown in a block diagram. The feed forward matrix is excluded as it is not present in this system.
+The model is discretized using the zero order hold method, as it does not introduce a $\vec{D}_\mathrm{z}$ matrix, with a sampling time, $T_s = 0.05$ s. This sampling time is suitable as it is faster than the system's dynamics, which ensures the controller is able to react faster to changes in the system. In \autoref{fig:discreteSSBlock} the discrete system is shown in a block diagram.
 %
 \begin{figure}[H]
   \includegraphics[width=0.6\textwidth]{figures/discreteSystemBlockDiagram}
-  \caption{Block diagram of the discrete system without feed forward.}
+  \caption{Block diagram of the discrete system.}
   \label{fig:discreteSSBlock}
 \end{figure}
 %
-In order to track a reference and handle input disturbances, it is chosen to also include an integral controller in the design. The final control structure is seen in \autoref{fig:blockConrolDesignLQR}.
+In order to track a reference and handle input disturbances, it is chosen to also include integral action in the design. The final control structure is seen in \autoref{fig:blockConrolDesignLQR}.
 %
 \begin{figure}[H]
   \includegraphics[width=0.9\textwidth]{figures/integralControlBlockDiagram}
   \caption{Block diagram of the control structure in the discrete domain. $\vec{F}$ correspond to the feedback gain matrix while $\vec{F}_\mathrm{I}$ is the integral gain matrix.}
   \label{fig:blockConrolDesignLQR}
 \end{figure}
+
+To design this system, it is convenient to express it on the following form
 %
-To design this feedback system, it is convenient to express it on the following form:
 \begin{flalign}
-  \vec{x_e}(k+1) &= \vec{A_e} \vec{x}(k) + \vec{B_e} \vec{u}(k) + \vec{r}(k)
-  \label{eq:xDotLinearDiscrete} \\
-  \vec{y}(k)     &= \vec{C_e} \vec{x}(k)  \ \ .
+  \vec{x}_\mathrm{e}(k+1) &= \vec{A}_\mathrm{e} \vec{x}_\mathrm{e}(k) + \vec{B}_\mathrm{e} \vec{u}(k) + \vec{r}(k)
+  \label{eq:xDotLinearDiscrete} \ ,\\
+  \vec{y}(k)     &= \vec{C}_\mathrm{e} \vec{x}_\mathrm{e}(k) \ .
   \label{eq:yLinearDiscrete} 
 \end{flalign}
-%
-To describe the control design in this form, the $\vec{A_e}$, $\vec{B_e}$ and $\vec{C_e}$ matrices must be constructed. From \autoref{fig:blockConrolDesignLQR}, the discrete state space model for the integral is derived and shown in \autoref{eq:xIDiscrete}.
+where the subindex "e" denotes the extended system.
+
+To describe the control design in this form, the $\vec{A}_\mathrm{e}$, $\vec{B}_\mathrm{e}$ and $\vec{C}_\mathrm{e}$ matrices must be constructed. From \autoref{fig:blockConrolDesignLQR}, the discrete state space model for the integral is derived and shown in \autoref{eq:xIDiscrete}.
 %
 \begin{flalign}
-  \vec{x_I}(k+1) &= \vec{x_I}(k) + \vec{y}(k) + \vec{r}(k) \label{eq:xIDiscrete1}  \\
-  \vec{x_I}(k+1) &= \vec{x_I}(k) - C_z \vec{x}(k) + \vec{r}(k)  \ \ .
+  \vec{x}_\mathrm{I}(k+1) &= \vec{x}_\mathrm{I}(k) + \vec{y}(k) + \vec{r}(k) \ , \label{eq:xIDiscrete1}  \\
+  \vec{x_I}(k+1) &= \vec{x}_\mathrm{I}(k) - C_z \vec{x}_\mathrm{I}(k) + \vec{r}(k) \ .
   \label{eq:xIDiscrete}
 \end{flalign}
-%
+where the subindex "I" stands for integral .
+
 This leads to the discrete state space model extended with the integral states expressed as
 %
 \begin{flalign}
   \begin{bmatrix}
     \vec{x}(k+1)  \\
-    \vec{x_I}(k+1)
+    \vec{x}_\mathrm{I}(k+1)
   \end{bmatrix}
-  =
+  &=
   \begin{bmatrix}
-    \vec{A}_{\vec{z}_{3x3}} & \vec{O}_{_{3x2}} \\
-   -\vec{C}_{\vec{z}_{2x3}} & \vec{I}_{_{2x2}} \\
+    \vec{A}_\mathrm{z,3x3} & \vec{O}_\mathrm{3x2} \\
+   -\vec{C}_\mathrm{z,2x3} & \vec{I}_\mathrm{2x2} \\
   \end{bmatrix}
   \begin{bmatrix}
     \vec{x}(k)    \\
-    \vec{x_I}(k)
+    \vec{x}_\mathrm{I}(k)
   \end{bmatrix}
   +
   \begin{bmatrix}
-    \vec{B}_{\vec{z}_{3x2}} \\
-    \vec{O}_{2x2}
+    \vec{B}_\mathrm{z,3x2} \\
+    \vec{O}_\mathrm{2x2}
   \end{bmatrix}
   \vec{u}(k)
   +
   \begin{bmatrix}
-    \vec{O}_{3x2} \\
-    \vec{I}_{2x2}
+    \vec{O}_\mathrm{3x2} \\
+    \vec{I}_\mathrm{2x2}
   \end{bmatrix}
-  \vec{r}(k)
-  \label{eq:discreteSSWithIntegralX}
-\end{flalign}  
-%
-\begin{flalign}
+  \vec{r}(k) \ ,
+  \label{eq:discreteSSWithIntegralX} \\
   \vec{y}(k)
-  =
+  &=
   \begin{bmatrix}
-    \vec{C}_{\vec{z}_{2x3}} &  \vec{O}_{2x2}
+    \vec{C}_\mathrm{z,2x3} &  \vec{O}_\mathrm{2x2}
   \end{bmatrix}
   \begin{bmatrix}
     \vec{x}(k)    \\
-    \vec{x_I}(k)
-  \end{bmatrix}  \ \ ,
+    \vec{x}_\mathrm{I}(k)
+  \end{bmatrix}  \ ,
   \label{eq:discreteSSWithIntegralY}
 \end{flalign}  
 %
 which corresponds to \autoref{eq:xDotLinearDiscrete} and \ref{eq:yLinearDiscrete}.
 
-A discrete time infinite horizon LQR is used in the design of the feedback, $\vec{F_e} = [\ \vec{F} \ \ \vec{F}_\mathrm{I} ]\ $, which works by minimizing the cost function,
+A discrete time infinite horizon LQR is used in the design of the feedback, $\vec{F}_\mathrm{e} = [\ \vec{F} \ \ \vec{F}_\mathrm{I} ]\ $, which works by minimizing the cost function,
 %
 \begin{flalign}
-  J = \sum_{k=0}^\infty \vec{x}_k^\mathrm{T}\vec{Q_d}\vec{x}_k + \vec{u}_k^\mathrm{T}\vec{R_d}\vec{u}_k  \ \ .
+  \mathcal{J}_\mathrm{z} = \sum_{k=0}^\infty \vec{x}(k)^\mathrm{T}\vec{Q}_\mathrm{z}\vec{x}(k) + \vec{u}(k)^\mathrm{T}\vec{R}_\mathrm{z}\vec{u}(k)  \ . \label{eq:cost}
 \end{flalign}
 \begin{where}
-	\va{\vec{Q_d}}{is the discrete time symmetric positive semidefinite state cost matrix}{}
-  \va{\vec{R_d}}{is the discrete time symmetric positive definite input cost matrix}{}
+	\va{\vec{Q}_\mathrm{z}}{is the discrete time symmetric positive semidefinite state cost matrix}{}
+  \va{\vec{R}_\mathrm{z}}{is the discrete time symmetric positive definite input cost matrix}{}
 \end{where}
 
-The $\vec{Q_d}$ matrix contains the penalties for the states, such that a higher cost is generated for more critical states, thus driving these states faster to zero. The $\vec{R_d}$ matrix contains the penalties for the inputs. This helps to ensure the inputs are not driven towards saturation.
+The $\vec{Q}_\mathrm{z}$ matrix contains the penalties for the states, such that a higher cost is generated for more critical states, thus driving these states faster to zero. The $\vec{R}_\mathrm{z}$ matrix contains the penalties for the inputs. This helps to ensure the inputs are not driven towards saturation.
 
-It is necessary for all states to be stable and controllable. Otherwise the the performance index, $J$, will become infinite \cite[p. 125]{DSNaidu}.\\
+It is necessary for all states to be stable and controllable. Otherwise the performance index, $\mathcal{J}_\mathrm{z}$, becomes infinite \cite[p. 125]{DSNaidu}.
+
 The controllability is determined by
 %
 \begin{flalign}
@@ -188,17 +189,18 @@ The controllability is determined by
   = 
   \begin{bmatrix}
     \vec{B}_\mathrm{e} & \vec{A}_\mathrm{e}\vec{B}_\mathrm{e} & \vec{A}_\mathrm{e}^{2} \vec{B}_\mathrm{e} & \vec{A}^{3}_\mathrm{e} \vec{B}_\mathrm{e} & \vec{A}^{4}_\mathrm{e} \vec{B}_\mathrm{e}
-  \end{bmatrix}  \ \ ,
+  \end{bmatrix}  \ ,
   \label{eq:integralControllability}
 \end{flalign}
 %
-of which the rank is 5, that is, the controllability matrix, $\vec{{\mathcal C}}$, has full rank, thus the system is controllable \cite[p. 169]{CTChen}.\\
+which has full rank, thus the system is controllable \cite[p. 169]{CTChen}.
+
 The eigenvalues of $\vec{A}_\mathrm{e}$ are all on or within the unit-circle in the z-plane, thus, no states are unstable and the LQR design is feasible.
 
-The design approach taken to describe the cost function, $J$, is done by defining weights on the states and inputs for the continuous time infinite horizon LQR cost function,
+The design approach taken to describe the cost function, $\mathcal{J}$, is done by defining weights on the states and inputs for the continuous time infinite horizon LQR cost function,
 %
 \begin{flalign}
-  J_{cont} = \int_{0}^\infty \vec{x}_k^\mathrm{T}\vec{Q}\vec{x}_k + \vec{u}_k^\mathrm{T}\vec{R}\vec{u}_k \  dt\ \ .
+  \mathcal{J}= \int_{0}^\infty \vec{x}(t)^\mathrm{T}\vec{Q}\vec{x}(t) + \vec{u}(t)^\mathrm{T}\vec{R}\vec{u}(t) \  dt\ \ .
   \label{eq:contLQRcost}
 \end{flalign}
 \begin{where}
@@ -217,37 +219,36 @@ Bryson's rule is used as an initial design method to determine sensible values f
   \va{u_{i_\mathrm{max}}}{are the maximum acceptable input values}{}
 \end{where}
 
-The requirements stated in \autoref{sec:requirements} must be taken into account when determining the values of $x_{i_\mathrm{max}}$ and $u_{i_\mathrm{max}}$. As the USV needs a high accuracy for bathymetric measurements, the weights of $\vec{Q}$ are set higher than $\vec{R}$ to ensure priority is focused on driving the states down to zero. The individual integral states are penalized higher than the system states to set further importance on driving the integral states to zero. This will ensure the reference signals are closely tracked. The low weights for $\vec{R}$ also ensures the actuators are not overexerted. This means the actuators will not be driven to saturation and will be used less. This is also ideal for the mobile vessel as the actuators will use less energy, thus the USV will be able to perform longer surveys.
+The requirements stated in \autoref{sec:requirements} must be taken into account when determining the values of $x_{i_\mathrm{max}}$ and $u_{i_\mathrm{max}}$. As the ASV needs a high accuracy for bathymetric measurements, the weights of $\vec{Q}$ are set higher than $\vec{R}$ to ensure priority is focused on driving the states down to zero. The individual integral states are penalized higher than the system states to set further importance on driving the integral states to zero. This ensures the reference signals are closely tracked. Higher weights for $\vec{R}$ also ensure the actuators are not overexerted. This means the actuators are not driven to saturation. This is also ideal for the mobile vessel as the actuators use less energy, thus the ASV is able to perform longer surveys.
 
-These $\vec{Q}$ and $\vec{R}$ matrices must be discretized, as the state feedback design is done in the discrete time domain. \\
-With
+These $\vec{Q}$ and $\vec{R}$ matrices must be discretized, as the state feedback design is done in the discrete time domain. This is done by using the procedure presented in \cite{lqrd}.
 %
-\begin{flalign}
-  \vec{\Phi}(\tau) = e^{\vec{A}\tau} \\
-  \vec{\Gamma}(\tau) = \int_{0}^{\tau}e^{\vec{A}\eta}\vec{B}d\eta
-\end{flalign}
-%
-the weighting matrices, $\vec{Q}$ and $\vec{R}$, are discretized using \cite{lqrd}
-\begin{flalign}
-  \begin{bmatrix}
-    \vec{Q_d} & 0 \\
-    0 & \vec{R_d} 
-  \end{bmatrix}
-  = \int_{0}^{T_s}
-  \begin{bmatrix}
-    \vec{\Phi}^T(\tau)      & 0 \\
-    \vec{\Gamma}^T(\tau)    & I
-  \end{bmatrix}
-  \begin{bmatrix}
-    \vec{Q} & 0 \\
-    0 & \vec{R}
-  \end{bmatrix}
-  \begin{bmatrix}
-    \vec{\Phi}(\tau)  &   \vec{\Gamma}(\tau) \\
-    0           &   I
-  \end{bmatrix}
-  d\tau
-\end{flalign}
+%\begin{flalign}
+%  \vec{\Phi}(t) &= e^{\vec{A}t} \ ,\\
+%  \vec{\Gamma}(t) &= \int_{0}^{t}e^{\vec{A}\tau}\vec{B}d\tau \ ,
+%\end{flalign}
+%%
+%the weighting matrices, $\vec{Q}$ and $\vec{R}$, are discretized using \cite{lqrd} as
+%\begin{flalign}
+%  \begin{bmatrix}
+%    \vec{Q}_\mathrm{z} & 0 \\
+%    0 & \vec{R}_\mathrm{z} 
+%  \end{bmatrix}
+%  = \int_{0}^{T_s}
+%  \begin{bmatrix}
+%    \vec{\Phi}^T(t)      & 0 \\
+%    \vec{\Gamma}^T(t)    & I
+%  \end{bmatrix}
+%  \begin{bmatrix}
+%    \vec{Q} & 0 \\
+%    0 & \vec{R}
+%  \end{bmatrix}
+%  \begin{bmatrix}
+%    \vec{\Phi}(t)  &   \vec{\Gamma}(t) \\
+%    0           &   I
+%  \end{bmatrix}
+%  dt \ .
+%\end{flalign}
 %The chosen values for Q and R are shown in \autoref{eq:QRMatrices}.
 %
 % 
@@ -268,17 +269,18 @@ the weighting matrices, $\vec{Q}$ and $\vec{R}$, are discretized using \cite{lqr
 %   \label{eq:QRMatrices}
 % \end{flalign}
 %
-From this the state feedback is calculated by \cite[p. 42]{JLNy},
+
+From this, the state feedback is calculated as
 %
 \begin{flalign}
-  \vec{F}_\mathrm{e} &= -(\vec{B}_\mathrm{e}^\mathrm{T} \vec{P}\vec{B}_\mathrm{e} + \vec{R_d})^{-1}  \vec{B}_\mathrm{e}^\mathrm{T} \vec{P}\vec{A}_\mathrm{e} \ \ ,
+  \vec{F}_\mathrm{e} &= -(\vec{B}_\mathrm{e}^\mathrm{T} \vec{P}\vec{B}_\mathrm{e} + \vec{R_d})^{-1}  \vec{B}_\mathrm{e}^\mathrm{T} \vec{P}\vec{A}_\mathrm{e} \ ,
   \label{eq:QRFeedback}
 \end{flalign}
 %
-where $\vec{P}$ can be found as the solution of the infinite horizon algebraic discrete-time Riccati equation \cite[p. 42]{JLNy},
+where $\vec{P}$ can be found as the solution of the infinite horizon algebraic discrete time Riccati equation \cite[p. 42]{JLNy},
 %
 \begin{flalign}
-\vec{P} &= \vec{A}_\mathrm{e}^\mathrm{T} \vec{P} \vec{A}_\mathrm{e} + \vec{Q_d} - \vec{A}_\mathrm{e}^\mathrm{T} \vec{P} \vec{B}_\mathrm{e} (\vec{B}_\mathrm{e}^\mathrm{T} \vec{P} \vec{B}_\mathrm{e} + \vec{R_d})^{-1} \vec{B}_\mathrm{e}^\mathrm{T} \vec{P} \vec{A}_\mathrm{e} \ \ .
+\vec{P} &= \vec{A}_\mathrm{e}^\mathrm{T} \vec{P} \vec{A}_\mathrm{e} + \vec{Q_d} - \vec{A}_\mathrm{e}^\mathrm{T} \vec{P} \vec{B}_\mathrm{e} (\vec{B}_\mathrm{e}^\mathrm{T} \vec{P} \vec{B}_\mathrm{e} + \vec{R_d})^{-1} \vec{B}_\mathrm{e}^\mathrm{T} \vec{P} \vec{A}_\mathrm{e} \ .
 \label{eq:discreteInfRiccati}
 \end{flalign}
 %
@@ -288,15 +290,15 @@ Once $\vec{F}_\mathrm{e}$ is obtained, it is split into the two feedback matrice
     \begin{bmatrix}
        589.1908 & 275.9541 & 166.0624 \\
        -589.1908 & -275.9541 & 166.0624
-    \end{bmatrix} \\
+    \end{bmatrix} \ ,\\
     \vec{F}_\mathrm{I} &=
     \begin{bmatrix}
        -507.9954 & -309.8882 \\
        507.9954 & -309.8882
-    \end{bmatrix}
+    \end{bmatrix} \ .
 \end{flalign}
 
-These design has been simulated together with the nonlinear model of the system. Its performance is also compared to the $\mathcal{H}_\infty$ controller designed in \autoref{sec:Hinf} when disturbances, measurement noise and parameter uncertainties are present. The simulations are presented in \autoref{sec:comparison}.
+This design has been simulated together with the model of the system. Its performance is also compared to the $\mathcal{H}_\infty$ controller designed in \autoref{sec:Hinf} when disturbances, measurement noise and parameter uncertainties are present. The simulations are presented in \autoref{sec:comparison}.
 
 
 

@@ -13,9 +13,6 @@ C=[1 0 0;
 D=[0 0;
     0 0];
 
-% Sampling time
-Ts = 0.05;
-
 % Sizes of ss model
 nx=size(A,1);    % Number of states
 nu=size(B,2);   % Number of inputs
@@ -168,7 +165,7 @@ Dh = [D11 D12;
     D21 D22];
 sysN = ss(Ah,Bh,Ch,Dh);
 
-[k,g,gfin, info] = hinfsyn(sysN,2*ny,nu,'GMIN',5,'GMAX',5,'DISPLAY','on','TOLGAM',0.01);
+[k,g,gfin,info] = hinfsyn(sysN,2*ny,nu,'GMIN',5,'GMAX',5,'DISPLAY','on','TOLGAM',0.01);
 F_rob  = -info.KFI(1:2,1:3);
 FI_rob = -info.KFI(1:2,4:5);
 Fd_rob = -info.KFI(1:2,6:7);

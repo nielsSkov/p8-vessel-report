@@ -1,12 +1,11 @@
 \section{$\mathcal{H}_\infty$ Design}\label{sec:Hinf}
-The linearized model in \autoref{sec:linearizationModel} has varying parameters, such as the added mass and damping coefficients. The vessel may also experience external disturbances, such as wind forces. During surveying, the vessel needs to be robust to these model variations and it must be able to sufficiently reject disturbances. Using the $\mathcal{H}_\infty$ design technique, a robust controller for the vessel can be synthesized. The design of such controller differs from the LQR design. In this case, the design of model and controller is done simultaneously and can not be clearly separated as for the LQR case.
+The model in \autoref{sec:linearizationModel} has varying parameters, such as the mass or damping coefficients. The vessel may also experience external disturbances, such as wind, wave or current forces. During surveying, it is convenient for the vessel to be robust to these model variations and it must be able to sufficiently reject disturbances. Using the $\mathcal{H}_\infty$ design technique, a robust controller for the vessel can be synthesized. In this case, the design of model and controller is done simultaneously and can not be as clearly separated as for the LQR.
 
-The $\mathcal{H}_\infty$ problem consists of finding an internally stabilizing controller that provides a closed loop $\mathcal{H}_\infty$ norm less than some bound $\gamma$ \cite[p. 835]{JCDoyle}, \cite[pp. 92-93]{AAStoorvogel}. Such controller is also called suboptimal $\mathcal{H}_\infty$ Controller, as there might be smaller $\gamma$ yielding an internally stabilizing controller.% The reason for not deigning the optimal controller is \fxnote{write reason}
+The $\mathcal{H}_\infty$ problem is solved by finding an internally stabilizing controller that provides a closed loop $\mathcal{H}_\infty$ norm less than some bound, $\gamma$, \cite[p. 835]{JCDoyle}, \cite[pp. 92-93]{AAStoorvogel}. Such a controller is also called suboptimal $\mathcal{H}_\infty$ controller, as there might be smaller $\gamma$ yielding an internally stabilizing controller.% The reason for not deigning the optimal controller is \fxnote{write reason}
 
 A more detailed mathematical formulation of the $\mathcal{H}_\infty$ problem and its solution is given in \cite[pp. 91-119]{AAStoorvogel}. 
 
-The state space model from \autoref{xDotLinear} and \autoref{yLinear} needs to be remodeled into a state space form suitable for solving the suboptimal $\mathcal{H}_\infty$ control problem. This representation starts with the equations
-For solving the suboptimal $\mathcal{H}_\infty$ control problem, the system has to be expressed in a particular state space form \cite[pp. 95]{AAStoorvogel}, \cite[p. 64]{robustNotes}. This form is
+The state space model from \autoref{xDotLinear} and \autoref{yLinear} needs to be remodeled into a state space form suitable for solving the suboptimal $\mathcal{H}_\infty$ control problem \cite[pp. 95]{AAStoorvogel}, \cite[p. 64]{robustNotes}. This form is
 \begin{flalign}
   \vec{\dot{x}}_\infty(t) &= \vec{A}_1 \vec{x}_\infty(t) + \vec{B}_1 \vec{w}(t) + \vec{B}_2 \vec{u}(t)\ ,
   \label{eq:xDotHinf} \\
@@ -25,22 +24,22 @@ For solving the suboptimal $\mathcal{H}_\infty$ control problem, the system has 
   \va{\vec{B}_1}{is the uncontrolled input matrix}{}
   \va{\vec{B}_2}{is the controlled input matrix}{}
   \va{\vec{C}_1}{is the performance output matrix}{}
-  \va{\vec{D}_{11}}{is the direct feedthrough matrix from $\vec{w}$ to $\vec{z}$}{}
-  \va{\vec{D}_{12}}{is the direct feedthrough matrix from $\vec{u}$ to $\vec{z}$}{}
+  \va{\vec{D}_{11}}{is the direct feedforward matrix from $\vec{w}$ to $\vec{z}$}{}
+  \va{\vec{D}_{12}}{is the direct feedforward matrix from $\vec{u}$ to $\vec{z}$}{}
   \va{\vec{C}_2}{is the measured output matrix}{}
-  \va{\vec{D}_{21}}{is the direct feedthrough matrix from $\vec{w}$ to $\vec{y}$}{}
-  \va{\vec{D}_{22}}{is the direct feedthrough matrix from $\vec{u}$ to $\vec{y}$}{}
+  \va{\vec{D}_{21}}{is the direct feedforward matrix from $\vec{w}$ to $\vec{y}$}{}
+  \va{\vec{D}_{22}}{is the direct feedforward matrix from $\vec{u}$ to $\vec{y}$}{}
 \end{where}
 
 The $\mathcal{H}_\infty$ model representation can also be seen in \autoref{fig:HinfDiag}, where all signals and matrices involved in the design process are represented.
 \begin{figure}[H]
 	\includegraphics[width=0.6\textwidth]{figures/HinfDiag}
-	\caption{Block diagram used in the $\mathcal{H}_\infty$ Controller design.}
+	\caption{Block diagram used in the $\mathcal{H}_\infty$ controller design.}
 	\label{fig:HinfDiag}
 \end{figure}
 
-The method used to achieve the solution to the problem requires assuming certain conditions on the matrix in the model \cite[p. 835]{JCDoyle}. These conditions are 
-\begin{itemize}
+The method used to achieve the solution to the problem requires assuming certain conditions on the matrices in the model \cite[p. 835]{JCDoyle}. These conditions are 
+\begin{enumerate}
 	\item $\left (\vec{A}_1,\vec{B}_1 \right)$ and $\left( \vec{A}_1, \vec{B}_2 \right)$ are stabilizable.
 	\item $\left (\vec{C}_1,\vec{A}_1 \right)$ and $\left( \vec{C}_2, \vec{A}_1 \right)$ are detectable.
 	\item $\vec{D}_{12}^\mathrm{T}[\vec{C}_1\ \vec{D_{12}}]$ is $[\vec{0}\ \vec{I}]$.
@@ -49,17 +48,17 @@ The method used to achieve the solution to the problem requires assuming certain
 				\vec{D}_{21} 
 			\end{bmatrix}\vec{D}_{21}^\mathrm{T}$ is $[\vec{0}\ \vec{I}]$.
 	\item $\vec{D}_{11}$ and $\vec{D}_{22}$ are zero.
-\end{itemize}
+\end{enumerate}
 
 For obtaining the matrices present in \autoref{eq:xDotHinf}, \ref{eq:zHinf} and \ref{eq:yHinf}, the content of the state vector and signal vectors needs to be defined.
 
-\subsection*{State Vector}
+\subsection{State Vector}
 The state vector construction starts with the three states that define the basic dynamics of the system. Namely, $\psi$, $\dot{\psi}$ and $\dot{x}_\mathrm{b}$. As some reference tracking is desired, integral states need to be included in the state vector, these depend on the measured output and the reference signal as 
 \begin{flalign}
-	\vec{\dot{x}}_\mathrm{int} =
+	\vec{\dot{x}}_\mathrm{I} =
 	\begin{bmatrix}
-		x_{\mathrm{int}_{\psi}} \\
-		x_{\mathrm{int}_{\dot{x}_\mathrm{b}}}
+		x_{\mathrm{I}_{\psi}} \\
+		x_{\mathrm{I}_{\dot{x}_\mathrm{b}}}
 	\end{bmatrix}\ = 
 	\begin{bmatrix}
 		\psi_\mathrm{ref}-\psi \\
@@ -68,13 +67,14 @@ The state vector construction starts with the three states that define the basic
 	\label{eq:xintVectorHinf}
 \end{flalign}
 
-The state vector also includes the states coming from the reference, disturbance and noise models. These extra states, not only show the dynamics of the uncontrolled inputs, but also reflect the weighting functions that have been applied to each of them. This process is carried out in order to modify how the uncontrolled inputs affect the states, this is normally done through transfer functions, \cite{MSalari}. In order to include weights in the state space representation, some states for each uncontrolled input need to be defined. \autoref{fig:WeightDiag} shows an example of how an uncontrolled input is weighted so it can be included in the state space representation.
+The state vector also includes the states coming from the reference, disturbance and noise models. These extra states show the dynamics of the uncontrolled inputs, to which some weighting functions are applied. This process is carried out in order to modify how the uncontrolled inputs affect the states, and this is normally done through transfer functions, \cite{MSalari}. In order to include weights in the state space representation, some states for each uncontrolled input need to be defined. \autoref{fig:WeightDiag} shows an example of how an uncontrolled input is weighted so it can be included in the state space representation.
 \begin{figure}[H]
 	\includegraphics[width=0.6\textwidth]{figures/WeightDiag}
-	\caption{Block diagram illustrating how an uncontrolled input is weighted in the $\mathcal{H}_\infty$ Controller design. $d$ is the uncontrolled input and $d'$ is the weighted uncontrolled input. The states $\vec{x}_\mathrm{d}$ are included in the state vector of the $\mathcal{H}_\infty$ state space representation.}
+	\caption{Block diagram illustrating how an uncontrolled input is weighted in the $\mathcal{H}_\infty$ controller design. $d$ is the uncontrolled input and $d'$ is the weighted uncontrolled input. The states $\vec{x}_\mathrm{d}$ are included in the state vector of the $\mathcal{H}_\infty$ state space representation.}
 	\label{fig:WeightDiag}
 \end{figure}
-The uncontrolled input states are part of the state vector. The $\vec{A}_\mathrm{d}$, $\vec{B}_\mathrm{d}$, $\vec{C}_\mathrm{d}$ and $\vec{D}_\mathrm{d}$ in \autoref{fig:WeightDiag} can be calculated from a weighting function as in the example given in \autoref{eq:weightingexampleLP}, where the uncontrolled input $d$ is weighted by means of a first order transfer function with low-pass characteristics.
+
+The $\vec{A}_\mathrm{d}$, $\vec{B}_\mathrm{d}$, $\vec{C}_\mathrm{d}$ and $\vec{D}_\mathrm{d}$ in \autoref{fig:WeightDiag} can be calculated from a weighting function as in the example given in \autoref{eq:weightingexampleLP}, where the uncontrolled input $d$ is weighted by means of a first order transfer function with low pass characteristics.
 \begin{flalign}
 	\frac{d'}{d}=\frac{a}{s+a} \rightarrow \dot{d}' = -a d' + a d \rightarrow \begin{cases} \dot{x}_\mathrm{d} = -a x_\mathrm{d} + a d \\ d' = x_\mathrm{d} \end{cases}\label{eq:weightingexampleLP} 
 \end{flalign}
@@ -85,32 +85,27 @@ Another example with a high pass weighting function is shown in \autoref{eq:weig
 \begin{flalign}
 	\frac{n'}{n}=\frac{s}{s+a} = \frac{-a}{s+a}-1 \rightarrow \begin{cases} \dot{x}_\mathrm{n} = -a x_\mathrm{n} + n \\ n' = - a x_\mathrm{n} + n  \end{cases}\label{eq:weightingexampleHP} 
 \end{flalign}
+%
+This process also entails defining the weights for each uncontrolled input. The weight on the reference is set to be a first order transfer function with a very fast pole so the step input does not get distorted. The weights on the input disturbances are also low pass filtered as most of them appear at low frequencies.
 
-This process also entails defining the weights for each uncontrolled input. The weight on the reference is set to be a first order transfer function with a very fast pole so the step input does not get distorted. The weights on the input disturbances are also low pass filtered as most of them appear at low frequencies. The noise, on the other hand, is weighted according to a high pass filter, as it is stronger in the high frequency range. In this way, the controller design focuses on achieving a robust controller with respect to the uncontrolled inputs in their particular frequency ranges. The chosen frequencies are 1, 20 and 20 rad/s for the references, wind disturbance and wave disturbance low pass filters, respectively, and 100 rad/s for the noise high pass filter. These numbers are calculated based on several test which can be seen in \autoref{app:Disturbance}. The weights for each uncontrolled input are
+The noise, on the other hand, is weighted according to a high pass filter, as it is stronger in the high frequency range. In this way, the controller design focuses on achieving a robust controller with respect to the uncontrolled inputs in their particular frequency ranges. The chosen frequencies are 1, 20 and 20 rad$\cdot$s$^{-1}$ for the references, wind disturbance and wave disturbance low pass filters, respectively, and 100 rad$\cdot$s$^{-1}$ for the noise high pass filter. The reference frequency is used as a tuning parameter. The disturbances frequencies are calculated to be more conservative than the value obtained in \autoref{app:Disturbance}, while the noise frequency is assumed to be present as higher frequency than 100 rad$\cdot$s$^{-1}$. The weights for each uncontrolled input are
 
-\hspace{0.2\linewidth}
-\begin{minipage}{0.3\linewidth}
+\begin{minipage}{0.49\linewidth}
 \begin{flalign}
-	W_{\psi_\mathrm{ref}} &= \frac{1}{s+1}\ ,\nonumber \\
+	W_{\psi_\mathrm{ref}} &= \frac{1}{s+12}\ ,\nonumber \\
 	W_{F_\mathrm{wind}} &= \frac{20}{s+20}\ ,\nonumber\\
 	W_{F_\mathrm{wave}} &= \frac{20}{s+20}\ ,\nonumber\\
-	W_{n_\psi} &= \frac{s}{s+100}\ .\nonumber
+	W_{n_\psi} &= \frac{s}{s+100}\ ,\nonumber
 \end{flalign}
 \end{minipage}
-\begin{minipage}{0.3\linewidth}
+\begin{minipage}{0.49\linewidth}
 \begin{flalign}
-	W_{\dot{x}_\mathrm{b,ref}} &= \frac{1}{s+1}\ ,\nonumber \\
+	W_{\dot{x}_\mathrm{b,ref}} &= \frac{1}{s+12}\ ,\nonumber \\
 	W_{\tau_\mathrm{wind}} &= \frac{20}{s+20}\ , \nonumber\\
 	W_{\tau_\mathrm{wave}} &= \frac{20}{s+20}\ , \nonumber\\
 	W_{n_{\dot{x}_\mathrm{b}}} &= \frac{s}{s+100}\ .\nonumber
 \end{flalign}
 \end{minipage}\hfill
-%\begin{flalign}
-%	W_{\psi_\mathrm{ref}} = \frac{1}{s+1}\ ,\  W_{\dot{x}_\mathrm{b,ref}} = \frac{1}{s+1}\ ,\nonumber \\
-%	W_{F_\mathrm{wind}} = \frac{1}{s+1}\ ,\nonumber\   W_{\tau_\mathrm{wind}} = \frac{1}{s+1}\ , \nonumber\\
-%	W_{F_\mathrm{wave}} = \frac{1}{s+1}\ , \nonumber\  W_{\tau_\mathrm{wave}} = \frac{1}{s+1}\ , \nonumber\\
-%	W_{n_\psi} = \frac{s}{s+1}\ , \nonumber\ 	W_{n_{\dot{x}_\mathrm{b}}} = \frac{s}{s+1}\ .\nonumber
-%\end{flalign}
 
 The states coming from the weighting functions, together with the system states and the integral states, constitute the state vector as 
 \begin{flalign}
@@ -121,7 +116,7 @@ The states coming from the weighting functions, together with the system states 
 	\label{eq:xVectorHinf}
 \end{flalign}
 
-\subsection*{Controlled Inputs Vector}
+\subsection{Controlled Input Vector}
 The controlled input are the two forces provided by the thrusters of the boat, that is, 
 \begin{flalign}
 	\vec{u(t)}= 
@@ -131,9 +126,8 @@ The controlled input are the two forces provided by the thrusters of the boat, t
 	\label{eq:uVectorHinf}
 \end{flalign}
 
-
-\subsection*{Uncontrolled Input vector}
-The uncontrolled inputs include the references to be tracked, the input disturbances, and the measurement noises. The size of this vector depends on the amount of reference signals, the input disturbances considered (wind, waves) and the amount of measured outputs, as these are normally affected by noise. The references for the inner controller are two, the heading, $\psi$, and the translational speed along the $x_\mathrm{b}$ direction. The input disturbances are coming from wind and from waves. These two elements potentially generate both a force along the $x_\mathrm{b}$ and a torque in $\psi$. The noise vector affects measured outputs considered for the inner controller, which are the outputs, $\psi$ and $\dot{x}_\mathrm{b}$. The uncontrolled input vector is formed as
+\subsection{Uncontrolled Input Vector}
+The uncontrolled inputs include the references to be tracked, the input disturbances, and the measurement noises. The size of this vector depends on the amount of reference signals, the input disturbances considered (wind, current and waves) and the amount of measured outputs, as these are normally affected by noise. The references for the inner controller are two, the heading, $\psi$, and the translational speed along the $x_\mathrm{b}$ direction. The input disturbances are coming from wind and from waves. These two elements potentially generate both a force along the $x_\mathrm{b}$ and a torque in $\psi$. The noise vector affects measured outputs considered for the inner controller, which are the outputs, $\psi$ and $\dot{x}_\mathrm{b}$. The uncontrolled input vector is formed as
 \begin{flalign}
 	\vec{w(t)}= 
 	\begin{bmatrix}
@@ -142,38 +136,37 @@ The uncontrolled inputs include the references to be tracked, the input disturba
 	\label{eq:wVectorHinf}
 \end{flalign} 
 \begin{where}
-	\va{n_\mathrm{x}}{is noise affecting measured output x}{}
-	\va{F_\mathrm{wind/wave}}{is the force of the wind/waves along the $x_\mathrm{b}$ direction}{}
-	\va{\tau_\mathrm{wind/wave}}{is the torque of the wind/waves in $\psi$}{}
+	\va{F_\mathrm{wind/wave}}{is the force of the wind/waves along the $x_\mathrm{b}$ direction}{N}
+	\va{\tau_\mathrm{wind/wave}}{is the torque of the wind/waves in $\psi$}{N \cdot m}
+    \va{n_\mathrm{x}}{is noise affecting measured output x}{rad,\ m \cdot s^{-1}}
 \end{where}
 
-\subsection*{Measurement Output Vector}
-The measurement output vector includes the outputs that are to track a reference. It also includes the integral states as they represent the error between the outputs and the references and are affected by noise. Consequently, the output vector contains 4 elements and is represented as 
+\subsection{Measurement Output Vector}
+The measurement output vector includes the outputs that track a reference. It also includes the integral states that represent the error between the outputs and the references and are affected by noise. Consequently, the output vector contains four elements and is represented as 
 \begin{flalign}
 	\vec{y(t)}= 
 	\begin{bmatrix}
-		\psi & \dot{x}_\mathrm{b} & \vec{x}_\mathrm{int}
+		\psi & \dot{x}_\mathrm{b} & \vec{x}_\mathrm{I}^\mathrm{T}
 	\end{bmatrix}^\mathrm{T}\ .
 	\label{eq:yVectorHinf}
 \end{flalign}
 
-\subsection*{Performance Output Vector}
-The performance output contains all variables whose performance should be taken into account by the controller. As the design entails a state feedback control, all the states are considered performance outputs. The controlled inputs are also part of this vector as it is desired to set some limitations or constant weights in order to account for the saturation of these inputs in the real system.
+\subsection{Performance Output Vector}
+The performance output contains all variables whose performance should be taken into account by the controller. As the design entails a state feedback control, all the states are considered performance outputs. The controlled inputs are also part of this vector as it is desired to set some limitations or constant weights in order to account for the saturation of these inputs in the real system. This is also needed to fulfill condition 3.
 \begin{flalign}
 	\vec{z(t)}= 
 	\begin{bmatrix}
-		\vec{x} & \vec{u}
+		\vec{x}^\mathrm{T} & \vec{u}^\mathrm{T}
 	\end{bmatrix}^\mathrm{T}\ .
 	\label{eq:zVectorHinf}
 \end{flalign}
+%
+Now that the state, input and output vectors have been defined, the model matrices can be derived.
 
-Once the state, input and output vectors have been defined, the model matrices can be derived.
-
-\subsection*{Model Matrices}
-
+\subsection{Model Matrices}
 The matrices present in \autoref{eq:xDotHinf}, \ref{eq:zHinf} and \ref{eq:yHinf} are derived from the relations between the different signals and states. 
 
-Starting with \autoref{eq:xDotHinf}, it contains the $\vec{A}_1$, $\vec{B}_1$ and $\vec{B}_2$ matrices. 
+The design is started with \autoref{eq:xDotHinf}, which contains the $\vec{A}_1$, $\vec{B}_1$ and $\vec{B}_2$ matrices. 
 
 The matrix $\vec{A}_1$ describes the dynamics of the system states and all the other added states, which account for the references and disturbances. Its structure is
 \begin{flalign}
@@ -181,13 +174,14 @@ The matrix $\vec{A}_1$ describes the dynamics of the system states and all the o
 	\vec{A}_1 &=
 	\begin{bmatrix}
 		\vec{A} & \vec{0}_{3\mathrm{x}2} & \vec{B}_\mathrm{dist} & \vec{B}_\mathrm{dist} & \vec{0}_{3\mathrm{x}2} \\
-		-\vec{C} & \vec{A}_\mathrm{i} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} \\
+		-\vec{C} & \vec{A}_\mathrm{I} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} \\
 		\vec{0}_{2\mathrm{x}3} & \vec{0}_{2\mathrm{x}2} & \vec{A}_\mathrm{wind} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} \\
 		\vec{0}_{2\mathrm{x}3} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{A}_\mathrm{wave} & \vec{0}_{2\mathrm{x}2} \\
 		\vec{0}_{2\mathrm{x}3} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{A}_\mathrm{noise} 
 	\end{bmatrix}\ .
 \end{flalign}
-It can be seen that the matrix is composed by submatrices that correspond to the different parts of the system, namely for the original states in the first three rows, the integral states for reference tracking in the next two rows and the uncontrolled inputs in the last six rows. The last submatrices result from the weighting functions applied to the different uncontrolled inputs.
+%
+It can be seen that the matrix is composed by submatrices that correspond to the different parts of the system, namely for the original states in the first three rows, the integral states for reference tracking in the next two rows and the uncontrolled inputs in the last six rows.
 
 $\vec{B}_1$ relates the uncontrolled inputs with the state derivatives. Its structure in terms of the different submatrices is
 \begin{flalign}
@@ -201,7 +195,7 @@ $\vec{B}_1$ relates the uncontrolled inputs with the state derivatives. Its stru
 		\vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{B}_\mathrm{noise} 
 	\end{bmatrix}\ .
 \end{flalign}
-
+%
 The matrix $\vec{B}_2$ relates the controlled inputs to the states, in this case, the motor thrusters only affect the system states. The $\vec{B}_2$ matrix is constructed as 
 \begin{flalign}
 	\label{eq:B2}
@@ -214,7 +208,7 @@ The matrix $\vec{B}_2$ relates the controlled inputs to the states, in this case
 		\vec{0}_{2\mathrm{x}2} 
 	\end{bmatrix}\ .
 \end{flalign}
-
+%
 Next, the matrices appearing in \autoref{eq:zHinf} are derived. These are $\vec{C}_1$, $\vec{D}_{11}$ and $\vec{D}_{12}$ and they can be considered to be weighting matrices where the importance of each of the performance outputs and the usage of the controlled inputs can be specified.
 
 The $\vec{C}_1$ matrix relates the states and the performance outputs, it is formed by a diagonal matrix, where weights are applied to each state, and some zero rows corresponding to the controlled inputs of the system. The matrix is constructed as 
@@ -223,7 +217,7 @@ The $\vec{C}_1$ matrix relates the states and the performance outputs, it is for
 	\vec{C}_1 &=
 	\begin{bmatrix}
 		\vec{W}_\mathrm{x} & \vec{0}_{3\mathrm{x}2} &  \vec{0}_{3\mathrm{x}2} &  \vec{0}_{3\mathrm{x}2}  & \vec{0}_{3\mathrm{x}2} \\
-		\vec{0}_{2\mathrm{x}3}  &  \vec{W}_\mathrm{i}  & \vec{0}_{2\mathrm{x}2} &  \vec{0}_{2\mathrm{x}2}  & \vec{0}_{2\mathrm{x}2} \\
+		\vec{0}_{2\mathrm{x}3}  &  \vec{W}_\mathrm{I}  & \vec{0}_{2\mathrm{x}2} &  \vec{0}_{2\mathrm{x}2}  & \vec{0}_{2\mathrm{x}2} \\
 		\vec{0}_{2\mathrm{x}3}  & \vec{0}_{2\mathrm{x}2} &  \vec{W}_\mathrm{wind} &  \vec{0}_{2\mathrm{x}2} &  \vec{0}_{2\mathrm{x}2} \\
 		\vec{0}_{2\mathrm{x}3} &  \vec{0}_{2\mathrm{x}2}  & \vec{0}_{2\mathrm{x}2}  & \vec{W}_\mathrm{wave}  & \vec{0}_{2\mathrm{x}2} \\
 		\vec{0}_{2\mathrm{x}3} &  \vec{0}_{2\mathrm{x}2}  & \vec{0}_{2\mathrm{x}2} &  \vec{0}_{2\mathrm{x}2} &  \vec{W}_\mathrm{noise} \\
@@ -231,15 +225,12 @@ The $\vec{C}_1$ matrix relates the states and the performance outputs, it is for
 		\vec{0}_{2\mathrm{x}3}  & \vec{0}_{2\mathrm{x}2}  & \vec{0}_{2\mathrm{x}2}  & \vec{0}_{2\mathrm{x}2}  & \vec{0}_{2\mathrm{x}2} 
 	\end{bmatrix}\ .
 \end{flalign}
-Where the weighting submatrices values have been chosen as according to the importance of each state in the controller design. The numbers are found through an iterative process starting with an initial design that weighted more the most important states in the system, which are the system states and the reference states. The design process was carried out by simulating the controller with the non-linear model of the system. The final designed weights are
-\fxnote{check these numbers}
+Where the weighting submatrices values are chosen as according to the importance of each state in the controller design. The numbers are found through an iterative process starting with an initial design that weighted more the most important states in the system, which are the system states and the reference states. The design process is carried out by simulating the controller together with the model of the system. The final designed weights are
 \begin{flalign}
-	\vec{W}_\mathrm{x} = diag(2,3,2)\ ,\vec{W}_\mathrm{i}=diag(5,2)\ ,\vec{W}_\mathrm{wind}=diag(1,1)\ ,  
+	\vec{W}_\mathrm{x} = diag(2,3,2)\ ,\vec{W}_\mathrm{I}=d&iag(5,2)\ ,\vec{W}_\mathrm{wind}=diag(1,1)\ ,  \\
+    \vec{W}_\mathrm{wave}=diag(1,1)\ &,\vec{W}_\mathrm{noise}=diag(1,1)\ .
 \end{flalign}
-\begin{flalign}
-    \vec{W}_\mathrm{wave}=diag(1,1)\ ,\vec{W}_\mathrm{noise}=diag(1,1)\ .
-\end{flalign}
-$\vec{D}_{11}$ is a zero matrix as there is no relation between the uncontrolled inputs and the performance outputs in the $\mathcal{H}_\infty$ design. It has as many rows as the number of elements in the performance output and as many columns uncontrolled  inputs.
+$\vec{D}_{11}$ is a zero matrix as there is no relation between the uncontrolled inputs and the performance outputs in the $\mathcal{H}_\infty$ design. It has as many rows as the number of elements in the performance output and as many columns as uncontrolled inputs.
 
 The $\vec{D}_{12}$ has non-zero elements only in the entries that weight the inputs. The matrix is constructed as 
 \begin{flalign}
@@ -277,7 +268,8 @@ The $\vec{D}_{21}$ matrix relates uncontrolled inputs with the measurement outpu
 	\end{bmatrix}\ . 
 \end{flalign}
 
-After setting up the model, which includes part of the controller design, the $\mathcal{H}_\infty$ Controller can be found by solving a Riccatti equation defined as
+\subsection{Controller Gains}
+After setting up the model, which includes part of the controller design, the $\mathcal{H}_\infty$ controller can be found by solving a Riccatti equation defined as
 \begin{flalign}
 	\label{eq:Xinf}
 	\vec{X}_\infty &= Ric
@@ -295,11 +287,11 @@ and calculating the feedback gain matrix as
 The state feedback matrix $\vec{F}$ then corresponds to the three first columns of $\vec{F}_\infty$, while the integral gain $\vec{F}_\mathrm{I}$ corresponds to the next two columns. Similarly to the LQR design, the final diagram with the placement of the gains can be seen in \autoref{fig:HinfControlBlockDiagram}.
 \begin{figure}[H]
     \includegraphics[width=0.6\textwidth]{figures/HinfControlBlockDiagram}
-    \caption{Final block diagram of the $\mathcal{H}_\infty$ Controller design.}
+    \caption{Final block diagram of the $\mathcal{H}_\infty$ controller design. \fxnote{xinf in states}}
     \label{fig:HinfControlBlockDiagram}
 \end{figure}
 
-The value of $\gamma$ in the Riccatti equation is also a design parameter that can be modified making the controller more or less conservative. The value chosen should be bigger than the largest singular value of the system. In this design, the minimum $\gamma$ value is 2.7832. The final value has been chosen higher than the minimum in order to have a small robustness margin. The value used is 5. \fxnote{check this value}
+The value of $\gamma$ in the Riccatti equation is also a design parameter that can be modified making the controller more or less conservative. The value chosen should be bigger than the largest singular value of the system. In this design, the minimum possible $\gamma$ value is 2.7832. The final value is chosen higher than the minimum in order to have a robustness margin. The value used is 5. 
 
 The final values for the feedback gains result as follows
 \begin{flalign}
@@ -315,4 +307,4 @@ The final values for the feedback gains result as follows
     \end{bmatrix}
 \end{flalign}
 
-Once the controller is designed, its performance is evaluated in simulations, in which the compensator controls the nonlinear model derived in \autoref{chap:model}. 
+Once the controller is designed, its performance is evaluated in simulations, in which the compensator controls the model derived in \autoref{chap:model}. 

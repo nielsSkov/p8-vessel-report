@@ -8,15 +8,15 @@ The path generated is approximated by straight line segments connected by the ca
 The algorithm starts by considering the first two waypoints in the path. The yaw reference given to the state space controller is calculated based on the crossing point between the straight line segment that joints the waypoints and a circle centered in the position of the boat. \autoref{fig:LOSalgorithm} shows how this crossing point is obtained. There may be two intersections between the straight line and the circle, thus the chosen crossing point is the point closer to second waypoint. The crossing point is also called Line of Sight (LOS) point and is found using the equations of the circle and of the straight line as
 %
 \begin{flalign}
-	(&x_\mathrm{los}-x_\mathrm{n})^2 + (y_\mathrm{los}-y_\mathrm{n})^2 = R^2, \label{eq:circle} \ \\
-	&y_\mathrm{los}-y_\mathrm{k} = \frac{y_\mathrm{k+1}-y_\mathrm{k}}{x_\mathrm{k+1}-x_\mathrm{k}}(x_\mathrm{los}-x_\mathrm{k}) \label{eq:line} 
+	(&x_\mathrm{LOS}-x_\mathrm{n})^2 + (y_\mathrm{LOS}-y_\mathrm{n})^2 = R^2, \label{eq:circle} \ \\
+	&y_\mathrm{LOS}-y_\mathrm{k} = \frac{y_\mathrm{k+1}-y_\mathrm{k}}{x_\mathrm{k+1}-x_\mathrm{k}}(x_\mathrm{LOS}-x_\mathrm{k}) \label{eq:line} 
 \end{flalign}
 \begin{where}
-	\va{R}{is the radius of the circle centered at the vessel position}{}
-	\va{[x_\mathrm{los},y_\mathrm{los}]}{is the crossing point between the circle around the vessel and the straight line that joins the waypoints}{}
-	\va{[x_\mathrm{k},y_\mathrm{k}]}{is the first waypoint in the currently followed path segment}{}
-	\va{[x_\mathrm{k+1},y_\mathrm{k+1}]}{is the second waypoint in the currently followed path segment}{}
-	\va{[x_\mathrm{n},y_\mathrm{n}]}{is the position of the vessel in the NED frame}{}
+	\va{R}{is the radius of the circle centered at the vessel position}{m}
+	\va{[x_\mathrm{LOS},y_\mathrm{LOS}]}{is the crossing point between the circle around the vessel and the straight line that joins the waypoints}{m}
+	\va{[x_\mathrm{k},y_\mathrm{k}]}{is the first waypoint in the currently followed path segment}{m}
+	\va{[x_\mathrm{k+1},y_\mathrm{k+1}]}{is the second waypoint in the currently followed path segment}{m}
+	\va{[x_\mathrm{n},y_\mathrm{n}]}{is the position of the vessel in the NED frame}{m}
 \end{where}
 %
 \begin{figure}[H]
@@ -24,29 +24,29 @@ The algorithm starts by considering the first two waypoints in the path. The yaw
 	\caption{Algorithm used to find the yaw reference for the state space controller in order to follow a path.}
 	\label{fig:LOSalgorithm}
 \end{figure}
-The LOS point is then used to calculate $\chi$ as the angle from the $x_\mathrm{n}$ axis and the line joining the position of the vessel and the LOS point. See \autoref{eq:chi}. This can be directly used as the reference for yaw, $\psi_\mathrm{ref}$, in the state space controller. This disregards the possibility of disturbances and assumes that the velocity vector of the vessel is aligned with the $x_\mathrm{b}$ axis. This is in general not true as disturbances like wind or waves would generate some speed also in the $y_\mathrm{b}$ axis direction. The reference for yaw is then adjusted by subtracting the angle that the velocity vector has with respect to the $x_\mathrm{b}$ axis as seen in \autoref{eq:beta} and \autoref{eq:psiref}. 
+The LOS point is then used to calculate $\chi$ as the angle from the $x_\mathrm{n}$ axis and the line joining the position of the vessel and the LOS point. See \autoref{eq:chi}. This can be directly used as the reference for yaw, $\psi_\mathrm{ref}$, in the state space controller. This disregards the possibility of disturbances and assumes that the velocity vector of the vessel is aligned with the $x_\mathrm{b}$ axis. This is in general not true as disturbances like wind, current or waves would generate some force also in the $y_\mathrm{b}$ axis direction. The reference for yaw is then adjusted by subtracting the angle that the velocity vector has with respect to the $x_\mathrm{b}$ axis as seen in \autoref{eq:beta} and \autoref{eq:psiref}. 
 
 This approach tries to make the vessel velocity vector point towards the LOS point.
 %
 \begin{flalign}
-	\chi &= \arctan\left(\frac{y_\mathrm{los}-y_\mathrm{n}}{x_\mathrm{los}-x_\mathrm{n}}\right), \label{eq:chi} \ \\
+	\chi &= \arctan\left(\frac{y_\mathrm{LOS}-y_\mathrm{n}}{x_\mathrm{LOS}-x_\mathrm{n}}\right), \label{eq:chi} \ \\
 	\beta &= \arctan\left(\frac{\dot{y}_\mathrm{b}}{\dot{x}_\mathrm{b}}\right) \label{eq:beta}, \ \\
 	\psi&_\mathrm{ref} = \chi - \beta. \label{eq:psiref}
 \end{flalign}
 \begin{where}
-	\va{\chi}{is the angle between the $x_\mathrm{n}$ axis and the LOS point}{}
-	\va{\beta}{is the angle between the velocity vector of the vessel and the $x_\mathrm{b}$ axis}{}
+	\va{\chi}{is the angle between the $x_\mathrm{n}$ axis and the LOS point}{rad}
+	\va{\beta}{is the angle between the velocity vector of the vessel and the $x_\mathrm{b}$ axis}{rad}
 \end{where}
-%
+
 The algorithm relies on the path and the circle defined around the boat to cross at the LOS point. 
 
 If the vessel is positioned far from the path such that the circle does not intersect it, then the algorithm uses the next waypoint as LOS point. Once the vessel gets closer to the path, the LOS point is calculated as described above.
 
-The yaw reference, $\psi_\mathrm{ref}$, given to the controller in \autoref{chap:innercontrol} ensures that the vessel will follow the desired LOS. While following the LOS the distance between the vessel and the path, $e$, in \autoref{fig:patherror}, will decrease. At each time sample $\psi_\mathrm{ref}$ is recalculated using the algorithm. This is done to ensure $e$ will converge to the zero, meaning the vessel will converge onto the path.
+The yaw reference, $\psi_\mathrm{ref}$, given to the controller in \autoref{chap:innercontrol} ensures that the vessel follows the desired LOS. While following the LOS the distance between the vessel and the path, $e$, in \autoref{fig:patherror}, decreases. At each time sample $\psi_\mathrm{ref}$ is recalculated using the algorithm. This is done to ensure $e$ converges to the zero, meaning the vessel converges onto the path.
 %
 \begin{figure}[H]
 	\includegraphics[width=0.7\textwidth]{figures/patherror}
-	\caption{Path following algorithm minimizing the error $e$ between the path and vessel}
+	\caption{Path following algorithm minimizing the error $e$ between the path and vessel.}
 	\label{fig:patherror}
 \end{figure}
 %
@@ -55,21 +55,22 @@ This convergence can also be seen in the initial condition response of the contr
 %
 \begin{figure}[H]
     \includegraphics[width=0.45\textwidth]{figures/initCondOuter}
-    \caption{Initial condition response of the outer controller, when considering an ideal inner controller, that is, the inner dynamics are not considered. The speed is set to \num{0.4} ms$^{-1}$.}
+    \caption{Initial condition response of the outer controller, when considering an ideal inner controller, that is, the inner dynamics are not considered. The speed is set to \num{0.4} m$\cdot$s$^{-1}$.}
     \label{fig:initCondOuter}
 \end{figure}
 
-As described above, the distance to the path converges to zero when an initial position outside the path is set. The speed of convergence depends on the radius of the circle chose as can be seen in \autoref{fig:initCondOuter}. This is the tuning parameter that is used to design the controller.
+As described above, the distance to the path converges to zero when an initial position outside the path is set. The speed of convergence depends on the radius of the circle chosen as can be seen in \autoref{fig:initCondOuter}. This is the tuning parameter that is used to design the controller.
 
-For this particular system, and considering that the bandwidth of the LQR is \num{1.5} rad s$^{-1}$, a radius of \num{2} m is chosen as this gives settling time of 15 s and a bandwidth of \num{0.2} rad s$^{-1}$, seven times slower than the inner controller. For the $\mathcal{H}_\infty$ Controller, the bandwidth is \num{0.6} rad s$^{-1}$, so the radius is chosen to be \num{4.5} m, giving a bandwidth of \num{0.085} rad s$^{-1}$.
+For this particular system, and considering that the bandwidth of the LQR is \num{1.5} rad$\cdot$s$^{-1}$, a radius of \num{2} m is chosen as this gives settling time of 15 s and a bandwidth of \num{0.2} rad$\cdot$s$^{-1}$, seven times slower than the inner controller. For the $\mathcal{H}_\infty$ controller, the bandwidth is \num{0.6} rad$\cdot$s$^{-1}$, so the radius is chosen to be \num{4.5} m, giving a bandwidth of \num{0.085} rad$\cdot$s$^{-1}$.
 
-In order to follow all the path, a way to change which two waypoints define the current path segment needs to be established. Several possibilities can be considered but all of them change active waypoints when the vessel gets close enough to the waypoint that defines the end of the segment. In the project at hand, the distance to the waypoint is evaluated as the distance from the waypoint to the intersection point of the path segment and a perpendicular line to the segment that passes through the vessel position. This distance is depicted in \autoref{fig:changewaypoints}.
+In order to follow the path, a way to change which two waypoints define the current path segment needs to be established. Several possibilities can be considered but all of them change active waypoints when the vessel gets close enough to the waypoint that defines the end of the segment. In the project at hand, the distance to the waypoint is evaluated as the distance from the waypoint to the intersection point of the path segment and a perpendicular line to the segment that passes through the vessel position. This distance is depicted in \autoref{fig:changewaypoints}.
 \begin{figure}[H]
 	\includegraphics[width=0.6\textwidth]{figures/LOSalgorithmdistancewp}
 	\caption{The distance considered when defining the criterion to change to new waypoints.}
 	\label{fig:changewaypoints}
 \end{figure}
-With this approach, the vessel will always try to move forward in the path although a waypoint position has not been precisely attained. % This avoids situations like the one shown in \autoref{fig:goingbackapproach} where the vessel turns around in order to hit the waypoint precisely.
+With this approach, the vessel tries to move forward in the path although a waypoint position has not been precisely attained.
+
 This could be caused by a sudden disturbance experienced by the vessel and, in general, it is desired to keep following the path rather than turning around to hit the waypoint. In most cases, the vessel itself is going to be close to the waypoint when the change occurs. This can be seen in the simulation plots presented below. 
 
 	

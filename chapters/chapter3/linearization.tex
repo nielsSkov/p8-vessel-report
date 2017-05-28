@@ -1,5 +1,6 @@
 \section{Linearization of Model Equations}\label{sec:linearizationModel}
 The model equations need to be linearized to design a controller using linear techniques. This is done using the first order Taylor approximation around an equilibrium point as seen in 
+%
 \begin{flalign}
     f(x) &\approx f(\overline{x}) + f'(\overline{x}) (x-\overline{x})  \rightarrow\ \tilde{f}(x) \approx f'(\overline{x}) \tilde{x} \ .
     \label{taylor}
@@ -17,7 +18,7 @@ To apply the approximation, the function must be differentiated with respect to 
     \tilde{x}_2+...+ \frac{\partial f}{\partial x_n}\bigg|_{\overline{x}_1,\overline{x}_2,...,\overline{x_n}}\ \tilde{x}_\mathrm{n} \ . \nonumber
     \label{eq:dummytaylor}
 \end{flalign}
-
+%
 In the case of the vessel, the only nonlinear terms are the restoring forces and torques. They can be linearized, giving the following results
 \begin{flalign}
     \tilde{F}_{x_\mathrm{b}} &= 0  \label{eq:forcexlin} \ ,\\
@@ -26,7 +27,7 @@ In the case of the vessel, the only nonlinear terms are the restoring forces and
  	\tilde{T}_{\phi} &= -\rho g V \overline{GM_{T}}\cdot \tilde{\phi} \label{eq:torquephilinar} \ , \\
     \tilde{T}_{\theta} &= -\rho g V \overline{GM_{L}}\cdot \tilde{\theta} \ .\label{eq:torquethetalinar}   
 \end{flalign}
-
+%
 From now on, the linearized variables are represented without the symbol "$\sim$", to avoid excessive notation, even though they refer to changes with respect to the the equilibrium point.
 
 The model equations including these linearized terms end up being
