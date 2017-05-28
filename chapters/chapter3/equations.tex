@@ -1,10 +1,10 @@
 \section{Model Equations}   
-The final model equations are presented in this section, and they are described relative to the body frame, meaning that all movement is relative to the boat.
+The final model equations are presented in this section, and are described relative to the body frame, meaning that all movement is relative to the vessel.
 \autoref{fig:boat3DForces} and \ref{fig:boat2D} show a diagram of the vessel.
 \begin{figure}[H]
     \captionbox
     {
-        Diagram of the boat where the forces applied by the motors are shown.
+        Diagram of the vessel, where the forces applied by the motors are shown.
         \label{fig:boat3DForces}
     }
     {
@@ -13,63 +13,60 @@ The final model equations are presented in this section, and they are described 
     \hspace{5pt}
     \captionbox
     {
-        Above perspective of the vessel, where the distances needed for the model equations are presented.
+        Top view of the vessel, where the distances needed for the model equations are also presented.
         \label{fig:boat2D}
     }
     {
         \hspace{1.1cm} \includegraphics[width=.24\textwidth]{boat2D} \hspace{1.1cm}
     }
 \end{figure}
-%
+
 The translational movement of the vessel is described by \autoref{eq:x_pos_model}, \ref{eq:y_pos_model} and \ref{eq:z_pos_model}.
-The model includes the forces applied by the motors and the damping, that create and acceleration in the boat. 
+The model includes the forces applied by the motors and the damping, that create an acceleration in the vessel as
 %
 \begin{flalign}
 	m \ddot{x}_\mathrm{b} &=  F_\mathrm{1} + F_\mathrm{2}  - d_{\dot{x}_\mathrm{b}} \dot{x}_\mathrm{b} + F_{x_\mathrm{b}}
-    \label{eq:x_pos_model} \\
+    \label{eq:x_pos_model} \ ,\\
     m \ddot{y}_\mathrm{b} &=  -d_{\dot{y}_\mathrm{b}} \dot{y_\mathrm{b}} + F_{y_\mathrm{b}}
-    \label{eq:y_pos_model} \\
-    m \ddot{z}_\mathrm{b} &=  -d_{\dot{z}_\mathrm{b}}\dot{z_\mathrm{b}} + F_{z_\mathrm{b}} \label{eq:z_pos_model}
+    \label{eq:y_pos_model} \ ,\\
+    m \ddot{z}_\mathrm{b} &=  -d_{\dot{z}_\mathrm{b}}\dot{z_\mathrm{b}} + F_{z_\mathrm{b}} \ . \label{eq:z_pos_model}
 \end{flalign}
 %
 \begin{where}
-	\va{m}{is the mass of the boat}{kg}
-    \va{\ddot{x}_\mathrm{b}}{is the acceleration in the $x_\mathrm{b}$ direction}{m s^{-2}}
-    \va{\ddot{y}_\mathrm{b}}{is the acceleration in the $y_\mathrm{b}$ direction}{m s^{-2}}
-    \va{\ddot{z}_\mathrm{b}}{is the acceleration in the $z_\mathrm{b}$ direction}{m s^{-2}}
-    \va{\dot{x}_\mathrm{b}}{is the velocity in the $x_\mathrm{b}$ direction}{m s^{-1}}
-    \va{\dot{y}_\mathrm{b}}{is the velocity in the $y_\mathrm{b}$ direction}{m s^{-1}}
-    \va{\dot{z}_\mathrm{b}}{is the velocity in the $z_\mathrm{b}$ direction}{m s^{-1}}
+	\va{m}{is the mass of the vessel}{kg}
+    \va{\ddot{x}_\mathrm{b}}{is the acceleration in the $x_\mathrm{b}$ direction}{m \cdot s^{-2}}
+    \va{\ddot{y}_\mathrm{b}}{is the acceleration in the $y_\mathrm{b}$ direction}{m \cdot s^{-2}}
+    \va{\ddot{z}_\mathrm{b}}{is the acceleration in the $z_\mathrm{b}$ direction}{m \cdot s^{-2}}
+    \va{\dot{x}_\mathrm{b}}{is the velocity in the $x_\mathrm{b}$ direction}{m \cdot s^{-1}}
+    \va{\dot{y}_\mathrm{b}}{is the velocity in the $y_\mathrm{b}$ direction}{m \cdot s^{-1}}
+    \va{\dot{z}_\mathrm{b}}{is the velocity in the $z_\mathrm{b}$ direction}{m \cdot s^{-1}}
     \va{F_{1,2}}{are the forces applied by each motor}{N}
 \end{where}
-
-From the equations it can be seen that only the $x_\mathrm{b}$ axis is controllable, as this is the axis containing the main thrusters. 
-While the vessel do contain side thrusters, they are only intended for fine maneuvering, as their strength is relatively weak, compared to the main thrusters.
 
 %The virtual mass components are the added mass from the displaced water in the respective direction plus the mass of the vessel. This value is different for each axis, as the difference in shape drags a different amount of water.
     
 The rotational movement of the vessel is described by \autoref{eq:phi_model}, \ref{eq:theta_model} and \ref{eq:psi_model}.
 %
 \begin{flalign}
-    I_\mathrm{x}\ddot{\phi} &= -d_{\dot{\phi}} \dot{\phi} + T_\mathrm{\phi}  
+    I_\mathrm{x}\ddot{\phi} &= -d_{\dot{\phi}} \dot{\phi} + T_\mathrm{\phi}  \ ,
     \label{eq:phi_model} \\
-    I_\mathrm{y}\ddot{\theta} &= -d_{\dot{\theta}} \dot{\theta} + T_\mathrm{\theta}  
+    I_\mathrm{y}\ddot{\theta} &= -d_{\dot{\theta}} \dot{\theta} + T_\mathrm{\theta}  \ ,
     \label{eq:theta_model} \\
-    I_\mathrm{z}\ddot{\psi} &= F_\mathrm{1}l_\mathrm{1} - F_\mathrm{2} l_\mathrm{2} - d_{\dot{\psi}} \dot{\psi} \label{eq:psi_model}
+    I_\mathrm{z}\ddot{\psi} &= F_\mathrm{1}l_\mathrm{1} - F_\mathrm{2} l_\mathrm{2} - d_{\dot{\psi}} \dot{\psi} \ . \label{eq:psi_model}
 \end{flalign}
 %
 \begin{where}
-    \va{I_\mathrm{x}}{is the inertia around the $x_\mathrm{b}$ axis}{kg m^2}
-    \va{I_\mathrm{y}}{is the inertia around the $y_\mathrm{b}$ axis}{kg m^2}
-    \va{I_\mathrm{z}}{is the inertia around the $z_\mathrm{b}$ axis}{kg m^2}
-    \va{\ddot{\phi}}{is the angular acceleration around the $x_\mathrm{b}$ axis}{rad s^{-2}}
-    \va{\ddot{\theta}}{is the angular acceleration around the $y_\mathrm{b}$ axis}{rad s^{-2}}
-    \va{\ddot{\psi}}{is the angular acceleration around the $z_\mathrm{b}$ axis}{rad s^{-2}}
-    \va{\dot{\phi}}{is the angular velocity around the $x_\mathrm{b}$ axis}{rad s^{-1}}
-    \va{\dot{\theta}}{is the angular velocity around the $y_\mathrm{b}$ axis}{rad s^{-1}}
-    \va{\dot{\psi}}{is the angular velocity around the $z_\mathrm{b}$ axis}{rad s^{-1}}
+    \va{I_\mathrm{x}}{is the inertia around the $x_\mathrm{b}$ axis}{kg \cdot m^2}
+    \va{I_\mathrm{y}}{is the inertia around the $y_\mathrm{b}$ axis}{kg \cdot  m^2}
+    \va{I_\mathrm{z}}{is the inertia around the $z_\mathrm{b}$ axis}{kg \cdot  m^2}
+    \va{\ddot{\phi}}{is the angular acceleration around the $x_\mathrm{b}$ axis}{rad\cdot s^{-2}}
+    \va{\ddot{\theta}}{is the angular acceleration around the $y_\mathrm{b}$ axis}{rad \cdot s^{-2}}
+    \va{\ddot{\psi}}{is the angular acceleration around the $z_\mathrm{b}$ axis}{rad \cdot s^{-2}}
+    \va{\dot{\phi}}{is the angular velocity around the $x_\mathrm{b}$ axis}{rad \cdot s^{-1}}
+    \va{\dot{\theta}}{is the angular velocity around the $y_\mathrm{b}$ axis}{rad \cdot s^{-1}}
+    \va{\dot{\psi}}{is the angular velocity around the $z_\mathrm{b}$ axis}{rad \cdot s^{-1}}
     \va{l_1}{is the perpendicular distance from motor 1 to the center of gravity}{m}
     \va{l_2}{is the perpendicular distance from motor 2 to the center of gravity}{m}
 \end{where}
 
-Similar to the translational equations, only one axis is controllable. These are, however, not a problem in practice, since the boat is stable by nature and it can be controlled even being and under-actuated vehicle if the appropriate control objectives are chosen \cite[pp. 235-239]{TFossen}.
+Similar to the translational equations, only one axis is controllable. This is, however, not a problem in practice, since the vessel is stable by nature and it can be controlled even being an underactuated vehicle \cite[pp. 235-239]{TFossen}.

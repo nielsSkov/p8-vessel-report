@@ -1,12 +1,12 @@
 \section{Linear Quadratic Regulator} \label{sec:lqr}
-The first design approach for the inner controller is a state feedback. The compensator gain is obtained using a Linear Quadratic Regulator (LQR). First, a state space model of the system is created based on the equations derived in \autoref{chap:model}. Then, a cost function based on the state errors and the input usage is minimized in order to calculate the controller gains. 
+The first design approach is obtained using a LQR. First, a state space model of the system is created based on the equations derived in \autoref{chap:model}. Then, a cost function based on the state errors and the input usage is minimized in order to calculate the controller gains. 
 
 \subsection{State Space Model}
-The linearized model derived in \autoref{sec:linearizationModel}, consisting of \autoref{eq:x_pos_model_lin} to \ref{eq:psi_model_lin}, needs to be represented in state space form in order to design a state space controller. In order to do that, the 3 degree of freedom model used for the control of the vessel is represented as
+The linearized model derived in \autoref{sec:linearizationModel}, consisting of \autoref{eq:x_pos_model_lin} to \ref{eq:psi_model_lin}, needs to be represented in state space form to design a state space controller. In order to do that, the three degrees of freedom model used for the control of the vessel is represented as
 \begin{flalign}
-    \vec{\dot{x}}(t) &= \vec{A} \vec{x}(t) + \vec{B} \vec{u}(t)
-    \label{xDotLinear} \\
-    \vec{y}(t) &= \vec{C} \vec{x}(t) + \vec{D} \vec{u}(t)
+    \vec{\dot{x}}(t) &= \vec{A} \vec{x}(t) + \vec{B} \vec{u}(t)  \ ,
+    \label{xDotLinear}\\
+    \vec{y}(t) &= \vec{C} \vec{x}(t) + \vec{D} \vec{u}(t) \ .
     \label{yLinear} 
 \end{flalign}
 \begin{where}
@@ -19,10 +19,8 @@ The linearized model derived in \autoref{sec:linearizationModel}, consisting of 
     \va{\vec{D}}{is the feed-forward matrix}{}
 \end{where}
 
-The state vector is constituted by the angle and velocity in yaw as well as the velocity in x in the body frame. The outputs of the system are yaw angle and velocity in x in the body frame. The input to the system is composed of the two forces applied in the body frame.
-%It is important to notice that the position of the vessel in the body reference frame represents the  integration of the velocity along the body frame directions.
-%This can also be seen as the position of the vessel with respect to a frame whose origin coincides with that of the NED frame and whose orientation coincides with that of the body frame \cite[p. 173]{TFossen}. 
-
+The state vector is constituted by the angle and angular velocity in yaw as well as the velocity in $x_\mathrm{b}$. The system outputs are the yaw angle and velocity in $x_\mathrm{b}$. The input vector is composed of the two forces applied in the body frame.
+ 
 \begin{minipage}{0.32\linewidth}
     \begin{flalign}
         \vec{x(t)} = 
@@ -31,7 +29,7 @@ The state vector is constituted by the angle and velocity in yaw as well as the 
             \dot{\psi}\\
             \dot{x}_{b} \\
         \end{bmatrix} \nonumber
-        \label{xVector}
+        \label{xVector} \ ,
     \end{flalign}  
 \end{minipage}\hfill
 %\hspace{0.03\linewidth}
@@ -39,10 +37,10 @@ The state vector is constituted by the angle and velocity in yaw as well as the 
     \begin{flalign}
         \vec{y(t)} = 
         \begin{bmatrix}
-            \phi \\
+            \psi \\
             \dot{x}_{b} \\
         \end{bmatrix} \nonumber
-        \label{yVector}
+        \label{yVector}  \ ,
     \end{flalign}
 \end{minipage}\hfill
 %\hspace{0.03\linewidth}
@@ -53,7 +51,7 @@ The state vector is constituted by the angle and velocity in yaw as well as the 
             F_1 \\
             F_2 
         \end{bmatrix}
-        \label{uVector}
+        \label{uVector} \ .
     \end{flalign} \nonumber
 \end{minipage}\hfill
 
@@ -64,33 +62,35 @@ The resulting $\vec{A}$, $\vec{B}$, $\vec{C}$ and $\vec{D}$ matrices are
         \ 0 & 1                   & 0                \ \ \ \\ 
         \ 0 & -\frac{d_\psi}{I_z} & 0                \ \ \ \\ 
         \ 0 & 0                   & -\frac{d_x}{m_x} \ \ \     
-    \end{bmatrix}\rule{30px}{0px}
+    \end{bmatrix} \ ,\rule{30px}{0px}
     \vec{B} = 
     \begin{bmatrix}
         \ 0               & 0                \ \ \ \\
         \ \frac{l_1}{I_z} & -\frac{l_2}{I_z} \ \ \ \\   
         \ \frac{1}{m_x}   & \frac{1}{m_x}    \ \ \
-    \end{bmatrix}\rule{30px}{0px}
+    \end{bmatrix} \ ,\rule{30px}{0px}
     \vec{C} =   
     \begin{bmatrix}
         \ 1 & 0 & 0  \ \ \ \\ 
         \ 0 & 0 & 1  \ \ \    
-    \end{bmatrix}
+    \end{bmatrix} \ ,
     \label{eqStateSpaceABC}
 \end{flalign}
-and the $\vec{D}$ matrix is zero.
+while, as for most mechanical systems, the $\vec{D}$ matrix is zero.
 
 \subsection{Controller Design}
-As the controller eventually must be implemented the design is carried out in the discrete domain. To do so, it is necessary to discretize the system. A discrete state space model can be expressed as,
+The design in carried out in the discrete domain. To do so, it is necessary to discretize the system. A discrete state space model is expressed as,
 %
 \begin{flalign}
-  \vec{x}(k+1) &= \vec{A_z} \vec{x}(k) + \vec{B_z} \vec{u}(k)
-  \label{xDotLinearDiscrete} \\
-  \vec{y}(k)   &= \vec{C_z} \vec{x}(k) + \vec{D_z} \vec{u}(k) \ \ ,
+  \vec{x}(k+1) &= \vec{A}_\mathrm{z} \vec{x}(k) + \vec{B}_\mathrm{z} \vec{u}(k)
+  \label{xDotLinearDiscrete} \ ,\\
+  \vec{y}(k)   &= \vec{C}_\mathrm{z} \vec{x}(k) + \vec{D}_\mathrm{z} \vec{u}(k) \ ,
   \label{yLinearDiscrete} 
 \end{flalign}
-%
-where the z subindexes indicate the matrices being in the discrete domain and k is the sample index. The model is discretized using zero order hold, with a sampling time, $T_s = 0.05 \mathrm{s}$. This sampling time is suitable as it is faster than the system's dynamics, which ensures the controller will be able to react faster to changes in the system. In \autoref{fig:discreteSSBlock} the discrete system is shown in a block diagram. The feed forward matrix is excluded as it is not present in this system.
+
+where the z subindexes indicate the matrices being in the discrete domain and k is the sample index.
+
+The model is discretized using zero order hold, with a sampling time, $T_s = 0.05 \mathrm{s}$. This sampling time is suitable as it is faster than the system's dynamics, which ensures the controller will be able to react faster to changes in the system. In \autoref{fig:discreteSSBlock} the discrete system is shown in a block diagram. The feed forward matrix is excluded as it is not present in this system.
 %
 \begin{figure}[H]
   \includegraphics[width=0.6\textwidth]{figures/discreteSystemBlockDiagram}

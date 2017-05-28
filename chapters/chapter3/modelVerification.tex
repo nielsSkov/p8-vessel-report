@@ -1,5 +1,5 @@
 \section{Model Verification}\label{sec:modelVerification}
-The parameters used in the final model are taken form a previous work on the boat \cite{thesis}. They are as follows:
+The parameters used in the final model are taken form previous work on the vessel \cite{thesis}.
 
 \begin{table}[H]
     \begin{tabular}{|c|c|c|}    
@@ -7,27 +7,25 @@ The parameters used in the final model are taken form a previous work on the boa
         \textbf{Parameter} &\textbf{Value} & \textbf{Units} \\
         \hline %-----------------------------------------------------------------------------------
         $m$  & 13 & kg \\
-        $d_{\dot{x}_\mathrm{b}}$  & 2.86 & Nsm$^{-1}$ \\
-        $d_{\dot{y}_\mathrm{b}}$  & 32.5 & Nsm$^{-1}$ \\
-        $I_\mathrm{x}$  & 0.0654 & kgm$^2$ \\
-        $I_\mathrm{y}$  & 1.0892 & kgm$^2$ \\
-        $I_\mathrm{z}$  & 1.1067 & kgm$^2$ \\
-        $d_{\dot{\phi}}$ & 0.1094 &  Nmsrad$^{-1}$\\
-        $d_{\dot{\theta}}$ & 7.2030 & Nmsrad$^{-1}$ \\
-        $d_{\dot{\psi}}$ & 0.2228 & Nmsrad$^{-1}$ \\
+        $d_{\dot{x}_\mathrm{b}}$  & 2.86 & N$\cdot$m$^{-1}$$\cdot$s \\
+        $d_{\dot{y}_\mathrm{b}}$  & 32.5 & N$\cdot$m$^{-1}$$\cdot$s \\
+        $I_\mathrm{x}$  & 0.0654 & kg$\cdot$m$^2$ \\
+        $I_\mathrm{y}$  & 1.0892 & kg$\cdot$m$^2$ \\
+        $I_\mathrm{z}$  & 1.1067 & kg$\cdot$m$^2$ \\
+        $d_{\dot{\phi}}$ & 0.1094 &  N$\cdot$m$\cdot$rad$^{-1}$$\cdot$s\\
+        $d_{\dot{\theta}}$ & 7.2030 & N$\cdot$m$\cdot$rad$^{-1}$$\cdot$s \\
+        $d_{\dot{\psi}}$ & 0.2228 & N$\cdot$m$\cdot$rad$^{-1}$$\cdot$s \\
         $l_1$ & 0.05 & m \\
         $l_2$ & 0.05 & m \\
-        $\rho g V \overline{GM_{T}}$ & 6.9736 & Nm\\
-        $\rho g V \overline{GM_{T}}$ & 131.8316 & Nm\\
+        $\rho g V \overline{GM_{T}}$ & 6.9736 & N$\cdot$m\\
+        $\rho g V \overline{GM_{T}}$ & 131.8316 & N$\cdot$m\\
         \hline %-----------------------------------------------------------------------------------
     \end{tabular}
 \end{table}
 
-As it can be seen, the parameters corresponding to the $z_\mathrm{b}$ direction are not presented, since that equation is not used neither for the control design nor for the sensor fusion.
+As it can be seen, the parameters corresponding to the $z_\mathrm{b}$ direction are not presented, since \autoref{eq:z_pos_model_lin} is not used neither for the control design nor for the sensor fusion.
 
-To verify the model a test is carried out. Two constant but different forces are applied to see the turning behavior of the real vessel, see \autoref{app:modelVerification}.
-
-The data is then compared to the simulated model, and the results can be seen in \autoref{fig:turn} and \ref{fig:turn_time}.
+To verify the model a test is carried out. Two constant but different forces are applied to see the turning behavior of the real vessel, as seen in \autoref{app:modelVerification}. The data is then compared to the simulated model when applying the same inputs, and the results can be seen in \autoref{fig:turn} and \ref{fig:turn_time}.
 
 \begin{figure}[H]
     \captionbox 
@@ -49,4 +47,6 @@ The data is then compared to the simulated model, and the results can be seen in
     }
 \end{figure}
 
-The results show that the behavior of the real vessel is close to the simulated model. It is noticeable that the error between the model and the  real behavior mainly comes from the quantization that comes from the sampling of the gps data. Considering this comparison, the model of the vessel is deem sufficient both for simulation and control design purposes. 
+The results show that the behavior of the real vessel is close to that of the simulated model. It is noticeable that the error between the model and the real behavior is mainly due to the quantization coming from the sampling of the GPS data. Considering this comparison, the model of the vessel is deemed sufficient both for simulation and control design purposes. 
+
+

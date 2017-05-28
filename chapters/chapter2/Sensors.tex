@@ -1,8 +1,7 @@
-\section{Inertial Measurement Unit (IMU)}\label{sec:sensors}
+\section{Sensors}\label{sec:sensors}
+The control system designed in the vessel requires the presence of sensor data that provides information about the vessel's motion. This is handled by an IMU.
 
-The control system designed in the vessel requires the presence of sensor data that provide information about the vessel's motion. This is handled by an Inertial Measurement Unit (IMU).
-
-The Inertial Measurement Unit installed in the vessel is formed by a triaxial gyroscope with digital range scaling between ±75°/sec, ±150°/sec or ±300°/sec, a triaxial accelerometer with a range of ±18 g and a triaxial magnetometer with a range of ±\num{2.5} gauss. It also contains SPI-compatible serial interface to be able to obtain the data. \cite{IMUDatasheet}
+The IMU installed in the vessel is formed by a triaxial gyroscope with a digital range scaling between $\pm300^{\circ}$ s$^{-1}$, a triaxial accelerometer with a range of $\pm$18 g and a triaxial magnetometer with a range of $\pm$\num{2.5} G. It also contains a serial peripheral interface (SPI) to obtain the data. \cite{IMUDatasheet}
 %
 \begin{figure}[H]
 	\includegraphics[width=0.2\textwidth]{figures/IMU}
@@ -10,7 +9,7 @@ The Inertial Measurement Unit installed in the vessel is formed by a triaxial gy
 	\label{fig:IMU}
 \end{figure}
 %
-The data provided by the IMU is used to estimate both the position and the attitude of the vessel and is extracted in the Low Level Interface through SPI serial communication.
+The data provided by the IMU is used to estimate both the position and the attitude of the vessel.
 
 %Triaxial, digital gyroscope with digital range scaling
 %±75°/sec, ±150°/sec, ±300°/sec settings
