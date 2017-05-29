@@ -67,7 +67,9 @@ Since the simulation includes disturbances, noise and parameter variation, the r
   \item[\textbf{G:}] It shall be possible to give the ASV a command to stop and steer it back to land.
 \end{itemize}
 
-As it can be seen in \autoref{app:GPSImprovement} the position measurements of the GPS have a 2$\sigma$ value of \fxnote{write number} m, that is, 95\% of the samples measured are within \fxnote{write number} m from the \fxnote{mean}. This number is below the 30 cm requirement, thus the precision of the positioning system is suitable for performing bathymetric measurements.
+As it can be seen in \autoref{app:GPSImprovement}, the position measurements of the GPS have a 2$\sigma$ precision of \fxnote{write number} m, that is, 95\% of the samples measured are within \fxnote{write number} m from the \fxnote{mean}. This number is below the 30 cm requirement, thus the precision of the positioning system is suitable for performing bathymetric measurements. The measurements from the test are also shown in \autoref{fig:gpsplot}. In this figure, the measurements shows that an accuracy error occurs. It especially clear in the altitude plot, where the position acquired indicates the vessel is below the sea level. Possible reasons for this issue can be found in \autoref{chap:discussion}.
+
+\fxnote{include figure from GPS appendix}
 
 The implementation in ROS allows to record all the topics, which contain all the sensor, estimation and inputs needed, in order to process and analyze the data afterwards.
 
