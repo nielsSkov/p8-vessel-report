@@ -1,5 +1,5 @@
 \chapter{Results}\label{chap:results}
-The designed system has been tested in order to check the fulfillment of the functional requirements stated in \autoref{sec:requirements}. The results include both simulations of the full system and plots obtained after performing real tests with the vessel.
+The designed system has been tested in order to check that the functional requirements stated in \autoref{sec:requirements} are fulfilled. The results include both simulations of the full system and plots obtained after performing real tests with the vessel.
 
 \section{Controller Requirements}
 \begin{itemize}
@@ -9,9 +9,9 @@ The designed system has been tested in order to check the fulfillment of the fun
   \item[\textbf{D:}] The controller shall be robust to external disturbances.
 \end{itemize}
 
-The area to survey is selected by giving the four corner points. Then, the path generation algorithm selects the needed waypoints to cover it, depending on the beamwidth.
+The area to survey is selected by giving the four corner points. Based on these points, the path generation algorithm selects the needed waypoints to cover it, depending on the beamwidth.
 
-Once these waypoints are selected, the outer controller sets the appropriate references for both speed, $\dot{x}_\mathrm{b}$, and heading, $\psi$, to the inner controller. The performance of the outer controller when using both inner controllers can be seen in \autoref{sec:pathSim}. The figures are included here as well, in order to check the fulfillment of the requirements.
+Once these waypoints are selected, the outer controller sets the appropriate references for both speed, $\dot{x}_\mathrm{b}$, and heading, $\psi$, to the inner controller. The performance of the outer controller when using both inner controllers can be seen in \autoref{sec:pathSim}. The figures are included here as well, in order to check the requirements.
 
 \autoref{fig:path_lqr} shows the simulation results of the path followed by the vessel in the survey area when using the LQR as inner controller. The results are also shown in \autoref{fig:distlqr2} by plotting the error to the reference path.
 \begin{figure}[H]
@@ -67,15 +67,15 @@ Since the simulation includes disturbances, noise and parameter variation, the r
   \item[\textbf{G:}] It shall be possible to give the ASV a command to stop and steer it back to land.
 \end{itemize}
 
-As it can be seen in \autoref{app:GPSImprovement}, the position measurements of the GPS have a 95 percentile at \fxnote{write number} m, that is, 95\% of the samples measured are within \fxnote{write number} m from the \fxnote{mean}. The measurements from the test are also shown in \autoref{fig:gpsplot}. In this figure, the measurements shows that an accuracy error occurs. It especially clear in the altitude plot, where the position acquired indicates the vessel is below the sea level. This does not allow to validate requirement \textbf{E}. Possible reasons for this issue can be found in \autoref{chap:discussion}. 
+As it can be seen in \autoref{app:GPSImprovement}, the position measurements of the GPS have a 95 percentile at \fxnote{write number} m, that is, 95\% of the samples measured are within \fxnote{write number} m from the \fxnote{mean}. The measurements from the test are also shown in \autoref{fig:gpsplot}. In this figure, the measurements shows that an accuracy error occurs. It is especially clear in the altitude plot, where the position acquired indicates the vessel is below sea level. From this, requirement \textbf{E} is not validated. Possible reasons for this issue can be found in \autoref{chap:discussion}. 
 
 \fxnote{include figure from GPS appendix}
 
 The implementation in ROS allows to record all the topics, which contain all the sensor, estimation and inputs needed, in order to process and analyze the data afterwards.
 
-A VPN has been set up such that it is possible to connect to the vessel remotely, allowing to run and stop the nodes when needed. A node for manual control has been added as well, such that it is possible to remotely move and control the vessel
+A VPN has been set up such that it is possible to connect to the vessel remotely, allowing to run and stop the nodes when needed. A node for manual control has been added as well, such that it is possible to remotely move and control the vessel.
 
-Using the ROS implementation the controllers designed for the ASV were tested. This has been done as explained in \autoref{app:Inner}. It was seen that the designed LQR and $\mathcal{H}_\infty$ controllers were too aggressive and were not able to sufficiently stabilize the vessel. This led to a redesign of the LQR controller such that the weight matrices $\vec{Q}$ and $\vec{R}$ have been tuned such that the maximum force has been reduced while the maximum allowable value for the states has been increased to reduce the aggressiveness of the controller.
+Using the ROS implementation the controllers designed for the ASV were tested. This has been done as explained in \autoref{app:Inner}. It was seen that the designed LQR and $\mathcal{H}_\infty$ controllers were too aggressive and were not able to sufficiently stabilize the vessel. This led to a redesign of the LQR such that the weight matrices $\vec{Q}$ and $\vec{R}$ have been tuned such that the maximum force has been reduced while the maximum allowable value for the states has been increased to reduce the aggressiveness of the controller.
   
 %The new $\vec{Q}$ and $\vec{R}$ matrices are 
 %\begin{flalign}
@@ -104,20 +104,19 @@ Using the ROS implementation the controllers designed for the ASV were tested. T
 With these new weight matrices, a new controller was calculated such that the controller gains are
 %
 \begin{flalign}
-    \vec{F} = 
+    \vec{F} &= 
     \begin{bmatrix}
         124.3988  &	113.7050   &	88.7435 \\
         -124.3988 &	-113.7050  &	88.7435
-    \end{bmatrix},
-    \rule{30px}{0px}
-    \vec{F}_\mathrm{I} =
+    \end{bmatrix}\ , \\
+    \vec{F}_\mathrm{I} &=
     \begin{bmatrix}
         -20.6709 & 	-17.7744	\\
         20.6709  &	-17.7744
     \end{bmatrix} \ .
 \end{flalign}
 %
-It should also be noted that the Kalman filter for the position gave inaccurate measurements for the speed, $\dot{x}_\mathrm{b}$. Due to this and time constraints that made it infeasible to solve the problem, the Kalman filter implementation from \cite{thesis} was used to obtain a reliable $\dot{x}_\mathrm{b}$.
+It should also be noted that the Kalman filter for the position gave inaccurate measurements for the speed, $\dot{x}_\mathrm{b}$. Due to time constraints the problem was not be solved. The Kalman filter implementation from \cite{thesis} was finally used to obtain a reliable $\dot{x}_\mathrm{b}$.
 
 This new controller has been tested by tracking a reference in heading while keeping a constant speed. The results can be seen in \autoref{fig:inner_yaw} and \ref{fig:inner_xbdot}.
 %
@@ -141,13 +140,13 @@ This new controller has been tested by tracking a reference in heading while kee
     }
 \end{figure}
 
-The response in $\psi$ shows that the controller is able to track a reference, specially in the first five seconds. Afterwards, the vessel is disturbed, at approximately 11 seconds, and the yaw angle deviates from its references. Once the perturbation is compensated by the controller, the reference is tracked again. It is worth mentioning the oscillations seen from 14 to 19 seconds. They are likely due to errors when estimating $\psi$ in the Kalman filter. This can be deduced as the vessel dynamics do not allow an oscillation of 0.4 rad of approximately 1 Hz. With high probability, these oscillations are lower in the real behavior of the vessel and have been, for this particular period, amplified by the Kalman filter.
+The response in $\psi$ shows that the controller is able to track a reference, especially in the first ten seconds. Afterwards, the vessel is disturbed due to the the security string used in the test setup, at approximately 11 seconds, and the yaw angle deviates from its references. Once the perturbation is compensated by the controller, the reference is tracked again. It is worth mentioning the oscillations seen from 14 to 19 seconds. These errors when estimating $\psi$ possibly come from the IMU data. This can be deduced as the vessel dynamics do not allow an oscillation of 0.4 rad of approximately 1 Hz. With high probability, these oscillations are lower in the real behavior of the vessel.
 
-The $\dot{x}_\mathrm{b}$ response also shows a controller capable of tracking the reference. In this case, there is an overshoot in the speed response, it goes to approximately 1.2 m$\cdot$s$^{-1}$. It is important to disregard the deviation seen from 10 to 13 seconds as this corresponds to a perturbation suffered by the vessel while the test was running. After the controller recovers control of the speed, it can be seen that the speed converges to the desired reference of 1 m$\cdot$s$^{-1}$. 
+The $\dot{x}_\mathrm{b}$ response also shows a controller capable of tracking the reference. In this case, there is an overshoot in the response, and it goes to approximately 1.2 m$\cdot$s$^{-1}$. It is important to disregard the deviation seen from 11 to 13 seconds as this corresponds to the perturbation suffered by the vessel while the test was running. After the controller recovers, it can be seen that the speed converges to the desired reference of 1 m$\cdot$s$^{-1}$. 
 
-Due to time constraints, the performance of the outer controller could not be tested with success in the real vessel, but the implementation done in ROS suggests a working outer controller as shown in \autoref{app:ModelNode}. In this appendix the code implemented is tested in order to check if it is working together as expected. The result is also shown in \autoref{fig:model_node_path2}.
+Due to time constraints, the performance of the outer controller could not be tested with success in the real vessel, but the implementation done in ROS suggests a working outer controller, as shown in \autoref{app:ModelNode}. In this appendix the code implemented is tested in order to check if the inner and outer controllers together as expected. The result is also shown in \autoref{fig:model_node_path2}.
 \begin{figure}[H]
     \includegraphics[width=.45\textwidth]{figures/model_node_path}
-    \caption{Path and response of the implemented code, both the inner and the outer controllers together with the model node.}
+    \caption{Path and response of the implemented code, both the inner and outer controllers together with the model node.}
     \label{fig:model_node_path2}
 \end{figure}
