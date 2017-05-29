@@ -1,5 +1,5 @@
 \section{Path Following Algorithm}\label{sec:pathfollower}
-The path generated is approximated by straight line segments connected by the calculated waypoints. The vessel then follows these in order to track the path and cover the area in which the measurements are to be taken. This approximation is suitable as the bathymetric measurements are usually taken in straight line paths. Straight line segments are sufficient on the curved paths as the curved paths are outside the area of interest. If curved paths were required, a solution would be to sample the path with higher frequency in curved sections. \autoref{fig:pathandwaypoints} shows an example of how a path is approximated by straight line segments and waypoints.
+The path generated is approximated by straight line segments connected by the calculated waypoints. The vessel then follows the segments in order to track the path and cover the area in which the measurements are to be taken. This approximation is suitable as the bathymetric measurements are usually taken in straight line paths. Straight line segments are sufficient on the curved paths as the curved paths are outside the area of interest. If curved paths were required, a solution would be to sample the path with higher frequency in curved sections. \autoref{fig:pathandwaypoints} shows an example of how a path is approximated by straight line segments and waypoints.
 \begin{figure}[H]
 	\includegraphics[width=0.6\textwidth]{figures/pathandwpts}
 	\caption{A predefined path and its approximation as straight line segments using waypoints.}
@@ -72,8 +72,3 @@ In order to follow the path, a way to change which two waypoints define the curr
 With this approach, the vessel tries to move forward in the path although a waypoint position has not been precisely attained.
 
 This could be caused by a sudden disturbance experienced by the vessel and, in general, it is desired to keep following the path rather than turning around to hit the waypoint. In most cases, the vessel itself is going to be close to the waypoint when the change occurs. This can be seen in the simulation plots presented below. 
-
-	
-
-
-
