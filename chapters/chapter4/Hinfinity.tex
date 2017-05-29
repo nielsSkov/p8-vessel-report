@@ -66,7 +66,7 @@ The state vector construction starts with the three states that define the basic
 	\end{bmatrix}\ .
 	\label{eq:xintVectorHinf}
 \end{flalign}
-
+%
 The state vector also includes the states coming from the reference, disturbance and noise models. These extra states show the dynamics of the uncontrolled inputs, to which some weighting functions are applied. This process is carried out in order to modify how the uncontrolled inputs affect the states, and this is normally done through transfer functions, \cite{MSalari}. In order to include weights in the state space representation, some states for each uncontrolled input need to be defined. \autoref{fig:WeightDiag} shows an example of how an uncontrolled input is weighted so it can be included in the state space representation.
 \begin{figure}[H]
 	\includegraphics[width=0.6\textwidth]{figures/WeightDiag}
@@ -245,7 +245,7 @@ The $\vec{D}_{12}$ has nonzero elements only in the entries that weight the inpu
 		\vec{W}_\mathrm{u}
 	\end{bmatrix}\ .
 \end{flalign}
-
+%
 The weights for the inputs are also chosen through an iterative process such that the inputs are not driven to saturation. The final designed weights for the inputs are
 \begin{flalign}
 	\vec{W}_\mathrm{u} = diag(0.001,0.001)\ .
@@ -261,7 +261,7 @@ The $\vec{C}_2$ matrix relates the states with the measured outputs, selecting t
 		\vec{0}_{2\mathrm{x}3} & \vec{I}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{C}_\mathrm{noise} 
 	\end{bmatrix}\ . 
 \end{flalign}
-
+%
 The $\vec{D}_{21}$ matrix relates uncontrolled inputs with the measurement outputs, mainly adding the noise to the outputs as
 \begin{flalign}
 	\label{eq:D21}
@@ -282,12 +282,12 @@ After setting up the model, which includes part of the controller design, the $\
 		-\vec{C}_1^\mathrm{T}\vec{C}_1 & -\vec{A}^\mathrm{T}
 	\end{bmatrix}\ ,
 \end{flalign}
-
+%
 and calculating the feedback gain matrix as
 \begin{flalign}
 	\vec{F}_\infty = -\vec{B}_2^\mathrm{T}\vec{X}_\infty \ .
 \end{flalign}
-
+%
 The state feedback matrix $\vec{F}$ then corresponds to the three first columns of $\vec{F}_\infty$, while the integral gain $\vec{F}_\mathrm{I}$ corresponds to the next two columns. Similarly to the LQR design, the final diagram with the placement of the gains can be seen in \autoref{fig:HinfControlBlockDiagram}.
 \begin{figure}[H]
     \includegraphics[width=0.6\textwidth]{figures/HinfControlBlockDiagram}
@@ -310,5 +310,5 @@ The final values for the feedback gains result as follows
         1150.2 & -421.8
     \end{bmatrix} \ .
 \end{flalign}
-
+%
 Once the controller is designed, its performance is evaluated in simulations, in which the compensator controls the model derived in \autoref{chap:model}. 
