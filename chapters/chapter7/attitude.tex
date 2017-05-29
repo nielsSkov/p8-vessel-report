@@ -30,7 +30,7 @@ The states chosen for the Kalman model are
 \begin{flalign}
     \hat{\vec{x}}_\mathrm{att} &= 
     \begin{bmatrix}
-       \phi & \theta & \psi & \dot{\phi} & \dot{\theta} & \dot{\psi} & \ddot{\phi} & \ddot{\theta} & \ddot{\psi} \nonumber
+       \phi & \theta & \psi & \dot{\phi} & \dot{\theta} & \dot{\psi} & \ddot{\phi} & \ddot{\theta} & \ddot{\psi}
     \end{bmatrix}^\mathrm{T} \ .
 \end{flalign}
 %
@@ -55,7 +55,7 @@ Leading to the measurement vector
 \begin{flalign}
     \vec{y}_\mathrm{att} =
     \begin{bmatrix}
-           \phi_\mathrm{acc} & \theta_\mathrm{acc} & \psi_\mathrm{mag} & \dot{\phi}_\mathrm{gyro} & \dot{\theta}_\mathrm{gyro} & \dot{\psi}_\mathrm{gyro}\nonumber 
+           \phi_\mathrm{acc} & \theta_\mathrm{acc} & \psi_\mathrm{mag} & \dot{\phi}_\mathrm{gyro} & \dot{\theta}_\mathrm{gyro} & \dot{\psi}_\mathrm{gyro}
     \end{bmatrix}^\mathrm{T}\ .
 \end{flalign}
 %
@@ -63,7 +63,7 @@ The input vector, in this case stays the same as in the state space controller d
 \begin{flalign}
     \vec{u} &=
     \begin{bmatrix}
-        F_1 & F_2  \nonumber 
+        F_1 & F_2  
     \end{bmatrix}^\mathrm{T}\ .
 \end{flalign}
 %
@@ -81,7 +81,7 @@ The same dynamics describe the angular velocities. The angular accelerations dep
         0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & T_\mathrm{s} \\
         0 & 0 & 0 & -\frac{d_\mathrm{\phi}}{I_\mathrm{x}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\psi}}{I_\mathrm{x}} & 0 & 0 \\
         0 & 0 & 0 & 0 & -\frac{d_\mathrm{\theta}}{I_\mathrm{y}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\theta}}{I_\mathrm{y}} & 0 \\
-        0 & 0 & 0 & 0 & 0 & -\frac{d_\mathrm{\psi}}{I_\mathrm{z}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\psi}}{I_\mathrm{z}}\  \nonumber
+        0 & 0 & 0 & 0 & 0 & -\frac{d_\mathrm{\psi}}{I_\mathrm{z}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\psi}}{I_\mathrm{z}}\  
     \end{bmatrix}.
     	\label{eq:Aatt}
 \end{flalign}
@@ -113,7 +113,7 @@ The matrix $\vec{B}_\mathrm{att}$ is mostly formed by zeros, the only nonzero el
             0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
             0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
             0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
-            0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \nonumber 
+            0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 
         \end{bmatrix}  \ .
     \end{flalign}
 \end{minipage}\hfill

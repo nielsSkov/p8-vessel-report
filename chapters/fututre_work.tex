@@ -1,21 +1,18 @@
 \chapter{Future Work}
 
-The performance of the system can be improved by implementing a nonlinear controller, as this would better represent the behavior of the vessel. 
-A nonlinear controller would be able to account nonlinear forces such as the Coriolis force. 
-
+The performance of the system can be improved by implementing a nonlinear controller, as this would better represent the behavior of the vessel. A nonlinear controller would be able to account nonlinear forces such as the Coriolis force. 
 
 %%%Hull
-Another improvement that would be interesting is to implement the system on another vessel. 
-The width of the hull on the current vessel, makes it such that vessel is unstable to wave disturbances. 
-This effect was observed and present in the pond where the testing was preformed, which raises concerns as to how well it would handle rougher waters, such as the limfjord. 
+Another improvement could be to implement the system on another vessel. The width of the hull on the current vessel, makes it such that the vessel is sensitive to wave disturbances. 
+This effect was observed and present in the pond where the testing was performed, which raises concerns as to how well it would handle rougher waters, such as the Limfjord. 
 
 Additionally the narrow hull restricts the vessels movement, as the main thrusters is placed close to each other. 
-If the thrusters could be placed further apart, the turning capabilities of the vessel would be improved. 
+If the thrusters could be placed further apart, the turning capabilities of the vessel could be improved. 
 If the system were to be implemented in real life, this change is expected to greatly improve the overall robustness of the system. 
 
 %%%%Actuator model 
-A more precise actuator model, could improve the systems performance, as this would allow for a more accurate computation of the thrust applied. 
-Additionally, the actuator model should be included in the model, as this caused some of the issues experienced during implementation. 
+A more precise actuator model, could improve the system's performance, as this would allow for a more accurate computation of the thrust applied. 
+Additionally, the actuator model could be included in the model, as this caused some of the issues experienced during implementation. 
 During testing it was observed that the actuators acted slower that anticipated, which meant the dynamics of the system was different. 
 This resulted in the gains being tuned down significantly from their originally designed values. 
 If the actuators were more accurately modeled from the beginning, these issues would be eliminated earlier in the design process. 
