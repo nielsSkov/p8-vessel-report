@@ -5,11 +5,11 @@ The path generated is approximated by straight line segments connected by the ca
 	\caption{A predefined path and its approximation as straight line segments using waypoints.}
 	\label{fig:pathandwaypoints}
 \end{figure}
-The algorithm starts by considering the first two waypoints in the path. The yaw reference given to the state space controller is calculated based on the crossing point between the straight line segment that joints the waypoints and a circle centered in the position of the boat. \autoref{fig:LOSalgorithm} shows how this crossing point is obtained. There may be two intersections between the straight line and the circle, thus the chosen crossing point is the point closer to second waypoint. The crossing point is also called Line of Sight (LOS) point and is found using the equations of the circle and of the straight line as
+The algorithm starts by considering the first two waypoints in the path. The yaw reference given to the state space controller is calculated based on the crossing point between the straight line segment that joints the waypoints and a circle centered in the position of the vessel. \autoref{fig:LOSalgorithm} shows how this crossing point is obtained. There may be two intersections between the straight line and the circle, thus the chosen crossing point is the point closer to second waypoint. The crossing point is also called Line of Sight (LOS) point and is found using the equations of the circle and of the straight line as
 %
 \begin{flalign}
-	(&x_\mathrm{LOS}-x_\mathrm{n})^2 + (y_\mathrm{LOS}-y_\mathrm{n})^2 = R^2, \label{eq:circle} \ \\
-	&y_\mathrm{LOS}-y_\mathrm{k} = \frac{y_\mathrm{k+1}-y_\mathrm{k}}{x_\mathrm{k+1}-x_\mathrm{k}}(x_\mathrm{LOS}-x_\mathrm{k}) \label{eq:line} 
+	(&x_\mathrm{LOS}-x_\mathrm{n})^2 + (y_\mathrm{LOS}-y_\mathrm{n})^2 = R^2 \ , \label{eq:circle} \ \\
+	&y_\mathrm{LOS}-y_\mathrm{k} = \frac{y_\mathrm{k+1}-y_\mathrm{k}}{x_\mathrm{k+1}-x_\mathrm{k}}(x_\mathrm{LOS}-x_\mathrm{k}) \ . \label{eq:line} 
 \end{flalign}
 \begin{where}
 	\va{R}{is the radius of the circle centered at the vessel position}{m}
@@ -38,7 +38,7 @@ This approach tries to make the vessel velocity vector point towards the LOS poi
 	\va{\beta}{is the angle between the velocity vector of the vessel and the $x_\mathrm{b}$ axis}{rad}
 \end{where}
 
-The algorithm relies on the path and the circle defined around the boat to cross at the LOS point. 
+The algorithm relies on the path and the circle defined around the vessel to cross at the LOS point. 
 
 If the vessel is positioned far from the path such that the circle does not intersect it, then the algorithm uses the next waypoint as LOS point. Once the vessel gets closer to the path, the LOS point is calculated as described above.
 
@@ -46,7 +46,7 @@ The yaw reference, $\psi_\mathrm{ref}$, given to the controller in \autoref{chap
 %
 \begin{figure}[H]
 	\includegraphics[width=0.7\textwidth]{figures/patherror}
-	\caption{Path following algorithm minimizing the error $e$ between the path and vessel.}
+	\caption{Path following algorithm minimizing the error, $e$, between the path and vessel.}
 	\label{fig:patherror}
 \end{figure}
 %

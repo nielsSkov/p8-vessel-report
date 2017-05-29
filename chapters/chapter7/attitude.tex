@@ -4,7 +4,7 @@ The estimation contains attitude, angular velocity and angular acceleration info
 The process model describes the dynamics of the system and how the inputs affect its states. The process model also includes noise, which is assumed to be normally distributed. The measurement model describes how the measurements taken from the IMU relate with the states of the system represented in the process model. Measurement noise is also included in the model. The process and measurement models are 
 %
 \begin{flalign}
-    \hat{\vec{x}}_\mathrm{att}(k+1) &= \vec{A}_\mathrm{att}\hat{\vec{x}}_\mathrm{att}(k) + \vec{B}_\mathrm{att} \vec{u}(k) + \vec{w}_\mathrm{att}(k) \label{eq:processmodelatt} \\
+    \hat{\vec{x}}_\mathrm{att}(k+1) &= \vec{A}_\mathrm{att}\hat{\vec{x}}_\mathrm{att}(k) + \vec{B}_\mathrm{att} \vec{u}(k) + \vec{w}_\mathrm{att}(k) \label{eq:processmodelatt} \ , \\
     \vec{y}_\mathrm{att}(k) &= \vec{C}_\mathrm{att} \hat{\vec{x}}_\mathrm{att}(k) + \vec{v}_\mathrm{att}(k) \label{eq:measurementmodelatt}\ .
 \end{flalign}
 \begin{where}
@@ -30,7 +30,7 @@ The states chosen for the Kalman model are
 \begin{flalign}
     \hat{\vec{x}}_\mathrm{att} &= 
     \begin{bmatrix}
-       \phi & \theta & \psi & \dot{\phi} & \dot{\theta} & \dot{\psi} & \ddot{\phi} & \ddot{\theta} & \ddot{\psi} \nonumber
+       \phi & \theta & \psi & \dot{\phi} & \dot{\theta} & \dot{\psi} & \ddot{\phi} & \ddot{\theta} & \ddot{\psi}
     \end{bmatrix}^\mathrm{T} \ .
 \end{flalign}
 %
@@ -55,7 +55,7 @@ Leading to the measurement vector
 \begin{flalign}
     \vec{y}_\mathrm{att} =
     \begin{bmatrix}
-           \phi_\mathrm{acc} & \theta_\mathrm{acc} & \psi_\mathrm{mag} & \dot{\phi}_\mathrm{gyro} & \dot{\theta}_\mathrm{gyro} & \dot{\psi}_\mathrm{gyro}\nonumber 
+           \phi_\mathrm{acc} & \theta_\mathrm{acc} & \psi_\mathrm{mag} & \dot{\phi}_\mathrm{gyro} & \dot{\theta}_\mathrm{gyro} & \dot{\psi}_\mathrm{gyro}
     \end{bmatrix}^\mathrm{T}\ .
 \end{flalign}
 %
@@ -63,7 +63,7 @@ The input vector, in this case stays the same as in the state space controller d
 \begin{flalign}
     \vec{u} &=
     \begin{bmatrix}
-        F_1 & F_2  \nonumber 
+        F_1 & F_2  
     \end{bmatrix}^\mathrm{T}\ .
 \end{flalign}
 %
@@ -79,9 +79,9 @@ The same dynamics describe the angular velocities. The angular accelerations dep
         0 & 0 & 0 & 1 & 0 & 0 & T_\mathrm{s} & 0 & 0 \\
         0 & 0 & 0 & 0 & 1 & 0 & 0 & T_\mathrm{s} & 0 \\
         0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & T_\mathrm{s} \\
-        0 & 0 & 0 & -\frac{d_\mathrm{\phi}}{I_\mathrm{x}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\psi}}{I_\mathrm{x}} & 0 & 0 \\
+        0 & 0 & 0 & -\frac{d_\mathrm{\phi}}{I_\mathrm{x}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\phi}}{I_\mathrm{x}} & 0 & 0 \\
         0 & 0 & 0 & 0 & -\frac{d_\mathrm{\theta}}{I_\mathrm{y}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\theta}}{I_\mathrm{y}} & 0 \\
-        0 & 0 & 0 & 0 & 0 & -\frac{d_\mathrm{\psi}}{I_\mathrm{z}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\psi}}{I_\mathrm{z}}\  \nonumber
+        0 & 0 & 0 & 0 & 0 & -\frac{d_\mathrm{\psi}}{I_\mathrm{z}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\psi}}{I_\mathrm{z}}\  
     \end{bmatrix}.
     	\label{eq:Aatt}
 \end{flalign}
@@ -113,14 +113,14 @@ The matrix $\vec{B}_\mathrm{att}$ is mostly formed by zeros, the only nonzero el
             0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
             0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
             0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
-            0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \nonumber 
+            0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 
         \end{bmatrix}  \ .
     \end{flalign}
 \end{minipage}\hfill
 
 Once the model is constructed, the Kalman filter equations are obtained. They are divided in two steps, prediction and update \cite{SHaykin}. To start the process, the estimate, $	\hat{\vec{x}}_\mathrm{att}$, and error covariance matrix, $\vec{P}_\mathrm{att}$, need to be initialized. The state estimation is initialized with its mean, which is zero and the error covariance matrix is initialized with the covariance matrix for the states. The initialization is done as
 \begin{flalign}
-	\hat{\vec{x}}_\mathrm{att}(0|0) &= \vec{0}_\mathrm{1x6} \ ,\\
+	\hat{\vec{x}}_\mathrm{att}(0|0) &= \vec{0}_\mathrm{6x1} \ ,\\
 	\vec{P}_\mathrm{att}(0|0) &= \vec{Q}_\mathrm{att}\ .
 \end{flalign}
  %
@@ -133,7 +133,7 @@ The prediction step of the Kalman filter is
 %
 The update step corrects the estimate using the prediction obtained in the previous step and the innovation \cite[p. 7]{SHaykin}, that is, the error between the new measurement and the predicted new measurement. This error updates $\hat{\vec{x}}_\mathrm{att}$ weighted by the Kalman gain $\vec{K}(k)$. The update step of the Kalman filter calculates the updated state estimation and the updated error covariance as 
 \begin{flalign}
-    \hat{\vec{x}}_\mathrm{att}(k+1|k+1) &= \hat{\vec{x}}_\mathrm{att}(k+1|k) + \vec{K}(k+1) \left[ \vec{y}(k+1) - \vec{C}_\mathrm{att}  \hat{\vec{x}}_\mathrm{att}(k+1|k) \right]\ , \label{eq:updatexatt}\\
+    \hat{\vec{x}}_\mathrm{att}(k+1|k+1) &= \hat{\vec{x}}_\mathrm{att}(k+1|k) + \vec{K}(k+1) \left[ \vec{y}_\mathrm{att}(k+1) - \vec{C}_\mathrm{att}  \hat{\vec{x}}_\mathrm{att}(k+1|k) \right]\ , \label{eq:updatexatt}\\
     \vec{P}_\mathrm{att}(k+1|k+1) &= \left[ \vec{I} - \vec{K}(k+1) \vec{C}_\mathrm{att}^\mathrm{T} \right] \vec{P}_\mathrm{att}(k+1|k)\ . \label{eq:updatePatt}
 \end{flalign}
 %

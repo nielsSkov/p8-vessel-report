@@ -1,9 +1,9 @@
 \section{Comparison between Controller Designs}\label{sec:comparison}
-The two controller designs are now compared in order to analyze the robustness and the performance. The control inputs applied by each controller are also compared. The simulations carried out in this section include input disturbances, both from wind and waves, and measurement noise in the outputs. The measurement noise are modeled to have a power spectral density similar to the sensor noise that comes out of the sensor fusion. Parameter variations are also included.
+The two controller designs are now compared in order to analyze the robustness and the performance. The control inputs applied by each controller are also compared. The simulations carried out in this section include input disturbances, both from wind, current and waves, and measurement noise in the outputs. The measurement noise are modeled to have a power spectral density similar to the sensor noise that comes out of the sensor fusion. Parameter variations are also included.
 
 The performance comparison is evaluated by looking at the response of the model of the system when tracking a step in the reference inputs, $\dot{x}_\mathrm{b,ref}$ and $\psi_\mathrm{ref}$. 
 
-The disturbances applied to the system range from $\pm$\num{1.5} N in the force along the $\dot{x}_\mathrm{b}$ axis and $\pm$\num{1.5} Nm in the torque around the $z_\mathrm{b}$ axis. These disturbances come from wind and waves. The frequency of the latter is also varied from 0 to 10 Hz.
+The disturbances applied to the system range from $\pm$\num{1.5} N in the force along the $\dot{x}_\mathrm{b}$ axis and $\pm$\num{1.5} N$\cdot$m in the torque around the $z_\mathrm{b}$ axis. These disturbances come from wind and waves. The frequency of the latter is also varied from 0 to 10 Hz.
 
 In the simulation, the parameters are assumed to vary $\pm$20\% from their nominal value. The parameters varied in the simulation are the mass, $m$, the moment of inertia around the $z_\mathrm{b}$ axis, $I_\mathrm{z}$, the damping coefficients, $d_\mathrm{x}$ and $d_\psi$, and the lengths where the forces are applied, $l_1$ and $l_2$. 
 
@@ -60,7 +60,7 @@ In \autoref{fig:yaw_mc_lqr} and \ref{fig:yaw_mc_rob}, the performance of the con
 \begin{figure}[H]
     \captionbox 
     {   
-        Step response in $\psi$ of the Linear Quadratic Regulator, where the nominal response, the maximum variation region and the 1$\sigma$ region are shown.
+        Step response in $\psi$ of the LQR, where the nominal response, the maximum variation region and the 1$\sigma$ region are shown.
         \label{fig:yaw_mc_lqr}
     }                                                                 
     {                                                                  
@@ -104,7 +104,7 @@ As in the case of $\dot{x}_\mathrm{b}$, a close look at the difference with resp
 
 In this case, it is also the $\mathcal{H}_\infty$ Controller the one that is able to handle better the disturbances and with less variations with respect to the nominal behavior.
 
-These controller designs are also compared by their usage of inputs. The mean force applied at each time by the thrusters when simulating the LQR controller is \num{17.5793} N, while that of the $\mathcal{H}_\infty$ controller is \num{17.9281} N. This results as expected since the Linear Quadratic Regulator is designed to optimize the use of inputs to the system.
+These controller designs are also compared by their usage of inputs. The mean force applied at each time by the thrusters when simulating the LQR controller is \num{17.5793} N, while that of the $\mathcal{H}_\infty$ controller is \num{17.9281} N. This results as expected since the LQR is designed to optimize the use of inputs to the system.
 
 Finally, to combine performance and usage of inputs, the cost used in the LQR design is calculated using \autoref{eq:cost}. The mean cost among the simulations is \num{7.1441}$\cdot 10^5$ and \num{3.4227}$\cdot 10^6$ for the LQR and $\mathcal{H}_\infty$ controller designs, respectively. As expected, the cost is lower for the LQR design as minimizing it is the basis of the LQR approach.
 

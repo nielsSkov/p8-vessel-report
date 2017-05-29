@@ -19,7 +19,7 @@ Find the variance of the accelerometer and the variance and bias of the gyroscop
 \subsection*{Procedure}
 \begin{enumerate}
     \item Turn on all equipment.
-    \item Remotely log into the boat, when both, laptop and vessel's computer, are in the same network.
+    \item Remotely log into the vessel, when both, laptop and vessel's computer, are in the same network.
     \item Run the following nodes
     \begin{itemize}
         \item \lstinline[style=cinline]{/lli_node}
@@ -36,16 +36,16 @@ Find the variance of the accelerometer and the variance and bias of the gyroscop
 \end{enumerate}
 
 \subsection*{Results}
-
+The resultance variance for each measurement can be seen below.
 \subsubsection{Accelerometer}
 \begin{figure}[H]
     \includegraphics[width=.7\textwidth]{figures/IMUVariancesAcc}
 \end{figure}
 %
 \begin{flalign}
-    \sigma_{\ddot{x}\mathrm{b,acc}}^2 & = 0.00050346 \ \mathrm{m}^2 \mathrm{s}^{-4} \nonumber \\
-    \sigma_{\dot{y}\mathrm{b,acc}}^2 & = 0.00057036 \ \mathrm{m}^2 \mathrm{s}^{-4} \nonumber \\
-    \sigma_{\dot{z}\mathrm{b,acc}}^2 & = 0.00043887  \ \mathrm{m}^2 \mathrm{s}^{-4} \nonumber
+    \sigma_{\ddot{x}\mathrm{b,acc}}^2 & = 0.00050346 \ \mathrm{m}^2 \cdot \mathrm{s}^{-4} \nonumber \\
+    \sigma_{\dot{y}\mathrm{b,acc}}^2 & = 0.00057036 \ \mathrm{m}^2 \cdot \mathrm{s}^{-4} \nonumber \\
+    \sigma_{\dot{z}\mathrm{b,acc}}^2 & = 0.00043887  \ \mathrm{m}^2 \cdot \mathrm{s}^{-4} \nonumber
 \end{flalign}
 
 \subsubsection{Gyroscope}
@@ -54,18 +54,13 @@ Find the variance of the accelerometer and the variance and bias of the gyroscop
 \end{figure}
 %
 \begin{flalign}
-     \sigma_{\dot{\phi}\mathrm{,gyro}}^2 & = 0.0000103 \ \mathrm{rad}^2 \mathrm{s}^{-2} \nonumber \\
-     \sigma_{\dot{\theta}\mathrm{,gyro}}^2 & = 0.00120 \ \mathrm{rad}^2 \mathrm{s}^{-2} \nonumber \\
-     \sigma_{\dot{\psi}\mathrm{,gyro}}^2 & = 0.0.00007606  \ \mathrm{rad}^2 \mathrm{s}^{-2} \nonumber
-\end{flalign}
-%
-\begin{flalign}
-    \mathrm{bias}_{\dot{\phi}\mathrm{,gyro}} & = -0.00066465 \ \mathrm{rad s}^{-1} \nonumber \\
-    \mathrm{bias}_{\dot{\theta}\mathrm{,gyro}} & = 0.0785 \ \mathrm{rad s}^{-1} \nonumber \\
-    \mathrm{bias}_{\dot{\psi}\mathrm{,gyro}} & = -0.0029  \ \mathrm{rad s}^{-1} \nonumber
+     \sigma_{\dot{\phi}\mathrm{,gyro}}^2 & = 0.0000103 \ \mathrm{rad}^2 \cdot \mathrm{s}^{-2} \nonumber \\
+     \sigma_{\dot{\theta}\mathrm{,gyro}}^2 & = 0.00120 \ \mathrm{rad}^2 \cdot \mathrm{s}^{-2} \nonumber \\
+     \sigma_{\dot{\psi}\mathrm{,gyro}}^2 & = 0.0.00007606  \ \mathrm{rad}^2 \cdot \mathrm{s}^{-2} \nonumber
 \end{flalign}
 
 \subsubsection{Attitude Calculation}
+The attitude calculation is done using \autoref{eq:roll_acc}, \ref{eq:pitch_acc}, \ref{eq:yaw_mag} and the measurements from the accelerometer and magnetometer.
 \begin{figure}[H] 
     \includegraphics[width=.7\textwidth]{figures/IMUVariancesAtt}
 \end{figure}

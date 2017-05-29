@@ -1,5 +1,5 @@
 \section{Reference Frames}\label{sec:frames}
-The attitude and position of the vessel is described using two coordinate frames, a body frame and an inertial frame. For operations in a local area, with longitude and latitude approximately constants (flat navigation) a NED system (North-East-Down) can be assumed as an inertial frame where Newtonian mechanics apply \cite[p. 17]{TFossen}.
+The attitude and position of the vessel is described using two coordinate frames, a body frame and an inertial frame. For operations in a local area, with longitude and latitude approximately constants (flat navigation) a North-East-Down (NED) system can be assumed as an inertial frame where Newtonian mechanics apply \cite[p. 17]{TFossen}.
 
 To distinguish between the two frames, the body frame is denoted with a subindex "$_\mathrm{b}$", and the inertial frame with subindex "$_\mathrm{n}$". In \autoref{fig:refFrame}, a diagram of the surface vessel with the notation used can be seen.
 \begin{figure}[H]
@@ -74,7 +74,7 @@ If the inverse computation is needed, it is done following the same procedure us
 
 \subsection{Rigid Body Dynamics}
 
-The first step to model the motion of the surface vessel is to look at its rigid body dynamics. They are described assuming that the center of gravity of the boat coincides with the origin of the body coordinate frame.
+The first step to model the motion of the surface vessel is to look at its rigid body dynamics. They are described assuming that the center of gravity of the vessel coincides with the origin of the body coordinate frame.
 
 The translational movement can be analyzed using Newton's second law, where the acceleration of the vessel is related to the applied forces as
 %
@@ -154,11 +154,10 @@ T_{\theta} &= -\rho g V \overline{GM}_{\mathrm{L}} \sin \theta (\cos \theta \cos
     \va{\overline{GM}_\mathrm{L}}{is the longitudinal metacentric height}{m}
 \end{where}
 
-The metacentric heights are the distances between the center of gravity and the metacenter of the vessel. The metacenter position the intersection of imaginary vertical lines that go through the different centers of buoyancy originated when tilting or displacing the vessel. This height can be seen in \autoref{fig:app_metacentric}.
-
+The metacentric heights are the distances between the center of gravity and the metacenter of the vessel. The metacenter position is located in the intersection of imaginary vertical lines that go through the different centers of buoyancy originated when tilting or displacing the vessel. This crossing point, together with the metacentric heights can be seen in \autoref{fig:app_metacentric}.
 \begin{figure}[H]
-    %\includegraphics[width=0.5\textwidth]{figures/app_metacentric}
-    \caption{\cite[p. 62]{TFossen} \fxnote{include figure from book}}
+    \includegraphics[width=0.6\textwidth]{figures/metacenter}
+    \caption{Representation of the metacentric heigths and the metacenter location in a surface vessel \cite[p. 62]{TFossen}.}
     \label{fig:app_metacentric}
 \end{figure}
 
@@ -182,4 +181,4 @@ D_{\dot{\psi}} &= - d_{\dot{\psi}}                  \dot{\psi}\ .  \\
     \va{d_{i}}{is the viscous damping coefficient}{N \cdot m^{-1} \cdot s, \ N \cdot m \cdot rad^{-1} \cdot s}
 \end{where}
 
-These equations consider that the viscous friction is linear, since this assumption can be done for vessel speeds lower than 2 m/s \cite[p. 138]{TFossen}. 
+These equations consider that the viscous friction is linear, since this assumption can be done for vessel speeds lower than 2 m$\cdot$s \cite[p. 138]{TFossen}. 

@@ -62,11 +62,11 @@ time_base = (time_base(:)-time_base(1))*1e-9;
 figure
 plot(time_base(1:end-5),yaw(1:end-5))
 hold on
-yaw_filtered(1) = yaw(1);
-for i = 2:1:n_samples
-    yaw_filtered(i) = yaw(i) * 0.05 + (1-0.05) * yaw_filtered(i-1);
-end
-plot(time_base(1:end-5),yaw_filtered(1:end-5))
+% yaw_filtered(1) = yaw(1);
+% for i = 2:1:n_samples
+%     yaw_filtered(i) = yaw(i) * 0.05 + (1-0.05) * yaw_filtered(i-1);
+% end
+% plot(time_base(1:end-5),yaw_filtered(1:end-5))
 FigureLatex('$\psi$ Response','Time [s]','Angular Position [rad]',0,0,0,[0 20],0,12,13,1.2)
 
 figure
@@ -74,9 +74,9 @@ xbd_filtered(1) = xbd(1);
 for i = 2:1:n_samples
     xbd_filtered(i) = xbd(i) * 0.01 + (1-0.01) * xbd_filtered(i-1);
 end
-plot(time_base(1:end-5),xbd(1:end-5))
+%plot(time_base(1:end-5),xbd(1:end-5))
 hold on
 plot(time_base(1:end-5),xbd_filtered(1:end-5))
-FigureLatex('$\dot{x}_\mathrm{b}$ Response','Time [s]','Translational Velocity [m s$^{-1}$]',0,0,0,[0 20],0,12,13,1.2)
+FigureLatex('$\dot{x}_\mathrm{b}$ Response','Time [s]','Translational Velocity [m s$^{-1}$]',0,0,0,[0 20],[-0.5 2],12,13,1.2)
 hold on
 

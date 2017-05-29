@@ -2,11 +2,11 @@
 The processing units are structured in two entities that run in different devices. These are the LLI and the HLI.
 
 \subsection{Low Level Interface} 
-The LLI implemented on the vessel runs on an Arduino Mega Development board with an Atmel microcontroller ATMEGA 2560 \cite{Mega2560}. It is in charge of extracting the sensor data from the IMU and send it to the HLI that runs on the computer. This includes managing the serial communication from the sensors to the Arduino Board and from the Arduino Board to the HLI. 
+The LLI implemented on the vessel, seen in \autoref{fig:systemphoto}, runs on an Arduino Mega Development board with an Atmel microcontroller ATMEGA 2560 \cite{Mega2560}. It is in charge of extracting the sensor data from the IMU and send it to the HLI that runs on the computer. This includes managing the serial communication from the sensors to the Arduino Board and from the Arduino Board to the HLI. 
 
 The LLI also handles the actuators as it receives the command for the thrusters from the HLI and transmits the appropriate PWM so the ESCs ensure that the motors turn at the desired speed.
 
 \subsection{High Level Interface}
 The HLI takes care of the control, sensor data processing and path planning algorithms. This includes communicating with the LLI to get sensor data and send commands to the thrusters. 
 
-The HLI is implemented in an ASUS Eee Computer \cite{asus} that runs Ubuntu 14.04 \cite{ubuntu}. In order to implement the aforementioned algorithms, the Robotic Operating System (ROS) is used. ROS allows programming the different tasks without considering the transmission of data between threads, as this is managed by ROS, using a structure based on nodes an topics \cite{ROS}.
+The HLI is implemented in an ASUS Eee Computer \cite{asus}, seen in \autoref{fig:systemphoto}, that runs Ubuntu 14.04 \cite{ubuntu}. In order to implement the aforementioned algorithms, the Robotic Operating System (ROS) is used. ROS allows programming the different tasks without considering the transmission of data between threads, as this is managed by ROS, using a structure based on nodes an topics \cite{ROS}.

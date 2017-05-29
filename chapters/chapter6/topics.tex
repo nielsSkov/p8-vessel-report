@@ -7,13 +7,17 @@ The data decoded by the \lstinline[style=cinline]{/sensor_node} from the previou
 
 The \lstinline[style=cinline]{/gps_pos} topic includes the latitude and longitude of the vessel, as well as its relative position to the chosen origin of the NED frame.
 
-Each Kalman filter node, \lstinline[style=cinline]{/KF_attitude_node} and \lstinline[style=cinline]{/KF_position_node}, publishes the estimated states in two topics, \lstinline[style=cinline]{/kf_attitude} and \lstinline[style=cinline]{/kf_position}. These states include angular and translational positions, velocities and accelerations.
+Each Kalman filter node, \lstinline[style=cinline]{/KF_attitude_node} and \lstinline[style=cinline]{/KF_position_node}, publishes the estimated states in two topics, \lstinline[style=cinline]{/kf_attitude} and \lstinline[style=cinline]{/kf_position}, respectively. These states include angular and translational positions, velocities and accelerations.
 
-The \lstinline[style=cinline]{/path_follower_node} publish the references for speed and heading in the \lstinline[style=cinline]{/control_reference} topic, to whom the \lstinline[style=cinline]{/controller_node} is subscribed.
+The \lstinline[style=cinline]{/path_follower_node} publishes the references for speed and heading in the \lstinline[style=cinline]{/control_reference} topic, to whom the \lstinline[style=cinline]{/controller_node} is subscribed.
 
 Finally, the \lstinline[style=cinline]{/controller_node} publishes the commands, in the form of PWM, that the motor controllers need to apply in the \lstinline[style=cinline]{/lli_input} topic.
 
-Also, the \lstinline[style=cinline]{/keyboard_teleop_node} is used to manually control the USV. 
+Additionally, the \lstinline[style=cinline]{/keyboard_teleop_node} is used to manually control the ASV by publishing commands in the \lstinline[style=cinline]{/lli_input} topic. 
 
 
-\textit{In Part II, the required elements to construct the control system for an ASV have been designed. These started with an inner controller design based on two different control theories, namely, LQR and $\mathcal{H}_\infty$. Then, the outer controller design has been presented as a path following algorithm called enclosure based steering. The part also includes, in the form of two Kalman filters, the sensor data processing performed in order to obtain the necessary states for the different controllers. Finally, the implementation of the designs in ROS has been described by presenting the nodes and topics involved}
+{\vspace*{\fill}
+\textit{In Part II, the required elements to construct the control system for an ASV have been designed. First, an inner controller design has been made based on two different control theories, namely, LQR and $\mathcal{H}_\infty$. Then, the outer controller design has been presented as a path following algorithm called enclosure based steering. The part also includes the sensor data processing, which obtains the necessary states for the different controllers, using two Kalman filters. Finally, the implementation of the designs in ROS has been described by presenting the nodes and topics involved.}}
+
+
+
