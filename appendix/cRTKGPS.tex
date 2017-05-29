@@ -1,5 +1,5 @@
 \chapter{Base Station Implementation and Usage}\label{app:rtk_gps}
-This appendix contains a description how the RTK GPS basestation is implemented and how to use it.
+This appendix contains a description how the RTK GPS base station is implemented and how to use it.
 
 \section*{RTK GPS Basics}
 The inaccuracies of GPS receivers is mostly due to atmospheric changes, which adds a verity of disturbances dependent on the weather, temperature etc.
@@ -38,11 +38,11 @@ The further the rover gets from the base, the more the noises start to become un
 
 \section*{Base Station Implementation and Usage}
 The correction data is used by the rover to estimate signal disturbances, caused be the signals entering the atmosphere. 
-This enables it to increase the precision of it's gps measurements, from .
+This enables it to increase the precision of its GPS measurements, from .
 This data is formatted as a RTCM3 message, which is a protocol designed for this purpose.
 \begin{figure}[H]
 	\includegraphics[width=0.6\textwidth]{figures/comunicationSetup.pdf}
-	\caption{Overall setup of gps}
+	\caption{Overall setup of GPS.}
 	\label{fig:app_gps_setup}
 \end{figure}
 \autoref{fig:app_gps_setup} shows how the RTK gps system is setup. 
@@ -50,7 +50,7 @@ The computer runs a Python script which forwards the message to a TCP socket, ma
 %%%%appendix%%%%%%%%%%%%
 The Reach is able to act both as a base station and as a rover depending on the settings.
 The settings pane is accessed by typing the ip of the reach in a browser, which connects to a GUI server hosted by the reach after initialization.
-In order to get the best possible measurements, the base is set to "static mode" in "RTK settings" as it's positioning mode.
+In order to get the best possible measurements, the base is set to "static mode" in "RTK settings" as its positioning mode.
 %The emlid reach is setup to send the RTCM3 messages through a USB interface to a computer, acting as a bridge between the university servers and the outside. This setting is found under the "base mode" pane in the GUI.
 
 
