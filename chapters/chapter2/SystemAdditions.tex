@@ -25,7 +25,7 @@ The modules used in this project, both for the base and the rover, are Emlid Rea
   \label{fig:emlidReach}
 \end{figure}
 
-The base station gets its current position same as the rover using the same satellites. Since the true position of the base is known, so is the error of each measurement. This is then sent as correction data to the rover, where the error is compensated for. \fxnote{Correct description}
+%The base station gets its current position same as the rover using the same satellites. Since the true position of the base is known, so is the error of each measurement. This is then sent as correction data to tkhe rover, where the error is compensated for. 
 
 An RTK GPS is able to achieve a higher precision than an ordinary GPS by receiving correction data from a base station, improving from 2-5 m down to a theoretical precision of a few centimeters. \cite{EmlidRTK}
 
@@ -39,4 +39,4 @@ An RTK GPS is able to achieve a higher precision than an ordinary GPS by receivi
 	\label{fig:rtk_GPS}
 \end{figure}
 
-The base computer forwards the message to a TCP socket, making it accessible through the Internet. The HLI on the vessel connects to this socket and feeds the data to the rover located on the boat. For a more detailed description of the setup see \autoref{app:rtk_gps}.
+The base computer forwards the message to a TCP socket, making it accessible through the Internet. The HLI on the vessel connects to this socket and feeds the data to the rover located on the boat. For a more detailed description of an RTK GPS and the setup see \autoref{app:rtk_gps}.

@@ -1,5 +1,5 @@
 \chapter{Inner Controller Design}\label{chap:innercontrol}
-The control system is designed in different control levels, as explained in \autoref{chap:designaproach}. The inner controller receives reference signals in $\psi$ and $\dot{x}_\mathrm{b}$ and calculates the forces that the motors need to apply in order to track the given references. 
+The control system is designed in different control levels, as explained in \autoref{chap:designaproach}. The inner controller receives reference signals in $\psi$ and $\dot{x}_\mathrm{b}$ and calculates the forces that the thrusters need to apply in order to track the given references. 
 
 This part of the control system is solved with an LQR and an $\mathcal{H}_\infty$ controller. The two approaches are then compared, checking their ability to reject disturbances and model uncertainties while tracking a step reference. The controller cost, which is calculated based on the state errors and usage of inputs, is also used as a comparative measure of the efficiency of the control approaches.
 
