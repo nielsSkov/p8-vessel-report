@@ -16,7 +16,7 @@ As shown in \autoref{fig:controllerDiagram} the outer controller is in charge of
 
 The inner controller uses these references to control $\dot{x}_\mathrm{b}$ and $\dot{\psi}$ by asking for the appropriate $F_1$ and $F_2$ commands. Two design approaches are tested for the inner controller, an $H_{\infty}$ controller and a linear quadratic regulator (LQR).
 
-The $H_{\infty}$ controller is designed to be robust towards wind and wave disturbances and towards model errors. The LQR, on the other side, is designed to minimize a cost function that depends on the states and on the usage of inputs. The two approaches for the inner controller are then tested in simulation, to compare the robustness and performance of both of them.
+The $H_{\infty}$ controller is designed to be robust towards wind, current and wave disturbances and towards model errors. The LQR, on the other side, is designed to minimize a cost function that depends on the states and on the usage of inputs. The two approaches for the inner controller are then tested in simulation, to compare the robustness and performance of both of them.
 
 %%%%%Sensor Fusion%%%%%%
 Additionally, to improve the precision of the measurements, the sensor data is fused together before it is used as input for the controllers. Two Kalman filters, based on the model of the vessel, are used to filter the measurements. One estimates the attitude variables, $\psi$ and $\dot{\psi}$, and the other the translational variables, $x_\mathrm{n}$, $y_\mathrm{n}$, $\dot{x}_\mathrm{b}$ and $\dot{y}_\mathrm{b}$.
