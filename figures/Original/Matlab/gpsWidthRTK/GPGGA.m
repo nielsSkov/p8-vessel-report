@@ -1,4 +1,4 @@
-loadDataIntoWorkspace = 0;
+loadDataIntoWorkspace = 1;
 if loadDataIntoWorkspace == 1
   clear all; close all; clc
 
@@ -296,7 +296,7 @@ else
   highSingle = length(tSingle);
 end
 
-plotFixAroundZero = 1;
+plotFixAroundZero = 0;
 if plotFixAroundZero == 1
   latRTKfix(lowFix:highFix) = latRTKfix(lowFix:highFix)-mean(latRTKfix(lowFix:highFix));
   lngRTKfix(lowFix:highFix) = lngRTKfix(lowFix:highFix)-mean(lngRTKfix(lowFix:highFix));
