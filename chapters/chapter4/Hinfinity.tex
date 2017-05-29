@@ -11,7 +11,7 @@ The state space model from \autoref{xDotLinear} and \autoref{yLinear} needs to b
   \label{eq:xDotHinf} \\
   \vec{z}(t) &= \vec{C}_1 \vec{x}_\infty(t) + \vec{D}_{11} \vec{w}(t) + \vec{D}_{12} \vec{u}(t)\ ,
   \label{eq:zHinf} \\
-  \vec{y}(t) &= \vec{C}_2 \vec{x}_\infty(t) + \vec{D}_{21} \vec{w}(t) + \vec{D}_{22} \vec{u}(t)\ ,
+  \vec{y}_\infty(t) &= \vec{C}_2 \vec{x}_\infty(t) + \vec{D}_{21} \vec{w}(t) + \vec{D}_{22} \vec{u}(t)\ ,
   \label{eq:yHinf} 
 \end{flalign}
 \begin{where}
@@ -19,7 +19,7 @@ The state space model from \autoref{xDotLinear} and \autoref{yLinear} needs to b
   \va{\vec{w}}{is the uncontrolled input vector}{}
   \va{\vec{u}}{is the controlled input vector}{}
   \va{\vec{z}}{is the performance output vector}{}
-  \va{\vec{y}}{is the measured output vector}{}
+  \va{\vec{y}_\infty}{is the measured output vector}{}
   \va{\vec{A}_1}{is the state matrix}{}
   \va{\vec{B}_1}{is the uncontrolled input matrix}{}
   \va{\vec{B}_2}{is the controlled input matrix}{}
@@ -27,8 +27,8 @@ The state space model from \autoref{xDotLinear} and \autoref{yLinear} needs to b
   \va{\vec{D}_{11}}{is the direct feedforward matrix from $\vec{w}$ to $\vec{z}$}{}
   \va{\vec{D}_{12}}{is the direct feedforward matrix from $\vec{u}$ to $\vec{z}$}{}
   \va{\vec{C}_2}{is the measured output matrix}{}
-  \va{\vec{D}_{21}}{is the direct feedforward matrix from $\vec{w}$ to $\vec{y}$}{}
-  \va{\vec{D}_{22}}{is the direct feedforward matrix from $\vec{u}$ to $\vec{y}$}{}
+  \va{\vec{D}_{21}}{is the direct feedforward matrix from $\vec{w}$ to $\vec{y}_\infty$}{}
+  \va{\vec{D}_{22}}{is the direct feedforward matrix from $\vec{u}$ to $\vec{y}_\infty$}{}
 \end{where}
 
 The $\mathcal{H}_\infty$ model representation can also be seen in \autoref{fig:HinfDiag}, where all signals and matrices involved in the design process are represented.
@@ -42,7 +42,7 @@ The method used to achieve the solution to the problem requires assuming certain
 \begin{enumerate}
 	\item $\left (\vec{A}_1,\vec{B}_1 \right)$ and $\left( \vec{A}_1, \vec{B}_2 \right)$ are stabilizable.
 	\item $\left (\vec{C}_1,\vec{A}_1 \right)$ and $\left( \vec{C}_2, \vec{A}_1 \right)$ are detectable.
-	\item $\vec{D}_{12}^\mathrm{T}[\vec{C}_1\ \vec{D_{12}}]$ is $[\vec{0}\ \vec{I}]$.
+	\item $\vec{D}_{12}^\mathrm{T}[\vec{C}_1\ \vec{D}_{12}]$ is $[\vec{0}\ \vec{I}]$.
 	\item $\begin{bmatrix}
 				\vec{B}_1 \\
 				\vec{D}_{21} 
@@ -55,7 +55,7 @@ For obtaining the matrices present in \autoref{eq:xDotHinf}, \ref{eq:zHinf} and 
 \subsection{State Vector}
 The state vector construction starts with the three states that define the basic dynamics of the system. Namely, $\psi$, $\dot{\psi}$ and $\dot{x}_\mathrm{b}$. As some reference tracking is desired, integral states need to be included in the state vector, these depend on the measured output and the reference signal as 
 \begin{flalign}
-	\vec{\dot{x}}_\mathrm{I} =
+	\vec{\dot{x}}_\mathrm{I}(t) =
 	\begin{bmatrix}
 		x_{\mathrm{I}_{\psi}} \\
 		x_{\mathrm{I}_{\dot{x}_\mathrm{b}}}
@@ -109,7 +109,7 @@ The noise, on the other hand, is weighted according to a high pass filter, as it
 
 The states coming from the weighting functions, together with the system states and the integral states, constitute the state vector as 
 \begin{flalign}
-	\vec{x}(t)=
+	\vec{x}_\infty(t)=
 	\begin{bmatrix}
 		\psi & \dot{\psi} & \dot{x}_\mathrm{b} & x_{int_{\psi}} & x_{int_{\dot{x}_\mathrm{b}}} & x_{F_\mathrm{wc}} & x_{\tau_\mathrm{wc}} & x_{F_\mathrm{wave}} & x_{\tau_\mathrm{wave}} & x_{n_{\psi}}\ \ \  x_{n_{\dot{x}_\mathrm{b}}}
 	\end{bmatrix}^\mathrm{T}\ .
@@ -119,7 +119,7 @@ The states coming from the weighting functions, together with the system states 
 \subsection{Controlled Input Vector}
 The controlled input are the two forces provided by the thrusters of the vessel, that is, 
 \begin{flalign}
-	\vec{u(t)}= 
+	\vec{u}(t)= 
 	\begin{bmatrix}
 		F_1 & F_2 
 	\end{bmatrix}^\mathrm{T}\ .
@@ -129,7 +129,7 @@ The controlled input are the two forces provided by the thrusters of the vessel,
 \subsection{Uncontrolled Input Vector}
 The uncontrolled inputs include the references to be tracked, the input disturbances, and the measurement noises. The size of this vector depends on the amount of reference signals, the input disturbances considered and the amount of measured outputs, as these are normally affected by noise. The references for the inner controller are two, the heading, $\psi$, and the translational speed along the $x_\mathrm{b}$ direction. The input disturbances are coming from wind, current and waves. These three elements potentially generate both a force along the $x_\mathrm{b}$ and a torque in $\psi$. The noise vector affects measured outputs considered for the inner controller, which are the outputs, $\psi$ and $\dot{x}_\mathrm{b}$. The uncontrolled input vector is formed as
 \begin{flalign}
-	\vec{w(t)}= 
+	\vec{w}(t)= 
 	\begin{bmatrix}
 		\psi_\mathrm{ref} & \dot{x}_\mathrm{b,ref} & F_\mathrm{wc} & \tau_\mathrm{wc} & F_\mathrm{wave} & \tau_\mathrm{wave}& n_{\psi} & n_{\dot{x}_\mathrm{b}}
 	\end{bmatrix}^\mathrm{T} \ .
@@ -144,7 +144,7 @@ The uncontrolled inputs include the references to be tracked, the input disturba
 \subsection{Measurement Output Vector}
 The measurement output vector includes the outputs that track a reference. It also includes the integral states that represent the error between the outputs and the references and are affected by noise. Consequently, the output vector contains four elements and is represented as 
 \begin{flalign}
-	\vec{y(t)}= 
+	\vec{y}_\infty(t)= 
 	\begin{bmatrix}
 		\psi & \dot{x}_\mathrm{b} & \vec{x}_\mathrm{I}^\mathrm{T}
 	\end{bmatrix}^\mathrm{T}\ .
@@ -154,9 +154,9 @@ The measurement output vector includes the outputs that track a reference. It al
 \subsection{Performance Output Vector}
 The performance output contains all variables whose performance should be taken into account by the controller. As the design entails a state feedback control, all the states are considered performance outputs. The controlled inputs are also part of this vector as it is desired to set some limitations or constant weights in order to account for the saturation of these inputs in the real system. This is also needed to fulfill condition 3.
 \begin{flalign}
-	\vec{z(t)}= 
+	\vec{z}(t)= 
 	\begin{bmatrix}
-		\vec{x}^\mathrm{T} & \vec{u}^\mathrm{T}
+		\vec{x}_\infty^\mathrm{T} & \vec{u}^\mathrm{T}
 	\end{bmatrix}^\mathrm{T}\ .
 	\label{eq:zVectorHinf}
 \end{flalign}
@@ -246,6 +246,10 @@ The $\vec{D}_{12}$ has nonzero elements only in the entries that weight the inpu
 	\end{bmatrix}\ .
 \end{flalign}
 
+The weights for the inputs are also chosen through an iterative process such that the inputs are not driven to saturation. The final designed weights for the inputs are
+\begin{flalign}
+	\vec{W}_\mathrm{u} = diag(0.001,0.001)\ .
+\end{flalign}
 Finally, the matrices present in \autoref{eq:yHinf}, $\vec{C}_2$, $\vec{D}_{12}$ and $\vec{D}_{22}$, are derived below, they are not part of the design as they describe how the measured outputs of the system are affected. 
 
 The $\vec{C}_2$ matrix relates the states with the measured outputs, selecting the $\psi$ and $\dot{x}_\mathrm{b}$ states and the integral states to form the output, as seen in \autoref{eq:C2}.
@@ -263,8 +267,8 @@ The $\vec{D}_{21}$ matrix relates uncontrolled inputs with the measurement outpu
 	\label{eq:D21}
 	\vec{D}_{21} &=
 	\begin{bmatrix}
-		\vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{D}_{noise} \\
-		\vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{D}_{noise} 
+		\vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{D}_\mathrm{noise} \\
+		\vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{D}_\mathrm{noise} 
 	\end{bmatrix}\ . 
 \end{flalign}
 

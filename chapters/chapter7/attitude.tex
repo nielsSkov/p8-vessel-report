@@ -79,7 +79,7 @@ The same dynamics describe the angular velocities. The angular accelerations dep
         0 & 0 & 0 & 1 & 0 & 0 & T_\mathrm{s} & 0 & 0 \\
         0 & 0 & 0 & 0 & 1 & 0 & 0 & T_\mathrm{s} & 0 \\
         0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & T_\mathrm{s} \\
-        0 & 0 & 0 & -\frac{d_\mathrm{\phi}}{I_\mathrm{x}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\psi}}{I_\mathrm{x}} & 0 & 0 \\
+        0 & 0 & 0 & -\frac{d_\mathrm{\phi}}{I_\mathrm{x}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\phi}}{I_\mathrm{x}} & 0 & 0 \\
         0 & 0 & 0 & 0 & -\frac{d_\mathrm{\theta}}{I_\mathrm{y}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\theta}}{I_\mathrm{y}} & 0 \\
         0 & 0 & 0 & 0 & 0 & -\frac{d_\mathrm{\psi}}{I_\mathrm{z}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\psi}}{I_\mathrm{z}}\  
     \end{bmatrix}.
@@ -120,7 +120,7 @@ The matrix $\vec{B}_\mathrm{att}$ is mostly formed by zeros, the only nonzero el
 
 Once the model is constructed, the Kalman filter equations are obtained. They are divided in two steps, prediction and update \cite{SHaykin}. To start the process, the estimate, $	\hat{\vec{x}}_\mathrm{att}$, and error covariance matrix, $\vec{P}_\mathrm{att}$, need to be initialized. The state estimation is initialized with its mean, which is zero and the error covariance matrix is initialized with the covariance matrix for the states. The initialization is done as
 \begin{flalign}
-	\hat{\vec{x}}_\mathrm{att}(0|0) &= \vec{0}_\mathrm{1x6} \ ,\\
+	\hat{\vec{x}}_\mathrm{att}(0|0) &= \vec{0}_\mathrm{6x1} \ ,\\
 	\vec{P}_\mathrm{att}(0|0) &= \vec{Q}_\mathrm{att}\ .
 \end{flalign}
  %

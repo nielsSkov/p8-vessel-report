@@ -46,7 +46,7 @@ Finally, as for the attitude Kalman filter, the input vector is formed by the tw
     \end{bmatrix}^\mathrm{T}\ .
 \end{flalign}
 %
-The next step is to build the matrices involved in the models. The sampling time $T_s$ is chosen as $0.2$ s as this is the rate that the RTK GPS updates its position with. The $\vec{A}_\mathrm{pos}$ matrix written as 
+The next step is to build the matrices involved in the models. The sampling time $T_s$ is chosen as $0.2$ seconds as this is the rate that the RTK GPS updates its position with. The $\vec{A}_\mathrm{pos}$ matrix written as 
 \begin{flalign}
     \vec{A}_\mathrm{pos}(\phi(k),\theta(k),\psi(k)) =
     \begin{bmatrix}
@@ -54,8 +54,8 @@ The next step is to build the matrices involved in the models. The sampling time
         0 & 1 & T_\mathrm{s} \ \vec{R}^\mathrm{n}_\mathrm{b}(2,1) & T_\mathrm{s} \ \vec{R}^\mathrm{n}_\mathrm{b}(2,2) & 0 & 0 \\
         0 & 0 & 1 & 0 & T_\mathrm{s} & 0 \\
         0 & 0 & 0 & 1 & 0 & T_\mathrm{s} \\
-        0 & 0 & -\frac{d_\mathrm{x}}{m_\mathrm{x}} & 0 & -T_\mathrm{s}\frac{d_\mathrm{x}}{m_\mathrm{x}} & 0 \\
-        0 & 0 & 0 & -\frac{d_\mathrm{y}}{m_\mathrm{y}} & 0 & -T_\mathrm{s}\frac{d_\mathrm{y}}{m_\mathrm{y}} \label{eq:Apos} 
+        0 & 0 & -\frac{d_\mathrm{x}}{m} & 0 & -T_\mathrm{s}\frac{d_\mathrm{x}}{m} & 0 \\
+        0 & 0 & 0 & -\frac{d_\mathrm{y}}{m} & 0 & -T_\mathrm{s}\frac{d_\mathrm{y}}{m} \label{eq:Apos} 
     \end{bmatrix}\ .
 \end{flalign}
 %
@@ -100,7 +100,7 @@ The $\vec{B}_\mathrm{pos}$ matrix has nonzero elements only in the row related w
 
 With these matrices, the prediction and update steps of the Kalman filter can be calculated as described below. As for the attitude Kalman filter, the estimate and the error covariance matrix need to be initialized. This is done as 
 \begin{flalign}
-	\hat{\vec{x}}_\mathrm{pos}(0|0) &= \vec{0}_\mathrm{1x6}\ ,\\
+	\hat{\vec{x}}_\mathrm{pos}(0|0) &= \vec{0}_\mathrm{4x1}\ ,\\
 	\vec{P}_\mathrm{pos}(0|0) &= \vec{Q}_\mathrm{pos}\ .
 \end{flalign}
 %

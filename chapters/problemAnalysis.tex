@@ -4,11 +4,11 @@ The goal of this project is to develop a control strategy that can make an ASV s
 
 In order to set up the requirements for the control system it is helpful to study a use case in which bathymetric measurements are already in use and where improvements in measurement techniques are needed.
 
-The Port of Aalborg provides such a case along with previously used bathymetric measurements, see \autoref{fig:bathymetricMapPortOfAalborg}. These measurements are used by the Port of Aalborg to guide ships safely through the port without grounding.
+Port of Aalborg provides such a case along with previously used bathymetric measurements, see \autoref{fig:bathymetricMapPortOfAalborg}. These measurements are used by Port of Aalborg to guide ships safely through the port without grounding.
 
 \begin{figure}[H]
   \includegraphics[width=0.5\textwidth]{figures/smallDebthMapAalborg}
-  \caption{A cut from the full bathymetric map found in \autoref{app:bathymetricMapPortOfAalborg} provided by the Port of Aalborg.}
+  \caption{A cut from the full bathymetric map found in \autoref{app:bathymetricMapPortOfAalborg} provided by Port of Aalborg.}
   \label{fig:bathymetricMapPortOfAalborg}
 \end{figure}
 
@@ -16,7 +16,7 @@ The depths of the port are in constant change due to shifting sands. So while th
 
 The measurements are currently performed by a manned vessel on which a multibeam echo sounder is installed. Contrary to single beam echo sounders, the multibeam can sweep a wider area. Nevertheless, this is still a time consuming task.
 
-It is therefore desired to automate the process, preferably with a smaller unmanned vessel. This allows more frequent bathymetric measurements and improves the efficiency of guiding ships through the Port of Aalborg.
+It is therefore desired to automate the process, preferably with a smaller unmanned vessel. This allows more frequent bathymetric measurements and improves the efficiency of guiding ships through Port of Aalborg.
 
 The vessel must be able to perform bathymetric measurements within an area autonomously. 
 To do so it must be able to plan and follow a route, such that the entire area is measured. 
@@ -44,7 +44,7 @@ This category extends the \emph{Special order} category to be more focused on sh
 This category sets the maximum THU to be 30 cm with a 95\% confidence interval. 
 It has been decided to use this standard as this is the one that best resembles the intended use case of the system. \cite{CHS}
 
-The system design assumes that the sensor used to measure the depth of the Limfjord is based on the current multibeam echosounder used by the Port of Aalborg, the multibeam echosounder SeaBat 7125, which has a swath angle of 140$^\mathrm{o}$ \cite{echoSounder}.
+The system design assumes that the sensor used to measure the depth of the port is based on the current multibeam echosounder used by Port of Aalborg, the multibeam echosounder SeaBat 7125, which has a swath angle of 140$^\mathrm{o}$ \cite{echoSounder}.
 
 Based on the bathymetric map found in \autoref{app:bathymetricMapPortOfAalborg}, a minimum depth is considered to estimate the width of the beam when it reaches the bottom. This width is used to plan the path that the vessel needs to follow to reach all the points in a given area, see \autoref{chap:outerController}. In \autoref{fig:echosounder} a diagram of the echosounder's beam can be seen.
 

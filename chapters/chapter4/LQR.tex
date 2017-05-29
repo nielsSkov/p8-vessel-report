@@ -60,14 +60,14 @@ The resulting $\vec{A}$, $\vec{B}$, $\vec{C}$ and $\vec{D}$ matrices are
     \vec{A} &=
     \begin{bmatrix}
         \ 0 & 1                   & 0                \ \ \ \\ 
-        \ 0 & -\frac{d_\psi}{I_z} & 0                \ \ \ \\ 
-        \ 0 & 0                   & -\frac{d_x}{m_x} \ \ \     
+        \ 0 & -\frac{d_\psi}{I_\mathrm{z}} & 0                \ \ \ \\ 
+        \ 0 & 0                   & -\frac{d_\mathrm{x}}{m} \ \ \     
     \end{bmatrix} \ ,\rule{30px}{0px}
     \vec{B} = 
     \begin{bmatrix}
         \ 0               & 0                \ \ \ \\
-        \ \frac{l_1}{I_z} & -\frac{l_2}{I_z} \ \ \ \\   
-        \ \frac{1}{m_x}   & \frac{1}{m_x}    \ \ \
+        \ \frac{l_1}{I_\mathrm{z}} & -\frac{l_2}{I_\mathrm{z}} \ \ \ \\   
+        \ \frac{1}{m}   & \frac{1}{m}    \ \ \
     \end{bmatrix} \ ,\rule{30px}{0px}
     \vec{C} =   
     \begin{bmatrix}
@@ -120,7 +120,7 @@ To describe the control design in this form, the $\vec{A}_\mathrm{e}$, $\vec{B}_
 %
 \begin{flalign}
   \vec{x}_\mathrm{I}(k+1) &= \vec{x}_\mathrm{I}(k) + \vec{y}(k) + \vec{r}(k) \ , \label{eq:xIDiscrete1}  \\
-  \vec{x_I}(k+1) &= \vec{x}_\mathrm{I}(k) - C_z \vec{x}_\mathrm{I}(k) + \vec{r}(k) \ .
+  \vec{x_I}(k+1) &= \vec{x}_\mathrm{I}(k) - C_\mathrm{z} \vec{x}_\mathrm{I}(k) + \vec{r}(k) \ .
   \label{eq:xIDiscrete}
 \end{flalign}
 where the subindex "I" stands for integral .
@@ -134,7 +134,7 @@ This leads to the discrete state space model extended with the integral states e
   \end{bmatrix}
   &=
   \begin{bmatrix}
-    \vec{A}_\mathrm{z,3x3} & \vec{O}_\mathrm{3x2} \\
+    \vec{A}_\mathrm{z,3x3} & \vec{0}_\mathrm{3x2} \\
    -\vec{C}_\mathrm{z,2x3} & \vec{I}_\mathrm{2x2} \\
   \end{bmatrix}
   \begin{bmatrix}
@@ -144,12 +144,12 @@ This leads to the discrete state space model extended with the integral states e
   +
   \begin{bmatrix}
     \vec{B}_\mathrm{z,3x2} \\
-    \vec{O}_\mathrm{2x2}
+    \vec{0}_\mathrm{2x2}
   \end{bmatrix}
   \vec{u}(k)
   +
   \begin{bmatrix}
-    \vec{O}_\mathrm{3x2} \\
+    \vec{0}_\mathrm{3x2} \\
     \vec{I}_\mathrm{2x2}
   \end{bmatrix}
   \vec{r}(k) \ ,
@@ -157,7 +157,7 @@ This leads to the discrete state space model extended with the integral states e
   \vec{y}(k)
   &=
   \begin{bmatrix}
-    \vec{C}_\mathrm{z,2x3} &  \vec{O}_\mathrm{2x2}
+    \vec{C}_\mathrm{z,2x3} &  \vec{0}_\mathrm{2x2}
   \end{bmatrix}
   \begin{bmatrix}
     \vec{x}(k)    \\
@@ -273,14 +273,14 @@ These $\vec{Q}$ and $\vec{R}$ matrices must be discretized, as the state feedbac
 From this, the state feedback is calculated as
 %
 \begin{flalign}
-  \vec{F}_\mathrm{e} &= -(\vec{B}_\mathrm{e}^\mathrm{T} \vec{P}\vec{B}_\mathrm{e} + \vec{R_d})^{-1}  \vec{B}_\mathrm{e}^\mathrm{T} \vec{P}\vec{A}_\mathrm{e} \ ,
+  \vec{F}_\mathrm{e} &= -(\vec{B}_\mathrm{e}^\mathrm{T} \vec{P}\vec{B}_\mathrm{e} + \vec{R}_\mathrm{z})^{-1}  \vec{B}_\mathrm{e}^\mathrm{T} \vec{P}\vec{A}_\mathrm{e} \ ,
   \label{eq:QRFeedback}
 \end{flalign}
 %
 where $\vec{P}$ can be found as the solution of the infinite horizon algebraic discrete time Riccati equation \cite[p. 42]{JLNy},
 %
 \begin{flalign}
-\vec{P} &= \vec{A}_\mathrm{e}^\mathrm{T} \vec{P} \vec{A}_\mathrm{e} + \vec{Q_d} - \vec{A}_\mathrm{e}^\mathrm{T} \vec{P} \vec{B}_\mathrm{e} (\vec{B}_\mathrm{e}^\mathrm{T} \vec{P} \vec{B}_\mathrm{e} + \vec{R_d})^{-1} \vec{B}_\mathrm{e}^\mathrm{T} \vec{P} \vec{A}_\mathrm{e} \ .
+\vec{P} &= \vec{A}_\mathrm{e}^\mathrm{T} \vec{P} \vec{A}_\mathrm{e} + \vec{Q}_\mathrm{z} - \vec{A}_\mathrm{e}^\mathrm{T} \vec{P} \vec{B}_\mathrm{e} (\vec{B}_\mathrm{e}^\mathrm{T} \vec{P} \vec{B}_\mathrm{e} + \vec{R}_\mathrm{_z}^{-1} \vec{B}_\mathrm{e}^\mathrm{T} \vec{P} \vec{A}_\mathrm{e} \ .
 \label{eq:discreteInfRiccati}
 \end{flalign}
 %
