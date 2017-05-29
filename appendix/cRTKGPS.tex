@@ -55,5 +55,34 @@ This can be validated using the checksum, however this feature is yet to be impl
 
 The package size is obtained by locating the initialization sequence to find the header containing the package size. The base station is implemented to cast the RTCM3 message on a TCP socket on IP: 192.38.55.85 Port: 5500. Users with access to the Internet are able to access this socket from anywhere. Under the "Correction Input" pane, the method of input can be selected, if the module has Internet connection, these can be acquired by selecting the "TCP" and client mode, and typing in the IP and Port Number in their respective fields.
 
+The Reach RTK is setup using the ReachView app, which is accessed as a html page, hosted by the reach itself. 
+Throughout this project ReachView v. 2.3 is used.
+Under the RTK settings page following changes have been applied:
+	\begin{itemize}
+		\item AR(ambiguity resolution) mode is set to Fix and Hold
+		\item GNSS selection is: GPS+Glonass+SBAS+QZSS
+		\item SNR mask: 15
+		\item Elevation Mask Angle: 15
+	\end{itemize}
+Under the Corection input following settings is used: 
+	\begin{itemize}
+		\item TCP is selected for input
+		\item Role is Client
+		\item IP: 192.38.55.85
+		\item PORT: 9000
+	\end{itemize}
+These settings is only viable in cases where the Emlid Reach have access to the internet.
+This will connect the Rover to the base station, previously described, such that the correction data is received. 
+In cases where it is not possible for the Reach to access the internet directly, the GPS node is able to forward the correction input through USB. 
+In this case following settings is used instead: 
+	\begin{itemize}
+		\item USB-To-PC is selected for input
+		\item Baud Rate: 115200
+	\end{itemize}
+These is is settings used throughout by the rover throughout the project, and using these the emlid reach will be intergrated within the system.
+
+
+%Through this the rover is setup to fix and hold the integer ambiguity, which theoretically improves the stability of the measurements. 
+
 
 
