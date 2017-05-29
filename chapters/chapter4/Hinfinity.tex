@@ -88,20 +88,20 @@ Another example with a high pass weighting function is shown in \autoref{eq:weig
 %
 This process also entails defining the weights for each uncontrolled input. The weight on the reference is set to be a first order transfer function with a very fast pole so the step input does not get distorted. The weights on the input disturbances are also low pass filtered as most of them appear at low frequencies.
 
-The noise, on the other hand, is weighted according to a high pass filter, as it is stronger in the high frequency range. In this way, the controller design focuses on achieving a robust controller with respect to the uncontrolled inputs in their particular frequency ranges. The chosen frequencies are 1, 20 and 20 rad$\cdot$s$^{-1}$ for the references, wind disturbance and wave disturbance low pass filters, respectively, and 100 rad$\cdot$s$^{-1}$ for the noise high pass filter. The reference frequency is used as a tuning parameter. The disturbances frequencies are calculated to be more conservative than the value obtained in \autoref{app:Disturbance}, while the noise frequency is assumed to be present as higher frequency than 100 rad$\cdot$s$^{-1}$. The weights for each uncontrolled input are
+The noise, on the other hand, is weighted according to a high pass filter, as it is stronger in the high frequency range. In this way, the controller design focuses on achieving a robust controller with respect to the uncontrolled inputs in their particular frequency ranges. The chosen frequencies are 1, 20 and 20 rad$\cdot$s$^{-1}$ for the references, wind, current and wave disturbances low pass filters, respectively, and 100 rad$\cdot$s$^{-1}$ for the noise high pass filter. The reference frequency is used as a tuning parameter. The disturbances frequencies are calculated to be more conservative than the value obtained in \autoref{app:Disturbance}, while the noise frequency is assumed to be present as higher frequency than 100 rad$\cdot$s$^{-1}$. The weights for each uncontrolled input are
 
 \begin{minipage}{0.49\linewidth}
 \begin{flalign}
-	W_{\psi_\mathrm{ref}} &= \frac{1}{s+12}\ ,\nonumber \\
-	W_{F_\mathrm{wind}} &= \frac{20}{s+20}\ ,\nonumber\\
+	W_{\psi_\mathrm{ref}} &= \frac{1}{s+1}\ ,\nonumber \\
+	W_{F_\mathrm{wc}} &= \frac{20}{s+20}\ ,\nonumber\\
 	W_{F_\mathrm{wave}} &= \frac{20}{s+20}\ ,\nonumber\\
 	W_{n_\psi} &= \frac{s}{s+100}\ ,\nonumber
 \end{flalign}
 \end{minipage}
 \begin{minipage}{0.49\linewidth}
 \begin{flalign}
-	W_{\dot{x}_\mathrm{b,ref}} &= \frac{1}{s+12}\ ,\nonumber \\
-	W_{\tau_\mathrm{wind}} &= \frac{20}{s+20}\ , \nonumber\\
+	W_{\dot{x}_\mathrm{b,ref}} &= \frac{1}{s+1}\ ,\nonumber \\
+	W_{\tau_\mathrm{wc}} &= \frac{20}{s+20}\ , \nonumber\\
 	W_{\tau_\mathrm{wave}} &= \frac{20}{s+20}\ , \nonumber\\
 	W_{n_{\dot{x}_\mathrm{b}}} &= \frac{s}{s+100}\ .\nonumber
 \end{flalign}
@@ -111,7 +111,7 @@ The states coming from the weighting functions, together with the system states 
 \begin{flalign}
 	\vec{x}(t)=
 	\begin{bmatrix}
-		\psi & \dot{\psi} & \dot{x}_\mathrm{b} & x_{int_{\psi}} & x_{int_{\dot{x}_\mathrm{b}}} & x_{F_\mathrm{wind}} & x_{\tau_\mathrm{wind}} & x_{F_\mathrm{wave}} & x_{\tau_\mathrm{wave}} & x_{n_{\psi}}\ \ \  x_{n_{\dot{x}_\mathrm{b}}}
+		\psi & \dot{\psi} & \dot{x}_\mathrm{b} & x_{int_{\psi}} & x_{int_{\dot{x}_\mathrm{b}}} & x_{F_\mathrm{wc}} & x_{\tau_\mathrm{wc}} & x_{F_\mathrm{wave}} & x_{\tau_\mathrm{wave}} & x_{n_{\psi}}\ \ \  x_{n_{\dot{x}_\mathrm{b}}}
 	\end{bmatrix}^\mathrm{T}\ .
 	\label{eq:xVectorHinf}
 \end{flalign}
@@ -127,17 +127,17 @@ The controlled input are the two forces provided by the thrusters of the boat, t
 \end{flalign}
 
 \subsection{Uncontrolled Input Vector}
-The uncontrolled inputs include the references to be tracked, the input disturbances, and the measurement noises. The size of this vector depends on the amount of reference signals, the input disturbances considered (wind, current and waves) and the amount of measured outputs, as these are normally affected by noise. The references for the inner controller are two, the heading, $\psi$, and the translational speed along the $x_\mathrm{b}$ direction. The input disturbances are coming from wind and from waves. These two elements potentially generate both a force along the $x_\mathrm{b}$ and a torque in $\psi$. The noise vector affects measured outputs considered for the inner controller, which are the outputs, $\psi$ and $\dot{x}_\mathrm{b}$. The uncontrolled input vector is formed as
+The uncontrolled inputs include the references to be tracked, the input disturbances, and the measurement noises. The size of this vector depends on the amount of reference signals, the input disturbances considered and the amount of measured outputs, as these are normally affected by noise. The references for the inner controller are two, the heading, $\psi$, and the translational speed along the $x_\mathrm{b}$ direction. The input disturbances are coming from wind, current and waves. These three elements potentially generate both a force along the $x_\mathrm{b}$ and a torque in $\psi$. The noise vector affects measured outputs considered for the inner controller, which are the outputs, $\psi$ and $\dot{x}_\mathrm{b}$. The uncontrolled input vector is formed as
 \begin{flalign}
 	\vec{w(t)}= 
 	\begin{bmatrix}
-		\psi_\mathrm{ref} & \dot{x}_\mathrm{b,ref} & F_\mathrm{wind} & \tau_\mathrm{wind} & F_\mathrm{wave} & \tau_\mathrm{wave}& n_{\psi} & n_{\dot{x}_\mathrm{b}}
+		\psi_\mathrm{ref} & \dot{x}_\mathrm{b,ref} & F_\mathrm{wc} & \tau_\mathrm{wc} & F_\mathrm{wave} & \tau_\mathrm{wave}& n_{\psi} & n_{\dot{x}_\mathrm{b}}
 	\end{bmatrix}^\mathrm{T} \ .
 	\label{eq:wVectorHinf}
 \end{flalign} 
 \begin{where}
-	\va{F_\mathrm{wind/wave}}{is the force of the wind/waves along the $x_\mathrm{b}$ direction}{N}
-	\va{\tau_\mathrm{wind/wave}}{is the torque of the wind/waves in $\psi$}{N \cdot m}
+	\va{F_\mathrm{wc/wave}}{is the force of the wind,current/waves along the $x_\mathrm{b}$ direction}{N}
+	\va{\tau_\mathrm{wc/wave}}{is the torque of the wind,current/waves in $\psi$}{N \cdot m}
     \va{n_\mathrm{x}}{is noise affecting measured output x}{rad,\ m \cdot s^{-1}}
 \end{where}
 
@@ -175,7 +175,7 @@ The matrix $\vec{A}_1$ describes the dynamics of the system states and all the o
 	\begin{bmatrix}
 		\vec{A} & \vec{0}_{3\mathrm{x}2} & \vec{B}_\mathrm{dist} & \vec{B}_\mathrm{dist} & \vec{0}_{3\mathrm{x}2} \\
 		-\vec{C} & \vec{A}_\mathrm{I} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} \\
-		\vec{0}_{2\mathrm{x}3} & \vec{0}_{2\mathrm{x}2} & \vec{A}_\mathrm{wind} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} \\
+		\vec{0}_{2\mathrm{x}3} & \vec{0}_{2\mathrm{x}2} & \vec{A}_\mathrm{wc} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} \\
 		\vec{0}_{2\mathrm{x}3} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{A}_\mathrm{wave} & \vec{0}_{2\mathrm{x}2} \\
 		\vec{0}_{2\mathrm{x}3} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{A}_\mathrm{noise} 
 	\end{bmatrix}\ .
@@ -190,7 +190,7 @@ $\vec{B}_1$ relates the uncontrolled inputs with the state derivatives. Its stru
 	\begin{bmatrix}
 		\vec{0}_{3\mathrm{x}2} & \vec{0}_{3\mathrm{x}2} & \vec{0}_{3\mathrm{x}2} & \vec{0}_{3\mathrm{x}2} \\
 		\vec{I}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} \\
-		\vec{0}_{2\mathrm{x}2} & \vec{B}_\mathrm{wind} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} \\
+		\vec{0}_{2\mathrm{x}2} & \vec{B}_\mathrm{wc} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} \\
 		\vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{B}_\mathrm{wave} & \vec{0}_{2\mathrm{x}2} \\
 		\vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{0}_{2\mathrm{x}2} & \vec{B}_\mathrm{noise} 
 	\end{bmatrix}\ .
@@ -218,7 +218,7 @@ The $\vec{C}_1$ matrix relates the states and the performance outputs, it is for
 	\begin{bmatrix}
 		\vec{W}_\mathrm{x} & \vec{0}_{3\mathrm{x}2} &  \vec{0}_{3\mathrm{x}2} &  \vec{0}_{3\mathrm{x}2}  & \vec{0}_{3\mathrm{x}2} \\
 		\vec{0}_{2\mathrm{x}3}  &  \vec{W}_\mathrm{I}  & \vec{0}_{2\mathrm{x}2} &  \vec{0}_{2\mathrm{x}2}  & \vec{0}_{2\mathrm{x}2} \\
-		\vec{0}_{2\mathrm{x}3}  & \vec{0}_{2\mathrm{x}2} &  \vec{W}_\mathrm{wind} &  \vec{0}_{2\mathrm{x}2} &  \vec{0}_{2\mathrm{x}2} \\
+		\vec{0}_{2\mathrm{x}3}  & \vec{0}_{2\mathrm{x}2} &  \vec{W}_\mathrm{wc} &  \vec{0}_{2\mathrm{x}2} &  \vec{0}_{2\mathrm{x}2} \\
 		\vec{0}_{2\mathrm{x}3} &  \vec{0}_{2\mathrm{x}2}  & \vec{0}_{2\mathrm{x}2}  & \vec{W}_\mathrm{wave}  & \vec{0}_{2\mathrm{x}2} \\
 		\vec{0}_{2\mathrm{x}3} &  \vec{0}_{2\mathrm{x}2}  & \vec{0}_{2\mathrm{x}2} &  \vec{0}_{2\mathrm{x}2} &  \vec{W}_\mathrm{noise} \\
 		\vec{0}_{2\mathrm{x}3}  & \vec{0}_{2\mathrm{x}2}  & \vec{0}_{2\mathrm{x}2}  & \vec{0}_{2\mathrm{x}2} &  \vec{0}_{2\mathrm{x}2} \\
@@ -227,7 +227,7 @@ The $\vec{C}_1$ matrix relates the states and the performance outputs, it is for
 \end{flalign}
 Where the weighting submatrices values are chosen as according to the importance of each state in the controller design. The numbers are found through an iterative process starting with an initial design that weighted more the most important states in the system, which are the system states and the reference states. The design process is carried out by simulating the controller together with the model of the system. The final designed weights are
 \begin{flalign}
-	\vec{W}_\mathrm{x} = diag(2,3,2)\ ,\vec{W}_\mathrm{I}=d&iag(5,2)\ ,\vec{W}_\mathrm{wind}=diag(1,1)\ ,  \\
+	\vec{W}_\mathrm{x} = diag(2,3,2)\ ,\vec{W}_\mathrm{I}=d&iag(5,2)\ ,\vec{W}_\mathrm{wc}=diag(1,1)\ ,  \\
     \vec{W}_\mathrm{wave}=diag(1,1)\ &,\vec{W}_\mathrm{noise}=diag(1,1)\ .
 \end{flalign}
 $\vec{D}_{11}$ is a zero matrix as there is no relation between the uncontrolled inputs and the performance outputs in the $\mathcal{H}_\infty$ design. It has as many rows as the number of elements in the performance output and as many columns as uncontrolled inputs.
