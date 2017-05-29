@@ -8,7 +8,7 @@ roll_init=0;
 pitch_init=0;
 yaw_init=0;
 t=60;
-sim('KalmanModelSim.slx')
+sim('KalmanModelSim2.slx')
 
 % Position model
 a1=1;
@@ -16,12 +16,6 @@ a2=0;
 a3=0;
 a4=1;
 
-% A_pos=[1 0 Ts 0 0 0;
-%     0 1 0 Ts 0 0;
-%     0 0 1 0 Ts*a1 Ts*a2;
-%     0 0 0 1 Ts*a3 Ts*a4;
-%     0 0 -dx/mx*a1 -dx/mx*a3 -Ts*dx/mx 0;
-%     0 0 -dy/my*a2 -dy/my*a4 0 -Ts*dy/my];
 A_pos=[1 0 Ts*a1 Ts*a2 0 0;
      0 1 Ts*a3 Ts*a4 0 0;
     0 0 1 0 Ts 0;
@@ -50,8 +44,8 @@ sigma2_xnddot=0.00001;
 sigma2_ynddot=0.00001;
 
 % Sensor variance
-sigma2_gps_xn=0.7;
-sigma2_gps_yn=0.7;
+sigma2_gps_xn=0.00853392;
+sigma2_gps_yn=0.00662973;
 sigma2_acc_xbddot=0.00050346;
 sigma2_acc_ybddot=0.00057036;
 
@@ -135,7 +129,7 @@ figure
 hold on
 plot(x.Time,x_pos(3,:),'Color',[0.7 0 0])
 plot(x.Time,xbdot.Data(:,1),'Color',[0 0.7 0])
-FigureLatex('$\dot{x}_\mathrm{b}$','Time [s]','Translational Velocity [m $^{-1}$]',1,{'Estimation', 'Real'},0,[0 40],0,12,14,1.2)
+FigureLatex('$\dot{x}_\mathrm{b}$','Time [s]','Translational Velocity [m s$^{-1}$]',1,{'Estimation', 'Real'},0,[0 40],0,12,14,1.2)
 
 % xb acceleration
 figure
@@ -144,3 +138,11 @@ plot(x.Time,meas(3,:),'Color',[0 0.7 0])
 plot(x.Time,x_pos(5,:),'Color',[0.7 0 0])
 plot(x.Time,xbddot.Data(:,1),'Color',[0 0 0.7])
 FigureLatex('$\ddot{x}_\mathrm{b}$','Time [s]','Translational Acceleration [m s$^{-2}$]',1,{'Measurement','Estimation', 'Real'},0,[0 40],0,12,14,1.2)
+
+% xn-yn
+figure
+hold on
+plot(meas(2,1:end/3),meas(1,1:end/3),'Color',[0 0.7 0])
+plot(x.Data(1:end/3,2),x.Data(1:end/3,1),'Color',[0 0 0.7])
+plot(x_pos(2,1:end/3),x_pos(1,1:end/3),'Color',[0.7 0 0])
+FigureLatex('$x_\mathrm{n}$-$y_\mathrm{n}$','$y_\mathrm{n}$ [m]','$x_\mathrm{n}$ [m]',1,{'Measurement', 'Estimation', 'Real'},'NorthEast',0,0,12,14,1.2)

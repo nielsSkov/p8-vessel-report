@@ -10,7 +10,7 @@ In \autoref{fig:lqrwrong}, \ref{fig:distlqrwrong}, \ref{fig:robwrong} and \ref{f
 \begin{figure}[H]
 	\captionbox  %<--use captionbox instead if no global caption is needed
 	{  
-		Performance of the path following algorithm based on $\psi_\mathrm{ref}=\chi$ and using the LQR inner controller. The reference for velocity is set to \num{0.4} m$\cdot$s$^{-1}$. and the system is experiencing wind and wave disturbances, model perturbations and measurement noise. \label{fig:lqrwrong}                                
+		Performance of the path following algorithm based on $\psi_\mathrm{ref}=\chi$ and using the LQR inner controller. The reference for velocity is set to \num{0.4} m$\cdot$s$^{-1}$. and the system is experiencing wind, current and wave disturbances, model perturbations and measurement noise. \label{fig:lqrwrong}                                
 	}                                                                 
 	{                                                                  
 		\includegraphics[width=.45\textwidth]{figures/path_lqr_no_correc}         
@@ -28,7 +28,7 @@ In \autoref{fig:lqrwrong}, \ref{fig:distlqrwrong}, \ref{fig:robwrong} and \ref{f
 \begin{figure}[H]
 	\captionbox 
 	{   
-		Performance of the path following algorithm based on $\psi_\mathrm{ref}=\chi$ and using the $\mathcal{H}_\infty$ inner controller. The reference for velocity is set to \num{0.4} m$\cdot$s$^{-1}$. and the system is experiencing wind and wave disturbances, model perturbations and measurement noise. \label{fig:robwrong}      
+		Performance of the path following algorithm based on $\psi_\mathrm{ref}=\chi$ and using the $\mathcal{H}_\infty$ inner controller. The reference for velocity is set to \num{0.4} m$\cdot$s$^{-1}$. and the system is experiencing wind, current and wave disturbances, model perturbations and measurement noise. \label{fig:robwrong}      
 	}                                                                 
 	{                                                                  
 		\includegraphics[width=.45\textwidth]{figures/path_rob_no_correc}         
@@ -43,14 +43,14 @@ In \autoref{fig:lqrwrong}, \ref{fig:distlqrwrong}, \ref{fig:robwrong} and \ref{f
 	}
 \end{figure}
 
-In these graphs, it is clear that the path is not precisely followed when disturbances are introduced in the system. This offset is expected as the assumption for this simpler algorithm to work does not hold with disturbances like wind and waves. The latter is specially visible in the straight line parts of the path, where the vessel movement shows a 1$\sigma$ value that goes up to 10 cm and a maximum value that reaches up to approximately 30 cm.
+In these graphs, it is clear that the path is not precisely followed when disturbances are introduced in the system. This offset is expected as the assumption for this simpler algorithm to work does not hold with disturbances like wind, current and waves. The latter is specially visible in the straight line parts of the path, where the vessel movement shows a 1$\sigma$ value that goes up to 10 cm and a maximum value that reaches up to approximately 30 cm.
 
 When the information of the vessel velocity is used to calculate the reference angle, $\psi_\mathrm{ref}$, the disturbance is rejected. This is seen in \autoref{fig:lrqcorrect}, \ref{fig:distlqr}, \ref{fig:robustcorrect} and \ref{fig:distrobustcorrect}, where the vessel is experiencing disturbances and model perturbations in the same range as in the previously shown figures. Both the vessel X-Y movement and the distance to the target path are depicted. 
 
 \begin{figure}[H]
 	\captionbox 
 	{            
-		Performance of the path following algorithm based on $\psi_\mathrm{ref}=\chi-\beta$ and using the LQR inner controller.The reference for velocity is set to \num{0.4} ms$^{-1}$. and the system is experiencing wind and wave disturbances, model perturbations and measurement noise.                
+		Performance of the path following algorithm based on $\psi_\mathrm{ref}=\chi-\beta$ and using the LQR inner controller.The reference for velocity is set to \num{0.4} ms$^{-1}$. and the system is experiencing wind, current and wave disturbances, model perturbations and measurement noise.                
 		\label{fig:lrqcorrect}                                  
 	}                                                                 
 	{                                                                  
@@ -68,7 +68,7 @@ When the information of the vessel velocity is used to calculate the reference a
 \begin{figure}[H]
 	\captionbox 
 	{   
-		Performance of the path following algorithm based on $\psi_\mathrm{ref}=\chi-\beta$ and using the $\mathcal{H}_\infty$ inner controller. The system is experiencing wind and wave disturbances, model perturbations and measurement noise. \label{fig:robustcorrect}
+		Performance of the path following algorithm based on $\psi_\mathrm{ref}=\chi-\beta$ and using the $\mathcal{H}_\infty$ inner controller. The system is experiencing wind, current and wave disturbances, model perturbations and measurement noise. \label{fig:robustcorrect}
 	}                                                                 
 	{                                                                  
 		\includegraphics[width=.45\textwidth]{figures/path_rob}         
@@ -86,4 +86,5 @@ When the information of the vessel velocity is used to calculate the reference a
 In this case, the offset in position is corrected and the path is followed within the desired precision in the straight line segments. There are still some small deviations due to the wave disturbance present in the system, but the 1$\sigma$ value is under 5 cm and the maximum variations stay below 10 cm with respect to the reference path.
 
 When comparing the two inner controllers, different behaviors are seen. In the turns, the variations experienced by the LQR are larger than those seen with the $\mathcal{H}_\infty$ controller. This is expected as it is consistent with the response seen in the step responses presented in \autoref{sec:comparison}, where a higher deviations appeared in the LQR when the references were applied to the system. 
-In the straight line segments, the behavior is the opposite, the LQR shows a smaller maximum and 1$-\sigma$ error than those shown by the $\mathcal{H}_\infty$ controller. This is due to the speed of the controller in terms of settling time, the faster response of the LQR makes it able of correcting the constant wind disturbances and low frequency wave disturbances slightly better, making the error lower by approximately 4 cm.
+
+In the straight line segments, the behavior is the opposite, the LQR shows a smaller maximum and 1$\sigma$ error than those shown by the $\mathcal{H}_\infty$ controller. This is due to the speed of the controller in terms of settling time, the faster response of the LQR makes it able of correcting the constant wind disturbances and low frequency wave disturbances slightly better, making the error lower by approximately 4 cm.
