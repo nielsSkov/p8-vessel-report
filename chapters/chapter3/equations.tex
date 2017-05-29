@@ -4,7 +4,7 @@ The final model equations are presented in this section, and are described relat
 \begin{figure}[H]
     \captionbox
     {
-        Diagram of the vessel, where the forces applied by the motors are shown.
+        Diagram of the vessel, where the forces applied by the thrusters are shown.
         \label{fig:boat3DForces}
     }
     {
@@ -22,7 +22,7 @@ The final model equations are presented in this section, and are described relat
 \end{figure}
 
 The translational movement of the vessel is described by \autoref{eq:x_pos_model}, \ref{eq:y_pos_model} and \ref{eq:z_pos_model}.
-The model includes the forces applied by the motors and the damping, that create an acceleration in the vessel as
+The model includes the forces applied by the thrusters and the damping, that create an acceleration in the vessel as
 %
 \begin{flalign}
 	m \ddot{x}_\mathrm{b} &=  F_\mathrm{1} + F_\mathrm{2}  - d_{\dot{x}_\mathrm{b}} \dot{x}_\mathrm{b} + F_{x_\mathrm{b}}
@@ -40,7 +40,7 @@ The model includes the forces applied by the motors and the damping, that create
     \va{\dot{x}_\mathrm{b}}{is the velocity in the $x_\mathrm{b}$ direction}{m \cdot s^{-1}}
     \va{\dot{y}_\mathrm{b}}{is the velocity in the $y_\mathrm{b}$ direction}{m \cdot s^{-1}}
     \va{\dot{z}_\mathrm{b}}{is the velocity in the $z_\mathrm{b}$ direction}{m \cdot s^{-1}}
-    \va{F_{1,2}}{are the forces applied by each motor}{N}
+    \va{F_{1,2}}{are the forces applied by each thuster}{N}
 \end{where}
 
 %The virtual mass components are the added mass from the displaced water in the respective direction plus the mass of the vessel. This value is different for each axis, as the difference in shape drags a different amount of water.
@@ -65,8 +65,8 @@ The rotational movement of the vessel is described by \autoref{eq:phi_model}, \r
     \va{\dot{\phi}}{is the angular velocity around the $x_\mathrm{b}$ axis}{rad \cdot s^{-1}}
     \va{\dot{\theta}}{is the angular velocity around the $y_\mathrm{b}$ axis}{rad \cdot s^{-1}}
     \va{\dot{\psi}}{is the angular velocity around the $z_\mathrm{b}$ axis}{rad \cdot s^{-1}}
-    \va{l_1}{is the perpendicular distance from motor 1 to the center of gravity}{m}
-    \va{l_2}{is the perpendicular distance from motor 2 to the center of gravity}{m}
+    \va{l_1}{is the perpendicular distance from thruster 1 to the center of gravity}{m}
+    \va{l_2}{is the perpendicular distance from thruster 2 to the center of gravity}{m}
 \end{where}
 
 Similar to the translational equations, only one axis is controllable. This is, however, not a problem in practice, since the vessel is stable by nature and it can be controlled even being an underactuated vehicle \cite[pp. 235-239]{TFossen}.
