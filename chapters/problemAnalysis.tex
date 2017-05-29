@@ -37,7 +37,7 @@ The route is dependent on the swath angle of the sensor and the precision of the
 
 \section{Design Considerations}\label{sec:designconsiderations}
 Following the S-44 IHO standards for hydrographic mapping, the measurements fall into the \emph{Special order} category, which sets a maximum total horizontal uncertainty (THU) of 2 m, 95\% confidence level for the position measurements. 
-This standard is intended for under-keel measurements of the sea floor, which aligns with the scope of this project. \cite{IHO-S-44}
+This standard is intended for under keel measurements of the sea floor, which aligns with the scope of this project. \cite{IHO-S-44}
 
 The Canadian Hydrography Service (CHS) includes a stricter category, the \emph{Exclusive order}. 
 This category extends the \emph{Special order} category to be more focused on shallow waters, such as harbors. 
@@ -46,7 +46,7 @@ It has been decided to use this standard as this is the one that best resembles 
 
 The system design assumes that the sensor used to measure the depth of the Limfjord is based on the current multibeam echosounder used by the Port of Aalborg, the multibeam echosounder SeaBat 7125, which has a swath angle of 140$^\mathrm{o}$ \cite{echoSounder}.
 
-Based on the bathymetric map found in \autoref{app:bathymetricMapPortOfAalborg}, a minimum depth is considered to estimate the width of the beam when it reaches the bottom. This width is used to plan the path that the boat needs to follow to reach all the points in a given area, see \autoref{chap:outerController}. In \autoref{fig:echosounder} a diagram of the echosounder's beam can be seen.
+Based on the bathymetric map found in \autoref{app:bathymetricMapPortOfAalborg}, a minimum depth is considered to estimate the width of the beam when it reaches the bottom. This width is used to plan the path that the vessel needs to follow to reach all the points in a given area, see \autoref{chap:outerController}. In \autoref{fig:echosounder} a diagram of the echosounder's beam can be seen.
 
 \begin{figure}[H]
     \includegraphics[width=0.9\textwidth]{figures/echosounder}
