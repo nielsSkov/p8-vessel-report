@@ -1,7 +1,7 @@
 \section{Nodes}
 Each node uses the information coming from a topic or from a device connected to the computer and publishes its results in another topic, which is then used by one or more nodes. The functionality of each node is described below.
 
-\subsection*{\lstinline[style=cinline]{/lli_node}}
+\subsection*{\lstinline[style=cinline]{/lli_inode}}
 This node is in charge of reading the messages that come from the LLI and publishing them in the \lstinline[style=cinline]{/samples} topic. It is also responsible of sending the commands, which are published in the \lstinline[style=cinline]{/lli_input} topic, to the LLI. These commands need to be coded in a message, such that the LLI can read them.
 
 \subsection*{\lstinline[style=cinline]{/sensor_node}}

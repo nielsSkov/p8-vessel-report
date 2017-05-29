@@ -105,7 +105,7 @@ The noise, on the other hand, is weighted according to a high pass filter, as it
 	W_{\tau_\mathrm{wave}} &= \frac{20}{s+20}\ , \nonumber\\
 	W_{n_{\dot{x}_\mathrm{b}}} &= \frac{s}{s+100}\ .\nonumber
 \end{flalign}
-\end{minipage}\hfill
+\end{minipage}
 
 The states coming from the weighting functions, together with the system states and the integral states, constitute the state vector as 
 \begin{flalign}
@@ -281,7 +281,7 @@ After setting up the model, which includes part of the controller design, the $\
 
 and calculating the feedback gain matrix as
 \begin{flalign}
-	\vec{F}_\infty = -\vec{B}_2^\mathrm{T}\vec{X}_\infty
+	\vec{F}_\infty = -\vec{B}_2^\mathrm{T}\vec{X}_\infty \ .
 \end{flalign}
 
 The state feedback matrix $\vec{F}$ then corresponds to the three first columns of $\vec{F}_\infty$, while the integral gain $\vec{F}_\mathrm{I}$ corresponds to the next two columns. Similarly to the LQR design, the final diagram with the placement of the gains can be seen in \autoref{fig:HinfControlBlockDiagram}.
@@ -299,12 +299,12 @@ The final values for the feedback gains result as follows
     \begin{bmatrix}
         2233.8 & 1514.2 & 1001.3 \\
         -2233.8 & -1514.2 & 1001.3
-    \end{bmatrix} \\
+    \end{bmatrix} \ , \\
     \vec{F}_\mathrm{I} &=
     \begin{bmatrix}
         -1150.2 & -421.8 \\
         1150.2 & -421.8
-    \end{bmatrix}
+    \end{bmatrix} \ .
 \end{flalign}
 
 Once the controller is designed, its performance is evaluated in simulations, in which the compensator controls the model derived in \autoref{chap:model}. 

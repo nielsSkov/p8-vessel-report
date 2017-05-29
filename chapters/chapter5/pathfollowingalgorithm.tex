@@ -8,8 +8,8 @@ The path generated is approximated by straight line segments connected by the ca
 The algorithm starts by considering the first two waypoints in the path. The yaw reference given to the state space controller is calculated based on the crossing point between the straight line segment that joints the waypoints and a circle centered in the position of the vessel. \autoref{fig:LOSalgorithm} shows how this crossing point is obtained. There may be two intersections between the straight line and the circle, thus the chosen crossing point is the point closer to second waypoint. The crossing point is also called Line of Sight (LOS) point and is found using the equations of the circle and of the straight line as
 %
 \begin{flalign}
-	(&x_\mathrm{LOS}-x_\mathrm{n})^2 + (y_\mathrm{LOS}-y_\mathrm{n})^2 = R^2, \label{eq:circle} \ \\
-	&y_\mathrm{LOS}-y_\mathrm{k} = \frac{y_\mathrm{k+1}-y_\mathrm{k}}{x_\mathrm{k+1}-x_\mathrm{k}}(x_\mathrm{LOS}-x_\mathrm{k}) \label{eq:line} 
+	(&x_\mathrm{LOS}-x_\mathrm{n})^2 + (y_\mathrm{LOS}-y_\mathrm{n})^2 = R^2 \ , \label{eq:circle} \ \\
+	&y_\mathrm{LOS}-y_\mathrm{k} = \frac{y_\mathrm{k+1}-y_\mathrm{k}}{x_\mathrm{k+1}-x_\mathrm{k}}(x_\mathrm{LOS}-x_\mathrm{k}) \ . \label{eq:line} 
 \end{flalign}
 \begin{where}
 	\va{R}{is the radius of the circle centered at the vessel position}{m}

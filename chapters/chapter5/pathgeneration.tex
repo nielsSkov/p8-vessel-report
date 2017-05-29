@@ -15,12 +15,9 @@ The path generation algorithm creates a list of waypoints for the vessel to foll
 
 The path generation algorithm is confined to generate waypoints in an area that is a rectangle. Thus, the four input coordinates need to be verified to ensure the area is a rectangle. This is done by checking
 \begin{flalign} 
-  \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2} &= \sqrt{(x_3 - x_4)^2 + (y_3 - y_4)^2} \\
-  \sqrt{(x_1 - x_4)^2 + (y_1 - y_4)^2} &= \sqrt{(x_2 - x_3)^2 + (y_2 - y_3)^2} \\
-%   \label{eq:pathgenlengths}
-% \end{flalign}
-% \begin{flalign}
-  \sin{\frac{y_1 - y_2}{x_1 - x_2}} - \sin{\frac{y_1 - y_4}{x_1 - x_4}}  &= \frac{\pi}{2} 
+  \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2} &= \sqrt{(x_3 - x_4)^2 + (y_3 - y_4)^2} \ ,\\
+  \sqrt{(x_1 - x_4)^2 + (y_1 - y_4)^2} &= \sqrt{(x_2 - x_3)^2 + (y_2 - y_3)^2} \ , \\
+  \sin{\frac{y_1 - y_2}{x_1 - x_2}} - \sin{\frac{y_1 - y_4}{x_1 - x_4}}  &= \frac{\pi}{2} \ . 
   \label{eq:pathgen}
 \end{flalign}
 %
@@ -47,7 +44,7 @@ The dynamics of the vessel are considered to ensure the vessel can perform smoot
 The path generation algorithm first determines along which side of the rectangle to generate waypoints. This is done to ensure the vessel performs the least number of turns and is determined by calculating which side of the rectangle is larger. This is done by checking if
 %
 \begin{flalign}
-	\sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2} \geq \sqrt{(x_1 - x_4)^2 + (y_1 - y_4)^2}
+	\sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2} \geq \sqrt{(x_1 - x_4)^2 + (y_1 - y_4)^2} \ .
 \end{flalign}
 %
 Once the sailing direction is chosen, the first waypoint is generated using the starting point's coordinates and the direction of the straight lines. The starting point in the transversal direction is offset by $R_\mathrm{turn}$ so the multibeam starts surveying from the edges of the area.
