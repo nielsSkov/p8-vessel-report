@@ -4,7 +4,7 @@ The estimation contains attitude, angular velocity and angular acceleration info
 The process model describes the dynamics of the system and how the inputs affect its states. The process model also includes noise, which is assumed to be normally distributed. The measurement model describes how the measurements taken from the IMU relate with the states of the system represented in the process model. Measurement noise is also included in the model. The process and measurement models are 
 %
 \begin{flalign}
-    \hat{\vec{x}}_\mathrm{att}(k+1) &= \vec{A}_\mathrm{att}\hat{\vec{x}}_\mathrm{att}(k) + \vec{B}_\mathrm{att} \vec{u}(k) + \vec{w}_\mathrm{att}(k) \label{eq:processmodelatt} \\
+    \hat{\vec{x}}_\mathrm{att}(k+1) &= \vec{A}_\mathrm{att}\hat{\vec{x}}_\mathrm{att}(k) + \vec{B}_\mathrm{att} \vec{u}(k) + \vec{w}_\mathrm{att}(k) \label{eq:processmodelatt} \ , \\
     \vec{y}_\mathrm{att}(k) &= \vec{C}_\mathrm{att} \hat{\vec{x}}_\mathrm{att}(k) + \vec{v}_\mathrm{att}(k) \label{eq:measurementmodelatt}\ .
 \end{flalign}
 \begin{where}
@@ -133,7 +133,7 @@ The prediction step of the Kalman filter is
 %
 The update step corrects the estimate using the prediction obtained in the previous step and the innovation \cite[p. 7]{SHaykin}, that is, the error between the new measurement and the predicted new measurement. This error updates $\hat{\vec{x}}_\mathrm{att}$ weighted by the Kalman gain $\vec{K}(k)$. The update step of the Kalman filter calculates the updated state estimation and the updated error covariance as 
 \begin{flalign}
-    \hat{\vec{x}}_\mathrm{att}(k+1|k+1) &= \hat{\vec{x}}_\mathrm{att}(k+1|k) + \vec{K}(k+1) \left[ \vec{y}(k+1) - \vec{C}_\mathrm{att}  \hat{\vec{x}}_\mathrm{att}(k+1|k) \right]\ , \label{eq:updatexatt}\\
+    \hat{\vec{x}}_\mathrm{att}(k+1|k+1) &= \hat{\vec{x}}_\mathrm{att}(k+1|k) + \vec{K}(k+1) \left[ \vec{y}_\mathrm{att}(k+1) - \vec{C}_\mathrm{att}  \hat{\vec{x}}_\mathrm{att}(k+1|k) \right]\ , \label{eq:updatexatt}\\
     \vec{P}_\mathrm{att}(k+1|k+1) &= \left[ \vec{I} - \vec{K}(k+1) \vec{C}_\mathrm{att}^\mathrm{T} \right] \vec{P}_\mathrm{att}(k+1|k)\ . \label{eq:updatePatt}
 \end{flalign}
 %

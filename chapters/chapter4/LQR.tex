@@ -211,15 +211,15 @@ The design approach taken to describe the cost function, $\mathcal{J}$, is done 
 Bryson's rule is used as an initial design method to determine sensible values for the state and input penalties of the $\vec{Q}$ and $\vec{R}$ matrices, as described in \autoref{eq:QRBryson}\\
 %
 \begin{flalign} 
-  Q_{ii} &= \frac{1}{x_{i_\mathrm{max}}\text{}^2} \rule{30px}{0px} R_{ii} = \frac{1}{u_{i_\mathrm{max}} \text{}^2}
+  Q_\mathrm{ii} &= \frac{1}{x_{\mathrm{i}_\mathrm{max}}\text{}^2} \ , \rule{30px}{0px} R_\mathrm{ii} = \frac{1}{u_{\mathrm{i}_\mathrm{max}} \text{}^2} \ .
   \label{eq:QRBryson}
 \end{flalign}
 \begin{where}
-  \va{x_{i_\mathrm{max}}}{are the maximum acceptable state values}{}
-  \va{u_{i_\mathrm{max}}}{are the maximum acceptable input values}{}
+  \va{x_{\mathrm{i}_\mathrm{max}}}{are the maximum acceptable state values}{}
+  \va{u_{\mathrm{i}_\mathrm{max}}}{are the maximum acceptable input values}{}
 \end{where}
 
-The requirements stated in \autoref{sec:requirements} must be taken into account when determining the values of $x_{i_\mathrm{max}}$ and $u_{i_\mathrm{max}}$. As the ASV needs a high accuracy for bathymetric measurements, the weights of $\vec{Q}$ are set higher than $\vec{R}$ to ensure priority is focused on driving the states down to zero. The individual integral states are penalized higher than the system states to set further importance on driving the integral states to zero. This ensures the reference signals are closely tracked. Higher weights for $\vec{R}$ also ensure the actuators are not overexerted. This means the actuators are not driven to saturation. This is also ideal for the mobile vessel as the actuators use less energy, thus the ASV is able to perform longer surveys.
+The requirements stated in \autoref{sec:requirements} must be taken into account when determining the values of $x_{\mathrm{i}_\mathrm{max}}$ and $u_{\mathrm{i}_\mathrm{max}}$. As the ASV needs a high accuracy for bathymetric measurements, the weights of $\vec{Q}$ are set higher than $\vec{R}$ to ensure priority is focused on driving the states down to zero. The individual integral states are penalized higher than the system states to set further importance on driving the integral states to zero. This ensures the reference signals are closely tracked. Higher weights for $\vec{R}$ also ensure the actuators are not overexerted. This means the actuators are not driven to saturation. This is also ideal for the mobile vessel as the actuators use less energy, thus the ASV is able to perform longer surveys.
 
 These $\vec{Q}$ and $\vec{R}$ matrices must be discretized, as the state feedback design is done in the discrete time domain. This is done by using the procedure presented in \cite{lqrd}.
 %
