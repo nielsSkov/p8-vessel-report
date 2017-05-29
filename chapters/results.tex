@@ -9,9 +9,9 @@ The designed system has been tested in order to check that the functional requir
   \item[\textbf{D:}] The controller shall be robust to external disturbances.
 \end{itemize}
 
-The area to survey is selected by giving the four corner points. Based on these points, the path generation algorithm selects the needed waypoints to cover it, depending on the beamwidth.
+The area to survey is selected by giving the four corner points. Based on these points, the path generation algorithm selects the needed waypoints to cover it, depending on the beamwidth, fulfilling requirements \textbf{A} and \textbf{B}. 
 
-Once these waypoints are selected, the outer controller sets the appropriate references for both speed, $\dot{x}_\mathrm{b}$, and heading, $\psi$, to the inner controller. The performance of the outer controller when using both inner controllers can be seen in \autoref{sec:pathSim}. The figures are included here as well, in order to check the requirements.
+Once these waypoints are selected, the outer controller sets the appropriate references for both speed, $\dot{x}_\mathrm{b}$, and heading, $\psi$, to the inner controller. The performance of the outer controller when using both inner controllers can be seen in \autoref{sec:pathSim}. The figures are included here as well, in order to check that requirements \textbf{C} and \textbf{D} are met.
 
 \autoref{fig:path_lqr} shows the simulation results of the path followed by the vessel in the survey area when using the LQR as inner controller. The results are also shown in \autoref{fig:distlqr2} by plotting the error to the reference path.
 \begin{figure}[H]
@@ -59,7 +59,6 @@ According to the results of the simulations, it can be said that the vessel foll
 
 Since the simulation includes disturbances, noise and parameter variation, the robustness of the controller against them has also been tested. In many cases, and especially for bathymetric measurements, the algorithm can be considered suitable.
 
-
 \section{Implementation Requirements}
 \begin{itemize}
   \item[\textbf{E:}] The THU shall not exceed 30 cm with a 95\% confidence interval.
@@ -67,13 +66,17 @@ Since the simulation includes disturbances, noise and parameter variation, the r
   \item[\textbf{G:}] It shall be possible to give the ASV a command to stop and steer it back to land.
 \end{itemize}
 
-As it can be seen in \autoref{app:GPSImprovement}, the position measurements of the GPS have a 95 percentile at \fxnote{write number} m, that is, 95\% of the samples measured are within \fxnote{write number} m from the \fxnote{mean}. The measurements from the test are also shown in \autoref{fig:gpsplot}. In this figure, the measurements shows that an accuracy error occurs. It is especially clear in the altitude plot, where the position acquired indicates the vessel is below sea level. From this, requirement \textbf{E} is not validated. Possible reasons for this issue can be found in \autoref{chap:discussion}. 
+As it can be seen in \autoref{app:GPSImprovement}, the position measurements of the GPS have a 95 percentile at 0.02 m, that is, 95\% of the samples measured are within 0.02 m from the mean. The measurements from the test are also shown in \autoref{fig:gpsplot}. In this figure, the measurements shows that an accuracy error occurs. It is especially clear in the altitude plot, where the position acquired indicates the vessel is below sea level. From this, requirement \textbf{E} is not validated. Possible reasons for this issue can be found in \autoref{chap:discussion}. 
 
-\fxnote{include figure from GPS appendix}
+\begin{figure}[H]
+	\includegraphics[width=.45\textwidth]{figures/GPS_2DPlot}
+	\caption{GPS measurements using the three modes.}
+	\label{fig:gpsplot}
+\end{figure}
 
-The implementation in ROS allows to record all the topics, which contain all the sensor, estimation and inputs needed, in order to process and analyze the data afterwards.
+The implementation in ROS allows to record all the topics, which contain all the sensor, estimation and inputs needed, in order to process and analyze the data afterwards. This ensures that requirement \textbf{F} is achieved.
 
-A VPN has been set up such that it is possible to connect to the vessel remotely, allowing to run and stop the nodes when needed. A node for manual control has been added as well, such that it is possible to remotely move and control the vessel.
+A VPN has been set up such that it is possible to connect to the vessel remotely, allowing to run and stop the nodes when needed. A node for manual control has been added as well, such that it is possible to remotely move and control the vessel, satisfying requirement \textbf{G}. 
 
 Using the ROS implementation the controllers designed for the ASV were tested. This has been done as explained in \autoref{app:Inner}. It was seen that the designed LQR and $\mathcal{H}_\infty$ controllers were too aggressive and were not able to sufficiently stabilize the vessel. This led to a redesign of the LQR such that the weight matrices $\vec{Q}$ and $\vec{R}$ have been tuned such that the maximum force has been reduced while the maximum allowable value for the states has been increased to reduce the aggressiveness of the controller.
   
