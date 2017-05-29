@@ -77,7 +77,7 @@ In \autoref{fig:yaw_mc_lqr} and \ref{fig:yaw_mc_rob}, the performance of the con
     }
 \end{figure}
 
-The behavior seen in these figures resembles that for \autoref{fig:xbdot_mc_lqr} and \ref{fig:xbdot_mc_rob}. The $\mathcal{H}_\infty$ controller shows less overshoot and variability in the different simulations but it is also slightly slower than the LQR controller. In both cases, the 1$\sigma$ value is very closed to zero, but the response of the LQR shows a maximum variation of 20\%.
+The behavior seen in these figures resembles that for \autoref{fig:xbdot_mc_lqr} and \ref{fig:xbdot_mc_rob}. The $\mathcal{H}_\infty$ controller shows less overshoot and variability in the different simulations but it is also slightly slower than the LQR. In both cases, the 1$\sigma$ value is very closed to zero, but the response of the LQR shows a maximum variation of 20\%.
 
 Additionally, it can be seen that the LQR response has a settling time of 2 s, while the $\mathcal{H}_\infty$ controller takes around \num{3.5} s to settle. These responses can be approximated with first order systems with time constants of \num{0.66} s and \num{1.16} s, respectively, which give bandwidths \num{1.5} rad$\cdot$s$^{-1}$ and \num{0.86} rad$\cdot$s$^{-1}$.
 
@@ -104,7 +104,7 @@ As in the case of $\dot{x}_\mathrm{b}$, a close look at the difference with resp
 
 In this case, it is also the $\mathcal{H}_\infty$ controller the one that is able to handle better the disturbances and with less variations with respect to the nominal behavior.
 
-These controller designs are also compared by their usage of inputs. The mean force applied at each time by the thrusters when simulating the LQR controller is \num{17.5793} N, while that of the $\mathcal{H}_\infty$ controller is \num{17.9281} N. This results as expected since the LQR is designed to optimize the use of inputs to the system.
+These controller designs are also compared by their usage of inputs. The mean force applied at each time by the thrusters when simulating the LQR is \num{17.5793} N, while that of the $\mathcal{H}_\infty$ controller is \num{17.9281} N. This results as expected since the LQR is designed to optimize the use of inputs to the system.
 
 Finally, to combine performance and usage of inputs, the cost used in the LQR design is calculated using \autoref{eq:cost}. The mean cost among the simulations is \num{7.1441}$\cdot 10^5$ and \num{3.4227}$\cdot 10^6$ for the LQR and $\mathcal{H}_\infty$ controller designs, respectively. As expected, the cost is lower for the LQR design as minimizing it is the basis of the LQR approach.
 
