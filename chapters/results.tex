@@ -1,4 +1,5 @@
 \chapter{Results}\label{chap:results}
+The designed system has been tested in order to check the fulfillment of the functional requirements stated in \autoref{sec:requirements}. The results include both simulations of the full system and plots obtained after performing real tests with the vessel.
 
 \section{Controller Requirements}
 \begin{itemize}
@@ -66,7 +67,7 @@ Since the simulation includes disturbances, noise and parameter variation, the r
   \item[\textbf{G:}] It shall be possible to give the ASV a command to stop and steer it back to land.
 \end{itemize}
 
-As it can be seen in \fxnote{GPS test appendix} the position measurements of the GPS are done with.....
+As it can be seen in \autoref{app:GPSImprovement} the position measurements of the GPS have a 2$\sigma$ value of \fxnote{write number} m, that is, 95\% of the samples measured are within \fxnote{write number} m from the \fxnote{mean}. This number is below the 30 cm requirement, thus the precision of the positioning system is suitable for performing bathymetric measurements.
 
 The implementation in ROS allows to record all the topics, which contain all the sensor, estimation and inputs needed, in order to process and analyze the data afterwards.
 
@@ -130,7 +131,7 @@ This new controller has been tested by tracking a reference in heading while kee
     \hspace{5pt}                                                          
     \captionbox  
     {      
-        Step response in $\dot{x}_\mathrm{b}$ with a reference of 1 m s$^{-1}$.
+        Step response in $\dot{x}_\mathrm{b}$ with a reference of 1 m$\cdot$s$^{-1}$.
         \label{fig:inner_xbdot}
     }                                                                          
     {
