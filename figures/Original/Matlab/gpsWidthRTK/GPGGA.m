@@ -7,15 +7,6 @@ if loadDataIntoWorkspace == 1
   %time starting from zero
   t = gpsData(:,4);
   
-  %correct time after reboot
-  correctTime = 1;
-  if correctTime == 1
-    t(1:117882) = t(1:117882)-t(1);
-    t(117883:length(t)) = t(117883:length(t)) + t(117882);
-  else
-    t = t-t(1);
-  end
-  
   timeInHours = 1;
   timeInMinutes = 0;
   if timeInHours == 1
@@ -39,13 +30,25 @@ if loadDataIntoWorkspace == 1
   latRads = deg2rad(latitude);
   lngRads = deg2rad(longitude);
   
+  %Choose Mean:
+  singleMean = 0;
+  fixMean = 1;
   %computing mean as center to be mesured from
-  latRadsMean = mean(latRads);
-  lngRadsMean = mean(lngRads);
+  if singleMean == 1
+    latRadsMean = mean(latRads(1:9834));
+    lngRadsMean = mean(lngRads(1:9834)); 
+  elseif fixMean == 1
+    latRadsMean = mean(latRads(4941:46345));
+    lngRadsMean = mean(lngRads(4941:46345)); 
+  end
+  
+  
+    %latRadsMean = mean(latRads);
+    %lngRadsMean = mean(lngRads); 
 
-  %Compute distance in lattitude and longitude
-  distLat = latRads - latRadsMean;
-  distLng = lngRads - lngRadsMean;
+  %Compute difference from mean in lattitude and longitude
+  diffLat = latRads - latRadsMean;
+  diffLng = lngRads - lngRadsMean;
 
   %Compute trigonomtric functions
   cosLat0 = cos(latRadsMean);
@@ -56,9 +59,9 @@ if loadDataIntoWorkspace == 1
   sinLat1 = sin(latRads);
   cosLng1 = cos(lngRads);
   sinLng1 = sin(lngRads);
-  sinLat10 = sin((distLat)./2);
+  sinLat10 = sin((diffLat)./2);
 
-  %Compute distance in xn directions
+  %Compute distance from mean in xn directions
   dx = R*2*atan2(sinLat10,sqrt(1-sinLat10.*sinLat10));
 
   %Compute total distance to the origin in NED frame
@@ -80,11 +83,8 @@ if loadDataIntoWorkspace == 1
   dy = sqrt(d .* d - dx .* dx);
 
   %Put the correct sign
-  for i =1:length(dx)
-    if distLat(i) < 0
-      dx(i) = -dx(i);
-    end
-    if distLng(i) < 0
+  for i =1:length(dy)
+    if diffLng(i) < 0
       dy(i) = -dy(i);
     end
   end
@@ -174,33 +174,34 @@ else
 end
 
 
-
 %-----------------------------------------------------------------------
 %------PLOT OPTIONS-----------------------------------------------------
 %-----------------------------------------------------------------------
 
 
 %select a range in time to plot
-plotRange = 1;
+plotRange = 0;
 plotStartTime = 0.1;  %1.5
 plotEndTime   = 5.5; %3.8
 
 %3D-plot options
+plotAllLines3D = 0;
+plotAllDots3D = 1;
 lineWidth3D = 1;
 dotSize3D = 1.2;
 
 %2D-plot options
 plotAll2D = 1;
 useSubPlots = 1;
-plotAllLines2D = 1;
-plotAllDots2D = 0;
+plotAllLines2D = 0;
+plotAllDots2D = 1;
 lineWidth2D = 1;
-dotSize2D = 1; 
+dotSize2D = 1.5; 
 
 %zoom options for 2D-plot
 zoomOnFix = 0;
 zoomOnFloat = 0;
-zoomOnSingle = 1;
+zoomOnSingle = 0;
 
 printLegends = 1;
 
@@ -212,7 +213,8 @@ printLegends = 1;
 
 %Plot different fix qualities together
 if 1
-  plotStartTime = 0.09;
+  plotRange = 1;
+  plotStartTime = 0.1031;%0.09;
   plotEndTime   = 5.5;
   
   zoomOnFix = 0;
@@ -226,6 +228,7 @@ if 1
 end
 %Only RKT Fix mesurements
 if 0
+  plotRange = 1;
   plotStartTime = 1.5
   plotEndTime   = 3.8
    
@@ -293,6 +296,13 @@ else
   highSingle = length(tSingle);
 end
 
+plotFixAroundZero = 1;
+if plotFixAroundZero == 1
+  latRTKfix(lowFix:highFix) = latRTKfix(lowFix:highFix)-mean(latRTKfix(lowFix:highFix));
+  lngRTKfix(lowFix:highFix) = lngRTKfix(lowFix:highFix)-mean(lngRTKfix(lowFix:highFix));
+  altRTKfix(lowFix:highFix) = altRTKfix(lowFix:highFix)-mean(altRTKfix(lowFix:highFix));
+end
+
 
 %see 3D plot options in top of script
 if plotAllLines3D == 1
@@ -330,7 +340,7 @@ if plotAllDots3D == 1
           altRTKfix(lowFix:highFix), ...
           '.',                       ...
           'color', '[0 0 1]',        ...
-          'linewidth', dotSize)  
+          'linewidth', dotSize3D)  
     hold on
   end
   if lowFloat ~= 0
@@ -360,12 +370,12 @@ if zoom == 1
   zlim([-28.2 -27.9])
 end
 
-title('Local GPS Position', 'interpreter', 'latex')
-xlabel('$x_{lng}$ Distance From Mean (m)','interpreter', 'latex')
-ylabel('$y_{lat}$ Distance From Mean (m)','interpreter', 'latex')
-zlabel('Altitude From Mean Sea Level (m)','interpreter', 'latex')
+title('Relative GPS Position', 'interpreter', 'latex')
+xlabel('$x_\mathrm{n}$ [m]','interpreter', 'latex')
+ylabel('$y_\mathrm{n}$ [m]','interpreter', 'latex')
+zlabel('Altitude [m]','interpreter', 'latex')
 if printLegends == 1
-  leg0 = legend('RTK Fix', 'RTK float', 'Single');
+  leg0 = legend('RTK Fix', 'RTK float', 'Single', 'location', 'northeast');
   set(leg0, 'FontSize', 10,'interpreter', 'latex');
 end
 grid on; grid minor
@@ -462,7 +472,7 @@ if plotAll2D == 1
     if lowFix ~= 0
       plot(tRTKfix(lowFix:highFix),         ...
            lngRTKfix(lowFix:highFix),       ...
-           '.',                             ...
+           '.',                        ...
            'color', '[0 0 1]',              ...
            'linewidth', dotSize2D)  
       hold on
@@ -470,7 +480,7 @@ if plotAll2D == 1
     if lowFloat ~= 0
       plot(tRTKfloat(lowFloat:highFloat),   ...
            lngRTKfloat(lowFloat:highFloat), ...
-           '.',                             ...
+           '.',                        ...
            'color', '[0 .5 0]',             ...
            'linewidth', dotSize2D)
       hold on
@@ -478,7 +488,7 @@ if plotAll2D == 1
     if lowSingle ~= 0
       plot(tSingle(lowSingle:highSingle),   ...
            lngSingle(lowSingle:highSingle), ...
-           '.',                             ...
+           '.',                        ...
            'color', '[1 0 0]',              ...
            'linewidth', dotSize2D)
     end
@@ -542,6 +552,83 @@ if plotAll2D == 1
   p3 = gca;
 end
 
+
+
+
+%-----------------------------------------------------------------------
+%------COMPUTING 95% CONFIDENCE INTERVAL--------------------------------
+%-----------------------------------------------------------------------
+
+x_n = latRTKfix(lowFix:highFix);
+y_n = lngRTKfix(lowFix:highFix);
+z_n = altRTKfix(lowFix:highFix);
+
+% finding sample mean of x_n and y_n
+x_n_mean = mean(x_n);
+y_n_mean = mean(y_n);
+z_n_mean = mean(z_n);
+
+x_n_sigma = std(x_n);
+y_n_sigma = std(y_n);
+z_n_sigma = std(z_n);
+
+x_n_var = x_n_sigma^2;
+y_n_var = y_n_sigma^2;
+z_n_var = z_n_sigma^2;
+
+dist2Mean = sqrt( (x_n-x_n_mean).^2 + (y_n-y_n_mean).^2 )
+
+percentile95 = prctile(dist2Mean,95);
+
+figure;
+h1 = histogram(dist2Mean, 60, 'normalization', 'probability')
+
+l1 = line([percentile95, percentile95], get(gca,'Ylim'))
+
+set(l1, 'color', '[0 .5 0]')
+set(l1, 'linewidth', 1.5)
+
+title('Distance from Mean in $x_n$-$y_n$-plane', 'interpreter', 'latex')
+xlabel('Discance [m]', 'interpreter', 'latex')
+ylabel('Probability', 'interpreter', 'latex')
+
+grid on, grid minor
+
+text(.33,.855555,'95th percentile','units','normalized', 'FontWeight', 'bold', 'interpreter','latex', 'FontSize', 11, 'color', '[0 .4 0]')
+
+fh = figure
+h = histogram2(x_n,y_n,40, 'Normalization', 'probability')
+
+limx = get(get(fh, 'Children'), 'XLim')
+limy = get(get(fh, 'Children'), 'YLim')
+limz = get(get(fh, 'Children'), 'ZLim')
+
+hold on
+
+plotMean = 0;
+if plotMean == 1
+  histogram2(x_n_mean, y_n_mean,10, 'Normalization', 'count','BinMethod','scott')
+
+  set(get(fh, 'Children'), 'XLim', limx)
+  set(get(fh, 'Children'), 'YLim', limy)
+  set(get(fh, 'Children'), 'ZLim', [limz(1), limz(2)+10])
+end
+
+grid on, grid minor
+
+title('RTK GPS Relative Position', 'interpreter', 'latex')
+xlabel('$x_n [m]$', 'interpreter', 'latex')
+ylabel('$y_n$ [m]', 'interpreter', 'latex')
+zlabel('Probability', 'interpreter', 'latex')
+
+
+
+
+%-----------------------------------------------------------------------
+%-----------------------------------------------------------------------
+
+
+
 if useSubPlots == 1
   plot1st = sub1;
   plot2nd = sub2;
@@ -570,38 +657,50 @@ if zoomOnSingle == 1
 end
 
 %prettyfingin 2D-plots
-title(plot1st, 'Latitudal Deviation from Mean', 'interpreter', 'latex')
+%-------Latitudal--------------------------------------------------------------
+title(plot1st, 'Latitudinal Distance', 'interpreter', 'latex')
 if printLegends == 1
-  leg1 = legend(plot1st, 'RTK fix', 'RTK float', 'Single', 'location', 'northeast');
+  leg1 = legend(plot1st, 'RTK fix', 'RTK float', 'Single', 'location', 'southeast');
   set(leg1, 'FontSize', 10,'interpreter', 'latex');
 end
-xlabel(plot1st, 'Time (h)', 'interpreter', 'latex')
-ylabel(plot1st, '$x_{n}$ distance from mean (m)', 'interpreter', 'latex')
+xlabel(plot1st, 'Time [h]', 'interpreter', 'latex')
+ylabel(plot1st, '$x_\mathrm{n}$ [m]', 'interpreter', 'latex')
 grid(plot1st, 'on')
 grid(plot1st, 'minor')
-ylim(plot1st, limits1)
-xlim(plot1st, [plotStartTime plotEndTime])
+if zoomOnSingle || zoomOnFloat || zoomOnFix
+  ylim(plot1st, limits1)
+  xlim(plot1st, [plotStartTime plotEndTime])
+end
+%------------------------------------------------------------------------------
 
-title(plot2nd, 'Longitudal Deviation from Mean', 'interpreter', 'latex')
+%-------Longitudal-------------------------------------------------------------
+title(plot2nd, 'Longitudinal Distance', 'interpreter', 'latex')
 if printLegends == 1
-  leg2 = legend(plot2nd, 'RTK fix', 'RTK float', 'Single', 'location', 'northeast');
+  leg2 = legend(plot2nd, 'RTK fix', 'RTK float', 'Single', 'location', 'southeast');
   set(leg2, 'FontSize', 10,'interpreter', 'latex');
 end
-xlabel(plot2nd, 'Time (h)', 'interpreter', 'latex')
-ylabel(plot2nd, '$y_{n}$ distance from mean (m)', 'interpreter', 'latex')
+xlabel(plot2nd, 'Time [h]', 'interpreter', 'latex')
+ylabel(plot2nd, '$y_\mathrm{n}$ [m]', 'interpreter', 'latex')
 grid(plot2nd, 'on')
 grid(plot2nd, 'minor')
-ylim(plot2nd, limits2)
-xlim(plot2nd, [plotStartTime plotEndTime])
+if zoomOnSingle || zoomOnFloat || zoomOnFix
+  ylim(plot2nd, limits2)
+  xlim(plot2nd, [plotStartTime plotEndTime])
+end
+%------------------------------------------------------------------------------
 
-title(plot3rd, 'Altitude Deviation from Mean', 'interpreter', 'latex')
+%-------Altitude---------------------------------------------------------------
+title(plot3rd, 'Altitude above Mean Sea Level', 'interpreter', 'latex')
 if printLegends == 1
-  leg3 = legend(plot3rd, 'RTK fix', 'RTK float', 'Single', 'location', 'northeast');
+  leg3 = legend(plot3rd, 'RTK fix', 'RTK float', 'Single', 'location', 'southeast');
   set(leg3, 'FontSize', 10,'interpreter', 'latex');
 end
-xlabel(plot3rd, 'Time (h)', 'interpreter', 'latex')
-ylabel(plot3rd, '$z_{n}$ Altitude above mean sealevel (m)', 'interpreter', 'latex')
+xlabel(plot3rd, 'Time [h]', 'interpreter', 'latex')
+ylabel(plot3rd, 'Altitude [m]', 'interpreter', 'latex')
 grid(plot3rd, 'on')
 grid(plot3rd, 'minor')
-ylim(plot3rd, limits3)
-xlim(plot3rd, [plotStartTime plotEndTime])
+if zoomOnSingle || zoomOnFloat || zoomOnFix
+  ylim(plot3rd, limits3)
+  xlim(plot3rd, [plotStartTime plotEndTime])
+end
+%------------------------------------------------------------------------------
