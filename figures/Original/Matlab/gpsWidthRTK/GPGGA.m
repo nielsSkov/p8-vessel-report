@@ -1,4 +1,4 @@
-loadDataIntoWorkspace = 1;
+loadDataIntoWorkspace = 0;
 if loadDataIntoWorkspace == 1
   clear all; close all; clc
 
