@@ -1,0 +1,90 @@
+\documentclass[10pt]{beamer}
+\usetheme[
+%%% options passed to the outer theme
+%    progressstyle=movCircCnt,   %either fixedCircCnt, movCircCnt, or corner
+%    rotationcw,          % change the rotation direction from counter-clockwise to clockwise
+%    shownavsym          % show the navigation symbols
+  ]{AAUsimple}
+  
+% If you want to change the colors of the various elements in the theme, edit and uncomment the following lines
+% Change the bar and sidebar colors:
+%\setbeamercolor{AAUsimple}{fg=red!20,bg=red}
+%\setbeamercolor{sidebar}{bg=red!20}
+% Change the color of the structural elements:
+%\setbeamercolor{structure}{fg=red}
+% Change the frame title text color:
+%\setbeamercolor{frametitle}{fg=blue}
+% Change the normal text color background:
+%\setbeamercolor{normal text}{fg=black,bg=gray!10}
+% ... and you can of course change a lot more - see the beamer user manual.
+\usepackage{atbegshi}
+\usepackage{anyfontsize}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+% Or whatever. Note that the encoding and the font should match. If T1
+% does not look nice, try deleting the line with the fontenc.
+\usepackage{helvet}
+\usepackage{tikz}
+
+% Defines new environments such as equation,
+% align and split 
+\usepackage{amsmath}
+\usepackage{relsize}
+% Adds new math symbols
+\usepackage{amssymb}
+
+% colored hyperlinks
+\newcommand{\chref}[2]{%
+  \href{#1}{{\usebeamercolor[bg]{AAUsimple}#2}}%
+}
+
+\title{\large{Precision Control of an Autonomous Surface Vessel}}
+
+\subtitle{ \vspace{0.4cm} 
+    \includegraphics[width=6cm]{figures/frontpage}
+    \vspace{0.4cm}}  % could also be a conference name
+
+%\date{\today}
+%
+\author{
+    \footnotesize{Alejandro Alonso García, Anders Egelund Kjeldal, Himal Kooverjee,\\ Niels Skov Vestergaard, Noelia Villarmarzo Arruñada}}
+
+\pgfdeclareimage[height=1.5cm]{titlepagelogo}{AAUgraphics/aau_logo_new} % placed on the title page
+\titlegraphic{% is placed on the bottom of the title page
+    \pgfuseimage{titlepagelogo}
+    %  \hspace{1cm}\pgfuseimage{titlepagelogo2}
+}
+
+\begin{document}
+    
+\input{macros.tex}
+
+% the titlepage
+%{\aauwavesbg%
+\begin{frame}[plain,noframenumbering] % the plain option removes the header from the title page
+  \titlepage
+\end{frame}%}
+
+\input{Agenda1.tex}
+\input{Slides1.tex}
+
+\input{Agenda2.tex}
+\input{Slides2.tex}
+
+\input{Agenda3.tex}
+\input{Slides3.tex}
+
+\input{Agenda4.tex}
+\input{Slides4.tex}
+
+\input{Agenda5.tex}
+\input{Slides5.tex}
+
+%{\aauwavesbg
+\begin{frame}[plain,noframenumbering]
+    \finalpage{\large{Precision Control of an Autonomous Surface Vessel}}
+\end{frame}%}
+
+\end{document}
