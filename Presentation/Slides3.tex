@@ -2,14 +2,28 @@
 \section{Inner Controller}
 
 \begin{frame}{Inner Controller}{}
-
+    \uncover<1-2>{
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\linewidth]{figures/HinfControlBlockDiagram}
+    \end{figure}}
+    \uncover<2>{
+    \begin{itemize}
+        \item Linear Quadratic Regulator
+        \item Robust Controller
+    \end{itemize}}
 \end{frame}
 
 \begin{frame}{Inner Controller}{Robust Controller Design}
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.6\textwidth]{figures/HinfDiag}
-    \end{figure}    
+        \includegraphics[width=0.6\linewidth]{figures/HinfDiag}
+    \end{figure}       
+    \begin{flalign}
+        \vec{\dot{x}}_\infty(t) &= \vec{A}_1 \vec{x}_\infty(t) + \vec{B}_1 \vec{w}(t) + \vec{B}_2 \vec{u}(t)\nonumber\\
+        \vec{z}(t) &= \vec{C}_1 \vec{x}_\infty(t) + \vec{D}_{11} \vec{w}(t) + \vec{D}_{12} \vec{u}(t)\nonumber\\
+        \vec{y}_\infty(t) &= \vec{C}_2 \vec{x}_\infty(t) + \vec{D}_{21} \vec{w}(t) + \vec{D}_{22} \vec{u}(t)\nonumber
+    \end{flalign}             
 \end{frame}
 
 
