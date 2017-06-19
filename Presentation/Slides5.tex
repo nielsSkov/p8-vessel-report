@@ -1,10 +1,6 @@
 %%%%%%%%%%%%%%%%
 \section{Outer Controller}
 
-\begin{frame}{Outer Controller}{}
-
-\end{frame}
-
 \begin{frame}{Outer Controller}{Path Generation Algorithm}
     \begin{figure}[H]
         \centering
@@ -37,19 +33,29 @@
 \end{frame}
 
 \begin{frame}{Outer Controller}{Path Following Algorithm}
+    \begin{itemize}
+        \item Change active waypoints
+    \end{itemize}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\linewidth]{figures/LOSalgorithmdistancewp}
+    \end{figure}
+\end{frame}
+\begin{frame}{Outer Controller}{Path Following Algorithm}
+    \begin{itemize}
+        \item Convergence to the path
+    \end{itemize}
     \begin{minipage}{0.45\linewidth}
-        \uncover<1-2>{
         \begin{figure}[H]
             \centering
             \includegraphics[width=1\linewidth]{figures/patherror}
-        \end{figure}}        
+        \end{figure}     
     \end{minipage}\hfill      
     \begin{minipage}{0.45\linewidth}
-        \uncover<2>{
         \begin{figure}[H]
             \centering
             \includegraphics[width=1\linewidth]{figures/initCondOuter}
-        \end{figure}}                
+        \end{figure}               
     \end{minipage}\hfill \\
 \end{frame}
 %%%%%%%%%%%%%%%%
@@ -93,16 +99,6 @@
 
 \begin{frame}{Results}{Implementation Results}
     \begin{itemize}
-        \item RTK GPS test
-    \end{itemize}
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.5\linewidth]{figures/GPS_2DPlot}
-    \end{figure}                   
-\end{frame}
-
-\begin{frame}{Results}{Implementation Results}
-    \begin{itemize}
         \item Inner controller test
     \end{itemize}
     \begin{minipage}{0.5\linewidth}
@@ -124,8 +120,12 @@
 
 \begin{frame}{Conclusion}{}
     \begin{itemize}
-        \item The estimator has been tuned and tested through simulation to check its performance.
-        \item The outer controller performance when using both inner controllers has also been analyzed though simulations that include disturbances, noise and varying parameters.
-        \item The simulated results have not been fully replicated in the real vessel, they show a promising behavior of the control system.
+        \item The estimator has been tuned and tested through simulation.
+    \end{itemize}
+    \begin{itemize}
+        \item The controller has also been analyzed though simulations that include disturbances, noise and varying parameters.
+    \end{itemize}
+    \begin{itemize}
+        \item The simulated results have not been fully replicated in the real vessel, but they show a promising behavior of the control system.
     \end{itemize}
 \end{frame}
