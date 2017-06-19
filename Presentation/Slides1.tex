@@ -7,9 +7,9 @@
         \includegraphics[width=.6\linewidth]{figures/frontpage}
     \end{figure}
     \begin{itemize}
-         \item 
-         \item 
-         \item
+         \item What is an Autonomous Surface Vessel (ASV)
+         \item Bathymetric Measurements
+         \item Control of an ASV
     \end{itemize}
 \end{frame}
 
@@ -19,9 +19,21 @@
         \includegraphics[width=.4\linewidth]{figures/smallDebthMapAalborg}
     \end{figure}
     \begin{itemize}
-        \item 
-        \item 
-        \item
+        \item Used by Port of Aalborg 
+        \item Problem: No recent knowledge of depths of the port
+        \item Solution: Automate smaller unmanned vessel
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Introduction}{Functional Requirements}
+    \begin{itemize}
+        \item[\textbf{A:}] It shall be possible to select the area in which the bathymetric measurements are to be performed.
+        \item[\textbf{B:}] The ASV shall be able to plan a route, such that the entire survey area is mapped.
+        \item[\textbf{C:}] The ASV shall be able to follow the planned route.
+        \item[\textbf{D:}] The controller shall be robust to external disturbances.
+        \item[\textbf{E:}] The THU shall not exceed 30 cm with a 95\% confidence interval.
+        \item[\textbf{F:}] The ASV shall record and store data locally for extraction at the end of the survey.
+        \item[\textbf{G:}] It shall be possible to give the ASV a command to stop and steer it back to land.
     \end{itemize}
 \end{frame}
 
