@@ -11,22 +11,39 @@
 %%%%%%%%%%%%%%%%
 \section{Sensor Fusion}
 
-\begin{frame}{Sensor Fusion}{Kalman Filter Structure}
-%    \begin{figure}[H]
-%        \centering
-%        \includegraphics[width=.6\linewidth]{figures/kalmanDiagram}
-%    \end{figure}
+\begin{frame}{Sensor Fusion}{Structure}
+	\begin{itemize}
+
+		\item Fuses GPS and IMU data
+		\item Achieved using a Kalman Filter
+		\item Sensor Fusion Contains
+			\begin{itemize}
+		\item Attitude 
+		\item Position 
+			\end{itemize}
+	\end{itemize}
+
+\end{frame}
+\begin{frame}{Sensor Fusion}{Signal Model}
+	\begin{flalign}
+	    \hat{\vec{x}}(k+1) &= \vec{A}\hat{\vec{x}}(k) + \vec{B} \vec{u}(k) + \vec{w}(k)  \nonumber \\
+        \vec{y}(k) &= \vec{C} \hat{\vec{x}}(k) + \vec{v}(k)  \nonumber
+	\end{flalign}
+
+	\begin{itemize}
+		\item w(k) and v(k) are assumed white Gaussian
+	\end{itemize}
+
+
+
+
 \end{frame}
 
-\begin{frame}{Sensor Fusion}{Attitude Kalman Filter}
-    \begin{flalign}
-        \hat{\vec{x}}_\mathrm{att}(k+1) &= \vec{A}_\mathrm{att}\hat{\vec{x}}_\mathrm{att}(k) + \vec{B}_\mathrm{att} \vec{u}(k) + \vec{w}_\mathrm{att}(k)  \nonumber \\
-        \vec{y}_\mathrm{att}(k) &= \vec{C}_\mathrm{att} \hat{\vec{x}}_\mathrm{att}(k) + \vec{v}_\mathrm{att}(k)  \nonumber
-    \end{flalign}
-    \begin{flalign}
-        \vec{Q}_\mathrm{att} &= diag\left( \sigma_\mathrm{\phi}^2,\sigma_\mathrm{\theta}^2,\sigma_\mathrm{\psi}^2,\sigma_\mathrm{\dot{\phi}}^2,\sigma_\mathrm{\dot{\theta}}^2,\sigma_\mathrm{\dot{\psi}}^2,\sigma_\mathrm{\ddot{\phi}}^2,\sigma_\mathrm{\ddot{\theta}}^2,\sigma_\mathrm{\ddot{\psi}}^2 \right)  \nonumber\\
-        \vec{R}_\mathrm{att} &= diag \left( \sigma_{\phi\mathrm{,acc}}^2,\sigma_{\theta\mathrm{,acc}}^2,\sigma_{\psi\mathrm{,mag}}^2,\sigma_{\dot{\phi}\mathrm{,gyro}}^2,\sigma_{\dot{\theta}\mathrm{,gyro}}^2,\sigma_{\dot{\psi}\mathrm{,gyro}}^2 \right)  \nonumber
-    \end{flalign}  
+\begin{frame}{Sensor Fusion}{Signal Model - State Extension}
+
+States are extended to: 
+\begin{itemize}
+    \item Attitude: 
     \begin{flalign}
         \hat{\vec{x}}_\mathrm{att} &= 
         \begin{bmatrix}
@@ -39,90 +56,8 @@
         \phi_\mathrm{acc} & \theta_\mathrm{acc} & \psi_\mathrm{mag} & \dot{\phi}_\mathrm{gyro} & \dot{\theta}_\mathrm{gyro} & \dot{\psi}_\mathrm{gyro}
         \end{bmatrix}^\mathrm{T} \nonumber
     \end{flalign}
-    \begin{flalign}
-        \vec{u} &=
-        \begin{bmatrix}
-        F_1 & F_2  
-        \end{bmatrix}^\mathrm{T} \nonumber
-    \end{flalign}
-\end{frame}
-
-
-\begin{frame}{Sensor Fusion}{Attitude Kalman Filter}
-    \begin{flalign}
-        \vec{A}_\mathrm{att} &=
-        \begin{bmatrix}
-        1 & 0 & 0 & T_\mathrm{s} & 0 & 0 & 0 & 0 & 0 \\
-        0 & 1 & 0 & 0 & T_\mathrm{s} & 0 & 0 & 0 & 0 \\
-        0 & 0 & 1 & 0 & 0 & T_\mathrm{s} & 0 & 0 & 0 \\
-        0 & 0 & 0 & 1 & 0 & 0 & T_\mathrm{s} & 0 & 0 \\
-        0 & 0 & 0 & 0 & 1 & 0 & 0 & T_\mathrm{s} & 0 \\
-        0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & T_\mathrm{s} \\
-        0 & 0 & 0 & -\frac{d_\mathrm{\phi}}{I_\mathrm{x}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\phi}}{I_\mathrm{x}} & 0 & 0 \\
-        0 & 0 & 0 & 0 & -\frac{d_\mathrm{\theta}}{I_\mathrm{y}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\theta}}{I_\mathrm{y}} & 0 \\
-        0 & 0 & 0 & 0 & 0 & -\frac{d_\mathrm{\psi}}{I_\mathrm{z}} & 0 & 0 & -T_\mathrm{s}\frac{d_\mathrm{\psi}}{I_\mathrm{z}}\  
-        \end{bmatrix} \nonumber
-    \end{flalign}   
-    \begin{minipage}{0.3\linewidth}
-        \begin{flalign}
-        \vec{B}_\mathrm{att} &=
-        \begin{bmatrix}
-        0 & 0 \\
-        0 & 0 \\
-        0 & 0 \\
-        0 & 0 \\
-        0 & 0 \\
-        0 & 0 \\
-        0 & 0 \\
-        0 & 0 \\
-        \frac{l_1}{I_\mathrm{z}} & -\frac{l_2}{I_\mathrm{z}}\nonumber 
-        \end{bmatrix} \nonumber
-        \end{flalign}
-    \end{minipage}\hfill
-    \begin{minipage}{0.6\linewidth}
-        \begin{flalign}
-        \vec{C}_\mathrm{att} &=
-        \begin{bmatrix}
-        1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-        0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-        0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
-        0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
-        0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
-        0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 
-        \end{bmatrix}  \nonumber
-        \end{flalign}
-    \end{minipage}\hfill
-\end{frame}
-
-\begin{frame}{Sensor Fusion}{Attitude Kalman Filter}
-    \begin{flalign}
-        \hat{\vec{x}}_\mathrm{att}(k+1|k) &= \vec{A}_\mathrm{att} \hat{\vec{x}}_\mathrm{att}(k|k) + \vec{B}_\mathrm{att} \vec{u}(k) \nonumber\\
-        \vec{P}_\mathrm{att}(k+1|k) &= \vec{A}_\mathrm{att} \vec{P}_\mathrm{att}(k|k) \vec{A}_\mathrm{att}^\mathrm{T} + \vec{Q}_\mathrm{att} \nonumber
-    \end{flalign}
-    \begin{flalign}
-        \hat{\vec{x}}_\mathrm{att}(k+1|k+1) &= \hat{\vec{x}}_\mathrm{att}(k+1|k) + \vec{K}(k+1) \left[ \vec{y}_\mathrm{att}(k+1) - \vec{C}_\mathrm{att}  \hat{\vec{x}}_\mathrm{att}(k+1|k) \right] \nonumber\\
-        \vec{P}_\mathrm{att}(k+1|k+1) &= \left[ \vec{I} - \vec{K}(k+1) \vec{C}_\mathrm{att}^\mathrm{T} \right] \vec{P}_\mathrm{att}(k+1|k)\nonumber
-    \end{flalign}
-\end{frame}
-
-
-\begin{frame}{Sensor Fusion}{Attitude Kalman Filter}
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.6\linewidth]{figures/sim_yaw}
-    \end{figure}
-\end{frame}
-
-\begin{frame}{Sensor Fusion}{Position Kalman Filter}
-    \begin{flalign}
-        \hat{\vec{x}}_\mathrm{pos}(k+1) &= \vec{A}_\mathrm{pos}(k)\vec{x}_\mathrm{pos}(k) + \vec{B}_\mathrm{pos} \vec{u}(k) + \vec{w}_\mathrm{pos}(k) \nonumber\\
-        \vec{y}_\mathrm{pos}(k) &= \vec{C}_\mathrm{pos}\hat{\vec{x}}_\mathrm{pos}(k) + \vec{v}_\mathrm{pos}(k) \nonumber
-    \end{flalign}
-    \begin{flalign}
-        \vec{Q}_\mathrm{pos} &= \mathrm{diag} \left( \sigma_\mathrm{x_\mathrm{n}}^2,\sigma_\mathrm{y_\mathrm{n}}^2,\sigma_\mathrm{\dot{x}_\mathrm{b}}^2,\sigma_\mathrm{\dot{y}_\mathrm{b}}^2,\sigma_\mathrm{\ddot{x}_\mathrm{b}}^2,\sigma_\mathrm{\ddot{y}_\mathrm{b}}^2 \right) \nonumber\\
-        \vec{R}_\mathrm{pos} &= \mathrm{diag} \left( \sigma_{x_\mathrm{n,GPS}}^2,\sigma_{y_\mathrm{n,GPS}}^2,\sigma_{\ddot{x}_\mathrm{b}\mathrm{,acc}}^2,\sigma_{\ddot{y}_\mathrm{b}\mathrm{,acc}}^2 \right) \nonumber
-    \end{flalign}
-    \begin{flalign}
+	\item Position:
+\begin{flalign}
         \hat{\vec{x}}_\mathrm{pos} &=
         \begin{bmatrix}
         x_\mathrm{n} & y_\mathrm{n} & \dot{x}_\mathrm{b} & \dot{y}_\mathrm{b} & \ddot{x}_\mathrm{b} & \ddot{y}_\mathrm{b}
@@ -134,26 +69,49 @@
         x_\mathrm{n,GPS} & y_\mathrm{n,GPS} & \ddot{x}_\mathrm{b,acc} & \ddot{y}_\mathrm{b,acc}
         \end{bmatrix}^\mathrm{T} \nonumber
     \end{flalign}
-    \begin{flalign}
-        \vec{u} &=
-        \begin{bmatrix}
-        F_1 & F_2  
-        \end{bmatrix}^\mathrm{T} \nonumber
-    \end{flalign}
+    \end{itemize}
 \end{frame}
 
-\begin{frame}{Sensor Fusion}{Position Kalman Filter}
+
+\begin{frame}{Sensor Fusion}{Kalman Filter}
+
+	\begin{itemize}
+		\item Step 0: Initialization
+\begin{flalign}
+	\hat{\vec{x}}_\mathrm{att}(0|0) &= \vec{0}_\mathrm{6x1} \ ,\\
+	\vec{P}_\mathrm{att}(0|0) &= \vec{Q}_\mathrm{att}\ .
+\end{flalign}
+		\item Step 1: Prediction:
+		\item Step 2: Update:
+    	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Sensor Fusion}{Kalman Filter}
+
+	\begin{itemize}
+		\item Step 0: Initialization
+		\item Step 1: Prediction:
     \begin{flalign}
-        \vec{A}_\mathrm{pos}(\phi(k),\theta(k),\psi(k)) =
-        \begin{bmatrix}
-        1 & 0 & T_\mathrm{s} \ \vec{R}^\mathrm{n}_\mathrm{b}(1,1) & T_\mathrm{s} \ \vec{R}^\mathrm{n}_\mathrm{b}(1,2) & 0 & 0 \\
-        0 & 1 & T_\mathrm{s} \ \vec{R}^\mathrm{n}_\mathrm{b}(2,1) & T_\mathrm{s} \ \vec{R}^\mathrm{n}_\mathrm{b}(2,2) & 0 & 0 \\
-        0 & 0 & 1 & 0 & T_\mathrm{s} & 0 \\
-        0 & 0 & 0 & 1 & 0 & T_\mathrm{s} \\
-        0 & 0 & -\frac{d_\mathrm{x}}{m} & 0 & -T_\mathrm{s}\frac{d_\mathrm{x}}{m} & 0 \\
-        0 & 0 & 0 & -\frac{d_\mathrm{y}}{m} & 0 & -T_\mathrm{s}\frac{d_\mathrm{y}}{m} 
-        \end{bmatrix} \nonumber
+        \hat{\vec{x}}(k+1|k) &= \vec{A} \hat{\vec{x}}(k|k) + \vec{B} \vec{u}(k) \nonumber\\
+        \vec{P}(k+1|k) &= \vec{A} \vec{P}(k|k) \vec{A}^\mathrm{T} + \vec{Q} \nonumber
     \end{flalign}
+	 	\item Step 2: Update:
+    \begin{flalign}
+        \hat{\vec{x}}(k+1|k+1) &= \hat{\vec{x}}(k+1|k) + \vec{K}(k+1) \left[ \vec{y}(k+1) - \vec{C}  \hat{\vec{x}}(k+1|k) \right] \nonumber\\
+        \vec{P}(k+1|k+1) &= \left[ \vec{I} - \vec{K}(k+1) \vec{C}^\mathrm{T} \right] \vec{P}(k+1|k)\nonumber\\
+	\vec{K}(k+1) &= \vec{P}(k+1|k) \vec{C}^\mathrm{T} \left[\vec{C} \vec{P}(k+1|k) \vec{C}^\mathrm{T} + \vec{R} \right]^{-1}\nonumber 
+\end{flalign}
+	\end{itemize}
+	
+
+\end{frame}
+
+\begin{frame}{Sensor Fusion}{Attitude Kalman Filter}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\linewidth]{figures/sim_yaw}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Sensor Fusion}{Position Kalman Filter}
@@ -170,9 +128,4 @@
         \end{figure}                
     \end{minipage}\hfill \\
 \end{frame}
-
-
-
-
-
 
