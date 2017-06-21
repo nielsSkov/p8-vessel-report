@@ -7,9 +7,10 @@
         \includegraphics[width=.6\linewidth]{figures/frontpage}
     \end{figure}
     \begin{itemize}
-         \item Applications of an Autonomous Surface Vessel (ASV)
-         \item Bathymetric Measurements
-         \item Control of an ASV
+         \item Environmental monitoring
+         \item Marine biological research
+         \item Bathymetric measurements
+         \item Control theory for an ASV
     \end{itemize}
 \end{frame}
 
@@ -59,17 +60,48 @@
         \includegraphics[width=0.7\linewidth]{figures/boat3D}
     \end{figure}
     \begin{itemize}
-        \item Inertial Frame
+        \item Inertial Frame (NED)
         \item Body Frame
     \end{itemize}
 \end{frame}
 
-% %\subsection{Reference Frames}
-% \begin{frame}{Model}{Reference Frames}
+%\subsection{Model Dynamics}
+\begin{frame}{Model}{Model Dynamics}
+    \begin{minipage}{0.5\linewidth}
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.8\linewidth]{figures/boat3DForces}
+        \end{figure}
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.4\linewidth]{figures/boat2D}
+        \end{figure}         
+    \end{minipage}\hfill      
+    \begin{minipage}{0.5\linewidth}
+        \begin{itemize}
+            \item Rigid Body Dynamics
+            \begin{flalign}
+                \sum F&=m \ddot{x} \nonumber \\
+                \sum \tau&=I \ddot{\theta} \nonumber
+            \end{flalign}
+            \item Hydrostatics
+            \begin{itemize}
+                \item[-] Buoyancy Force
+            \end{itemize}
+            \item Hydrodynamics
+            \begin{itemize}
+                \item[-] Viscous Damping
+            \end{itemize}
+        \end{itemize}              
+    \end{minipage}\hfill \\
+\end{frame}
+
+% %\subsection{Rigid Body Dynamics}
+% \begin{frame}{Model}{Rigid Body Dynamics}
 %     \begin{minipage}{0.65\linewidth}
 %         \begin{figure}[H]
 %             \centering
-%             \includegraphics[width=1\linewidth]{figures/boat3D}
+%             \includegraphics[width=1\linewidth]{figures/boat3DForces}
 %         \end{figure}        
 %     \end{minipage}\hfill      
 %     \begin{minipage}{0.3\linewidth}
@@ -78,87 +110,50 @@
 %             \includegraphics[width=0.7\linewidth]{figures/boat2D}
 %         \end{figure}                
 %     \end{minipage}\hfill \\
+%     \begin{flalign}
+%         \sum F&=m \ddot{x} \nonumber \\
+%         \sum \tau&=I \ddot{\theta} \nonumber
+%     \end{flalign}
 % \end{frame}
 
-%\subsection{Model Dynamics}
-\begin{frame}{Model}{Model Dynamics}
-    \begin{minipage}{0.65\linewidth}
-        \begin{figure}[H]
-            \centering
-            \includegraphics[width=1\linewidth]{figures/boat3DForces}
-        \end{figure}        
-    \end{minipage}\hfill      
-    \begin{minipage}{0.3\linewidth}
-        \begin{figure}[H]
-            \centering
-            \includegraphics[width=0.7\linewidth]{figures/boat2D}
-        \end{figure}                
-    \end{minipage}\hfill \\
-    \begin{itemize}
-        \item Rigid Body Dynamics
-        \item Hydrostatics
-        \item Hydrodynamics
-    \end{itemize}
-\end{frame}
+% %\subsection{Hydrostatics}
+% \begin{frame}{Model}{Hydrostatics}
+%     \begin{minipage}{0.65\linewidth}
+%         \begin{figure}[H]
+%             \centering
+%             \includegraphics[width=1\linewidth]{figures/boat3DForces}
+%         \end{figure}        
+%     \end{minipage}\hfill      
+%     \begin{minipage}{0.3\linewidth}
+%         \begin{figure}[H]
+%             \centering
+%             \includegraphics[width=0.7\linewidth]{figures/boat2D}
+%         \end{figure}                
+%     \end{minipage}\hfill \\
+%     \begin{itemize}
+%         \item Buoyancy Force
+%     \end{itemize}
+% \end{frame}
 
-%\subsection{Rigid Body Dynamics}
-\begin{frame}{Model}{Rigid Body Dynamics}
-    \begin{minipage}{0.65\linewidth}
-        \begin{figure}[H]
-            \centering
-            \includegraphics[width=1\linewidth]{figures/boat3DForces}
-        \end{figure}        
-    \end{minipage}\hfill      
-    \begin{minipage}{0.3\linewidth}
-        \begin{figure}[H]
-            \centering
-            \includegraphics[width=0.7\linewidth]{figures/boat2D}
-        \end{figure}                
-    \end{minipage}\hfill \\
-    \begin{flalign}
-        \sum F&=m \ddot{x} \nonumber \\
-        \sum \tau&=I \ddot{\theta} \nonumber
-    \end{flalign}
-\end{frame}
-
-%\subsection{Hydrostatics}
-\begin{frame}{Model}{Hydrostatics}
-    \begin{minipage}{0.65\linewidth}
-        \begin{figure}[H]
-            \centering
-            \includegraphics[width=1\linewidth]{figures/boat3DForces}
-        \end{figure}        
-    \end{minipage}\hfill      
-    \begin{minipage}{0.3\linewidth}
-        \begin{figure}[H]
-            \centering
-            \includegraphics[width=0.7\linewidth]{figures/boat2D}
-        \end{figure}                
-    \end{minipage}\hfill \\
-    \begin{itemize}
-        \item Buoyancy Force
-    \end{itemize}
-\end{frame}
-
-%\subsection{Hydrodynamics}
-\begin{frame}{Model}{Hydrodynamics}
-    \begin{minipage}{0.65\linewidth}
-        \begin{figure}[H]
-            \centering
-            \includegraphics[width=1\linewidth]{figures/boat3DForces}
-        \end{figure}        
-    \end{minipage}\hfill      
-    \begin{minipage}{0.3\linewidth}
-        \begin{figure}[H]
-            \centering
-            \includegraphics[width=0.7\linewidth]{figures/boat2D}
-        \end{figure}                
-    \end{minipage}\hfill \\
-    \begin{itemize}
-        \item Added mass
-        \item Viscous Damping
-    \end{itemize}
-\end{frame}
+% %\subsection{Hydrodynamics}
+% \begin{frame}{Model}{Hydrodynamics}
+%     \begin{minipage}{0.65\linewidth}
+%         \begin{figure}[H]
+%             \centering
+%             \includegraphics[width=1\linewidth]{figures/boat3DForces}
+%         \end{figure}        
+%     \end{minipage}\hfill      
+%     \begin{minipage}{0.3\linewidth}
+%         \begin{figure}[H]
+%             \centering
+%             \includegraphics[width=0.7\linewidth]{figures/boat2D}
+%         \end{figure}                
+%     \end{minipage}\hfill \\
+%     \begin{itemize}
+%         \item Added mass
+%         \item Viscous Damping
+%     \end{itemize}
+% \end{frame}
 
 %\subsection{Model Equations}
 \begin{frame}{Model}{Model Equations}
