@@ -26,17 +26,16 @@
 \end{frame}
 \begin{frame}{Sensor Fusion}{Signal Model}
 	\begin{gather*}
-    \vec{x}_\mathrm{KF}(k+1) = \vec{A}\vec{x}_\mathrm{KF}(k) + \vec{B}_\mathrm{KF} \vec{u}(k) + \vec{w}_\mathrm{KF}(k)  \nonumber \\
-    \vec{y}_\mathrm{KF}(k) = \vec{C}_\mathrm{KF} \vec{x}_\mathrm{KF}(k) + \vec{v}_\mathrm{KF}(k)  \nonumber
+    \vec{x}_\mathrm{KF}(k+1) = \vec{A}_\mathrm{KF}\vec{x}_\mathrm{KF}(k) + \vec{B}_\mathrm{KF} \vec{u}(k) + \vec{w}_\mathrm{KF}(k)  \nonumber \\
+    \vec{y}_\mathrm{KF}(k+1) = \vec{C}_\mathrm{KF} \vec{x}_\mathrm{KF}(k+1) + \vec{v}_\mathrm{KF}(k+1)  \nonumber
     \end{gather*}
     \begin{figure}[H]
         \centering
         \includegraphics[width=.7\linewidth]{figures/signalModel}
     \end{figure}
-
 	\begin{itemize}
 		\item w(k) and v(k) are assumed white Gaussian
-		\item Matrices $\vec{Q}_\mathrm{KF}$ and $\vec{R}_\mathrm{KF}$ contain the respective covariances
+		\item Matrices $\vec{Q}_\mathrm{KF}$ and $\vec{R}_\mathrm{KF}$ are the respective covariance matrices
 	\end{itemize}
 
 \end{frame}
@@ -96,8 +95,7 @@
          {\footnotesize
         \begin{gather*}
             \hat{\vec{x}}_\mathrm{KF}(k+1|k+1) = \hat{\vec{x}}_\mathrm{KF}(k+1|k) +  \vec{K}(k+1) \left[ \vec{y}_\mathrm{KF}(k+1) - \vec{C}_\mathrm{KF}  \hat{\vec{x}}_\mathrm{KF}(k+1|k) \right] \nonumber\\
-            \vec{P}(k+1|k+1) = \left[ \vec{I} - \vec{K}(k+1) \vec{C}_\mathrm{KF}^\mathrm{T} \right] \vec{P}(k+1|k)\nonumber\\
-        	\vec{K}(k+1) =  \vec{P}(k+1|k) \vec{C}_\mathrm{KF}^\mathrm{T}  \left[\vec{C}_\mathrm{KF} \vec{P}(k+1|k) \vec{C}_\mathrm{KF}^\mathrm{T} + \vec{R}_\mathrm{KF} \right]^{-1}\nonumber 
+            \vec{P}(k+1|k+1) = \left[ \vec{I} - \vec{K}(k+1) \vec{C}_\mathrm{KF}^\mathrm{T} \right] \vec{P}(k+1|k)\nonumber
         \end{gather*}}
 	\end{itemize}
 \end{frame}

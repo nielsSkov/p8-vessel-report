@@ -65,13 +65,13 @@
 \begin{itemize}
     \item LQR as inner controller
 \end{itemize}
-    \begin{minipage}{0.5\linewidth}
+    \begin{minipage}{0.45\linewidth}
             \begin{figure}[H]
                 \centering
                 \includegraphics[width=1\linewidth]{figures/path_lqr}
             \end{figure}        
         \end{minipage}\hfill      
-    \begin{minipage}{0.5\linewidth}
+    \begin{minipage}{0.45\linewidth}
             \begin{figure}[H]
                 \centering
                 \includegraphics[width=1\linewidth]{figures/dist_lqr}
@@ -83,13 +83,13 @@
     \begin{itemize}
         \item Robust controller as inner controller
     \end{itemize}
-    \begin{minipage}{0.5\linewidth}
+    \begin{minipage}{0.45\linewidth}
             \begin{figure}[H]
                 \centering
                 \includegraphics[width=1\linewidth]{figures/path_rob}
             \end{figure}       
         \end{minipage}\hfill      
-    \begin{minipage}{0.5\linewidth}
+    \begin{minipage}{0.45\linewidth}
             \begin{figure}[H]
                 \centering
                 \includegraphics[width=1\linewidth]{figures/dist_rob}
@@ -99,18 +99,47 @@
 
 \begin{frame}{Results}{Implementation Results}
     \begin{itemize}
+        \item Implementation diagram in ROS
+    \end{itemize}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth]{figures/diagramROS}
+    \end{figure}  
+\end{frame}
+
+
+\begin{frame}{Results}{Implementation Results}
+    \begin{itemize}
         \item Inner controller test
     \end{itemize}
-    \begin{minipage}{0.5\linewidth}
+    \begin{minipage}{0.45\linewidth}
         \begin{figure}[H]
             \centering
             \includegraphics[width=1\linewidth]{figures/inner_yaw}
         \end{figure}       
     \end{minipage}\hfill      
-    \begin{minipage}{0.5\linewidth}
+    \begin{minipage}{0.45\linewidth}
         \begin{figure}[H]
             \centering
             \includegraphics[width=1\linewidth]{figures/inner_xbdot}
+        \end{figure}             
+    \end{minipage}\hfill \\    
+\end{frame}
+
+\begin{frame}{Results}{Implementation Results}
+    \begin{itemize}
+        \item Actuator tests
+    \end{itemize}
+    \begin{minipage}{0.45\linewidth}
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=1\linewidth]{figures/direction}
+        \end{figure}       
+    \end{minipage}\hfill      
+    \begin{minipage}{0.45\linewidth}
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=1\linewidth]{figures/hysteresis}
         \end{figure}             
     \end{minipage}\hfill \\    
 \end{frame}
