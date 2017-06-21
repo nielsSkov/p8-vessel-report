@@ -15,61 +15,56 @@
 	\begin{itemize}
 
 		\item Fuses GPS and IMU data
-		\item Achieved using a Kalman Filter
-		\item Sensor Fusion Contains
+		\item Achieved using a Kalman filter
+		\item Sensor fusion contains
 			\begin{itemize}
-		\item Attitude 
-		\item Position 
+		\item Attitude
+		\item Position
 			\end{itemize}
 	\end{itemize}
 
 \end{frame}
 \begin{frame}{Sensor Fusion}{Signal Model}
-	\begin{flalign}
-	    \hat{\vec{x}}(k+1) &= \vec{A}\hat{\vec{x}}(k) + \vec{B} \vec{u}(k) + \vec{w}(k)  \nonumber \\
-        \vec{y}(k) &= \vec{C} \hat{\vec{x}}(k) + \vec{v}(k)  \nonumber
-	\end{flalign}
+	\begin{gather*}
+    \vec{x}_\mathrm{KF}(k+1) = \vec{A}\vec{x}_\mathrm{KF}(k) + \vec{B}_\mathrm{KF} \vec{u}(k) + \vec{w}_\mathrm{KF}(k)  \nonumber \\
+    \vec{y}_\mathrm{KF}(k) = \vec{C}_\mathrm{KF} \vec{x}_\mathrm{KF}(k) + \vec{v}_\mathrm{KF}(k)  \nonumber
+    \end{gather*}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=.7\linewidth]{figures/signalModel}
+    \end{figure}
 
 	\begin{itemize}
-		\item w(k) and v(k) are assumed white Gaussian.
-		\item Covariance matrices Q and R holds the respective variances.
+		\item w(k) and v(k) are assumed white Gaussian
+		\item Matrices $\vec{Q}_\mathrm{KF}$ and $\vec{R}_\mathrm{KF}$ contain the respective covariances
 	\end{itemize}
-
-
-
 
 \end{frame}
 
-\begin{frame}{Sensor Fusion}{Signal Model - State Extension}
-
-States are extended to: 
+\begin{frame}{Sensor Fusion}{Signal Model - State and Measurement Vectors}
 \begin{itemize}
-    \item Attitude: 
-    \begin{flalign}
-        \hat{\vec{x}}_\mathrm{att} &= 
+    \item Attitude
+    \begin{gather*}
+        \vec{x}_\mathrm{att} = 
         \begin{bmatrix}
         \phi & \theta & \psi & \dot{\phi} & \dot{\theta} & \dot{\psi} & \ddot{\phi} & \ddot{\theta} & \ddot{\psi}
-        \end{bmatrix}^\mathrm{T}  \nonumber
-    \end{flalign}
-    \begin{flalign}
+        \end{bmatrix}^\mathrm{T}  \nonumber \\
         \vec{y}_\mathrm{att} =
         \begin{bmatrix}
         \phi_\mathrm{acc} & \theta_\mathrm{acc} & \psi_\mathrm{mag} & \dot{\phi}_\mathrm{gyro} & \dot{\theta}_\mathrm{gyro} & \dot{\psi}_\mathrm{gyro}
         \end{bmatrix}^\mathrm{T} \nonumber
-    \end{flalign}
-	\item Position:
-\begin{flalign}
-        \hat{\vec{x}}_\mathrm{pos} &=
+    \end{gather*}
+	\item Position
+    \begin{gather*}
+        \vec{x}_\mathrm{pos} =
         \begin{bmatrix}
         x_\mathrm{n} & y_\mathrm{n} & \dot{x}_\mathrm{b} & \dot{y}_\mathrm{b} & \ddot{x}_\mathrm{b} & \ddot{y}_\mathrm{b}
-        \end{bmatrix}^\mathrm{T} \nonumber
-    \end{flalign}
-    \begin{flalign}
-        \vec{y}_\mathrm{pos} &=
+        \end{bmatrix}^\mathrm{T} \nonumber \\
+        \vec{y}_\mathrm{pos} =
         \begin{bmatrix}
         x_\mathrm{n,GPS} & y_\mathrm{n,GPS} & \ddot{x}_\mathrm{b,acc} & \ddot{y}_\mathrm{b,acc}
         \end{bmatrix}^\mathrm{T} \nonumber
-    \end{flalign}
+    \end{gather*}
     \end{itemize}
 \end{frame}
 
@@ -78,34 +73,40 @@ States are extended to:
 
 	\begin{itemize}
 		\item Step 0: Initialization
-\begin{flalign}
-	\hat{\vec{x}}_\mathrm{att}(0|0) &= \vec{0}_\mathrm{6x1} \ ,\\
-	\vec{P}_\mathrm{att}(0|0) &= \vec{Q}_\mathrm{att}\ .
-\end{flalign}
-		\item Step 1: Prediction:
-		\item Step 2: Update:
-    	\end{itemize}
+        \begin{flalign}
+        	\hat{\vec{x}}_\mathrm{KF}(0|0) &= \vec{0} \nonumber\\
+        	\vec{P}_\mathrm{KF}(0|0) &= \vec{Q}_\mathrm{KF}\nonumber
+        \end{flalign}
+		\item Step 1: Prediction
+		\item Step 2: Update
+   	\end{itemize}
 \end{frame}
 
 
 \begin{frame}{Sensor Fusion}{Kalman Filter}
-
 	\begin{itemize}
 		\item Step 0: Initialization
-		\item Step 1: Prediction:
-    \begin{flalign}
-        \hat{\vec{x}}(k+1|k) &= \vec{A} \hat{\vec{x}}(k|k) + \vec{B} \vec{u}(k) \nonumber\\
-        \vec{P}(k+1|k) &= \vec{A} \vec{P}(k|k) \vec{A}^\mathrm{T} + \vec{Q} \nonumber
-    \end{flalign}
-	 	\item Step 2: Update:
-    \begin{flalign}
-        \hat{\vec{x}}(k+1|k+1) &= \hat{\vec{x}}(k+1|k) + \vec{K}(k+1) \left[ \vec{y}(k+1) - \vec{C}  \hat{\vec{x}}(k+1|k) \right] \nonumber\\
-        \vec{P}(k+1|k+1) &= \left[ \vec{I} - \vec{K}(k+1) \vec{C}^\mathrm{T} \right] \vec{P}(k+1|k)\nonumber\\
-	\vec{K}(k+1) &= \vec{P}(k+1|k) \vec{C}^\mathrm{T} \left[\vec{C} \vec{P}(k+1|k) \vec{C}^\mathrm{T} + \vec{R} \right]^{-1}\nonumber 
-\end{flalign}
+		\item Step 1: Prediction
+        {\footnotesize
+        \begin{flalign}
+            \hat{\vec{x}}_\mathrm{KF}(k+1|k) &= \vec{A}_\mathrm{KF} \hat{\vec{x}}_\mathrm{KF}(k|k) + \vec{B}_\mathrm{KF} \vec{u}(k) \nonumber\\
+            \vec{P}(k+1|k) &= \vec{A}_\mathrm{KF} \vec{P}(k|k) \vec{A}_\mathrm{KF}^\mathrm{T} + \vec{Q}_\mathrm{KF} \nonumber
+        \end{flalign}}
+	 	\item Step 2: Update
+         {\footnotesize
+        \begin{gather*}
+            \hat{\vec{x}}_\mathrm{KF}(k+1|k+1) = \hat{\vec{x}}_\mathrm{KF}(k+1|k) +  \vec{K}(k+1) \left[ \vec{y}_\mathrm{KF}(k+1) - \vec{C}_\mathrm{KF}  \hat{\vec{x}}_\mathrm{KF}(k+1|k) \right] \nonumber\\
+            \vec{P}(k+1|k+1) = \left[ \vec{I} - \vec{K}(k+1) \vec{C}_\mathrm{KF}^\mathrm{T} \right] \vec{P}(k+1|k)\nonumber\\
+        	\vec{K}(k+1) =  \vec{P}(k+1|k) \vec{C}_\mathrm{KF}^\mathrm{T}  \left[\vec{C}_\mathrm{KF} \vec{P}(k+1|k) \vec{C}_\mathrm{KF}^\mathrm{T} + \vec{R}_\mathrm{KF} \right]^{-1}\nonumber 
+        \end{gather*}}
 	\end{itemize}
-	
+\end{frame}
 
+\begin{frame}{Sensor Fusion}{Kalman Filter}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=.95\linewidth]{figures/kalmanFilter}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Sensor Fusion}{Attitude Kalman Filter}

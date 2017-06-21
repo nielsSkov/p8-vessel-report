@@ -1,3 +1,9 @@
+%-------handout-option--------------------------
+%  add the handout-option to limit the number  %
+%  of slides when printing for handout         %
+%  (this affects the \only-environment)        %
+%  \documentclass[10pt,handout]{beamer}        %
+%-----------------------------------------------
 \documentclass[10pt]{beamer}
 \usetheme[
 %%% options passed to the outer theme
@@ -66,6 +72,8 @@
 \begin{frame}[plain,noframenumbering] % the plain option removes the header from the title page
   \titlepage
 \end{frame}%}
+
+\input{Agenda.tex}
 
 \input{Agenda1.tex}
 \input{Slides1.tex}
