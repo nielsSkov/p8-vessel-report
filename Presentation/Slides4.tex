@@ -117,12 +117,12 @@
 
 \begin{frame}{Inner Controller}{Linear Quadratic Controller Design}
 
-\only<1-3| handout:1>
+\only<1| handout:0>
 {
   \tikz[overlay,xshift=12em,yshift=5.5em]{\draw node {
     \begin{minipage}{0.01\linewidth}
       \begin{flalign}
-      \mathcal{J}= \int_{0}^\infty \vec{x}^\mathrm{T}(t)\vec{Q}\vec{x}(t) + \vec{u}^\mathrm{T}(t)\vec{R}\vec{u}(t) \ dt \nonumber
+      \mathcal{J}_\mathrm{z} = \sum_{k=0}^\infty \vec{x}^\mathrm{T}(k)\vec{Q}_\mathrm{z}\vec{x}(k) + \vec{u}^\mathrm{T}(k)\vec{R}_\mathrm{z}\vec{u}(k) \nonumber
       \end{flalign}
     \end{minipage}
   };}
@@ -132,71 +132,105 @@
   };}
 }
 
-\only<1| handout:0>
+\only<2-4| handout:1>
 {
+  \tikz[overlay,xshift=12em,yshift=5.5em]{\draw node {
+      \begin{minipage}{0.01\linewidth}
+        \begin{flalign}
+        \mathcal{J}= \int_{0}^\infty \vec{x}^\mathrm{T}(t)\vec{Q}\vec{x}(t) + \vec{u}^\mathrm{T}(t)\vec{R}\vec{u}(t) \ dt \nonumber
+        \end{flalign}
+      \end{minipage}
+    };}
   \tikz[overlay,xshift=12em,yshift=1em]{\draw node {
-  };}
+    };}
+  \tikz[overlay,xshift=12em,yshift=-5em]{\draw node {
+    };}
 }
 
-\only<2-3| handout:1>
-{
-  \tikz[overlay,xshift=12em,yshift=1em]{\draw node {
-    \begin{minipage}{0.01\linewidth}
-      \begin{flalign}
-      \dot{\vec{x}}(t) &= \vec{A}  \vec{x}(t) + \vec{B}  \vec{u}(t) + r(t)\nonumber \\
-      \vec{y}(t) &= \vec{C} x(t)  \nonumber
-      \end{flalign}
-    \end{minipage}
-  };}
-}
 
 \only<1-2| handout:0>
 {
+  \tikz[overlay,xshift=12em,yshift=1em]{\draw node {
+  };}
+}
+
+\only<3-4| handout:1>
+{
+  \tikz[overlay,xshift=12em,yshift=1em]{\draw node {
+    \begin{minipage}{0.01\linewidth}
+      \begin{flalign} 
+        \hspace{2cm}
+        Q &= \left(
+        \frac{1}{{\psi_\mathrm{max}}\text{}^2} \ , \ 
+        \frac{1}{{\dot{\psi}_\mathrm{max}}\text{}^2} \ , \ 
+        \frac{1}{{\dot{x}_{b,\mathrm{max}}}\text{}^2} \ , \ 
+        \frac{1}{x_{\mathrm{I},\psi,\mathrm{max}}\text{}^2} \ , \ 
+        \frac{1}{x_{\mathrm{I},\dot{\psi},\mathrm{max}}\text{}^2} \ , \ 
+        \frac{1}{x_{\mathrm{I},\dot{x_b},\mathrm{max}}\text{}^2} \right)
+        \nonumber
+      \end{flalign}
+%      \begin{flalign}
+%      \dot{\vec{x}}(t) &= \vec{A}  \vec{x}(t) + \vec{B}  \vec{u}(t) + r(t)\nonumber \\
+%      \vec{y}(t) &= \vec{C} x(t)  \nonumber
+%      \end{flalign}
+    \end{minipage}
+  };}
+}
+
+\only<1-3| handout:0>
+{
   \tikz[overlay,xshift=12em,yshift=-5em]{\draw node {
   };}
 }
 
-\only<3| handout:1>
+\only<4| handout:1>
 {
   \tikz[overlay,xshift=12em,yshift=-5em]{\draw node {
   \begin{minipage}{0.01\linewidth}
     \begin{flalign}
       \hspace{2cm}
-      \begin{bmatrix}
-        \dot{\vec{x}}(t)  \\
-        \dot{\vec{x}}_\mathrm{I}(t)
-      \end{bmatrix}
-      &=
-      \begin{bmatrix}
-      \ \ \ \vec{A}_\mathrm{3x3} & \vec{0}_\mathrm{3x2} \\
-       -\vec{C}_\mathrm{2x3} & \vec{I}_\mathrm{2x2} \\
-      \end{bmatrix}
-      \begin{bmatrix}
-        \vec{x}(t)    \\
-        \vec{x}_\mathrm{I}(t)
-      \end{bmatrix}
-      +
-      \begin{bmatrix}
-        \vec{B}_\mathrm{3x2} \\
-        \vec{0}_\mathrm{2x2}
-      \end{bmatrix}
-      \vec{u}(k)
-      +
-      \begin{bmatrix}
-        \vec{0}_\mathrm{3x2} \\
-        \vec{I}_\mathrm{2x2}
-      \end{bmatrix}
-      \vec{r}(t) \nonumber \\ \nonumber \\[-10pt]
-      \vec{y}(t)
-      &=
-      \begin{bmatrix}
-        \vec{C}_\mathrm{2x3} &  \vec{0}_\mathrm{2x2}
-      \end{bmatrix}
-      \begin{bmatrix}
-        \vec{x}(t)    \\
-        \vec{x}_\mathrm{I}(t)
-      \end{bmatrix} \nonumber
+      R &= \left(
+      \frac{1}{{{F_1}_\mathrm{max}}\text{}^2} \ , \ 
+      \frac{1}{{{F_2}_\mathrm{max}}\text{}^2} \right)
+      \nonumber
     \end{flalign}
+%    \begin{flalign}
+%      \hspace{2cm}
+%      \begin{bmatrix}
+%        \dot{\vec{x}}(t)  \\
+%        \dot{\vec{x}}_\mathrm{I}(t)
+%      \end{bmatrix}
+%      &=
+%      \begin{bmatrix}
+%      \ \ \ \vec{A}_\mathrm{3x3} & \vec{0}_\mathrm{3x2} \\
+%       -\vec{C}_\mathrm{2x3} & \vec{I}_\mathrm{2x2} \\
+%      \end{bmatrix}
+%      \begin{bmatrix}
+%        \vec{x}(t)    \\
+%        \vec{x}_\mathrm{I}(t)
+%      \end{bmatrix}
+%      +
+%      \begin{bmatrix}
+%        \vec{B}_\mathrm{3x2} \\
+%        \vec{0}_\mathrm{2x2}
+%      \end{bmatrix}
+%      \vec{u}(k)
+%      +
+%      \begin{bmatrix}
+%        \vec{0}_\mathrm{3x2} \\
+%        \vec{I}_\mathrm{2x2}
+%      \end{bmatrix}
+%      \vec{r}(t) \nonumber \\ \nonumber \\[-10pt]
+%      \vec{y}(t)
+%      &=
+%      \begin{bmatrix}
+%        \vec{C}_\mathrm{2x3} &  \vec{0}_\mathrm{2x2}
+%      \end{bmatrix}
+%      \begin{bmatrix}
+%        \vec{x}(t)    \\
+%        \vec{x}_\mathrm{I}(t)
+%      \end{bmatrix} \nonumber
+%    \end{flalign}
   \end{minipage}
   };}
 }
