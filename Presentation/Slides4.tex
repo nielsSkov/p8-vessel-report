@@ -24,16 +24,16 @@
 %  
 %}
 
-\only<1-2| handout:1>
+\uncover<1-2>
 {
   %\item Adding a reference
-  \tikz[overlay,xshift=15em,yshift=1em]{\draw node {
-    \begin{minipage}{0.8\linewidth}
+  %\tikz[overlay,xshift=15em,yshift=1em]{\draw node {
+    %\begin{minipage}{0.8\linewidth}
       \begin{figure}[H]
         \includegraphics[width=1\textwidth]{figures/LQRblockDiagram2}
       \end{figure}
-    \end{minipage}
-  };}
+    %\end{minipage}
+  %};}
 }
 
 %\only<0| handout:1>
@@ -66,12 +66,12 @@
 %  };}
 %}
 
-\only<2| handout:1>
+\uncover<2>
 {
-  \tikz[overlay,xshift=12em,yshift=-5.5em]{\draw node {
-    \begin{minipage}{0.01\linewidth}
+  %\tikz[overlay,xshift=12em,yshift=-5.5em]{\draw node {
+    %\begin{minipage}{0.01\linewidth}
       \begin{flalign}
-      \hspace{2cm}
+     %\hspace{2cm}
         \begin{bmatrix}
           \vec{x}(k+1)  \\
           \vec{x}_\mathrm{I}(k+1)
@@ -107,8 +107,8 @@
           \vec{x}_\mathrm{I}(k)
         \end{bmatrix} \nonumber
       \end{flalign}
-    \end{minipage}
-  };}
+    %\end{minipage}
+  %};}
 }
 
 \end{frame}
@@ -167,8 +167,7 @@
         \frac{1}{{\psi_\mathrm{max}}\text{}^2} \ , \ 
         \frac{1}{{\dot{\psi}_\mathrm{max}}\text{}^2} \ , \ 
         \frac{1}{{\dot{x}_{b,\mathrm{max}}}\text{}^2} \ , \ 
-        \frac{1}{x_{\mathrm{I},\psi,\mathrm{max}}\text{}^2} \ , \ 
-        \frac{1}{x_{\mathrm{I},\dot{\psi},\mathrm{max}}\text{}^2} \ , \ 
+        \frac{1}{x_{\mathrm{I},\psi,\mathrm{max}}\text{}^2} \ , \
         \frac{1}{x_{\mathrm{I},\dot{x_b},\mathrm{max}}\text{}^2} \right)
         \nonumber
       \end{flalign}
@@ -257,7 +256,7 @@
     \end{flalign}
 \end{frame}
 \begin{frame}{Inner Controller}{Comparison of the Controllers}
-  Simulation of LQR and robust design
+  Simulation of LQR and $\mathcal{H}_\infty$ design
   \begin{itemize}
     \item<1-> Disturbances from wind and current
     \begin{itemize}
@@ -337,7 +336,6 @@
     \begin{itemize}
         \item LQR gives a faster response
         \item $\mathcal{H}_\infty$ controller is more robust to disturbances and it is faster than when tracking $\dot{x}_\mathrm{b}$
-        \item The disturbance at 10 s is due to the change in reference in $\psi$
     \end{itemize}
 \end{frame}
 
