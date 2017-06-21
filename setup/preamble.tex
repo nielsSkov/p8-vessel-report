@@ -121,14 +121,14 @@
 \titlespacing{\subsection}{0pt}{8pt}{-5pt}
 \titlespacing{\subsubsection}{0pt}{6pt}{-10pt}
 
-\titleformat*{\section}{\normalfont\Large\bfseries\color{aaublue}}
-\titleformat*{\subsection}{\normalfont\large\bfseries\color{aaublue}}
-\titleformat*{\subsubsection}{\normalfont\normalsize\bfseries\color{aaublue}}
+\titleformat*{\section}{\normalfont\Large\bfseries\color{black}}
+\titleformat*{\subsection}{\normalfont\large\bfseries\color{black}}
+\titleformat*{\subsubsection}{\normalfont\normalsize\bfseries\color{black}}
 
 \usepackage{titlesec, blindtext, color}
 %\color{gray75}{gray}{0.75}
 \newcommand{\hsp}{\hspace{20pt}}
-\titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{aaublue}{|}\hsp}{0pt}{\Huge\bfseries}
+\titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{black}{|}\hsp}{0pt}{\Huge\bfseries}
 
 % Change the headers and footers
 \usepackage{fancyhdr}
@@ -136,7 +136,7 @@
 \pagestyle{fancy}
 \fancyhf{} %delete everything
 \renewcommand{\headrulewidth}{0pt} %remove the horizontal line in the header
-\fancyhead[RO,LE]{\color{aaublue}\small\nouppercase\leftmark} %even page - chapter title
+\fancyhead[RO,LE]{\color{black}\small\nouppercase\leftmark} %even page - chapter title
 \fancyhead[LO]{}
 \fancyhead[RE]{} 
 \fancyhead[CE]{}
@@ -209,10 +209,10 @@
 	pdfsubject={Subject},%
 	bookmarksnumbered=true,%
 	colorlinks,%
-	citecolor=aaublue,%
-	filecolor=aaublue,%
-	linkcolor=aaublue,% you should probably change this to black before printing
-	urlcolor=aaublue,%
+	citecolor=black,%
+	filecolor=black,%
+	linkcolor=black,% you should probably change this to black before printing
+	urlcolor=black,%
 	pdfstartview=FitH%
 }
 %---------------------------------------------------
